@@ -63,13 +63,13 @@ module.exports = {
     },
     resolve: {
         fallback: {
-            "fs": false,
-            "tls": false,
-            "net": false,
-            "path" : false,
-            "os" : false,
-            "util" : false,
-            "url" : false,
-        }    
+            'fs': false,
+            'tls': false,
+            'net': false,
+            'path': false,
+            'os': false,
+            'util': false,
+            'url': false,
+        }
     }
 };
