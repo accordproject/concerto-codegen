@@ -1,10 +1,10 @@
-# Concerto Tools
-Model converters and tools for [Concerto](https://github.com/accordproject/concerto/) format model files.
+# Concerto CodeGen
+Model converters and codegen for [Concerto](https://github.com/accordproject/concerto/) format model files.
 
 ## Install
 
 ```
-npm install @accordproject/concerto-tools --save
+npm install @accordproject/concerto-codegen --save
 ```
 
 ## License <a name="license"></a>

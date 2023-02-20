@@ -1,16 +1,17 @@
 {
-    "name": "@accordproject/concerto-tools",
+    "name": "@accordproject/concerto-codegen",
     "version": "3.7.0",
-    "description": "Tools for the Concerto Modeling Language",
+    "description": "CodeGen for the Concerto Modeling Language",
     "homepage": "https://github.com/accordproject/concerto",
     "engines": {
         "node": ">=14",
         "npm": ">=6"
     },
     "main": "index.js",
-    "browser": "dist/concerto-tools.js",
+    "browser": "dist/concerto-codegen.js",
     "typings": "types/index.d.ts",
     "scripts": {
+        "coverage": "node ./scripts/coverage.js \"packages/concerto-*\" && nyc report -t coverage --cwd . --report-dir coverage --reporter=lcov && cat ./coverage/lcov.info",
         "prepublishOnly": "npm run webpack",
         "pretest": "npm run lint",
         "lint": "eslint .",
@@ -33,12 +34,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/accordproject/concerto.git",
-        "directory": "packages/concerto-tools"
+        "url": "https://github.com/accordproject/concerto-codegen.git",
+        "directory": "packages/concerto-codegen"
     },
     "keywords": [
         "concerto",
-        "tools",
+        "codegen",
         "modeling"
     ],
     "author": "accordproject.org",

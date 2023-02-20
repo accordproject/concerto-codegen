@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +16,17 @@
 
 'use strict';
 
-/**
- * Concerto CodeGen module.
- * @module concerto-codegen
- */
+const path = require('path');
+const semver = require('semver');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+dayjs.extend(utc);
 
-module.exports.CodeGen = require('./lib/codegen/codegen');
-module.exports.Common = require('./lib/common/common');
-module.exports.version = require('./package.json');
+const timestamp = dayjs.utc().format('YYYYMMDDHHmmss');
+
+const rootDir = path.resolve('.');
+const packageJson = path.resolve(rootDir, 'package.json');
+const meta = require(packageJson);
+meta.version.replace(/-.*/, '');
+const targetVersion = semver.inc(meta.version, 'patch') + '-' + timestamp;
+console.log(`::set-output name=stamp::${targetVersion}`);
