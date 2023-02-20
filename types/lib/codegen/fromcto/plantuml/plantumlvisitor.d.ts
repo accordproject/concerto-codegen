@@ -7,7 +7,7 @@ export = PlantUMLVisitor;
  *
  * @private
  * @class
- * @memberof module:concerto-tools
+ * @memberof module:concerto-codegen
  */
 declare class PlantUMLVisitor extends DiagramVisitor {
     /**

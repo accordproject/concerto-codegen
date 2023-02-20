@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +15,15 @@
 
 'use strict';
 
-/**
- * Concerto CodeGen module.
- * @module concerto-codegen
- */
+const semver = require('semver');
+const targetVersion = process.argv[2];
 
-module.exports.CodeGen = require('./lib/codegen/codegen');
-module.exports.version = require('./package.json');
+if (!semver.valid(targetVersion)) {
+    console.error(`Error: the version "${targetVersion}" is invalid!`);
+    process.exit(1);
+}
+
+const prerelease = semver.prerelease(targetVersion);
+const tag = prerelease ? 'unstable' : 'latest';
+
+console.log(`::set-output name=tag::--tag=${tag}`);

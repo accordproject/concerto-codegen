@@ -9,7 +9,7 @@ export = RecursionDetectionVisitor;
  * parameters.stack should be initialized to []
  * @private
  * @class
- * @memberof module:concerto-tools
+ * @memberof module:concerto-codegen
  */
 declare class RecursionDetectionVisitor {
     /**
