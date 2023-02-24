@@ -86,13 +86,13 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
 
-    #   - name: timestamp
-    #     id: timestamp
-    #     run: |
-    #       node ./scripts/timestamp.js
+      - name: timestamp
+        id: timestamp
+        run: |
+          node ./scripts/timestamp.js
 
       - name: build and publish
         run: |
           npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-          npm version patch --force --no-git-tag-version --yes --exact ${{ steps.timestamp.outputs.stamp }}
+          npm version --no-git-tag-version --yes --exact ${{ steps.timestamp.outputs.stamp }}
           npm publish --access public --tag=unstable 2>&1
