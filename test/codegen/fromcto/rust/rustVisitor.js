@@ -1,12 +1,12 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an 'AS IS' BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -149,13 +149,13 @@ describe('RustVisitor', function () {
 
             mockModelManager.getNamespaces.returns([
                 'Goose'
-            ])
+            ]);
 
             rustVisitor.visitModelManager(mockModelManager, param);
             acceptSpy.withArgs(rustVisitor, param).calledTwice.should.be.ok;
             param.fileWriter.openFile.withArgs('mod.rs').calledOnce.should.be.ok;
-            param.fileWriter.writeLine.withArgs(0, "pub mod goose;").calledOnce.should.be.ok;
-            param.fileWriter.writeLine.withArgs(0, "pub mod utils;").calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'pub mod goose;').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'pub mod utils;').calledOnce.should.be.ok;
             param.fileWriter.closeFile.calledOnce.should.be.ok;
         });
     });
@@ -239,19 +239,19 @@ describe('RustVisitor', function () {
                     1, ''
                 ],
                 [
-                    0, "use crate::org_org2::*;"
+                    0, 'use crate::org_org2::*;'
                 ],
                 [
-                    0, "use crate::super_::*;"
+                    0, 'use crate::super_::*;'
                 ],
                 [
-                    0, "use crate::org_org1::*;"
+                    0, 'use crate::org_org1::*;'
                 ],
                 [
-                    0, "use crate::utils::*;"
+                    0, 'use crate::utils::*;'
                 ],
                 [
-                    1, ""
+                    1, ''
                 ]
             ]);
             param.fileWriter.closeFile.calledOnce.should.be.ok;
@@ -313,36 +313,36 @@ describe('RustVisitor', function () {
             param.fileWriter.writeLine.callCount.should.deep.equal(10);
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    0, "#[derive(Debug, Serialize, Deserialize)]"
+                    0, '#[derive(Debug, Serialize, Deserialize)]'
                 ],
                 [
-                    0, "pub struct Bob {"
+                    0, 'pub struct Bob {'
                 ],
                 [
-                    1, "#[serde("
+                    1, '#[serde('
                 ],
                 [
-                    2, "rename = \"$class\","
+                    2, 'rename = \'$class\','
                 ],
                 [
-                    1, ")]"
+                    1, ')]'
                 ],
                 [
-                    1, "pub _class: String,"
+                    1, 'pub _class: String,'
                 ],
                 [
-                    1, ""
+                    1, ''
                 ],
                 [
-                    1, ""
+                    1, ''
                 ],
                 [
-                    0, "}"
+                    0, '}'
                 ],
                 [
-                    0, ""
+                    0, ''
                 ]
-            ])
+            ]);
         });
     });
 
@@ -363,18 +363,18 @@ describe('RustVisitor', function () {
             rustVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    1, "#[serde("
+                    1, '#[serde('
                 ],
                 [
-                    2, "rename = \"name\","
+                    2, 'rename = \'name\','
                 ],
                 [
-                    1, ")]"
+                    1, ')]'
                 ],
                 [
-                    1, "pub name: String,"
+                    1, 'pub name: String,'
                 ]
-            ])
+            ]);
         });
 
         it('should write a line for field name and type thats an array', () => {
@@ -397,20 +397,19 @@ describe('RustVisitor', function () {
 
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    1, "#[serde("
+                    1, '#[serde('
                 ],
                 [
-                    2, "rename = \"Bob\","
+                    2, 'rename = \'Bob\','
                 ],
                 [
-                    1, ")]"
+                    1, ')]'
                 ],
                 [
-                    1, "pub bob: Vec<Person>,"
+                    1, 'pub bob: Vec<Person>,'
                 ]
 
-            ])
-
+            ]);
         });
 
         it('should write a line for optional field', () => {
@@ -432,23 +431,22 @@ describe('RustVisitor', function () {
 
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    1, "#[serde("
+                    1, '#[serde('
                 ],
                 [
-                    2, "rename = \"Bob\","
+                    2, 'rename = \'Bob\','
                 ],
                 [
-                    2, "skip_serializing_if = \"Option::is_none\","
+                    2, 'skip_serializing_if = "Option::is_none",'
                 ],
                 [
-                    1, ")]"
+                    1, ')]'
                 ],
                 [
-                    1, "pub bob: Option<String>,"
+                    1, 'pub bob: Option<String>,'
                 ]
 
-            ])
-
+            ]);
         });
 
 
@@ -470,26 +468,25 @@ describe('RustVisitor', function () {
 
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    1, "#[serde("
+                    1, '#[serde('
                 ],
                 [
-                    2, "rename = \"timestamp\","
+                    2, 'rename = \'timestamp\','
                 ],
                 [
-                    2, "serialize_with = \"serialize_datetime\","
+                    2, 'serialize_with = "serialize_datetime",'
                 ],
                 [
-                    2, "deserialize_with = \"deserialize_datetime\","
+                    2, 'deserialize_with = "deserialize_datetime",'
                 ],
                 [
-                    1, ")]"
+                    1, ')]'
                 ],
                 [
-                    1, "pub timestamp: DateTime<Utc>,"
+                    1, 'pub timestamp: DateTime<Utc>,'
                 ]
 
-            ])
-
+            ]);
         });
     });
 
@@ -508,14 +505,13 @@ describe('RustVisitor', function () {
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
                     1,
-                    "#[allow(non_camel_case_types)]"
+                    '#[allow(non_camel_case_types)]'
                 ],
                 [
                     1,
-                    "Bob,"
+                    'Bob,'
                 ]
-            ])
-
+            ]);
         });
     });
 
@@ -535,12 +531,12 @@ describe('RustVisitor', function () {
 
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    1, "#[serde(rename = \"Bob\")]"
+                    1, '#[serde(rename = \'Bob\')]'
                 ],
                 [
-                    1, "pub bob: Person,"
+                    1, 'pub bob: Person,'
                 ]
-            ])
+            ]);
         });
 
         it('should write a line for field name and type thats an array', () => {
@@ -554,12 +550,12 @@ describe('RustVisitor', function () {
 
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    1, "#[serde(rename = \"Bob\")]"
+                    1, '#[serde(rename = \'Bob\')]'
                 ],
                 [
-                    1, "pub bob: Vec<Person>,"
+                    1, 'pub bob: Vec<Person>,'
                 ]
-            ])
+            ]);
         });
 
         it('should write a line for optional field name', () => {
@@ -573,12 +569,12 @@ describe('RustVisitor', function () {
 
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    1, "#[serde(rename = \"Bob\")]"
+                    1, '#[serde(rename = \'Bob\')]'
                 ],
                 [
-                    1, "pub bob: Option<Person>,"
+                    1, 'pub bob: Option<Person>,'
                 ]
-            ])
+            ]);
         });
     });
 
@@ -614,166 +610,165 @@ describe('RustVisitor', function () {
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
                     0,
-                    "use chrono::{ DateTime, TimeZone, Utc };"
+                    'use chrono::{ DateTime, TimeZone, Utc };'
                 ],
                 [
                     0,
-                    "use serde::{ Deserialize, Serialize, Deserializer, Serializer };"
+                    'use serde::{ Deserialize, Serialize, Deserializer, Serializer };'
                 ],
                 [
                     1,
-                    ""
+                    ''
                 ],
                 [
                     0,
-                    "pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>"
+                    'pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>'
                 ],
                 [
                     0,
-                    "where"
+                    'where'
                 ],
                 [
                     1,
-                    "S: Serializer,"
+                    'S: Serializer,'
                 ],
                 [
                     0,
-                    "{"
+                    '{'
                 ],
                 [
                     1,
-                    "match datetime {"
+                    'match datetime {'
                 ],
                 [
                     2,
-                    "Some(dt) => {"
+                    'Some(dt) => {'
                 ],
                 [
                     3,
-                    "serialize_datetime(&dt, serializer)"
+                    'serialize_datetime(&dt, serializer)'
                 ],
                 [
                     2,
-                    "},"
+                    '},'
                 ],
                 [
                     2,
-                    "_ => unreachable!(),"
+                    '_ => unreachable!(),'
                 ],
                 [
                     1,
-                    "}"
+                    '}'
                 ],
                 [
                     0,
-                    "}"
+                    '}'
                 ],
                 [
                     0,
-                    ""
+                    ''
                 ],
                 [
                     0,
-                    "pub fn deserialize_datetime_option<'de, D>(deserializer: D) -> Result<Option<chrono::DateTime<Utc>>, D::Error>"
+                    'pub fn deserialize_datetime_option<\'de, D>(deserializer: D) -> Result<Option<chrono::DateTime<Utc>>, D::Error>'
                 ],
                 [
                     0,
-                    "where"
+                    'where'
                 ],
                 [
                     1,
-                    "D: Deserializer<'de>,"
+                    'D: Deserializer<\'de>,'
                 ],
                 [
                     0,
-                    "{"
+                    '{'
                 ],
                 [
                     1,
-                    "match deserialize_datetime(deserializer) {"
+                    'match deserialize_datetime(deserializer) {'
                 ],
                 [
                     2,
-                    "Ok(result)=>Ok(Some(result)),"
+                    'Ok(result)=>Ok(Some(result)),'
                 ],
                 [
                     2,
-                    "Err(error) => Err(error),"
+                    'Err(error) => Err(error),'
                 ],
                 [
                     1,
-                    "}"
+                    '}'
                 ],
                 [
                     0,
-                    "}"
+                    '}'
                 ],
                 [
                     0,
-                    ""
+                    ''
                 ],
                 [
                     0,
-                    "pub fn deserialize_datetime<'de, D>(deserializer: D) -> Result<chrono::DateTime<Utc>, D::Error>"
+                    'pub fn deserialize_datetime<\'de, D>(deserializer: D) -> Result<chrono::DateTime<Utc>, D::Error>'
                 ],
                 [
                     0,
-                    "where"
+                    'where'
                 ],
                 [
                     1,
-                    "D: Deserializer<'de>,"
+                    'D: Deserializer<\'de>,'
                 ],
                 [
                     0,
-                    "{"
+                    '{'
                 ],
                 [
                     1,
-                    "let datetime_str = String::deserialize(deserializer)?;"
+                    'let datetime_str = String::deserialize(deserializer)?;'
                 ],
                 [
                     1,
-                    "Utc.datetime_from_str(&datetime_str, \"%Y-%m-%dT%H:%M:%S%.3f%Z\").map_err(serde::de::Error::custom)"
+                    'Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)'
                 ],
                 [
                     0,
-                    "}"
+                    '}'
                 ],
                 [
                     1,
-                    ""
+                    ''
                 ],
                 [
                     0,
-                    "pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>"
+                    'pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>'
                 ],
                 [
                     0,
-                    "where"
+                    'where'
                 ],
                 [
                     1,
-                    "S: Serializer,"
+                    'S: Serializer,'
                 ],
                 [
                     0,
-                    "{"
+                    '{'
                 ],
                 [
                     1,
-                    "let datetime_str = datetime.format(\"%+\").to_string();"
+                    'let datetime_str = datetime.format("%+").to_string();'
                 ],
                 [
                     1,
-                    "serializer.serialize_str(&datetime_str)"
+                    'serializer.serialize_str(&datetime_str)'
                 ],
                 [
                     0,
-                    "}"
+                    '}'
                 ]
-            ])
-        })
-    })
-
-})
+            ]);
+        });
+    });
+});
