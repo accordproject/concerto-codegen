@@ -18,7 +18,7 @@ const chai = require('chai');
 chai.should();
 const sinon = require('sinon');
 
-const RustVisitor = require('../../../../lib/codegen/fromcto/rust/rustvisitor');
+const RustVisitor = require('../../../../lib/codegen/fromcto/rust/rustvisitor.js');
 
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
