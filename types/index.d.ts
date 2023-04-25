@@ -14,6 +14,7 @@ export var CodeGen: {
     ProtobufVisitor: typeof import("./lib/codegen/fromcto/protobuf/protobufvisitor");
     OpenApiVisitor: typeof import("./lib/codegen/fromcto/openapi/openapivisitor");
     AvroVisitor: typeof import("./lib/codegen/fromcto/avro/avrovisitor");
+    RustVisitor: typeof import("./lib/codegen/fromcto/rust/rustvisitor");
     InferFromJsonSchema: typeof import("./lib/codegen/fromJsonSchema/cto/inferModel");
     formats: {
         golang: typeof import("./lib/codegen/fromcto/golang/golangvisitor");
@@ -30,6 +31,7 @@ export var CodeGen: {
         protobuf: typeof import("./lib/codegen/fromcto/protobuf/protobufvisitor");
         openapi: typeof import("./lib/codegen/fromcto/openapi/openapivisitor");
         avro: typeof import("./lib/codegen/fromcto/avro/avrovisitor");
+        rust: typeof import("./lib/codegen/fromcto/rust/rustvisitor");
     };
 };
 export var version: any;

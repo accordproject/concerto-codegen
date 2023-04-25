@@ -3359,6 +3359,719 @@ message ChangeOfAddress {
 }
 `;
 
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 1`] = `
+{
+  "key": "mod.rs",
+  "value": "#[allow(unused_imports)]
+pub mod concerto_1_0_0;
+#[allow(unused_imports)]
+pub mod concerto;
+#[allow(unused_imports)]
+pub mod org_acme_hr;
+#[allow(unused_imports)]
+pub mod utils;
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 2`] = `
+{
+  "key": "utils.rs",
+  "value": "use chrono::{ DateTime, TimeZone, Utc };
+use serde::{ Deserialize, Serialize, Deserializer, Serializer };
+   
+pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>
+where
+   S: Serializer,
+{
+   match datetime {
+      Some(dt) => {
+         serialize_datetime(&dt, serializer)
+      },
+      _ => unreachable!(),
+   }
+}
+
+pub fn deserialize_datetime_option<'de, D>(deserializer: D) -> Result<Option<chrono::DateTime<Utc>>, D::Error>
+where
+   D: Deserializer<'de>,
+{
+   match deserialize_datetime(deserializer) {
+      Ok(result)=>Ok(Some(result)),
+      Err(error) => Err(error),
+   }
+}
+
+pub fn deserialize_datetime<'de, D>(deserializer: D) -> Result<chrono::DateTime<Utc>, D::Error>
+where
+   D: Deserializer<'de>,
+{
+   let datetime_str = String::deserialize(deserializer)?;
+   Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)
+}
+   
+pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
+where
+   S: Serializer,
+{
+   let datetime_str = datetime.format("%+").to_string();
+   serializer.serialize_str(&datetime_str)
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 3`] = `
+{
+  "key": "concerto_1_0_0.rs",
+  "value": "use serde::{ Deserialize, Serialize };
+use chrono::{ DateTime, TimeZone, Utc };
+   
+use crate::utils::*;
+   
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Concept {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Asset {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Participant {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Transaction {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Event {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 4`] = `
+{
+  "key": "concerto.rs",
+  "value": "use serde::{ Deserialize, Serialize };
+use chrono::{ DateTime, TimeZone, Utc };
+   
+use crate::utils::*;
+   
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Concept {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Asset {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Participant {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Transaction {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Event {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 5`] = `
+{
+  "key": "org_acme_hr.rs",
+  "value": "use serde::{ Deserialize, Serialize };
+use chrono::{ DateTime, TimeZone, Utc };
+   
+use crate::concerto_1_0_0::*;
+use crate::utils::*;
+   
+#[derive(Debug, Serialize, Deserialize)]
+pub enum State {
+   #[allow(non_camel_case_types)]
+   MA,
+   #[allow(non_camel_case_types)]
+   NY,
+   #[allow(non_camel_case_types)]
+   CO,
+   #[allow(non_camel_case_types)]
+   WA,
+   #[allow(non_camel_case_types)]
+   IL,
+   #[allow(non_camel_case_types)]
+   CA,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Address {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "street",
+   )]
+   pub street: String,
+   
+   #[serde(
+      rename = "city",
+   )]
+   pub city: String,
+   
+   #[serde(
+      rename = "state",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub state: Option<State>,
+   
+   #[serde(
+      rename = "zipCode",
+   )]
+   pub zip_code: String,
+   
+   #[serde(
+      rename = "country",
+   )]
+   pub country: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Company {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "name",
+   )]
+   pub name: String,
+   
+   #[serde(
+      rename = "headquarters",
+   )]
+   pub headquarters: Address,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum Department {
+   #[allow(non_camel_case_types)]
+   Sales,
+   #[allow(non_camel_case_types)]
+   Marketing,
+   #[allow(non_camel_case_types)]
+   Finance,
+   #[allow(non_camel_case_types)]
+   HR,
+   #[allow(non_camel_case_types)]
+   Engineering,
+   #[allow(non_camel_case_types)]
+   Design,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Equipment {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "serialNumber",
+   )]
+   pub serial_number: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum LaptopMake {
+   #[allow(non_camel_case_types)]
+   Apple,
+   #[allow(non_camel_case_types)]
+   Microsoft,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Laptop {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "make",
+   )]
+   pub make: LaptopMake,
+   
+   #[serde(
+      rename = "serialNumber",
+   )]
+   pub serial_number: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Person {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "email",
+   )]
+   pub email: String,
+   
+   #[serde(
+      rename = "firstName",
+   )]
+   pub first_name: String,
+   
+   #[serde(
+      rename = "lastName",
+   )]
+   pub last_name: String,
+   
+   #[serde(
+      rename = "middleNames",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub middle_names: Option<String>,
+   
+   #[serde(
+      rename = "homeAddress",
+   )]
+   pub home_address: Address,
+   
+   #[serde(
+      rename = "ssn",
+   )]
+   pub ssn: String,
+   
+   #[serde(
+      rename = "height",
+   )]
+   pub height: f64,
+   
+   #[serde(
+      rename = "dob",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Employee {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "employeeId",
+   )]
+   pub employee_id: String,
+   
+   #[serde(
+      rename = "salary",
+   )]
+   pub salary: u64,
+   
+   #[serde(
+      rename = "numDependents",
+   )]
+   pub num_dependents: Integer,
+   
+   #[serde(
+      rename = "retired",
+   )]
+   pub retired: bool,
+   
+   #[serde(
+      rename = "department",
+   )]
+   pub department: Department,
+   
+   #[serde(
+      rename = "officeAddress",
+   )]
+   pub office_address: Address,
+   
+   #[serde(
+      rename = "companyAssets",
+   )]
+   pub company_assets: Vec<Equipment>,
+   
+   #[serde(rename = "manager")]
+   pub manager: Option<Manager>,
+   
+   #[serde(
+      rename = "email",
+   )]
+   pub email: String,
+   
+   #[serde(
+      rename = "firstName",
+   )]
+   pub first_name: String,
+   
+   #[serde(
+      rename = "lastName",
+   )]
+   pub last_name: String,
+   
+   #[serde(
+      rename = "middleNames",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub middle_names: Option<String>,
+   
+   #[serde(
+      rename = "homeAddress",
+   )]
+   pub home_address: Address,
+   
+   #[serde(
+      rename = "ssn",
+   )]
+   pub ssn: String,
+   
+   #[serde(
+      rename = "height",
+   )]
+   pub height: f64,
+   
+   #[serde(
+      rename = "dob",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Contractor {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "company",
+   )]
+   pub company: Company,
+   
+   #[serde(rename = "manager")]
+   pub manager: Option<Manager>,
+   
+   #[serde(
+      rename = "email",
+   )]
+   pub email: String,
+   
+   #[serde(
+      rename = "firstName",
+   )]
+   pub first_name: String,
+   
+   #[serde(
+      rename = "lastName",
+   )]
+   pub last_name: String,
+   
+   #[serde(
+      rename = "middleNames",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub middle_names: Option<String>,
+   
+   #[serde(
+      rename = "homeAddress",
+   )]
+   pub home_address: Address,
+   
+   #[serde(
+      rename = "ssn",
+   )]
+   pub ssn: String,
+   
+   #[serde(
+      rename = "height",
+   )]
+   pub height: f64,
+   
+   #[serde(
+      rename = "dob",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Manager {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(rename = "reports")]
+   pub reports: Option<Vec<Person>>,
+   
+   #[serde(
+      rename = "employeeId",
+   )]
+   pub employee_id: String,
+   
+   #[serde(
+      rename = "salary",
+   )]
+   pub salary: u64,
+   
+   #[serde(
+      rename = "numDependents",
+   )]
+   pub num_dependents: Integer,
+   
+   #[serde(
+      rename = "retired",
+   )]
+   pub retired: bool,
+   
+   #[serde(
+      rename = "department",
+   )]
+   pub department: Department,
+   
+   #[serde(
+      rename = "officeAddress",
+   )]
+   pub office_address: Address,
+   
+   #[serde(
+      rename = "companyAssets",
+   )]
+   pub company_assets: Vec<Equipment>,
+   
+   #[serde(rename = "manager")]
+   pub manager: Option<Manager>,
+   
+   #[serde(
+      rename = "email",
+   )]
+   pub email: String,
+   
+   #[serde(
+      rename = "firstName",
+   )]
+   pub first_name: String,
+   
+   #[serde(
+      rename = "lastName",
+   )]
+   pub last_name: String,
+   
+   #[serde(
+      rename = "middleNames",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub middle_names: Option<String>,
+   
+   #[serde(
+      rename = "homeAddress",
+   )]
+   pub home_address: Address,
+   
+   #[serde(
+      rename = "ssn",
+   )]
+   pub ssn: String,
+   
+   #[serde(
+      rename = "height",
+   )]
+   pub height: f64,
+   
+   #[serde(
+      rename = "dob",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CompanyEvent {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Onboarded {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(rename = "employee")]
+   pub employee: Employee,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ChangeOfAddress {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(rename = "Person")]
+   pub person: Person,
+   
+   #[serde(
+      rename = "newAddress",
+   )]
+   pub new_address: Address,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+",
+}
+`;
+
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 1`] = `
 {
   "key": "concerto@1.0.0.ts",
@@ -7462,6 +8175,719 @@ message Onboarded {
 message ChangeOfAddress {
   Address newAddress = 1;
   string Person = 2;
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 1`] = `
+{
+  "key": "mod.rs",
+  "value": "#[allow(unused_imports)]
+pub mod concerto_1_0_0;
+#[allow(unused_imports)]
+pub mod concerto;
+#[allow(unused_imports)]
+pub mod org_acme_hr_1_0_0;
+#[allow(unused_imports)]
+pub mod utils;
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 2`] = `
+{
+  "key": "utils.rs",
+  "value": "use chrono::{ DateTime, TimeZone, Utc };
+use serde::{ Deserialize, Serialize, Deserializer, Serializer };
+   
+pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>
+where
+   S: Serializer,
+{
+   match datetime {
+      Some(dt) => {
+         serialize_datetime(&dt, serializer)
+      },
+      _ => unreachable!(),
+   }
+}
+
+pub fn deserialize_datetime_option<'de, D>(deserializer: D) -> Result<Option<chrono::DateTime<Utc>>, D::Error>
+where
+   D: Deserializer<'de>,
+{
+   match deserialize_datetime(deserializer) {
+      Ok(result)=>Ok(Some(result)),
+      Err(error) => Err(error),
+   }
+}
+
+pub fn deserialize_datetime<'de, D>(deserializer: D) -> Result<chrono::DateTime<Utc>, D::Error>
+where
+   D: Deserializer<'de>,
+{
+   let datetime_str = String::deserialize(deserializer)?;
+   Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)
+}
+   
+pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
+where
+   S: Serializer,
+{
+   let datetime_str = datetime.format("%+").to_string();
+   serializer.serialize_str(&datetime_str)
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 3`] = `
+{
+  "key": "concerto_1_0_0.rs",
+  "value": "use serde::{ Deserialize, Serialize };
+use chrono::{ DateTime, TimeZone, Utc };
+   
+use crate::utils::*;
+   
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Concept {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Asset {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Participant {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Transaction {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Event {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 4`] = `
+{
+  "key": "concerto.rs",
+  "value": "use serde::{ Deserialize, Serialize };
+use chrono::{ DateTime, TimeZone, Utc };
+   
+use crate::utils::*;
+   
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Concept {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Asset {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Participant {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Transaction {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Event {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 5`] = `
+{
+  "key": "org_acme_hr_1_0_0.rs",
+  "value": "use serde::{ Deserialize, Serialize };
+use chrono::{ DateTime, TimeZone, Utc };
+   
+use crate::concerto_1_0_0::*;
+use crate::utils::*;
+   
+#[derive(Debug, Serialize, Deserialize)]
+pub enum State {
+   #[allow(non_camel_case_types)]
+   MA,
+   #[allow(non_camel_case_types)]
+   NY,
+   #[allow(non_camel_case_types)]
+   CO,
+   #[allow(non_camel_case_types)]
+   WA,
+   #[allow(non_camel_case_types)]
+   IL,
+   #[allow(non_camel_case_types)]
+   CA,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Address {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "street",
+   )]
+   pub street: String,
+   
+   #[serde(
+      rename = "city",
+   )]
+   pub city: String,
+   
+   #[serde(
+      rename = "state",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub state: Option<State>,
+   
+   #[serde(
+      rename = "zipCode",
+   )]
+   pub zip_code: String,
+   
+   #[serde(
+      rename = "country",
+   )]
+   pub country: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Company {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "name",
+   )]
+   pub name: String,
+   
+   #[serde(
+      rename = "headquarters",
+   )]
+   pub headquarters: Address,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum Department {
+   #[allow(non_camel_case_types)]
+   Sales,
+   #[allow(non_camel_case_types)]
+   Marketing,
+   #[allow(non_camel_case_types)]
+   Finance,
+   #[allow(non_camel_case_types)]
+   HR,
+   #[allow(non_camel_case_types)]
+   Engineering,
+   #[allow(non_camel_case_types)]
+   Design,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Equipment {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "serialNumber",
+   )]
+   pub serial_number: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum LaptopMake {
+   #[allow(non_camel_case_types)]
+   Apple,
+   #[allow(non_camel_case_types)]
+   Microsoft,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Laptop {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "make",
+   )]
+   pub make: LaptopMake,
+   
+   #[serde(
+      rename = "serialNumber",
+   )]
+   pub serial_number: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Person {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "email",
+   )]
+   pub email: String,
+   
+   #[serde(
+      rename = "firstName",
+   )]
+   pub first_name: String,
+   
+   #[serde(
+      rename = "lastName",
+   )]
+   pub last_name: String,
+   
+   #[serde(
+      rename = "middleNames",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub middle_names: Option<String>,
+   
+   #[serde(
+      rename = "homeAddress",
+   )]
+   pub home_address: Address,
+   
+   #[serde(
+      rename = "ssn",
+   )]
+   pub ssn: String,
+   
+   #[serde(
+      rename = "height",
+   )]
+   pub height: f64,
+   
+   #[serde(
+      rename = "dob",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Employee {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "employeeId",
+   )]
+   pub employee_id: String,
+   
+   #[serde(
+      rename = "salary",
+   )]
+   pub salary: u64,
+   
+   #[serde(
+      rename = "numDependents",
+   )]
+   pub num_dependents: Integer,
+   
+   #[serde(
+      rename = "retired",
+   )]
+   pub retired: bool,
+   
+   #[serde(
+      rename = "department",
+   )]
+   pub department: Department,
+   
+   #[serde(
+      rename = "officeAddress",
+   )]
+   pub office_address: Address,
+   
+   #[serde(
+      rename = "companyAssets",
+   )]
+   pub company_assets: Vec<Equipment>,
+   
+   #[serde(rename = "manager")]
+   pub manager: Option<Manager>,
+   
+   #[serde(
+      rename = "email",
+   )]
+   pub email: String,
+   
+   #[serde(
+      rename = "firstName",
+   )]
+   pub first_name: String,
+   
+   #[serde(
+      rename = "lastName",
+   )]
+   pub last_name: String,
+   
+   #[serde(
+      rename = "middleNames",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub middle_names: Option<String>,
+   
+   #[serde(
+      rename = "homeAddress",
+   )]
+   pub home_address: Address,
+   
+   #[serde(
+      rename = "ssn",
+   )]
+   pub ssn: String,
+   
+   #[serde(
+      rename = "height",
+   )]
+   pub height: f64,
+   
+   #[serde(
+      rename = "dob",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Contractor {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "company",
+   )]
+   pub company: Company,
+   
+   #[serde(rename = "manager")]
+   pub manager: Option<Manager>,
+   
+   #[serde(
+      rename = "email",
+   )]
+   pub email: String,
+   
+   #[serde(
+      rename = "firstName",
+   )]
+   pub first_name: String,
+   
+   #[serde(
+      rename = "lastName",
+   )]
+   pub last_name: String,
+   
+   #[serde(
+      rename = "middleNames",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub middle_names: Option<String>,
+   
+   #[serde(
+      rename = "homeAddress",
+   )]
+   pub home_address: Address,
+   
+   #[serde(
+      rename = "ssn",
+   )]
+   pub ssn: String,
+   
+   #[serde(
+      rename = "height",
+   )]
+   pub height: f64,
+   
+   #[serde(
+      rename = "dob",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Manager {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(rename = "reports")]
+   pub reports: Option<Vec<Person>>,
+   
+   #[serde(
+      rename = "employeeId",
+   )]
+   pub employee_id: String,
+   
+   #[serde(
+      rename = "salary",
+   )]
+   pub salary: u64,
+   
+   #[serde(
+      rename = "numDependents",
+   )]
+   pub num_dependents: Integer,
+   
+   #[serde(
+      rename = "retired",
+   )]
+   pub retired: bool,
+   
+   #[serde(
+      rename = "department",
+   )]
+   pub department: Department,
+   
+   #[serde(
+      rename = "officeAddress",
+   )]
+   pub office_address: Address,
+   
+   #[serde(
+      rename = "companyAssets",
+   )]
+   pub company_assets: Vec<Equipment>,
+   
+   #[serde(rename = "manager")]
+   pub manager: Option<Manager>,
+   
+   #[serde(
+      rename = "email",
+   )]
+   pub email: String,
+   
+   #[serde(
+      rename = "firstName",
+   )]
+   pub first_name: String,
+   
+   #[serde(
+      rename = "lastName",
+   )]
+   pub last_name: String,
+   
+   #[serde(
+      rename = "middleNames",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub middle_names: Option<String>,
+   
+   #[serde(
+      rename = "homeAddress",
+   )]
+   pub home_address: Address,
+   
+   #[serde(
+      rename = "ssn",
+   )]
+   pub ssn: String,
+   
+   #[serde(
+      rename = "height",
+   )]
+   pub height: f64,
+   
+   #[serde(
+      rename = "dob",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CompanyEvent {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Onboarded {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(rename = "employee")]
+   pub employee: Employee,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ChangeOfAddress {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(rename = "Person")]
+   pub person: Person,
+   
+   #[serde(
+      rename = "newAddress",
+   )]
+   pub new_address: Address,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
 }
 
 ",
