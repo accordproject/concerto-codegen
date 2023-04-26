@@ -16,6 +16,7 @@ export var CodeGen: {
     AvroVisitor: typeof import("./lib/codegen/fromcto/avro/avrovisitor");
     JSONSchemaToConcertoVisitor: typeof import("./lib/codegen/fromJsonSchema/cto/jsonSchemaVisitor");
     OpenApiToConcertoVisitor: typeof import("./lib/codegen/fromOpenApi/cto/openApiVisitor");
+    RustVisitor: typeof import("./lib/codegen/fromcto/rust/rustvisitor");
     formats: {
         golang: typeof import("./lib/codegen/fromcto/golang/golangvisitor");
         jsonschema: typeof import("./lib/codegen/fromcto/jsonschema/jsonschemavisitor");
@@ -31,6 +32,7 @@ export var CodeGen: {
         protobuf: typeof import("./lib/codegen/fromcto/protobuf/protobufvisitor");
         openapi: typeof import("./lib/codegen/fromcto/openapi/openapivisitor");
         avro: typeof import("./lib/codegen/fromcto/avro/avrovisitor");
+        rust: typeof import("./lib/codegen/fromcto/rust/rustvisitor");
     };
 };
 export var Common: typeof import("./lib/common/common");
