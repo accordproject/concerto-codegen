@@ -31,6 +31,7 @@ declare class JSONSchemaVisitor {
     /**
      * Get the validators for a field or a scalar definition in JSON schema form.
      * @param {Object} field - the scalar declaration being visited
+     * @param {bool} [isScalarUUID] - flag to indicate given field type is scalar uuid
      * @return {Object} the result of visiting or null
      * @private
      */
@@ -123,7 +124,16 @@ declare class JSONSchemaVisitor {
     /**
      * Visitor design pattern
      * @param {Field} field - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitScalarField;
+    /**
+     * Visitor design pattern
+     * @param {Field} field - the object being visited
      * @param {Object} parameters - the parameter
+     * @param {bool} [isScalarUUID] - flag to indicate given field type is scalar uuid
      * @return {Object} the result of visiting or null
      * @private
      */
