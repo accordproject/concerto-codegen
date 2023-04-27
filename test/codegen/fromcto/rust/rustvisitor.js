@@ -322,7 +322,7 @@ describe('RustVisitor', function () {
                     1, '#[serde('
                 ],
                 [
-                    2, 'rename = \'$class\','
+                    2, 'rename = "$class",'
                 ],
                 [
                     1, ')]'
@@ -366,7 +366,7 @@ describe('RustVisitor', function () {
                     1, '#[serde('
                 ],
                 [
-                    2, 'rename = \'name\','
+                    2, 'rename = "name",'
                 ],
                 [
                     1, ')]'
@@ -400,7 +400,7 @@ describe('RustVisitor', function () {
                     1, '#[serde('
                 ],
                 [
-                    2, 'rename = \'Bob\','
+                    2, 'rename = "Bob",'
                 ],
                 [
                     1, ')]'
@@ -434,7 +434,7 @@ describe('RustVisitor', function () {
                     1, '#[serde('
                 ],
                 [
-                    2, 'rename = \'Bob\','
+                    2, 'rename = "Bob",'
                 ],
                 [
                     2, 'skip_serializing_if = "Option::is_none",'
@@ -471,7 +471,7 @@ describe('RustVisitor', function () {
                     1, '#[serde('
                 ],
                 [
-                    2, 'rename = \'timestamp\','
+                    2, 'rename = "timestamp",'
                 ],
                 [
                     2, 'serialize_with = "serialize_datetime",'
@@ -531,7 +531,7 @@ describe('RustVisitor', function () {
 
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    1, '#[serde(rename = \'Bob\')]'
+                    1, '#[serde(rename = "Bob")]'
                 ],
                 [
                     1, 'pub bob: Person,'
@@ -550,7 +550,7 @@ describe('RustVisitor', function () {
 
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    1, '#[serde(rename = \'Bob\')]'
+                    1, '#[serde(rename = "Bob")]'
                 ],
                 [
                     1, 'pub bob: Vec<Person>,'
@@ -569,7 +569,7 @@ describe('RustVisitor', function () {
 
             param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
                 [
-                    1, '#[serde(rename = \'Bob\')]'
+                    1, '#[serde(rename = "Bob")]'
                 ],
                 [
                     1, 'pub bob: Option<Person>,'
