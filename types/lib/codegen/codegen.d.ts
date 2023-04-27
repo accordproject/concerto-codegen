@@ -15,6 +15,8 @@ import OpenApiVisitor = require("./fromcto/openapi/openapivisitor");
 import AvroVisitor = require("./fromcto/avro/avrovisitor");
 import JSONSchemaToConcertoVisitor = require("./fromJsonSchema/cto/jsonSchemaVisitor");
 import OpenApiToConcertoVisitor = require("./fromOpenApi/cto/openApiVisitor");
+import RustVisitor = require("./fromcto/rust/rustvisitor");
+
 export declare namespace formats {
     export { GoLangVisitor as golang };
     export { JSONSchemaVisitor as jsonschema };
@@ -30,5 +32,6 @@ export declare namespace formats {
     export { ProtobufVisitor as protobuf };
     export { OpenApiVisitor as openapi };
     export { AvroVisitor as avro };
+    export { RustVisitor as rust };
 }
-export { AbstractPlugin, GoLangVisitor, JSONSchemaVisitor, XmlSchemaVisitor, PlantUMLVisitor, TypescriptVisitor, JavaVisitor, GraphQLVisitor, CSharpVisitor, ODataVisitor, MermaidVisitor, MarkdownVisitor, ProtobufVisitor, OpenApiVisitor, AvroVisitor, JSONSchemaToConcertoVisitor, OpenApiToConcertoVisitor };
+export { AbstractPlugin, GoLangVisitor, JSONSchemaVisitor, XmlSchemaVisitor, PlantUMLVisitor, TypescriptVisitor, JavaVisitor, GraphQLVisitor, CSharpVisitor, ODataVisitor, MermaidVisitor, MarkdownVisitor, ProtobufVisitor, OpenApiVisitor, AvroVisitor, JSONSchemaToConcertoVisitor, OpenApiToConcertoVisitor, RustVisitor };
