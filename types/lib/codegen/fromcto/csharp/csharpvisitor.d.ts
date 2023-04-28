@@ -69,6 +69,7 @@ declare class CSharpVisitor {
      * @param {Field} field - the object being visited
      * @param {Object} parameters  - the parameter
      * @param {string} [externalFieldType] - the external field type like UUID (optional)
+     * @param {bool} [isOptional] - the bool value indicating if external field type like UUID is optional (optional)
      * @return {Object} the result of visiting or null
      * @private
      */
@@ -153,4 +154,12 @@ declare class CSharpVisitor {
      * @return {string} the type for the field
      */
     private getFieldType;
+    /**
+     * Get the decorator value for a given object.
+     * @private
+     * @param {Object} thing - the object being visited
+     * @param {string} decoratorName - name of the decorator
+     * @returns {String} - value of decorator or null
+     */
+    private getDecoratorValue;
 }

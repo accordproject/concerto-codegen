@@ -16,7 +16,6 @@ import AvroVisitor = require("./fromcto/avro/avrovisitor");
 import JSONSchemaToConcertoVisitor = require("./fromJsonSchema/cto/jsonSchemaVisitor");
 import OpenApiToConcertoVisitor = require("./fromOpenApi/cto/openApiVisitor");
 import RustVisitor = require("./fromcto/rust/rustvisitor");
-
 export declare namespace formats {
     export { GoLangVisitor as golang };
     export { JSONSchemaVisitor as jsonschema };
