@@ -346,10 +346,13 @@ describe('CSharpVisitor', function () {
             const files = fileWriter.getFilesInMemory();
             const file1 = files.get('org.acme@1.2.3.cs');
             file1.should.match(/namespace org.acme;/);
-            file1.should.not.match(/using concerto.scalar;/);
+            file1.should.match(/using concerto.scalar;/);
             file1.should.match(/class Thing/);
             file1.should.match(/public System.Guid ThingId/);
             file1.should.match(/public System.Guid\? SomeOtherId/);
+
+            const file2 = files.get('concerto.scalar@1.0.0.cs');
+            file2.should.match(/class UUID_Dummy {}/);
         });
 
         it('should use regex annotation when regex pattern provided to a field', () => {
@@ -399,8 +402,12 @@ public class AgreementBase : Concept {
             const files = fileWriter.getFilesInMemory();
             const file1 = files.get('org.acme@1.2.3.cs');
             file1.should.match(/namespace org.acme;/);
+            file1.should.match(/using org.specific.scalar;/);
             file1.should.match(/class Thing/);
             file1.should.match(/public string ThingId/);
+
+            const file2 = files.get('org.specific.scalar@1.0.0.cs');
+            file2.should.match(/class UUID_Dummy {}/);
         });
 
         it('should use string for scalar type non UUID', () => {
@@ -427,6 +434,9 @@ public class AgreementBase : Concept {
             file1.should.match(/class Thing/);
             file1.should.match(/public string ThingId/);
             file1.should.match(/public string\? SomeOtherId/);
+
+            const file2 = files.get('concerto.scalar@1.0.0.cs');
+            file2.should.match(/class SSN_Dummy {}/);
         });
 
         it('should use the @AcceptedValue decorator if present', () => {
