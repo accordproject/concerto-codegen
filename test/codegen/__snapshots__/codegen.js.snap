@@ -359,6 +359,8 @@ public class Laptop : Equipment {
    public override string _class { get; } = "org.acme.hr.Laptop";
    public LaptopMake make { get; set; }
 }
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class SSN_Dummy {}
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = null, Name = "Person")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public abstract class Person : Participant {
@@ -4474,6 +4476,8 @@ public class Laptop : Equipment {
    public override string _class { get; } = "org.acme.hr@1.0.0.Laptop";
    public LaptopMake make { get; set; }
 }
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class SSN_Dummy {}
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Person")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public abstract class Person : Participant {
