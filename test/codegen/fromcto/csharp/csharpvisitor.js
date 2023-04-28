@@ -346,6 +346,7 @@ describe('CSharpVisitor', function () {
             const files = fileWriter.getFilesInMemory();
             const file1 = files.get('org.acme@1.2.3.cs');
             file1.should.match(/namespace org.acme;/);
+            file1.should.not.match(/using concerto.scalar;/);
             file1.should.match(/class Thing/);
             file1.should.match(/public System.Guid ThingId/);
             file1.should.match(/public System.Guid\? SomeOtherId/);
