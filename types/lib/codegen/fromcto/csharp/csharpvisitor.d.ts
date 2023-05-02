@@ -50,6 +50,14 @@ declare class CSharpVisitor {
     private visitClassDeclaration;
     /**
      * Visitor design pattern
+     * @param {ScalarDeclaration} scalarDeclaration - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitScalarDeclarationField;
+    /**
+     * Visitor design pattern
      * @param {Field} field - the object being visited
      * @param {Object} parameters  - the parameter
      * @return {Object} the result of visiting or null
