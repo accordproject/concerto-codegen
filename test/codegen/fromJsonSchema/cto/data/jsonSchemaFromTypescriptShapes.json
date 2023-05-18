@@ -1,0 +1,80 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/DataIOWriteDataByUri",
+    "definitions": {
+        "DataIOWriteDataByUri": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "const": "Contracts.Actions.DataIO.Version3.WriteDataByUri"
+                },
+                "type": {
+                    "type": "string",
+                    "const": "action"
+                },
+                "input": {
+                    "$ref": "#/definitions/ActionContractSchema%3CActionContractSchema%3Calias-969551601-132-307-969551601-0-1080360522385%3E%3E"
+                },
+                "output": {
+                    "$ref": "#/definitions/ActionContractSchema%3CActionContractSchema%3Calias-969551601-307-463-969551601-0-10801928584726%3E%3E"
+                }
+            },
+            "required": [
+                "input",
+                "name",
+                "output",
+                "type"
+            ],
+            "additionalProperties": false,
+            "description": "This action contract handles writing data to a specific URI"
+        },
+        "ActionContractSchema<ActionContractSchema<alias-969551601-132-307-969551601-0-1080360522385>>": {
+            "$ref": "#/definitions/ActionContractSchema%3Calias-969551601-132-307-969551601-0-1080360522385%3E",
+            "description": "Action Contract Schema"
+        },
+        "ActionContractSchema<alias-969551601-132-307-969551601-0-1080360522385>": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "uri": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "object",
+                    "additionalProperties": {}
+                }
+            },
+            "required": [
+                "data",
+                "uri"
+            ],
+            "description": "Action Contract Schema"
+        },
+        "ActionContractSchema<ActionContractSchema<alias-969551601-307-463-969551601-0-10801928584726>>": {
+            "$ref": "#/definitions/ActionContractSchema%3Calias-969551601-307-463-969551601-0-10801928584726%3E",
+            "description": "Action Contract Schema"
+        },
+        "ActionContractSchema<alias-969551601-307-463-969551601-0-10801928584726>": {
+            "$ref": "#/definitions/ActionContractSchema%3CActionContractSchema%3Calias-893869671-313-536-893869671-0-10591185408304%3E%3E",
+            "description": "Action Contract Schema"
+        },
+        "ActionContractSchema<ActionContractSchema<alias-893869671-313-536-893869671-0-10591185408304>>": {
+            "$ref": "#/definitions/ActionContractSchema%3Calias-893869671-313-536-893869671-0-10591185408304%3E",
+            "description": "Action Contract Schema"
+        },
+        "ActionContractSchema<alias-893869671-313-536-893869671-0-10591185408304>": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "description": "Action Contract Schema"
+        }
+    }
+}
