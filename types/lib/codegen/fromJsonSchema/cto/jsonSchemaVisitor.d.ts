@@ -131,6 +131,17 @@ declare class JsonSchemaVisitor {
      */
     private inferTypeSpecificProperties;
     /**
+     * Deduplicate a list of declarations by name. Duplicated declarations often
+     * occur when we're traversing through multiple definitions that are
+     * ultimately referencing the same object.
+     * @param {Array<Object>} declarations - list of declarations with possible
+     * duplicates.
+     *
+     * @return {Array<Object>} list of declarations without duplicates.
+     * @private
+     */
+    private deduplicateDeclarations;
+    /**
      * Local reference property visitor.
      * @param {Object} reference - a JSON Schema model local reference property.
      * @param {Object} parameters - the visitor parameters.
