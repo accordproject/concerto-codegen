@@ -310,6 +310,43 @@ describe('JSONSchema (samples)', function () {
             expect(schema.properties.stringWithSameMinMaxLength.maxLength).equal(10);
         });
 
+        it('should use min max length for scalar string fields when length validator is configured', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            scalar ScalarStringLengthWithRegex extends String regex=/^[^?/:<>|]*$/ length=[1,10]
+            scalar ScalarStringWithMinLength extends String length=[1,]
+            scalar ScalarStringWithMaxLength extends String length=[,10]
+            scalar ScalarStringWithSameMinMaxLength extends String length=[10,10]
+
+            concept SampleModel {
+                o ScalarStringLengthWithRegex scalarStringLengthWithRegex
+                o ScalarStringWithMinLength scalarStringWithMinLength
+                o ScalarStringWithMaxLength scalarStringWithMaxLength
+                o ScalarStringWithSameMinMaxLength scalarStringWithSameMinMaxLength
+            }
+            `);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'org.acme@1.2.3.SampleModel'});
+            expect(schema.properties.scalarStringLengthWithRegex.type).equal('string');
+            expect(schema.properties.scalarStringLengthWithRegex.pattern).to.not.be.undefined;
+            expect(schema.properties.scalarStringLengthWithRegex.minLength).equal(1);
+            expect(schema.properties.scalarStringLengthWithRegex.maxLength).equal(10);
+
+            expect(schema.properties.scalarStringWithMinLength.type).equal('string');
+            expect(schema.properties.scalarStringWithMinLength.minLength).equal(1);
+            expect(schema.properties.scalarStringWithMinLength.maxLength).to.be.undefined;
+
+            expect(schema.properties.scalarStringWithMaxLength.type).equal('string');
+            expect(schema.properties.scalarStringWithMaxLength.minLength).to.be.undefined;
+            expect(schema.properties.scalarStringWithMaxLength.maxLength).equal(10);
+
+            expect(schema.properties.scalarStringWithSameMinMaxLength.type).equal('string');
+            expect(schema.properties.scalarStringWithSameMinMaxLength.minLength).equal(10);
+            expect(schema.properties.scalarStringWithSameMinMaxLength.maxLength).equal(10);
+        });
+
         it('should write to disk', () => {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_SIMPLE );

@@ -410,6 +410,40 @@ public class SampleModel : Concept {
 `);
         });
 
+        it('should use min max annotation when string length validator provided to a scalar field of type string', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            scalar ScalarStringLengthWithRegex extends String regex=/^[^?/:<>|]*$/ length=[1,10]
+            scalar ScalarStringWithMinLength extends String length=[2,]
+            scalar ScalarStringWithMaxLength extends String length=[,100]
+            scalar ScalarStringWithSameMinMaxLength extends String length=[3,3]
+
+            concept SampleModel {
+                o ScalarStringLengthWithRegex scalarStringLengthWithRegex
+                o ScalarStringWithMinLength scalarStringWithMinLength
+                o ScalarStringWithMaxLength scalarStringWithMaxLength
+                o ScalarStringWithSameMinMaxLength scalarStringWithSameMinMaxLength
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.match(/namespace org.acme;/);
+            file1.should.match(/class SampleModel/);
+            file1.should.match(/[System.ComponentModel.DataAnnotations.MinLength(1)]/);
+            file1.should.match(/[System.ComponentModel.DataAnnotations.MaxLength(10)]/);
+            file1.should.match(/public string scalarStringLengthWithRegex/);
+            file1.should.match(/[System.ComponentModel.DataAnnotations.MinLength(2)]/);
+            file1.should.match(/public string scalarStringWithMinLength/);
+            file1.should.match(/[System.ComponentModel.DataAnnotations.MinLength(100)]/);
+            file1.should.match(/public string scalarStringWithMaxLength/);
+            file1.should.match(/[System.ComponentModel.DataAnnotations.MinLength(3)]/);
+            file1.should.match(/[System.ComponentModel.DataAnnotations.MaxLength(3)]/);
+            file1.should.match(/public string scalarStringWithSameMinMaxLength/);
+        });
+
         it('should use string for scalar type UUID but with different namespace than concerto.scalar ', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
