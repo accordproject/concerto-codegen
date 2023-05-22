@@ -382,6 +382,34 @@ public class AgreementBase : Concept {
 `);
         });
 
+        it('should use min max annotation when string length validator provided to a field', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(fs.readFileSync(path.resolve(__dirname, '../data/model/stringlength.cto'), 'utf8'), 'stringlength.cto');
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.equal(`namespace org.acme;
+using AccordProject.Concerto;
+[AccordProject.Concerto.Type(Namespace = "org.acme", Version = "1.2.3", Name = "SampleModel")]
+[System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
+public class SampleModel : Concept {
+   [System.Text.Json.Serialization.JsonPropertyName("$class")]
+   public override string _class { get; } = "org.acme@1.2.3.SampleModel";
+   [System.ComponentModel.DataAnnotations.MinLength(1)]
+   [System.ComponentModel.DataAnnotations.MaxLength(10)]
+   [System.ComponentModel.DataAnnotations.RegularExpression(@"^[^?\\/:<>|]*$", ErrorMessage = "Invalid characters")]
+   public string stringLengthWithRegex { get; set; }
+   [System.ComponentModel.DataAnnotations.MinLength(1)]
+   public string stringWithMinLength { get; set; }
+   [System.ComponentModel.DataAnnotations.MaxLength(10)]
+   public string stringWithMaxLength { get; set; }
+   [System.ComponentModel.DataAnnotations.MinLength(10)]
+   [System.ComponentModel.DataAnnotations.MaxLength(10)]
+   public string stringWithSameMinMaxLength { get; set; }
+}
+`);
+        });
+
         it('should use string for scalar type UUID but with different namespace than concerto.scalar ', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`

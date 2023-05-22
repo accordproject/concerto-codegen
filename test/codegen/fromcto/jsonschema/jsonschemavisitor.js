@@ -287,6 +287,29 @@ describe('JSONSchema (samples)', function () {
             expect(schema.properties.someId.format).to.be.undefined;
         });
 
+        it('should use min max length for string fields when length validator is configured', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(fs.readFileSync(path.resolve(__dirname, '../data/model/stringlength.cto'), 'utf8'), 'stringlength.cto');
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'org.acme@1.2.3.SampleModel'});
+            expect(schema.properties.stringLengthWithRegex.type).equal('string');
+            expect(schema.properties.stringLengthWithRegex.pattern).to.not.be.undefined;
+            expect(schema.properties.stringLengthWithRegex.minLength).equal(1);
+            expect(schema.properties.stringLengthWithRegex.maxLength).equal(10);
+
+            expect(schema.properties.stringWithMinLength.type).equal('string');
+            expect(schema.properties.stringWithMinLength.minLength).equal(1);
+            expect(schema.properties.stringWithMinLength.maxLength).to.be.undefined;
+
+            expect(schema.properties.stringWithMaxLength.type).equal('string');
+            expect(schema.properties.stringWithMaxLength.minLength).to.be.undefined;
+            expect(schema.properties.stringWithMaxLength.maxLength).equal(10);
+
+            expect(schema.properties.stringWithSameMinMaxLength.type).equal('string');
+            expect(schema.properties.stringWithSameMinMaxLength.minLength).equal(10);
+            expect(schema.properties.stringWithSameMinMaxLength.maxLength).equal(10);
+        });
+
         it('should write to disk', () => {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_SIMPLE );
