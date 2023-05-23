@@ -4399,6 +4399,90 @@ declarations:
 }
 `;
 
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'vocabulary' 1`] = `
+{
+  "key": "org.acme.hr_en.voc",
+  "value": "#Generated vocabulary for namespace: org.acme.hr
+locale: en
+namespace: org.acme.hr
+declarations:
+  - State: State
+    properties:
+      - MA: MA of the State
+      - NY: NY of the State
+      - CO: CO of the State
+      - WA: WA of the State
+      - IL: IL of the State
+      - CA: CA of the State
+  - Address: Address
+    properties:
+      - street: Street of the Address
+      - city: City of the Address
+      - state: State of the Address
+      - zipCode: Zip Code of the Address
+      - country: Country of the Address
+  - Company: Company
+    properties:
+      - name: Name of the Company
+      - headquarters: Headquarters of the Company
+  - Department: Department
+    properties:
+      - Sales: Sales of the Department
+      - Marketing: Marketing of the Department
+      - Finance: Finance of the Department
+      - HR: HR of the Department
+      - Engineering: Engineering of the Department
+      - Design: Design of the Department
+  - Equipment: Equipment
+    properties:
+      - serialNumber: Serial Number of the Equipment
+  - LaptopMake: Laptop Make
+    properties:
+      - Apple: Apple of the Laptop Make
+      - Microsoft: Microsoft of the Laptop Make
+  - Laptop: Laptop
+    properties:
+      - make: Make of the Laptop
+  - SSN: SSN
+  - Person: Person
+    properties:
+      - email: Email of the Person
+      - firstName: First Name of the Person
+      - lastName: Last Name of the Person
+      - middleNames: Middle Names of the Person
+      - homeAddress: Home Address of the Person
+      - ssn: Ssn of the Person
+      - height: Height of the Person
+      - dob: Dob of the Person
+  - Employee: Employee
+    properties:
+      - employeeId: Employee Id of the Employee
+      - salary: Salary of the Employee
+      - numDependents: Num Dependents of the Employee
+      - retired: Retired of the Employee
+      - department: Department of the Employee
+      - officeAddress: Office Address of the Employee
+      - companyAssets: Company Assets of the Employee
+      - manager: Manager of the Employee
+  - Contractor: Contractor
+    properties:
+      - company: Company of the Contractor
+      - manager: Manager of the Contractor
+  - Manager: Manager
+    properties:
+      - reports: Reports of the Manager
+  - CompanyEvent: Company Event
+  - Onboarded: Onboarded
+    properties:
+      - employee: Employee of the Onboarded
+  - ChangeOfAddress: Change Of Address
+    properties:
+      - Person: Person of the Change Of Address
+      - newAddress: New Address of the Change Of Address
+",
+}
+`;
+
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'xmlschema' 1`] = `
 {
   "key": "concerto@1.0.0.xsd",
@@ -9250,6 +9334,90 @@ export interface IChangeOfAddress extends ITransaction {
 `;
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'vocab' 1`] = `
+{
+  "key": "org.acme.hr@1.0.0_en.voc",
+  "value": "#Generated vocabulary for namespace: org.acme.hr@1.0.0
+locale: en
+namespace: org.acme.hr@1.0.0
+declarations:
+  - State: State
+    properties:
+      - MA: MA of the State
+      - NY: NY of the State
+      - CO: CO of the State
+      - WA: WA of the State
+      - IL: IL of the State
+      - CA: CA of the State
+  - Address: Address
+    properties:
+      - street: Street of the Address
+      - city: City of the Address
+      - state: State of the Address
+      - zipCode: Zip Code of the Address
+      - country: Country of the Address
+  - Company: Company
+    properties:
+      - name: Name of the Company
+      - headquarters: Headquarters of the Company
+  - Department: Department
+    properties:
+      - Sales: Sales of the Department
+      - Marketing: Marketing of the Department
+      - Finance: Finance of the Department
+      - HR: HR of the Department
+      - Engineering: Engineering of the Department
+      - Design: Design of the Department
+  - Equipment: Equipment
+    properties:
+      - serialNumber: Serial Number of the Equipment
+  - LaptopMake: Laptop Make
+    properties:
+      - Apple: Apple of the Laptop Make
+      - Microsoft: Microsoft of the Laptop Make
+  - Laptop: Laptop
+    properties:
+      - make: Make of the Laptop
+  - SSN: SSN
+  - Person: Person
+    properties:
+      - email: Email of the Person
+      - firstName: First Name of the Person
+      - lastName: Last Name of the Person
+      - middleNames: Middle Names of the Person
+      - homeAddress: Home Address of the Person
+      - ssn: Ssn of the Person
+      - height: Height of the Person
+      - dob: Dob of the Person
+  - Employee: Employee
+    properties:
+      - employeeId: Employee Id of the Employee
+      - salary: Salary of the Employee
+      - numDependents: Num Dependents of the Employee
+      - retired: Retired of the Employee
+      - department: Department of the Employee
+      - officeAddress: Office Address of the Employee
+      - companyAssets: Company Assets of the Employee
+      - manager: Manager of the Employee
+  - Contractor: Contractor
+    properties:
+      - company: Company of the Contractor
+      - manager: Manager of the Contractor
+  - Manager: Manager
+    properties:
+      - reports: Reports of the Manager
+  - CompanyEvent: Company Event
+  - Onboarded: Onboarded
+    properties:
+      - employee: Employee of the Onboarded
+  - ChangeOfAddress: Change Of Address
+    properties:
+      - Person: Person of the Change Of Address
+      - newAddress: New Address of the Change Of Address
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'vocabulary' 1`] = `
 {
   "key": "org.acme.hr@1.0.0_en.voc",
   "value": "#Generated vocabulary for namespace: org.acme.hr@1.0.0
