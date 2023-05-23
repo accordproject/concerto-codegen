@@ -406,4 +406,42 @@ concept Foo {
 
         inferredConcertoModel.should.equal('namespace com.test@1.0.0');
     });
+
+    it('should generate Concerto for for a JSON schema generated from TypeScript shapes', async () => {
+        const schema = JSON.parse(
+            fs.readFileSync(
+                path.resolve(__dirname, '../cto/data/jsonSchemaFromTypescriptShapes.json'), 'utf8'
+            )
+        );
+
+        const inferredConcertoJsonModel = JsonSchemaVisitor
+            .parse(schema)
+            .accept(
+                jsonSchemaVisitor,
+                jsonSchemaVisitorParameters,
+            );
+
+        const inferredConcertoModel = Printer.toCTO(
+            inferredConcertoJsonModel.models[0]
+        );
+
+        inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept DataIOWriteDataByUri {
+  o String name
+  o String type
+  o ActionContractSchema_alias_969551601_132_307_969551601_0_1080360522385_ input
+  o ActionContractSchema_alias_893869671_313_536_893869671_0_10591185408304_ output
+}
+
+concept ActionContractSchema_alias_969551601_132_307_969551601_0_1080360522385_ {
+  o String uri
+  @StringifiedJson
+  o String data
+}
+
+concept ActionContractSchema_alias_893869671_313_536_893869671_0_10591185408304_ {
+  o String id
+}`);
+    });
 });

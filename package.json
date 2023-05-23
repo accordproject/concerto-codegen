@@ -1,6 +1,6 @@
 {
     "name": "@accordproject/concerto-codegen",
-    "version": "3.9.0",
+    "version": "3.10.0",
     "description": "CodeGen for the Concerto Modeling Language",
     "homepage": "https://github.com/accordproject/concerto",
     "engines": {
@@ -45,7 +45,7 @@
     "author": "accordproject.org",
     "license": "Apache-2.0",
     "devDependencies": {
-        "@accordproject/concerto-cto": "3.5.0",
+        "@accordproject/concerto-cto": "3.8.0",
         "@babel/preset-env": "7.16.11",
         "babel-loader": "8.2.3",
         "chai": "4.3.6",
@@ -59,7 +59,7 @@
         "mocha-expect-snapshot": "6.2.0",
         "mockery": "2.1.0",
         "moxios": "0.4.0",
-        "nunjucks": "3.2.3",
+        "nunjucks": "3.2.4",
         "nyc": "15.1.0",
         "sinon": "12.0.0",
         "sinon-chai": "3.7.0",
@@ -69,9 +69,9 @@
         "webpack-cli": "4.9.1"
     },
     "dependencies": {
-        "@accordproject/concerto-core": "3.7.0",
-        "@accordproject/concerto-util": "3.7.0",
         "@accordproject/concerto-vocabulary": "3.7.0",
+        "@accordproject/concerto-core": "3.8.1",
+        "@accordproject/concerto-util": "3.8.0",
         "@openapi-contrib/openapi-schema-to-json-schema": "3.2.0",
         "ajv": "8.10.0",
         "ajv-formats": "2.1.1",
