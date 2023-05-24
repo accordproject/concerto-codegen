@@ -153,12 +153,12 @@ describe('OpenApiVisitor', function () {
             );
 
             assert.equal(
-                JSON.stringify(inferredConcertoJsonModel, null, 4) + '\n',
+                JSON.stringify(inferredConcertoJsonModel, null, 4),
                 desiredConcertoJsonModelString
             );
 
             assert.equal(
-                inferredConcertoModel + '\n',
+                inferredConcertoModel,
                 desiredConcertoModel
             );
         }
