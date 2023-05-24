@@ -165,6 +165,111 @@ describe('CSharpVisitor', function () {
             file2.should.match(/namespace Org.Acme.OtherModels;/);
         });
 
+        it('should use configured dotnet namespace if model extends from other namespace', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            @DotNetNamespace("Org.Acme.OtherModels")
+            namespace org.acme.other@2.3.4
+
+            concept OtherThing {}
+            `);
+            modelManager.addCTOModel(`
+            @DotNetNamespace("Org.Acme.Models")
+            namespace org.acme@1.2.3
+
+            import org.acme.other@2.3.4.{ OtherThing }
+
+            concept Thing {
+                o OtherThing otherThing
+            }
+
+            concept SomeOtherThing extends OtherThing {
+                o String someId
+            }
+
+            concept SameThing extends Thing {
+                o String id
+            }
+
+            concept OneMoreThing {
+                o String oneMoreThingId
+                o Thing thing
+            }
+            `);
+            [
+                true, //namespace prefix shouldn't have any effect @DotNetNamespace() is used
+                false
+            ].forEach((useNamespacePrefix) => {
+                let ns = useNamespacePrefix? 'custom.project.ns' : '';
+                csharpVisitor.visit(modelManager, { fileWriter, namespacePrefix: ns });
+                const files = fileWriter.getFilesInMemory();
+                const file1 = files.get('org.acme@1.2.3.cs');
+                file1.should.match(/namespace Org.Acme.Models;/);
+                file1.should.match(/using Org.Acme.OtherModels;/);
+                // should not resolve fqn as parent type belongs to same namespace
+                file1.should.match(/class SameThing : Thing/);
+                // should not resolve fqn as field type belongs to same namespace
+                file1.should.match(/public Thing thing { get; set; }/);
+                // should resolve field type with fqn
+                file1.should.match(/public Org.Acme.OtherModels.OtherThing otherThing { get; set; }/);
+                // should resolve parent type with fqn
+                file1.should.match(/class SomeOtherThing : Org.Acme.OtherModels.OtherThing/);
+            });
+        });
+
+        it('should use fully qualified dotnet namespace if model extends from other namespace', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme.other@2.3.4
+
+            concept OtherThing {}
+            `);
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            import org.acme.other@2.3.4.{ OtherThing }
+
+            concept Thing {
+                o OtherThing otherThing
+            }
+
+            concept SomeOtherThing extends OtherThing {
+                o String someId
+            }
+
+            concept SameThing extends Thing {
+                o String id
+            }
+
+            concept OneMoreThing {
+                o String oneMoreThingId
+                o Thing thing
+            }
+            `);
+            [
+                true,
+                false
+            ].forEach((useNamespacePrefix) => {
+                let ns = useNamespacePrefix? 'custom.project.ns' : '';
+                csharpVisitor.visit(modelManager, { fileWriter, namespacePrefix: ns });
+                const files = fileWriter.getFilesInMemory();
+                const file1 = files.get('org.acme@1.2.3.cs');
+                file1.should.match(/class SameThing : Thing/); // should not resolve fqn as parent type belongs to same namespace
+                file1.should.match(/public Thing thing { get; set; }/); // should not resolve fqn as field type belongs to same namespace
+                if (useNamespacePrefix) {
+                    file1.should.match(/namespace custom.project.ns.org.acme;/);
+                    file1.should.match(/using custom.project.ns.org.acme.other;/);
+                    file1.should.match(/public custom.project.ns.org.acme.other.OtherThing otherThing { get; set; }/); // should resolve field type with fqn (including ns prefix)
+                    file1.should.match(/class SomeOtherThing : custom.project.ns.org.acme.other.OtherThing/); // should resolve parent type with fqn (including ns prefix)
+                } else {
+                    file1.should.match(/namespace org.acme;/);
+                    file1.should.match(/using org.acme.other;/);
+                    file1.should.match(/public org.acme.other.OtherThing otherThing { get; set; }/); // should resolve field type with fqn
+                    file1.should.match(/class SomeOtherThing : org.acme.other.OtherThing/); // should resolve parent type with fqn
+                }
+            });
+        });
+
         it('should use pascal case for the namespace if specified', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
