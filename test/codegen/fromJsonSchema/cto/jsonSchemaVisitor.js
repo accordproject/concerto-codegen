@@ -407,7 +407,7 @@ concept Foo {
         inferredConcertoModel.should.equal('namespace com.test@1.0.0');
     });
 
-    it('should generate Concerto for for a JSON schema generated from TypeScript shapes', async () => {
+    it('should generate Concerto for a JSON schema generated from TypeScript shapes', async () => {
         const schema = JSON.parse(
             fs.readFileSync(
                 path.resolve(__dirname, '../cto/data/jsonSchemaFromTypescriptShapes.json'), 'utf8'
@@ -442,6 +442,51 @@ concept ActionContractSchema_alias_969551601_132_307_969551601_0_1080360522385_ 
 
 concept ActionContractSchema_alias_893869671_313_536_893869671_0_10591185408304_ {
   o String id
+}`);
+    });
+
+    it('should generate Concerto for a JSON schema containing alternations in the object\'s body', async () => {
+        const schema = JSON.parse(
+            fs.readFileSync(
+                path.resolve(__dirname, '../cto/data/verifyBankAccountJsonSchema.json'), 'utf8'
+            )
+        );
+
+        const inferredConcertoJsonModel = JsonSchemaVisitor
+            .parse(schema)
+            .accept(
+                jsonSchemaVisitor,
+                jsonSchemaVisitorParameters,
+            );
+
+        const inferredConcertoModel = Printer.toCTO(
+            inferredConcertoJsonModel.models[0]
+        );
+
+        inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept VerifyBankAccount {
+  o String name
+  o String type
+  o ActionContractSchema_alias_246531724_141_346_246531724_0_16261588163527_ input
+  o VerifyResponse output
+}
+
+concept ActionContractSchema_alias_246531724_141_346_246531724_0_16261588163527_ {
+  o Double accountNumber
+  o definitions$_ActionContractSchema_alias_246531724_141_346_246531724_0_16261588163527_$_properties$_accountType accountType
+  o Double routingNumber
+}
+
+enum definitions$_ActionContractSchema_alias_246531724_141_346_246531724_0_16261588163527_$_properties$_accountType {
+  o checking
+  o savings
+  o credit_card
+  o loan
+}
+
+concept VerifyResponse {
+  o Boolean verified
 }`);
     });
 });

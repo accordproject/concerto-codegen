@@ -1,0 +1,106 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/VerifyBankAccount",
+    "definitions": {
+        "VerifyBankAccount": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "const": "Contracts.Actions.Verify.Version1.BankAccount"
+                },
+                "type": {
+                    "type": "string",
+                    "const": "action"
+                },
+                "input": {
+                    "$ref": "#/definitions/ActionContractSchema%3CActionContractSchema%3Calias-246531724-141-346-246531724-0-16261588163527%3E%3E"
+                },
+                "output": {
+                    "$ref": "#/definitions/ActionContractSchema%3CActionContractSchema%3Calias-246531724-346-450-246531724-0-1626237990000%3E%3E"
+                }
+            },
+            "required": [
+                "input",
+                "name",
+                "output",
+                "type"
+            ],
+            "additionalProperties": false,
+            "description": "Bank Account"
+        },
+        "ActionContractSchema<ActionContractSchema<alias-246531724-141-346-246531724-0-16261588163527>>": {
+            "$ref": "#/definitions/ActionContractSchema%3Calias-246531724-141-346-246531724-0-16261588163527%3E",
+            "description": "Action Contract Schema"
+        },
+        "ActionContractSchema<alias-246531724-141-346-246531724-0-16261588163527>": {
+            "type": "object",
+            "properties": {
+                "accountNumber": {
+                    "type": "number"
+                },
+                "accountType": {
+                    "type": "string",
+                    "enum": [
+                        "checking",
+                        "savings",
+                        "credit-card",
+                        "loan"
+                    ]
+                },
+                "routingNumber": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "accountNumber",
+                "accountType",
+                "routingNumber"
+            ],
+            "additionalProperties": false,
+            "description": "Action Contract Schema"
+        },
+        "ActionContractSchema<ActionContractSchema<alias-246531724-346-450-246531724-0-1626237990000>>": {
+            "$ref": "#/definitions/ActionContractSchema%3Calias-246531724-346-450-246531724-0-1626237990000%3E",
+            "description": "Action Contract Schema"
+        },
+        "ActionContractSchema<alias-246531724-346-450-246531724-0-1626237990000>": {
+            "$ref": "#/definitions/VerifyResponse",
+            "description": "Action Contract Schema"
+        },
+        "VerifyResponse": {
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "verified": {
+                            "type": "boolean",
+                            "const": true
+                        }
+                    },
+                    "required": [
+                        "verified"
+                    ],
+                    "additionalProperties": false
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "verified": {
+                            "type": "boolean",
+                            "const": false
+                        },
+                        "verifyFailureReason": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "verified",
+                        "verifyFailureReason"
+                    ],
+                    "additionalProperties": false
+                }
+            ]
+        }
+    }
+}
