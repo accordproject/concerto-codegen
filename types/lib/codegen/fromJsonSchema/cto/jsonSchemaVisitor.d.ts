@@ -28,14 +28,24 @@ declare class JsonSchemaVisitor {
      */
     private isDateTimeProperty;
     /**
-     * Returns true if the property contains an "anyOf" or a "oneOf" element.
+     * Returns true if the object contains an "anyOf" or a "oneOf" element.
      * @param {Object} property - a JSON Schema model property.
      *
-     * @return {Boolean} "true" if the property contains aan "anyOf" or a
+     * @return {Boolean} "true" if the object contains aan "anyOf" or a
      * "oneOf" element.
      * @private
      */
-    private doesPropertyContainAlternation;
+    private doesObjectContainAlternation;
+    /**
+     * Process a JSON Schema alternation object containing "anyOf" or a "oneOf"
+     * elements. Currently the first element of the alternation is returned and
+     * @param {Object} alternation - an object containing a JSON Schema
+     * alternation.
+     *
+     * @return {Object} a processed JSON Schema alternation object.
+     * @private
+     */
+    private processAlternation;
     /**
      * Flatten a property containing an "anyOf" or a "oneOf" element.
      * @param {Object} property - a JSON Schema model property.
