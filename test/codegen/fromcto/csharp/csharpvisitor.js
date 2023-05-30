@@ -247,25 +247,47 @@ describe('CSharpVisitor', function () {
             }
             `);
             [
-                true,
-                false
-            ].forEach((useNamespacePrefix) => {
-                let ns = useNamespacePrefix? 'custom.project.ns' : '';
-                csharpVisitor.visit(modelManager, { fileWriter, namespacePrefix: ns });
+                [true, false],
+                [false, false],
+                [true, true],
+                [false, true],
+            ].forEach(([useNamespacePrefix, pascalCase]) => {
+                let ns = '';
+                if (useNamespacePrefix) {
+                    ns = pascalCase? 'Custom.Project.Ns' : 'custom.project.ns';
+                }
+                csharpVisitor.visit(modelManager, { fileWriter, namespacePrefix: ns, pascalCase: pascalCase });
                 const files = fileWriter.getFilesInMemory();
                 const file1 = files.get('org.acme@1.2.3.cs');
                 file1.should.match(/class SameThing : Thing/); // should not resolve fqn as parent type belongs to same namespace
-                file1.should.match(/public Thing thing { get; set; }/); // should not resolve fqn as field type belongs to same namespace
                 if (useNamespacePrefix) {
-                    file1.should.match(/namespace custom.project.ns.org.acme;/);
-                    file1.should.match(/using custom.project.ns.org.acme.other;/);
-                    file1.should.match(/public custom.project.ns.org.acme.other.OtherThing otherThing { get; set; }/); // should resolve field type with fqn (including ns prefix)
-                    file1.should.match(/class SomeOtherThing : custom.project.ns.org.acme.other.OtherThing/); // should resolve parent type with fqn (including ns prefix)
+                    if (pascalCase) {
+                        file1.should.match(/namespace Custom.Project.Ns.Org.Acme;/);
+                        file1.should.match(/using Custom.Project.Ns.Org.Acme.Other;/);
+                        file1.should.match(/public Thing Thing { get; set; }/); // should not resolve fqn as field type belongs to same namespace
+                        file1.should.match(/public Custom.Project.Ns.Org.Acme.Other.OtherThing OtherThing { get; set; }/); // should resolve field type with fqn (including ns prefix)
+                        file1.should.match(/class SomeOtherThing : Custom.Project.Ns.Org.Acme.Other.OtherThing/); // should resolve parent type with fqn (including ns prefix)
+                    } else {
+                        file1.should.match(/namespace custom.project.ns.org.acme;/);
+                        file1.should.match(/using custom.project.ns.org.acme.other;/);
+                        file1.should.match(/public Thing thing { get; set; }/); // should not resolve fqn as field type belongs to same namespace
+                        file1.should.match(/public custom.project.ns.org.acme.other.OtherThing otherThing { get; set; }/); // should resolve field type with fqn (including ns prefix)
+                        file1.should.match(/class SomeOtherThing : custom.project.ns.org.acme.other.OtherThing/); // should resolve parent type with fqn (including ns prefix)
+                    }
                 } else {
-                    file1.should.match(/namespace org.acme;/);
-                    file1.should.match(/using org.acme.other;/);
-                    file1.should.match(/public org.acme.other.OtherThing otherThing { get; set; }/); // should resolve field type with fqn
-                    file1.should.match(/class SomeOtherThing : org.acme.other.OtherThing/); // should resolve parent type with fqn
+                    if (pascalCase) {
+                        file1.should.match(/namespace Org.Acme;/);
+                        file1.should.match(/using Org.Acme.Other;/);
+                        file1.should.match(/public Org.Acme.Other.OtherThing OtherThing { get; set; }/); // should resolve field type with fqn
+                        file1.should.match(/public Thing Thing { get; set; }/); // should not resolve fqn as field type belongs to same namespace
+                        file1.should.match(/class SomeOtherThing : Org.Acme.Other.OtherThing/); // should resolve parent type with fqn
+                    } else {
+                        file1.should.match(/namespace org.acme;/);
+                        file1.should.match(/using org.acme.other;/);
+                        file1.should.match(/public org.acme.other.OtherThing otherThing { get; set; }/); // should resolve field type with fqn
+                        file1.should.match(/public Thing thing { get; set; }/); // should not resolve fqn as field type belongs to same namespace
+                        file1.should.match(/class SomeOtherThing : org.acme.other.OtherThing/); // should resolve parent type with fqn
+                    }
                 }
             });
         });
