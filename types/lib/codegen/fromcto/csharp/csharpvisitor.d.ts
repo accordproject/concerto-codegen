@@ -179,4 +179,12 @@ declare class CSharpVisitor {
      * @returns {String} - value of decorator or null
      */
     private getDecoratorValue;
+    /**
+     * Apply proper casing to the string value
+     * @param {string} string value
+     * @param {boolean} isPascalCase flag to convert to pascalCase
+     * @returns {String} properly cased string value
+     * @private
+     */
+    private toCase;
 }
