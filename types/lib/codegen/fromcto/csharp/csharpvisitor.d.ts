@@ -49,6 +49,15 @@ declare class CSharpVisitor {
      */
     private visitClassDeclaration;
     /**
+     * Get dotnet namespace of a given type if it belongs to different namespace from associated concept/class
+     * @param {string} type name of the super type
+     * @param {ClassDeclaration} classDeclaration of the class
+     * @param {Object} parameters - the parameter
+     * @returns {string} the dotnet namespace of given type
+     * @private
+     */
+    private getDotNetNamespaceOfType;
+    /**
      * Visitor design pattern
      * @param {ScalarDeclaration} scalarDeclaration - the object being visited
      * @param {Object} parameters  - the parameter
@@ -170,4 +179,12 @@ declare class CSharpVisitor {
      * @returns {String} - value of decorator or null
      */
     private getDecoratorValue;
+    /**
+     * Apply proper casing to the string value
+     * @param {string} string value
+     * @param {boolean} isPascalCase flag to convert to pascalCase
+     * @returns {String} properly cased string value
+     * @private
+     */
+    private toCase;
 }

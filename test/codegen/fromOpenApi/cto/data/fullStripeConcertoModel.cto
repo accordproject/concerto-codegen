@@ -3,10 +3,10 @@ namespace com.test@1.0.0
 concept account {
   o account_business_profile business_profile optional
   o components$_schemas$_account$_properties$_business_type business_type optional
-  o undefined capabilities optional
+  o account_capabilities capabilities optional
   o Boolean charges_enabled optional
-  o undefined company optional
-  o undefined controller optional
+  o legal_entity_company company optional
+  o account_unification_account_controller controller optional
   o String country optional
   o Integer created optional
   o String default_currency optional
@@ -15,7 +15,7 @@ concept account {
   o components$_schemas$_account$_properties$_external_accounts external_accounts optional
   o account_future_requirements future_requirements optional
   o String id
-  o undefined individual optional
+  o person individual optional
   @StringifiedJson
   o String metadata optional
   o components$_schemas$_account$_properties$_object object
@@ -34,7 +34,7 @@ enum components$_schemas$_account$_properties$_business_type {
 }
 
 concept components$_schemas$_account$_properties$_external_accounts {
-  o undefined data
+  o bank_account data
   o Boolean has_more
   o components$_schemas$_account$_properties$_external_accounts$_properties$_object object
   o String url
@@ -322,7 +322,7 @@ concept account_capability_future_requirements {
   o Integer current_deadline optional
   o String[] currently_due
   o String disabled_reason optional
-  o undefined[] errors
+  o account_requirements_error[] errors
   o String[] eventually_due
   o String[] past_due
   o String[] pending_verification
@@ -333,7 +333,7 @@ concept account_capability_requirements {
   o Integer current_deadline optional
   o String[] currently_due
   o String disabled_reason optional
-  o undefined[] errors
+  o account_requirements_error[] errors
   o String[] eventually_due
   o String[] past_due
   o String[] pending_verification
@@ -365,7 +365,7 @@ concept account_future_requirements {
   o Integer current_deadline optional
   o String[] currently_due optional
   o String disabled_reason optional
-  o undefined[] errors optional
+  o account_requirements_error[] errors optional
   o String[] eventually_due optional
   o String[] past_due optional
   o String[] pending_verification optional
@@ -401,7 +401,7 @@ concept account_requirements {
   o Integer current_deadline optional
   o String[] currently_due optional
   o String disabled_reason optional
-  o undefined[] errors optional
+  o account_requirements_error[] errors optional
   o String[] eventually_due optional
   o String[] past_due optional
   o String[] pending_verification optional
@@ -529,12 +529,12 @@ concept api_errors {
   o String doc_url optional
   o String message optional
   o String param optional
-  o undefined payment_intent optional
-  o undefined payment_method optional
+  o payment_intent payment_intent optional
+  o payment_method payment_method optional
   o String payment_method_type optional
   o String request_log_url optional
-  o undefined setup_intent optional
-  o undefined source optional
+  o setup_intent setup_intent optional
+  o bank_account source optional
   o components$_schemas$_api_errors$_properties$_type type
 }
 
@@ -589,7 +589,7 @@ enum components$_schemas$_application_fee$_properties$_object {
 }
 
 concept components$_schemas$_application_fee$_properties$_refunds {
-  o undefined[] data
+  o fee_refund[] data
   o Boolean has_more
   o components$_schemas$_application_fee$_properties$_refunds$_properties$_object object
   o String url
@@ -608,7 +608,7 @@ concept apps_2esecret {
   o String name
   o components$_schemas$_apps_2esecret$_properties$_object object
   o String payload optional
-  o undefined scope
+  o secret_service_resource_scope scope
 }
 
 enum components$_schemas$_apps_2esecret$_properties$_object {
@@ -836,7 +836,7 @@ concept billing_portal_2esession {
   o String configuration
   o Integer created
   o String customer
-  o undefined flow optional
+  o portal_flows_flow flow optional
   o String id
   o Boolean livemode
   o components$_schemas$_billing_portal_2esession$_properties$_locale locale optional
@@ -965,7 +965,7 @@ enum components$_schemas$_card$_properties$_object {
 }
 
 concept card_generated_from_payment_method_details {
-  o undefined card_present optional
+  o payment_method_details_card_present card_present optional
   o String type
 }
 
@@ -984,7 +984,7 @@ concept cash_balance {
   o String customer
   o Boolean livemode
   o components$_schemas$_cash_balance$_properties$_object object
-  o undefined settings
+  o customer_balance_customer_balance_settings settings
 }
 
 enum components$_schemas$_cash_balance$_properties$_object {
@@ -1045,7 +1045,7 @@ enum components$_schemas$_charge$_properties$_object {
 }
 
 concept components$_schemas$_charge$_properties$_refunds {
-  o undefined[] data
+  o refund[] data
   o Boolean has_more
   o components$_schemas$_charge$_properties$_refunds$_properties$_object object
   o String url
@@ -1086,18 +1086,18 @@ concept checkout_2esession {
   o Boolean allow_promotion_codes optional
   o Integer amount_subtotal optional
   o Integer amount_total optional
-  o undefined automatic_tax
+  o payment_pages_checkout_session_automatic_tax automatic_tax
   o components$_schemas$_checkout_2esession$_properties$_billing_address_collection billing_address_collection optional
   o String cancel_url optional
   o String client_reference_id optional
-  o undefined consent optional
-  o undefined consent_collection optional
+  o payment_pages_checkout_session_consent consent optional
+  o payment_pages_checkout_session_consent_collection consent_collection optional
   o Integer created
   o String currency optional
   o payment_pages_checkout_session_custom_text custom_text
   o String customer optional
   o components$_schemas$_checkout_2esession$_properties$_customer_creation customer_creation optional
-  o undefined customer_details optional
+  o payment_pages_checkout_session_customer_details customer_details optional
   o String customer_email optional
   o Integer expires_at
   o String id
@@ -1119,7 +1119,7 @@ concept checkout_2esession {
   o payment_pages_checkout_session_phone_number_collection phone_number_collection optional
   o String recovered_from optional
   o String setup_intent optional
-  o undefined shipping_address_collection optional
+  o payment_pages_checkout_session_shipping_address_collection shipping_address_collection optional
   o payment_pages_checkout_session_shipping_cost shipping_cost optional
   o shipping shipping_details optional
   o payment_pages_checkout_session_shipping_option[] shipping_options
@@ -1143,7 +1143,7 @@ enum components$_schemas$_checkout_2esession$_properties$_customer_creation {
 }
 
 concept components$_schemas$_checkout_2esession$_properties$_line_items {
-  o undefined[] data
+  o item[] data
   o Boolean has_more
   o components$_schemas$_checkout_2esession$_properties$_line_items$_properties$_object object
   o String url
@@ -1257,7 +1257,7 @@ enum components$_schemas$_checkout_acss_debit_mandate_options$_properties$_trans
 
 concept checkout_acss_debit_payment_method_options {
   o components$_schemas$_checkout_acss_debit_payment_method_options$_properties$_currency currency optional
-  o undefined mandate_options optional
+  o checkout_acss_debit_mandate_options mandate_options optional
   o components$_schemas$_checkout_acss_debit_payment_method_options$_properties$_setup_future_usage setup_future_usage optional
   o components$_schemas$_checkout_acss_debit_payment_method_options$_properties$_verification_method verification_method optional
 }
@@ -1358,7 +1358,7 @@ enum components$_schemas$_checkout_card_payment_method_options$_properties$_setu
 }
 
 concept checkout_customer_balance_bank_transfer_payment_method_options {
-  o undefined eu_bank_transfer optional
+  o payment_method_options_customer_balance_eu_bank_account eu_bank_transfer optional
   o components$_schemas$_checkout_customer_balance_bank_transfer_payment_method_options$_properties$_requested_address_types[] requested_address_types optional
   o components$_schemas$_checkout_customer_balance_bank_transfer_payment_method_options$_properties$_type type optional
 }
@@ -1379,7 +1379,7 @@ enum components$_schemas$_checkout_customer_balance_bank_transfer_payment_method
 }
 
 concept checkout_customer_balance_payment_method_options {
-  o undefined bank_transfer optional
+  o checkout_customer_balance_bank_transfer_payment_method_options bank_transfer optional
   o components$_schemas$_checkout_customer_balance_payment_method_options$_properties$_funding_type funding_type optional
   o components$_schemas$_checkout_customer_balance_payment_method_options$_properties$_setup_future_usage setup_future_usage optional
 }
@@ -1491,30 +1491,30 @@ enum components$_schemas$_checkout_sepa_debit_payment_method_options$_properties
 }
 
 concept checkout_session_payment_method_options {
-  o undefined acss_debit optional
-  o undefined affirm optional
-  o undefined afterpay_clearpay optional
-  o undefined alipay optional
-  o undefined au_becs_debit optional
-  o undefined bacs_debit optional
-  o undefined bancontact optional
-  o undefined boleto optional
-  o undefined card optional
-  o undefined customer_balance optional
-  o undefined eps optional
-  o undefined fpx optional
-  o undefined giropay optional
-  o undefined grabpay optional
-  o undefined ideal optional
-  o undefined klarna optional
-  o undefined konbini optional
-  o undefined oxxo optional
-  o undefined p24 optional
-  o undefined paynow optional
+  o checkout_acss_debit_payment_method_options acss_debit optional
+  o checkout_affirm_payment_method_options affirm optional
+  o checkout_afterpay_clearpay_payment_method_options afterpay_clearpay optional
+  o checkout_alipay_payment_method_options alipay optional
+  o checkout_au_becs_debit_payment_method_options au_becs_debit optional
+  o checkout_bacs_debit_payment_method_options bacs_debit optional
+  o checkout_bancontact_payment_method_options bancontact optional
+  o checkout_boleto_payment_method_options boleto optional
+  o checkout_card_payment_method_options card optional
+  o checkout_customer_balance_payment_method_options customer_balance optional
+  o checkout_eps_payment_method_options eps optional
+  o checkout_fpx_payment_method_options fpx optional
+  o checkout_giropay_payment_method_options giropay optional
+  o checkout_grab_pay_payment_method_options grabpay optional
+  o checkout_ideal_payment_method_options ideal optional
+  o checkout_klarna_payment_method_options klarna optional
+  o checkout_konbini_payment_method_options konbini optional
+  o checkout_oxxo_payment_method_options oxxo optional
+  o checkout_p24_payment_method_options p24 optional
+  o checkout_paynow_payment_method_options paynow optional
   o checkout_pix_payment_method_options pix optional
-  o undefined sepa_debit optional
-  o undefined sofort optional
-  o undefined us_bank_account optional
+  o checkout_sepa_debit_payment_method_options sepa_debit optional
+  o checkout_sofort_payment_method_options sofort optional
+  o checkout_us_bank_account_payment_method_options us_bank_account optional
 }
 
 concept checkout_sofort_payment_method_options {
@@ -1526,7 +1526,7 @@ enum components$_schemas$_checkout_sofort_payment_method_options$_properties$_se
 }
 
 concept checkout_us_bank_account_payment_method_options {
-  o undefined financial_connections optional
+  o linked_account_options_us_bank_account financial_connections optional
   o components$_schemas$_checkout_us_bank_account_payment_method_options$_properties$_setup_future_usage setup_future_usage optional
   o components$_schemas$_checkout_us_bank_account_payment_method_options$_properties$_verification_method verification_method optional
 }
@@ -1653,7 +1653,7 @@ concept credit_note {
 }
 
 concept components$_schemas$_credit_note$_properties$_lines {
-  o undefined[] data
+  o credit_note_line_item[] data
   o Boolean has_more
   o components$_schemas$_credit_note$_properties$_lines$_properties$_object object
   o String url
@@ -1696,7 +1696,7 @@ concept credit_note_line_item {
   o components$_schemas$_credit_note_line_item$_properties$_object object
   o Integer quantity optional
   o credit_note_tax_amount[] tax_amounts
-  o undefined[] tax_rates
+  o tax_rate[] tax_rates
   o components$_schemas$_credit_note_line_item$_properties$_type type
   o Integer unit_amount optional
   o String unit_amount_decimal optional
@@ -1741,13 +1741,13 @@ concept custom_unit_amount {
 concept customer {
   o address address optional
   o Integer balance optional
-  o undefined cash_balance optional
+  o cash_balance cash_balance optional
   o Integer created
   o String currency optional
   o String default_source optional
   o Boolean delinquent optional
   o String description optional
-  o undefined discount optional
+  o discount discount optional
   o String email optional
   o String id
   @StringifiedJson
@@ -1765,7 +1765,7 @@ concept customer {
   o shipping shipping optional
   o components$_schemas$_customer$_properties$_sources sources optional
   o components$_schemas$_customer$_properties$_subscriptions subscriptions optional
-  o undefined tax optional
+  o customer_tax tax optional
   o components$_schemas$_customer$_properties$_tax_exempt tax_exempt optional
   o components$_schemas$_customer$_properties$_tax_ids tax_ids optional
   o String test_clock optional
@@ -1776,7 +1776,7 @@ enum components$_schemas$_customer$_properties$_object {
 }
 
 concept components$_schemas$_customer$_properties$_sources {
-  o undefined data
+  o bank_account data
   o Boolean has_more
   o components$_schemas$_customer$_properties$_sources$_properties$_object object
   o String url
@@ -1787,7 +1787,7 @@ enum components$_schemas$_customer$_properties$_sources$_properties$_object {
 }
 
 concept components$_schemas$_customer$_properties$_subscriptions {
-  o undefined[] data
+  o subscription[] data
   o Boolean has_more
   o components$_schemas$_customer$_properties$_subscriptions$_properties$_object object
   o String url
@@ -1804,7 +1804,7 @@ enum components$_schemas$_customer$_properties$_tax_exempt {
 }
 
 concept components$_schemas$_customer$_properties$_tax_ids {
-  o undefined[] data
+  o tax_id[] data
   o Boolean has_more
   o components$_schemas$_customer$_properties$_tax_ids$_properties$_object object
   o String url
@@ -1841,7 +1841,7 @@ concept customer_balance_resource_cash_balance_transaction_resource_applied_to_p
 }
 
 concept customer_balance_resource_cash_balance_transaction_resource_funded_transaction {
-  o undefined bank_transfer
+  o customer_balance_resource_cash_balance_transaction_resource_funded_transaction_resource_bank_transfer bank_transfer
 }
 
 concept customer_balance_resource_cash_balance_transaction_resource_funded_transaction_resource_bank_transfer {
@@ -1937,7 +1937,7 @@ enum components$_schemas$_customer_cash_balance_transaction$_properties$_type {
 concept customer_tax {
   o components$_schemas$_customer_tax$_properties$_automatic_tax automatic_tax
   o String ip_address optional
-  o undefined location optional
+  o customer_tax_location location optional
 }
 
 enum components$_schemas$_customer_tax$_properties$_automatic_tax {
@@ -2063,7 +2063,7 @@ enum components$_schemas$_deleted_customer$_properties$_object {
 
 concept deleted_discount {
   o String checkout_session optional
-  o undefined coupon
+  o coupon coupon
   o String customer optional
   o components$_schemas$_deleted_discount$_properties$_deleted deleted
   o String id
@@ -2295,7 +2295,7 @@ enum components$_schemas$_deleted_webhook_endpoint$_properties$_object {
 
 concept discount {
   o String checkout_session optional
-  o undefined coupon
+  o coupon coupon
   o String customer optional
   o Integer end optional
   o String id
@@ -2318,7 +2318,7 @@ concept discounts_resource_discount_amount {
 
 concept dispute {
   o Integer amount
-  o undefined[] balance_transactions
+  o balance_transaction[] balance_transactions
   o String charge
   o Integer created
   o String currency
@@ -2406,7 +2406,7 @@ enum components$_schemas$_ephemeral_key$_properties$_object {
 }
 
 concept error {
-  o undefined error
+  o api_errors error
 }
 
 concept event {
@@ -2476,7 +2476,7 @@ concept file {
 }
 
 concept components$_schemas$_file$_properties$_links {
-  o undefined[] data
+  o file_link[] data
   o Boolean has_more
   o components$_schemas$_file$_properties$_links$_properties$_object object
   o String url regex=/^/v1/file_links/
@@ -2526,9 +2526,9 @@ enum components$_schemas$_file_link$_properties$_object {
 }
 
 concept financial_connections_2eaccount {
-  o undefined account_holder optional
-  o undefined balance optional
-  o undefined balance_refresh optional
+  o bank_connections_resource_accountholder account_holder optional
+  o bank_connections_resource_balance balance optional
+  o bank_connections_resource_balance_refresh balance_refresh optional
   o components$_schemas$_financial_connections_2eaccount$_properties$_category category
   o Integer created
   o String display_name optional
@@ -2538,7 +2538,7 @@ concept financial_connections_2eaccount {
   o Boolean livemode
   o components$_schemas$_financial_connections_2eaccount$_properties$_object object
   o String ownership optional
-  o undefined ownership_refresh optional
+  o bank_connections_resource_ownership_refresh ownership_refresh optional
   o components$_schemas$_financial_connections_2eaccount$_properties$_permissions[] permissions optional
   o components$_schemas$_financial_connections_2eaccount$_properties$_status status
   o components$_schemas$_financial_connections_2eaccount$_properties$_subcategory subcategory
@@ -2610,7 +2610,7 @@ enum components$_schemas$_financial_connections_2eaccount_ownership$_properties$
 }
 
 concept components$_schemas$_financial_connections_2eaccount_ownership$_properties$_owners {
-  o undefined[] data
+  o financial_connections_2eaccount_owner[] data
   o Boolean has_more
   o components$_schemas$_financial_connections_2eaccount_ownership$_properties$_owners$_properties$_object object
   o String url
@@ -2621,7 +2621,7 @@ enum components$_schemas$_financial_connections_2eaccount_ownership$_properties$
 }
 
 concept financial_connections_2esession {
-  o undefined account_holder optional
+  o bank_connections_resource_accountholder account_holder optional
   o components$_schemas$_financial_connections_2esession$_properties$_accounts accounts
   o String client_secret
   o bank_connections_resource_link_account_session_filters filters optional
@@ -2633,7 +2633,7 @@ concept financial_connections_2esession {
 }
 
 concept components$_schemas$_financial_connections_2esession$_properties$_accounts {
-  o undefined[] data
+  o financial_connections_2eaccount[] data
   o Boolean has_more
   o components$_schemas$_financial_connections_2esession$_properties$_accounts$_properties$_object object
   o String url regex=/^/v1/financial_connections/accounts/
@@ -2666,7 +2666,7 @@ concept financial_reporting_finance_report_run_run_parameters {
 }
 
 concept funding_instructions {
-  o undefined bank_transfer
+  o funding_instructions_bank_transfer bank_transfer
   o String currency
   o components$_schemas$_funding_instructions$_properties$_funding_type funding_type
   o Boolean livemode
@@ -2683,7 +2683,7 @@ enum components$_schemas$_funding_instructions$_properties$_object {
 
 concept funding_instructions_bank_transfer {
   o String country
-  o undefined[] financial_addresses
+  o funding_instructions_bank_transfer_financial_address[] financial_addresses
   o components$_schemas$_funding_instructions_bank_transfer$_properties$_type type
 }
 
@@ -2778,7 +2778,7 @@ concept gelato_data_verified_outputs_date {
 concept gelato_document_report {
   o address address optional
   o gelato_data_document_report_date_of_birth dob optional
-  o undefined error optional
+  o gelato_document_report_error error optional
   o gelato_data_document_report_expiration_date expiration_date optional
   o String[] files optional
   o String first_name optional
@@ -2814,7 +2814,7 @@ enum components$_schemas$_gelato_document_report_error$_properties$_code {
 
 concept gelato_id_number_report {
   o gelato_data_id_number_report_date dob optional
-  o undefined error optional
+  o gelato_id_number_report_error error optional
   o String first_name optional
   o String id_number optional
   o components$_schemas$_gelato_id_number_report$_properties$_id_number_type id_number_type optional
@@ -2862,7 +2862,7 @@ concept gelato_report_id_number_options {
 
 concept gelato_selfie_report {
   o String document optional
-  o undefined error optional
+  o gelato_selfie_report_error error optional
   o String selfie optional
   o components$_schemas$_gelato_selfie_report$_properties$_status status
 }
@@ -2924,12 +2924,12 @@ enum components$_schemas$_gelato_session_last_error$_properties$_code {
 }
 
 concept gelato_verification_report_options {
-  o undefined document optional
+  o gelato_report_document_options document optional
   o gelato_report_id_number_options id_number optional
 }
 
 concept gelato_verification_session_options {
-  o undefined document optional
+  o gelato_session_document_options document optional
   o gelato_session_id_number_options id_number optional
 }
 
@@ -2950,13 +2950,13 @@ enum components$_schemas$_gelato_verified_outputs$_properties$_id_number_type {
 
 concept identity_2everification_report {
   o Integer created
-  o undefined document optional
+  o gelato_document_report document optional
   o String id
-  o undefined id_number optional
+  o gelato_id_number_report id_number optional
   o Boolean livemode
   o components$_schemas$_identity_2everification_report$_properties$_object object
   o gelato_verification_report_options options
-  o undefined selfie optional
+  o gelato_selfie_report selfie optional
   o components$_schemas$_identity_2everification_report$_properties$_type type
   o String verification_session optional
 }
@@ -2974,18 +2974,18 @@ concept identity_2everification_session {
   o String client_secret optional
   o Integer created
   o String id
-  o undefined last_error optional
+  o gelato_session_last_error last_error optional
   o String last_verification_report optional
   o Boolean livemode
   @StringifiedJson
   o String metadata
   o components$_schemas$_identity_2everification_session$_properties$_object object
   o gelato_verification_session_options options
-  o undefined redaction optional
+  o verification_session_redaction redaction optional
   o components$_schemas$_identity_2everification_session$_properties$_status status
   o components$_schemas$_identity_2everification_session$_properties$_type type
   o String url optional
-  o undefined verified_outputs optional
+  o gelato_verified_outputs verified_outputs optional
 }
 
 enum components$_schemas$_identity_2everification_session$_properties$_object {
@@ -3007,7 +3007,7 @@ enum components$_schemas$_identity_2everification_session$_properties$_type {
 concept inbound_transfers {
   o treasury_shared_resource_billing_details billing_details
   o components$_schemas$_inbound_transfers$_properties$_type type
-  o undefined us_bank_account optional
+  o inbound_transfers_payment_method_details_us_bank_account us_bank_account optional
 }
 
 enum components$_schemas$_inbound_transfers$_properties$_type {
@@ -3050,7 +3050,7 @@ concept invoice {
   o Integer attempt_count
   o Boolean attempted
   o Boolean auto_advance optional
-  o undefined automatic_tax
+  o automatic_tax automatic_tax
   o components$_schemas$_invoice$_properties$_billing_reason billing_reason optional
   o String charge optional
   o components$_schemas$_invoice$_properties$_collection_method collection_method
@@ -3064,12 +3064,12 @@ concept invoice {
   o String customer_phone optional
   o shipping customer_shipping optional
   o components$_schemas$_invoice$_properties$_customer_tax_exempt customer_tax_exempt optional
-  o undefined[] customer_tax_ids optional
+  o invoices_resource_invoice_tax_id[] customer_tax_ids optional
   o String default_payment_method optional
   o String default_source optional
-  o undefined[] default_tax_rates
+  o tax_rate[] default_tax_rates
   o String description optional
-  o undefined discount optional
+  o discount discount optional
   o String discounts optional
   o Integer due_date optional
   o Integer ending_balance optional
@@ -3078,7 +3078,7 @@ concept invoice {
   o String hosted_invoice_url optional
   o String id optional
   o String invoice_pdf optional
-  o undefined last_finalization_error optional
+  o api_errors last_finalization_error optional
   o String latest_revision optional
   o components$_schemas$_invoice$_properties$_lines lines
   o Boolean livemode
@@ -3091,7 +3091,7 @@ concept invoice {
   o Boolean paid
   o Boolean paid_out_of_band
   o String payment_intent optional
-  o undefined payment_settings
+  o invoices_payment_settings payment_settings
   o Integer period_end
   o Integer period_start
   o Integer post_payment_credit_notes_amount
@@ -3142,7 +3142,7 @@ enum components$_schemas$_invoice$_properties$_customer_tax_exempt {
 }
 
 concept components$_schemas$_invoice$_properties$_lines {
-  o undefined[] data
+  o line_item[] data
   o Boolean has_more
   o components$_schemas$_invoice$_properties$_lines$_properties$_object object
   o String url
@@ -3191,7 +3191,7 @@ enum components$_schemas$_invoice_mandate_options_card$_properties$_amount_type 
 }
 
 concept invoice_payment_method_options_acss_debit {
-  o undefined mandate_options optional
+  o invoice_payment_method_options_acss_debit_mandate_options mandate_options optional
   o components$_schemas$_invoice_payment_method_options_acss_debit$_properties$_verification_method verification_method optional
 }
 
@@ -3241,7 +3241,7 @@ enum components$_schemas$_invoice_payment_method_options_customer_balance$_prope
 }
 
 concept invoice_payment_method_options_customer_balance_bank_transfer {
-  o undefined eu_bank_transfer optional
+  o invoice_payment_method_options_customer_balance_bank_transfer_eu_bank_transfer eu_bank_transfer optional
   o String type optional
 }
 
@@ -3261,7 +3261,7 @@ concept invoice_payment_method_options_konbini {
 }
 
 concept invoice_payment_method_options_us_bank_account {
-  o undefined financial_connections optional
+  o invoice_payment_method_options_us_bank_account_linked_account_options financial_connections optional
   o components$_schemas$_invoice_payment_method_options_us_bank_account$_properties$_verification_method verification_method optional
 }
 
@@ -3336,12 +3336,12 @@ concept invoiceitem {
   o String metadata optional
   o components$_schemas$_invoiceitem$_properties$_object object
   o invoice_line_item_period period
-  o undefined price optional
+  o price price optional
   o Boolean proration
   o Integer quantity
   o String subscription optional
   o String subscription_item optional
-  o undefined[] tax_rates optional
+  o tax_rate[] tax_rates optional
   o String test_clock optional
   o Integer unit_amount optional
   o String unit_amount_decimal optional
@@ -3366,12 +3366,12 @@ concept invoices_line_items_proration_details {
 }
 
 concept invoices_payment_method_options {
-  o undefined acss_debit optional
-  o undefined bancontact optional
-  o undefined card optional
-  o undefined customer_balance optional
+  o invoice_payment_method_options_acss_debit acss_debit optional
+  o invoice_payment_method_options_bancontact bancontact optional
+  o invoice_payment_method_options_card card optional
+  o invoice_payment_method_options_customer_balance customer_balance optional
   o invoice_payment_method_options_konbini konbini optional
-  o undefined us_bank_account optional
+  o invoice_payment_method_options_us_bank_account us_bank_account optional
 }
 
 concept invoices_payment_settings {
@@ -3476,8 +3476,8 @@ concept issuing_2eauthorization {
   o issuing_authorization_amount_details amount_details optional
   o Boolean approved
   o components$_schemas$_issuing_2eauthorization$_properties$_authorization_method authorization_method
-  o undefined[] balance_transactions
-  o undefined card
+  o balance_transaction[] balance_transactions
+  o issuing_2ecard card
   o String cardholder optional
   o Integer created
   o String currency
@@ -3491,11 +3491,11 @@ concept issuing_2eauthorization {
   o issuing_authorization_network_data network_data optional
   o components$_schemas$_issuing_2eauthorization$_properties$_object object
   o issuing_authorization_pending_request pending_request optional
-  o undefined[] request_history
+  o issuing_authorization_request[] request_history
   o components$_schemas$_issuing_2eauthorization$_properties$_status status
-  o undefined[] transactions
+  o issuing_2etransaction[] transactions
   o issuing_authorization_treasury treasury optional
-  o undefined verification_data
+  o issuing_authorization_verification_data verification_data
   o String wallet optional
 }
 
@@ -3520,7 +3520,7 @@ enum components$_schemas$_issuing_2eauthorization$_properties$_status {
 concept issuing_2ecard {
   o String brand
   o components$_schemas$_issuing_2ecard$_properties$_cancellation_reason cancellation_reason optional
-  o undefined cardholder
+  o issuing_2ecardholder cardholder
   o Integer created
   o String currency
   o String cvc optional
@@ -3537,8 +3537,8 @@ concept issuing_2ecard {
   o String replaced_by optional
   o String replacement_for optional
   o components$_schemas$_issuing_2ecard$_properties$_replacement_reason replacement_reason optional
-  o undefined shipping optional
-  o undefined spending_controls
+  o issuing_card_shipping shipping optional
+  o issuing_card_authorization_controls spending_controls
   o components$_schemas$_issuing_2ecard$_properties$_status status
   o components$_schemas$_issuing_2ecard$_properties$_type type
   o issuing_card_wallets wallets optional
@@ -3585,8 +3585,8 @@ concept issuing_2ecardholder {
   o String name
   o components$_schemas$_issuing_2ecardholder$_properties$_object object
   o String phone_number optional
-  o undefined requirements
-  o undefined spending_controls optional
+  o issuing_cardholder_requirements requirements
+  o issuing_cardholder_authorization_controls spending_controls optional
   o components$_schemas$_issuing_2ecardholder$_properties$_status status
   o components$_schemas$_issuing_2ecardholder$_properties$_type type
 }
@@ -3608,10 +3608,10 @@ enum components$_schemas$_issuing_2ecardholder$_properties$_type {
 
 concept issuing_2edispute {
   o Integer amount
-  o undefined[] balance_transactions optional
+  o balance_transaction[] balance_transactions optional
   o Integer created
   o String currency
-  o undefined evidence
+  o issuing_dispute_evidence evidence
   o String id
   o Boolean livemode
   @StringifiedJson
@@ -3809,7 +3809,7 @@ enum components$_schemas$_issuing_card_apple_pay$_properties$_ineligible_reason 
 concept issuing_card_authorization_controls {
   o components$_schemas$_issuing_card_authorization_controls$_properties$_allowed_categories[] allowed_categories optional
   o components$_schemas$_issuing_card_authorization_controls$_properties$_blocked_categories[] blocked_categories optional
-  o undefined[] spending_limits optional
+  o issuing_card_spending_limit[] spending_limits optional
   o String spending_limits_currency optional
 }
 
@@ -4759,8 +4759,8 @@ enum components$_schemas$_issuing_card_spending_limit$_properties$_interval {
 }
 
 concept issuing_card_wallets {
-  o undefined apple_pay
-  o undefined google_pay
+  o issuing_card_apple_pay apple_pay
+  o issuing_card_google_pay google_pay
   o String primary_account_identifier optional
 }
 
@@ -4771,7 +4771,7 @@ concept issuing_cardholder_address {
 concept issuing_cardholder_authorization_controls {
   o components$_schemas$_issuing_cardholder_authorization_controls$_properties$_allowed_categories[] allowed_categories optional
   o components$_schemas$_issuing_cardholder_authorization_controls$_properties$_blocked_categories[] blocked_categories optional
-  o undefined[] spending_limits optional
+  o issuing_cardholder_spending_limit[] spending_limits optional
   o String spending_limits_currency optional
 }
 
@@ -5743,12 +5743,12 @@ concept issuing_dispute_duplicate_evidence {
 }
 
 concept issuing_dispute_evidence {
-  o undefined canceled optional
+  o issuing_dispute_canceled_evidence canceled optional
   o issuing_dispute_duplicate_evidence duplicate optional
   o issuing_dispute_fraudulent_evidence fraudulent optional
-  o undefined merchandise_not_as_described optional
-  o undefined not_received optional
-  o undefined other optional
+  o issuing_dispute_merchandise_not_as_described_evidence merchandise_not_as_described optional
+  o issuing_dispute_not_received_evidence not_received optional
+  o issuing_dispute_other_evidence other optional
   o components$_schemas$_issuing_dispute_evidence$_properties$_reason reason
   o issuing_dispute_service_not_as_described_evidence service_not_as_described optional
 }
@@ -5883,7 +5883,7 @@ concept item {
   o line_items_discount_amount[] discounts optional
   o String id
   o components$_schemas$_item$_properties$_object object
-  o undefined price optional
+  o price price optional
   o Integer quantity optional
   o line_items_tax_amount[] taxes optional
 }
@@ -5997,14 +5997,14 @@ concept line_item {
   o String metadata
   o components$_schemas$_line_item$_properties$_object object
   o invoice_line_item_period period
-  o undefined price optional
+  o price price optional
   o Boolean proration
   o invoices_line_items_proration_details proration_details optional
   o Integer quantity optional
   o String subscription optional
   o String subscription_item optional
   o invoice_tax_amount[] tax_amounts optional
-  o undefined[] tax_rates optional
+  o tax_rate[] tax_rates optional
   o components$_schemas$_line_item$_properties$_type type
   o String unit_amount_excluding_tax optional
 }
@@ -6020,12 +6020,12 @@ enum components$_schemas$_line_item$_properties$_type {
 
 concept line_items_discount_amount {
   o Integer amount
-  o undefined discount
+  o discount discount
 }
 
 concept line_items_tax_amount {
   o Integer amount
-  o undefined rate
+  o tax_rate rate
 }
 
 concept linked_account_options_us_bank_account {
@@ -6051,7 +6051,7 @@ enum components$_schemas$_login_link$_properties$_object {
 }
 
 concept mandate {
-  o undefined customer_acceptance
+  o customer_acceptance customer_acceptance
   o String id
   o Boolean livemode
   o mandate_multi_use multi_use optional
@@ -6120,7 +6120,7 @@ enum components$_schemas$_mandate_bacs_debit$_properties$_network_status {
 
 concept mandate_blik {
   o Integer expires_after optional
-  o undefined off_session optional
+  o mandate_options_off_session_details_blik off_session optional
   o components$_schemas$_mandate_blik$_properties$_type type optional
 }
 
@@ -6150,10 +6150,10 @@ enum components$_schemas$_mandate_options_off_session_details_blik$_properties$_
 }
 
 concept mandate_payment_method_details {
-  o undefined acss_debit optional
+  o mandate_acss_debit acss_debit optional
   o mandate_au_becs_debit au_becs_debit optional
-  o undefined bacs_debit optional
-  o undefined blik optional
+  o mandate_bacs_debit bacs_debit optional
+  o mandate_blik blik optional
   o card_mandate_payment_method_details card optional
   o mandate_link link optional
   o mandate_sepa_debit sepa_debit optional
@@ -6201,9 +6201,9 @@ concept online_acceptance {
 
 concept outbound_payments_payment_method_details {
   o treasury_shared_resource_billing_details billing_details
-  o undefined financial_account optional
+  o outbound_payments_payment_method_details_financial_account financial_account optional
   o components$_schemas$_outbound_payments_payment_method_details$_properties$_type type
-  o undefined us_bank_account optional
+  o outbound_payments_payment_method_details_us_bank_account us_bank_account optional
 }
 
 enum components$_schemas$_outbound_payments_payment_method_details$_properties$_type {
@@ -6248,7 +6248,7 @@ enum components$_schemas$_outbound_payments_payment_method_details_us_bank_accou
 concept outbound_transfers_payment_method_details {
   o treasury_shared_resource_billing_details billing_details
   o components$_schemas$_outbound_transfers_payment_method_details$_properties$_type type
-  o undefined us_bank_account optional
+  o outbound_transfers_payment_method_details_us_bank_account us_bank_account optional
 }
 
 enum components$_schemas$_outbound_transfers_payment_method_details$_properties$_type {
@@ -6301,7 +6301,7 @@ concept payment_flows_automatic_payment_methods_payment_intent {
 
 concept payment_flows_installment_options {
   o Boolean enabled
-  o undefined plan optional
+  o payment_method_details_card_installments_plan plan optional
 }
 
 concept payment_flows_private_payment_methods_alipay {
@@ -6338,7 +6338,7 @@ concept payment_intent {
   o String description optional
   o String id
   o String invoice optional
-  o undefined last_payment_error optional
+  o api_errors last_payment_error optional
   o String latest_charge optional
   o Boolean livemode
   @StringifiedJson
@@ -6349,7 +6349,7 @@ concept payment_intent {
   o String payment_method optional
   o payment_intent_payment_method_options payment_method_options optional
   o String[] payment_method_types
-  o undefined processing optional
+  o payment_intent_processing processing optional
   o String receipt_email optional
   o String review optional
   o components$_schemas$_payment_intent$_properties$_setup_future_usage setup_future_usage optional
@@ -6408,7 +6408,7 @@ concept payment_intent_next_action {
   o payment_intent_next_action_alipay_handle_redirect alipay_handle_redirect optional
   o payment_intent_next_action_boleto boleto_display_details optional
   o payment_intent_next_action_card_await_notification card_await_notification optional
-  o undefined display_bank_transfer_instructions optional
+  o payment_intent_next_action_display_bank_transfer_instructions display_bank_transfer_instructions optional
   o payment_intent_next_action_konbini konbini_display_details optional
   o payment_intent_next_action_display_oxxo_details oxxo_display_details optional
   o payment_intent_next_action_paynow_display_qr_code paynow_display_qr_code optional
@@ -6418,7 +6418,7 @@ concept payment_intent_next_action {
   o String type
   @StringifiedJson
   o String use_stripe_sdk optional
-  o undefined verify_with_microdeposits optional
+  o payment_intent_next_action_verify_with_microdeposits verify_with_microdeposits optional
   o payment_intent_next_action_wechat_pay_display_qr_code wechat_pay_display_qr_code optional
   o payment_intent_next_action_wechat_pay_redirect_to_android_app wechat_pay_redirect_to_android_app optional
   o payment_intent_next_action_wechat_pay_redirect_to_ios_app wechat_pay_redirect_to_ios_app optional
@@ -6446,7 +6446,7 @@ concept payment_intent_next_action_card_await_notification {
 concept payment_intent_next_action_display_bank_transfer_instructions {
   o Integer amount_remaining optional
   o String currency optional
-  o undefined[] financial_addresses optional
+  o funding_instructions_bank_transfer_financial_address[] financial_addresses optional
   o String hosted_instructions_url optional
   o String reference optional
   o components$_schemas$_payment_intent_next_action_display_bank_transfer_instructions$_properties$_type type
@@ -6559,40 +6559,40 @@ concept payment_intent_next_action_wechat_pay_redirect_to_ios_app {
 }
 
 concept payment_intent_payment_method_options {
-  o undefined acss_debit optional
-  o undefined affirm optional
-  o undefined afterpay_clearpay optional
-  o undefined alipay optional
-  o undefined au_becs_debit optional
-  o undefined bacs_debit optional
-  o undefined bancontact optional
+  o payment_intent_payment_method_options_acss_debit acss_debit optional
+  o payment_method_options_affirm affirm optional
+  o payment_method_options_afterpay_clearpay afterpay_clearpay optional
+  o payment_method_options_alipay alipay optional
+  o payment_intent_payment_method_options_au_becs_debit au_becs_debit optional
+  o payment_method_options_bacs_debit bacs_debit optional
+  o payment_method_options_bancontact bancontact optional
   o payment_intent_payment_method_options_blik blik optional
-  o undefined boleto optional
-  o undefined card optional
+  o payment_method_options_boleto boleto optional
+  o payment_intent_payment_method_options_card card optional
   o payment_method_options_card_present card_present optional
-  o undefined customer_balance optional
-  o undefined eps optional
-  o undefined fpx optional
-  o undefined giropay optional
-  o undefined grabpay optional
-  o undefined ideal optional
+  o payment_method_options_customer_balance customer_balance optional
+  o payment_intent_payment_method_options_eps eps optional
+  o payment_method_options_fpx fpx optional
+  o payment_method_options_giropay giropay optional
+  o payment_method_options_grabpay grabpay optional
+  o payment_method_options_ideal ideal optional
   o payment_method_options_interac_present interac_present optional
-  o undefined klarna optional
-  o undefined konbini optional
-  o undefined link optional
-  o undefined oxxo optional
-  o undefined p24 optional
-  o undefined paynow optional
-  o undefined pix optional
-  o undefined promptpay optional
-  o undefined sepa_debit optional
-  o undefined sofort optional
-  o undefined us_bank_account optional
-  o undefined wechat_pay optional
+  o payment_method_options_klarna klarna optional
+  o payment_method_options_konbini konbini optional
+  o payment_intent_payment_method_options_link link optional
+  o payment_method_options_oxxo oxxo optional
+  o payment_method_options_p24 p24 optional
+  o payment_method_options_paynow paynow optional
+  o payment_method_options_pix pix optional
+  o payment_method_options_promptpay promptpay optional
+  o payment_intent_payment_method_options_sepa_debit sepa_debit optional
+  o payment_method_options_sofort sofort optional
+  o payment_intent_payment_method_options_us_bank_account us_bank_account optional
+  o payment_method_options_wechat_pay wechat_pay optional
 }
 
 concept payment_intent_payment_method_options_acss_debit {
-  o undefined mandate_options optional
+  o payment_intent_payment_method_options_mandate_options_acss_debit mandate_options optional
   o components$_schemas$_payment_intent_payment_method_options_acss_debit$_properties$_setup_future_usage setup_future_usage optional
   o components$_schemas$_payment_intent_payment_method_options_acss_debit$_properties$_verification_method verification_method optional
 }
@@ -6625,7 +6625,7 @@ concept payment_intent_payment_method_options_blik {
 concept payment_intent_payment_method_options_card {
   o components$_schemas$_payment_intent_payment_method_options_card$_properties$_capture_method capture_method optional
   o payment_method_options_card_installments installments optional
-  o undefined mandate_options optional
+  o payment_method_options_card_mandate_options mandate_options optional
   o components$_schemas$_payment_intent_payment_method_options_card$_properties$_network network optional
   o components$_schemas$_payment_intent_payment_method_options_card$_properties$_request_three_d_secure request_three_d_secure optional
   o components$_schemas$_payment_intent_payment_method_options_card$_properties$_setup_future_usage setup_future_usage optional
@@ -6718,7 +6718,7 @@ enum components$_schemas$_payment_intent_payment_method_options_sepa_debit$_prop
 }
 
 concept payment_intent_payment_method_options_us_bank_account {
-  o undefined financial_connections optional
+  o linked_account_options_us_bank_account financial_connections optional
   o components$_schemas$_payment_intent_payment_method_options_us_bank_account$_properties$_setup_future_usage setup_future_usage optional
   o components$_schemas$_payment_intent_payment_method_options_us_bank_account$_properties$_verification_method verification_method optional
 }
@@ -6775,13 +6775,13 @@ enum components$_schemas$_payment_intent_type_specific_payment_method_options_cl
 
 concept payment_link {
   o Boolean active
-  o undefined after_completion
+  o payment_links_resource_after_completion after_completion
   o Boolean allow_promotion_codes
   o Integer application_fee_amount optional
   o Double application_fee_percent optional
   o payment_links_resource_automatic_tax automatic_tax
   o components$_schemas$_payment_link$_properties$_billing_address_collection billing_address_collection
-  o undefined consent_collection optional
+  o payment_links_resource_consent_collection consent_collection optional
   o String currency
   o payment_links_resource_custom_text custom_text
   o components$_schemas$_payment_link$_properties$_customer_creation customer_creation
@@ -6792,11 +6792,11 @@ concept payment_link {
   o String metadata
   o components$_schemas$_payment_link$_properties$_object object
   o String on_behalf_of optional
-  o undefined payment_intent_data optional
+  o payment_links_resource_payment_intent_data payment_intent_data optional
   o components$_schemas$_payment_link$_properties$_payment_method_collection payment_method_collection
   o components$_schemas$_payment_link$_properties$_payment_method_types[] payment_method_types optional
   o payment_links_resource_phone_number_collection phone_number_collection
-  o undefined shipping_address_collection optional
+  o payment_links_resource_shipping_address_collection shipping_address_collection optional
   o payment_links_resource_shipping_option[] shipping_options
   o components$_schemas$_payment_link$_properties$_submit_type submit_type
   o payment_links_resource_subscription_data subscription_data optional
@@ -6816,7 +6816,7 @@ enum components$_schemas$_payment_link$_properties$_customer_creation {
 }
 
 concept components$_schemas$_payment_link$_properties$_line_items {
-  o undefined[] data
+  o item[] data
   o Boolean has_more
   o components$_schemas$_payment_link$_properties$_line_items$_properties$_object object
   o String url
@@ -7215,12 +7215,12 @@ concept payment_method {
   o Integer created
   o String customer optional
   o payment_method_customer_balance customer_balance optional
-  o undefined eps optional
-  o undefined fpx optional
+  o payment_method_eps eps optional
+  o payment_method_fpx fpx optional
   o payment_method_giropay giropay optional
   o payment_method_grabpay grabpay optional
   o String id
-  o undefined ideal optional
+  o payment_method_ideal ideal optional
   o payment_method_interac_present interac_present optional
   o payment_method_klarna klarna optional
   o payment_method_konbini konbini optional
@@ -7230,7 +7230,7 @@ concept payment_method {
   o String metadata optional
   o components$_schemas$_payment_method$_properties$_object object
   o payment_method_oxxo oxxo optional
-  o undefined p24 optional
+  o payment_method_p24 p24 optional
   o payment_method_paynow paynow optional
   o payment_method_pix pix optional
   o payment_method_promptpay promptpay optional
@@ -7238,7 +7238,7 @@ concept payment_method {
   o payment_method_sepa_debit sepa_debit optional
   o payment_method_sofort sofort optional
   o components$_schemas$_payment_method$_properties$_type type
-  o undefined us_bank_account optional
+  o payment_method_us_bank_account us_bank_account optional
   o payment_method_wechat_pay wechat_pay optional
 }
 
@@ -7327,7 +7327,7 @@ concept payment_method_card {
   o String last4
   o networks networks optional
   o three_d_secure_usage three_d_secure_usage optional
-  o undefined wallet optional
+  o payment_method_card_wallet wallet optional
 }
 
 concept payment_method_card_checks {
@@ -7396,39 +7396,39 @@ concept payment_method_customer_balance {
 
 concept payment_method_details {
   o payment_method_details_ach_credit_transfer ach_credit_transfer optional
-  o undefined ach_debit optional
+  o payment_method_details_ach_debit ach_debit optional
   o payment_method_details_acss_debit acss_debit optional
   o payment_method_details_affirm affirm optional
   o payment_method_details_afterpay_clearpay afterpay_clearpay optional
   o payment_flows_private_payment_methods_alipay_details alipay optional
   o payment_method_details_au_becs_debit au_becs_debit optional
   o payment_method_details_bacs_debit bacs_debit optional
-  o undefined bancontact optional
+  o payment_method_details_bancontact bancontact optional
   o payment_method_details_blik blik optional
   o payment_method_details_boleto boleto optional
   o payment_method_details_card card optional
-  o undefined card_present optional
+  o payment_method_details_card_present card_present optional
   o payment_method_details_customer_balance customer_balance optional
-  o undefined eps optional
-  o undefined fpx optional
+  o payment_method_details_eps eps optional
+  o payment_method_details_fpx fpx optional
   o payment_method_details_giropay giropay optional
   o payment_method_details_grabpay grabpay optional
-  o undefined ideal optional
-  o undefined interac_present optional
+  o payment_method_details_ideal ideal optional
+  o payment_method_details_interac_present interac_present optional
   o payment_method_details_klarna klarna optional
   o payment_method_details_konbini konbini optional
   o payment_method_details_link link optional
   o payment_method_details_multibanco multibanco optional
   o payment_method_details_oxxo oxxo optional
-  o undefined p24 optional
+  o payment_method_details_p24 p24 optional
   o payment_method_details_paynow paynow optional
   o payment_method_details_pix pix optional
   o payment_method_details_promptpay promptpay optional
   o payment_method_details_sepa_debit sepa_debit optional
-  o undefined sofort optional
+  o payment_method_details_sofort sofort optional
   o payment_method_details_stripe_account stripe_account optional
   o String type
-  o undefined us_bank_account optional
+  o payment_method_details_us_bank_account us_bank_account optional
   o payment_method_details_wechat wechat optional
   o payment_method_details_wechat_pay wechat_pay optional
 }
@@ -7521,8 +7521,8 @@ concept payment_method_details_card {
   o String last4 optional
   o String mandate optional
   o String network optional
-  o undefined three_d_secure optional
-  o undefined wallet optional
+  o three_d_secure_details three_d_secure optional
+  o payment_method_details_card_wallet wallet optional
 }
 
 concept payment_method_details_card_checks {
@@ -7532,7 +7532,7 @@ concept payment_method_details_card_checks {
 }
 
 concept payment_method_details_card_installments {
-  o undefined plan optional
+  o payment_method_details_card_installments_plan plan optional
 }
 
 concept payment_method_details_card_installments_plan {
@@ -7566,7 +7566,7 @@ concept payment_method_details_card_present {
   o String network optional
   o Boolean overcapture_supported
   o components$_schemas$_payment_method_details_card_present$_properties$_read_method read_method optional
-  o undefined receipt optional
+  o payment_method_details_card_present_receipt receipt optional
 }
 
 enum components$_schemas$_payment_method_details_card_present$_properties$_read_method {
@@ -7777,7 +7777,7 @@ concept payment_method_details_interac_present {
   o String network optional
   o String[] preferred_locales optional
   o components$_schemas$_payment_method_details_interac_present$_properties$_read_method read_method optional
-  o undefined receipt optional
+  o payment_method_details_interac_present_receipt receipt optional
 }
 
 enum components$_schemas$_payment_method_details_interac_present$_properties$_read_method {
@@ -7812,7 +7812,7 @@ concept payment_method_details_klarna {
 }
 
 concept payment_method_details_konbini {
-  o undefined store optional
+  o payment_method_details_konbini_store store optional
 }
 
 concept payment_method_details_konbini_store {
@@ -8142,9 +8142,9 @@ enum components$_schemas$_payment_method_options_boleto$_properties$_setup_futur
 }
 
 concept payment_method_options_card_installments {
-  o undefined[] available_plans optional
+  o payment_method_details_card_installments_plan[] available_plans optional
   o Boolean enabled
-  o undefined plan optional
+  o payment_method_details_card_installments_plan plan optional
 }
 
 concept payment_method_options_card_mandate_options {
@@ -8182,7 +8182,7 @@ concept payment_method_options_card_present {
 }
 
 concept payment_method_options_customer_balance {
-  o undefined bank_transfer optional
+  o payment_method_options_customer_balance_bank_transfer bank_transfer optional
   o components$_schemas$_payment_method_options_customer_balance$_properties$_funding_type funding_type optional
   o components$_schemas$_payment_method_options_customer_balance$_properties$_setup_future_usage setup_future_usage optional
 }
@@ -8196,7 +8196,7 @@ enum components$_schemas$_payment_method_options_customer_balance$_properties$_s
 }
 
 concept payment_method_options_customer_balance_bank_transfer {
-  o undefined eu_bank_transfer optional
+  o payment_method_options_customer_balance_eu_bank_account eu_bank_transfer optional
   o components$_schemas$_payment_method_options_customer_balance_bank_transfer$_properties$_requested_address_types[] requested_address_types optional
   o components$_schemas$_payment_method_options_customer_balance_bank_transfer$_properties$_type type optional
 }
@@ -8433,7 +8433,7 @@ concept payment_method_us_bank_account {
   o String financial_connections_account optional
   o String fingerprint optional
   o String last4 optional
-  o undefined networks optional
+  o us_bank_account_networks networks optional
   o String routing_number optional
 }
 
@@ -8516,7 +8516,7 @@ concept payment_pages_checkout_session_customer_details {
   o String name optional
   o String phone optional
   o components$_schemas$_payment_pages_checkout_session_customer_details$_properties$_tax_exempt tax_exempt optional
-  o undefined[] tax_ids optional
+  o payment_pages_checkout_session_tax_id[] tax_ids optional
 }
 
 enum components$_schemas$_payment_pages_checkout_session_customer_details$_properties$_tax_exempt {
@@ -8963,7 +8963,7 @@ enum components$_schemas$_person$_properties$_political_exposure {
 concept person_future_requirements {
   o account_requirements_alternative[] alternatives optional
   o String[] currently_due
-  o undefined[] errors
+  o account_requirements_error[] errors
   o String[] eventually_due
   o String[] past_due
   o String[] pending_verification
@@ -8981,7 +8981,7 @@ concept person_relationship {
 concept person_requirements {
   o account_requirements_alternative[] alternatives optional
   o String[] currently_due
-  o undefined[] errors
+  o account_requirements_error[] errors
   o String[] eventually_due
   o String[] past_due
   o String[] pending_verification
@@ -9006,7 +9006,7 @@ concept plan {
   o String product optional
   o plan_tier[] tiers optional
   o components$_schemas$_plan$_properties$_tiers_mode tiers_mode optional
-  o undefined transform_usage optional
+  o transform_usage transform_usage optional
   o Integer trial_period_days optional
   o components$_schemas$_plan$_properties$_usage_type usage_type
 }
@@ -9084,12 +9084,12 @@ enum components$_schemas$_portal_customer_update$_properties$_allowed_updates {
 }
 
 concept portal_features {
-  o undefined customer_update
+  o portal_customer_update customer_update
   o portal_invoice_list invoice_history
   o portal_payment_method_update payment_method_update
-  o undefined subscription_cancel
+  o portal_subscription_cancel subscription_cancel
   o portal_subscription_pause subscription_pause
-  o undefined subscription_update
+  o portal_subscription_update subscription_update
 }
 
 concept portal_flows_after_completion_hosted_confirmation {
@@ -9101,7 +9101,7 @@ concept portal_flows_after_completion_redirect {
 }
 
 concept portal_flows_flow {
-  o undefined after_completion
+  o portal_flows_flow_after_completion after_completion
   o portal_flows_flow_subscription_cancel subscription_cancel optional
   o components$_schemas$_portal_flows_flow$_properties$_type type
 }
@@ -9141,7 +9141,7 @@ concept portal_payment_method_update {
 }
 
 concept portal_subscription_cancel {
-  o undefined cancellation_reason
+  o portal_subscription_cancellation_reason cancellation_reason
   o Boolean enabled
   o components$_schemas$_portal_subscription_cancel$_properties$_mode mode
   o components$_schemas$_portal_subscription_cancel$_properties$_proration_behavior proration_behavior
@@ -9218,11 +9218,11 @@ concept price {
   o String nickname optional
   o components$_schemas$_price$_properties$_object object
   o String product
-  o undefined recurring optional
+  o recurring recurring optional
   o components$_schemas$_price$_properties$_tax_behavior tax_behavior optional
   o price_tier[] tiers optional
   o components$_schemas$_price$_properties$_tiers_mode tiers_mode optional
-  o undefined transform_quantity optional
+  o transform_quantity transform_quantity optional
   o components$_schemas$_price$_properties$_type type
   o Integer unit_amount optional
   o String unit_amount_decimal optional
@@ -9289,7 +9289,7 @@ enum components$_schemas$_product$_properties$_object {
 concept promotion_code {
   o Boolean active
   o String code
-  o undefined coupon
+  o coupon coupon
   o Integer created
   o String customer optional
   o Integer expires_at optional
@@ -9325,7 +9325,7 @@ concept quote {
   o String application optional
   o Integer application_fee_amount optional
   o Double application_fee_percent optional
-  o undefined automatic_tax
+  o quotes_resource_automatic_tax automatic_tax
   o components$_schemas$_quote$_properties$_collection_method collection_method
   o quotes_resource_computed computed
   o Integer created
@@ -9364,7 +9364,7 @@ enum components$_schemas$_quote$_properties$_collection_method {
 }
 
 concept components$_schemas$_quote$_properties$_line_items {
-  o undefined[] data
+  o item[] data
   o Boolean has_more
   o components$_schemas$_quote$_properties$_line_items$_properties$_object object
   o String url
@@ -9397,8 +9397,8 @@ enum components$_schemas$_quotes_resource_automatic_tax$_properties$_status {
 }
 
 concept quotes_resource_computed {
-  o undefined recurring optional
-  o undefined upfront
+  o quotes_resource_recurring recurring optional
+  o quotes_resource_upfront upfront
 }
 
 concept quotes_resource_from_quote {
@@ -9459,7 +9459,7 @@ concept quotes_resource_upfront {
 }
 
 concept components$_schemas$_quotes_resource_upfront$_properties$_line_items {
-  o undefined[] data
+  o item[] data
   o Boolean has_more
   o components$_schemas$_quotes_resource_upfront$_properties$_line_items$_properties$_object object
   o String url
@@ -9510,7 +9510,7 @@ enum components$_schemas$_radar_2evalue_list$_properties$_item_type {
 }
 
 concept components$_schemas$_radar_2evalue_list$_properties$_list_items {
-  o undefined[] data
+  o radar_2evalue_list_item[] data
   o Boolean has_more
   o components$_schemas$_radar_2evalue_list$_properties$_list_items$_properties$_object object
   o String url
@@ -9644,7 +9644,7 @@ concept reporting_2ereport_run {
   o components$_schemas$_reporting_2ereport_run$_properties$_object object
   o financial_reporting_finance_report_run_run_parameters parameters
   o String report_type
-  o undefined result optional
+  o file result optional
   o String status
   o Integer succeeded_at optional
 }
@@ -9725,7 +9725,7 @@ concept scheduled_query_run {
   o Integer created
   o Integer data_load_time
   o sigma_scheduled_query_run_error error optional
-  o undefined file optional
+  o file file optional
   o String id
   o Boolean livemode
   o components$_schemas$_scheduled_query_run$_properties$_object object
@@ -9770,7 +9770,7 @@ concept setup_attempt {
   o String on_behalf_of optional
   o String payment_method
   o setup_attempt_payment_method_details payment_method_details
-  o undefined setup_error optional
+  o api_errors setup_error optional
   o String setup_intent
   o String status
   o String usage
@@ -9789,16 +9789,16 @@ concept setup_attempt_payment_method_details {
   o setup_attempt_payment_method_details_acss_debit acss_debit optional
   o setup_attempt_payment_method_details_au_becs_debit au_becs_debit optional
   o setup_attempt_payment_method_details_bacs_debit bacs_debit optional
-  o undefined bancontact optional
+  o setup_attempt_payment_method_details_bancontact bancontact optional
   o setup_attempt_payment_method_details_blik blik optional
   o setup_attempt_payment_method_details_boleto boleto optional
   o setup_attempt_payment_method_details_card card optional
   o setup_attempt_payment_method_details_card_present card_present optional
-  o undefined ideal optional
+  o setup_attempt_payment_method_details_ideal ideal optional
   o setup_attempt_payment_method_details_klarna klarna optional
   o setup_attempt_payment_method_details_link link optional
   o setup_attempt_payment_method_details_sepa_debit sepa_debit optional
-  o undefined sofort optional
+  o setup_attempt_payment_method_details_sofort sofort optional
   o String type
   o setup_attempt_payment_method_details_us_bank_account us_bank_account optional
 }
@@ -9837,7 +9837,7 @@ concept setup_attempt_payment_method_details_boleto {
 }
 
 concept setup_attempt_payment_method_details_card {
-  o undefined three_d_secure optional
+  o three_d_secure_details three_d_secure optional
 }
 
 concept setup_attempt_payment_method_details_card_present {
@@ -9925,7 +9925,7 @@ concept setup_intent {
   o String description optional
   o components$_schemas$_setup_intent$_properties$_flow_directions[] flow_directions optional
   o String id
-  o undefined last_setup_error optional
+  o api_errors last_setup_error optional
   o String latest_attempt optional
   o Boolean livemode
   o String mandate optional
@@ -9971,7 +9971,7 @@ concept setup_intent_next_action {
   o String type
   @StringifiedJson
   o String use_stripe_sdk optional
-  o undefined verify_with_microdeposits optional
+  o setup_intent_next_action_verify_with_microdeposits verify_with_microdeposits optional
 }
 
 concept setup_intent_next_action_redirect_to_url {
@@ -9991,17 +9991,17 @@ enum components$_schemas$_setup_intent_next_action_verify_with_microdeposits$_pr
 }
 
 concept setup_intent_payment_method_options {
-  o undefined acss_debit optional
+  o setup_intent_payment_method_options_acss_debit acss_debit optional
   o setup_intent_payment_method_options_blik blik optional
-  o undefined card optional
+  o setup_intent_payment_method_options_card card optional
   o setup_intent_payment_method_options_link link optional
   o setup_intent_payment_method_options_sepa_debit sepa_debit optional
-  o undefined us_bank_account optional
+  o setup_intent_payment_method_options_us_bank_account us_bank_account optional
 }
 
 concept setup_intent_payment_method_options_acss_debit {
   o components$_schemas$_setup_intent_payment_method_options_acss_debit$_properties$_currency currency optional
-  o undefined mandate_options optional
+  o setup_intent_payment_method_options_mandate_options_acss_debit mandate_options optional
   o components$_schemas$_setup_intent_payment_method_options_acss_debit$_properties$_verification_method verification_method optional
 }
 
@@ -10017,11 +10017,11 @@ enum components$_schemas$_setup_intent_payment_method_options_acss_debit$_proper
 }
 
 concept setup_intent_payment_method_options_blik {
-  o undefined mandate_options optional
+  o setup_intent_payment_method_options_mandate_options_blik mandate_options optional
 }
 
 concept setup_intent_payment_method_options_card {
-  o undefined mandate_options optional
+  o setup_intent_payment_method_options_card_mandate_options mandate_options optional
   o components$_schemas$_setup_intent_payment_method_options_card$_properties$_network network optional
   o components$_schemas$_setup_intent_payment_method_options_card$_properties$_request_three_d_secure request_three_d_secure optional
 }
@@ -10105,7 +10105,7 @@ enum components$_schemas$_setup_intent_payment_method_options_mandate_options_ac
 
 concept setup_intent_payment_method_options_mandate_options_blik {
   o Integer expires_after optional
-  o undefined off_session optional
+  o mandate_options_off_session_details_blik off_session optional
   o components$_schemas$_setup_intent_payment_method_options_mandate_options_blik$_properties$_type type optional
 }
 
@@ -10122,7 +10122,7 @@ concept setup_intent_payment_method_options_sepa_debit {
 }
 
 concept setup_intent_payment_method_options_us_bank_account {
-  o undefined financial_connections optional
+  o linked_account_options_us_bank_account financial_connections optional
   o components$_schemas$_setup_intent_payment_method_options_us_bank_account$_properties$_verification_method verification_method optional
 }
 
@@ -10192,8 +10192,8 @@ enum components$_schemas$_shipping_rate_currency_option$_properties$_tax_behavio
 }
 
 concept shipping_rate_delivery_estimate {
-  o undefined maximum optional
-  o undefined minimum optional
+  o shipping_rate_delivery_estimate_bound maximum optional
+  o shipping_rate_delivery_estimate_bound minimum optional
 }
 
 concept shipping_rate_delivery_estimate_bound {
@@ -10301,7 +10301,7 @@ concept source_mandate_notification {
   o components$_schemas$_source_mandate_notification$_properties$_object object
   o String reason
   o source_mandate_notification_sepa_debit_data sepa_debit optional
-  o undefined source
+  o source source
   o String status
   o String type
 }
@@ -10670,9 +10670,9 @@ concept subscription {
   o Integer days_until_due optional
   o String default_payment_method optional
   o String default_source optional
-  o undefined[] default_tax_rates optional
+  o tax_rate[] default_tax_rates optional
   o String description optional
-  o undefined discount optional
+  o discount discount optional
   o Integer ended_at optional
   o String id
   o components$_schemas$_subscription$_properties$_items items
@@ -10683,9 +10683,9 @@ concept subscription {
   o Integer next_pending_invoice_item_invoice optional
   o components$_schemas$_subscription$_properties$_object object
   o String on_behalf_of optional
-  o undefined pause_collection optional
-  o undefined payment_settings optional
-  o undefined pending_invoice_item_interval optional
+  o subscriptions_resource_pause_collection pause_collection optional
+  o subscriptions_resource_payment_settings payment_settings optional
+  o subscription_pending_invoice_item_interval pending_invoice_item_interval optional
   o String pending_setup_intent optional
   o subscriptions_resource_pending_update pending_update optional
   o String schedule optional
@@ -10703,7 +10703,7 @@ enum components$_schemas$_subscription$_properties$_collection_method {
 }
 
 concept components$_schemas$_subscription$_properties$_items {
-  o undefined[] data
+  o subscription_item[] data
   o Boolean has_more
   o components$_schemas$_subscription$_properties$_items$_properties$_object object
   o String url
@@ -10743,10 +10743,10 @@ concept subscription_item {
   @StringifiedJson
   o String metadata
   o components$_schemas$_subscription_item$_properties$_object object
-  o undefined price
+  o price price
   o Integer quantity optional
   o String subscription
-  o undefined[] tax_rates optional
+  o tax_rate[] tax_rates optional
 }
 
 enum components$_schemas$_subscription_item$_properties$_object {
@@ -10758,7 +10758,7 @@ concept subscription_item_billing_thresholds {
 }
 
 concept subscription_payment_method_options_card {
-  o undefined mandate_options optional
+  o invoice_mandate_options_card mandate_options optional
   o components$_schemas$_subscription_payment_method_options_card$_properties$_network network optional
   o components$_schemas$_subscription_payment_method_options_card$_properties$_request_three_d_secure request_three_d_secure optional
 }
@@ -10800,14 +10800,14 @@ concept subscription_schedule {
   o Integer created
   o subscription_schedule_current_phase current_phase optional
   o String customer
-  o undefined default_settings
+  o subscription_schedules_resource_default_settings default_settings
   o components$_schemas$_subscription_schedule$_properties$_end_behavior end_behavior
   o String id
   o Boolean livemode
   @StringifiedJson
   o String metadata optional
   o components$_schemas$_subscription_schedule$_properties$_object object
-  o undefined[] phases
+  o subscription_schedule_phase_configuration[] phases
   o Integer released_at optional
   o String released_subscription optional
   o components$_schemas$_subscription_schedule$_properties$_status status
@@ -10837,7 +10837,7 @@ enum components$_schemas$_subscription_schedule$_properties$_status {
 concept subscription_schedule_add_invoice_item {
   o String price
   o Integer quantity optional
-  o undefined[] tax_rates optional
+  o tax_rate[] tax_rates optional
 }
 
 concept subscription_schedule_configuration_item {
@@ -10846,7 +10846,7 @@ concept subscription_schedule_configuration_item {
   o String metadata optional
   o String price
   o Integer quantity optional
-  o undefined[] tax_rates optional
+  o tax_rate[] tax_rates optional
 }
 
 concept subscription_schedule_current_phase {
@@ -10864,7 +10864,7 @@ concept subscription_schedule_phase_configuration {
   o String coupon optional
   o String currency
   o String default_payment_method optional
-  o undefined[] default_tax_rates optional
+  o tax_rate[] default_tax_rates optional
   o String description optional
   o Integer end_date
   o invoice_setting_subscription_schedule_setting invoice_settings optional
@@ -10938,12 +10938,12 @@ enum components$_schemas$_subscriptions_resource_pause_collection$_properties$_b
 }
 
 concept subscriptions_resource_payment_method_options {
-  o undefined acss_debit optional
-  o undefined bancontact optional
-  o undefined card optional
-  o undefined customer_balance optional
+  o invoice_payment_method_options_acss_debit acss_debit optional
+  o invoice_payment_method_options_bancontact bancontact optional
+  o subscription_payment_method_options_card card optional
+  o invoice_payment_method_options_customer_balance customer_balance optional
   o invoice_payment_method_options_konbini konbini optional
-  o undefined us_bank_account optional
+  o invoice_payment_method_options_us_bank_account us_bank_account optional
 }
 
 concept subscriptions_resource_payment_settings {
@@ -10984,7 +10984,7 @@ enum components$_schemas$_subscriptions_resource_payment_settings$_properties$_s
 concept subscriptions_resource_pending_update {
   o Integer billing_cycle_anchor optional
   o Integer expires_at
-  o undefined[] subscription_items optional
+  o subscription_item[] subscription_items optional
   o Integer trial_end optional
   o Boolean trial_from_plan optional
 }
@@ -11021,7 +11021,7 @@ concept tax_id {
   o components$_schemas$_tax_id$_properties$_object object
   o components$_schemas$_tax_id$_properties$_type type
   o String value
-  o undefined verification optional
+  o tax_id_verification verification optional
 }
 
 enum components$_schemas$_tax_id$_properties$_object {
@@ -11169,7 +11169,7 @@ enum components$_schemas$_terminal_2elocation$_properties$_object {
 }
 
 concept terminal_2ereader {
-  o undefined action optional
+  o terminal_reader_reader_resource_reader_action action optional
   o String device_sw_version optional
   o components$_schemas$_terminal_2ereader$_properties$_device_type device_type
   o String id
@@ -11257,7 +11257,7 @@ concept terminal_reader_reader_resource_reader_action {
   o String failure_message optional
   o terminal_reader_reader_resource_process_payment_intent_action process_payment_intent optional
   o terminal_reader_reader_resource_process_setup_intent_action process_setup_intent optional
-  o undefined set_reader_display optional
+  o terminal_reader_reader_resource_set_reader_display_action set_reader_display optional
   o components$_schemas$_terminal_reader_reader_resource_reader_action$_properties$_status status
   o components$_schemas$_terminal_reader_reader_resource_reader_action$_properties$_type type
 }
@@ -11350,8 +11350,8 @@ concept three_d_secure_usage {
 }
 
 concept token {
-  o undefined bank_account optional
-  o undefined card optional
+  o bank_account bank_account optional
+  o card card optional
   o String client_ip optional
   o Integer created
   o String id
@@ -11379,7 +11379,7 @@ concept topup {
   @StringifiedJson
   o String metadata
   o components$_schemas$_topup$_properties$_object object
-  o undefined source optional
+  o source source optional
   o String statement_descriptor optional
   o components$_schemas$_topup$_properties$_status status
   o String transfer_group optional
@@ -11423,7 +11423,7 @@ enum components$_schemas$_transfer$_properties$_object {
 }
 
 concept components$_schemas$_transfer$_properties$_reversals {
-  o undefined[] data
+  o transfer_reversal[] data
   o Boolean has_more
   o components$_schemas$_transfer$_properties$_reversals$_properties$_object object
   o String url
@@ -11555,15 +11555,15 @@ concept treasury_2efinancial_account {
   o treasury_financial_accounts_resource_balance balance
   o String country
   o Integer created
-  o undefined features optional
-  o undefined[] financial_addresses
+  o treasury_2efinancial_account_features features optional
+  o treasury_financial_accounts_resource_financial_address[] financial_addresses
   o String id
   o Boolean livemode
   @StringifiedJson
   o String metadata optional
   o components$_schemas$_treasury_2efinancial_account$_properties$_object object
   o components$_schemas$_treasury_2efinancial_account$_properties$_pending_features[] pending_features optional
-  o undefined platform_restrictions optional
+  o treasury_financial_accounts_resource_platform_restrictions platform_restrictions optional
   o components$_schemas$_treasury_2efinancial_account$_properties$_restricted_features[] restricted_features optional
   o components$_schemas$_treasury_2efinancial_account$_properties$_status status
   o treasury_financial_accounts_resource_status_details status_details
@@ -11619,11 +11619,11 @@ enum components$_schemas$_treasury_2efinancial_account$_properties$_status {
 }
 
 concept treasury_2efinancial_account_features {
-  o undefined card_issuing optional
-  o undefined deposit_insurance optional
+  o treasury_financial_accounts_resource_toggle_settings card_issuing optional
+  o treasury_financial_accounts_resource_toggle_settings deposit_insurance optional
   o treasury_financial_accounts_resource_financial_addresses_features financial_addresses optional
   o treasury_financial_accounts_resource_inbound_transfers inbound_transfers optional
-  o undefined intra_stripe_flows optional
+  o treasury_financial_accounts_resource_toggle_settings intra_stripe_flows optional
   o components$_schemas$_treasury_2efinancial_account_features$_properties$_object object
   o treasury_financial_accounts_resource_outbound_payments outbound_payments optional
   o treasury_financial_accounts_resource_outbound_transfers outbound_transfers optional
@@ -11639,7 +11639,7 @@ concept treasury_2einbound_transfer {
   o Integer created
   o String currency
   o String description optional
-  o undefined failure_details optional
+  o treasury_inbound_transfers_resource_failure_details failure_details optional
   o String financial_account
   o String hosted_regulatory_receipt_url optional
   o String id
@@ -11649,7 +11649,7 @@ concept treasury_2einbound_transfer {
   o String metadata
   o components$_schemas$_treasury_2einbound_transfer$_properties$_object object
   o String origin_payment_method
-  o undefined origin_payment_method_details optional
+  o inbound_transfers origin_payment_method_details optional
   o Boolean returned optional
   o String statement_descriptor
   o components$_schemas$_treasury_2einbound_transfer$_properties$_status status
@@ -11676,7 +11676,7 @@ concept treasury_2eoutbound_payment {
   o String customer optional
   o String description optional
   o String destination_payment_method optional
-  o undefined destination_payment_method_details optional
+  o outbound_payments_payment_method_details destination_payment_method_details optional
   o treasury_outbound_payments_resource_outbound_payment_resource_end_user_details end_user_details optional
   o Integer expected_arrival_date
   o String financial_account
@@ -11686,7 +11686,7 @@ concept treasury_2eoutbound_payment {
   @StringifiedJson
   o String metadata
   o components$_schemas$_treasury_2eoutbound_payment$_properties$_object object
-  o undefined returned_details optional
+  o treasury_outbound_payments_resource_returned_status returned_details optional
   o String statement_descriptor
   o components$_schemas$_treasury_2eoutbound_payment$_properties$_status status
   o treasury_outbound_payments_resource_outbound_payment_resource_status_transitions status_transitions
@@ -11712,7 +11712,7 @@ concept treasury_2eoutbound_transfer {
   o String currency
   o String description optional
   o String destination_payment_method optional
-  o undefined destination_payment_method_details
+  o outbound_transfers_payment_method_details destination_payment_method_details
   o Integer expected_arrival_date
   o String financial_account
   o String hosted_regulatory_receipt_url optional
@@ -11721,7 +11721,7 @@ concept treasury_2eoutbound_transfer {
   @StringifiedJson
   o String metadata
   o components$_schemas$_treasury_2eoutbound_transfer$_properties$_object object
-  o undefined returned_details optional
+  o treasury_outbound_transfers_resource_returned_details returned_details optional
   o String statement_descriptor
   o components$_schemas$_treasury_2eoutbound_transfer$_properties$_status status
   o treasury_outbound_transfers_resource_status_transitions status_transitions
@@ -11749,12 +11749,12 @@ concept treasury_2ereceived_credit {
   o String financial_account optional
   o String hosted_regulatory_receipt_url optional
   o String id
-  o undefined initiating_payment_method_details
+  o treasury_shared_resource_initiating_payment_method_details_initiating_payment_method_details initiating_payment_method_details
   o treasury_received_credits_resource_linked_flows linked_flows
   o Boolean livemode
   o components$_schemas$_treasury_2ereceived_credit$_properties$_network network
   o components$_schemas$_treasury_2ereceived_credit$_properties$_object object
-  o undefined reversal_details optional
+  o treasury_received_credits_resource_reversal_details reversal_details optional
   o components$_schemas$_treasury_2ereceived_credit$_properties$_status status
   o String transaction optional
 }
@@ -11790,12 +11790,12 @@ concept treasury_2ereceived_debit {
   o String financial_account optional
   o String hosted_regulatory_receipt_url optional
   o String id
-  o undefined initiating_payment_method_details optional
+  o treasury_shared_resource_initiating_payment_method_details_initiating_payment_method_details initiating_payment_method_details optional
   o treasury_received_debits_resource_linked_flows linked_flows
   o Boolean livemode
   o components$_schemas$_treasury_2ereceived_debit$_properties$_network network
   o components$_schemas$_treasury_2ereceived_debit$_properties$_object object
-  o undefined reversal_details optional
+  o treasury_received_debits_resource_reversal_details reversal_details optional
   o components$_schemas$_treasury_2ereceived_debit$_properties$_status status
   o String transaction optional
 }
@@ -11831,7 +11831,7 @@ concept treasury_2etransaction {
   o components$_schemas$_treasury_2etransaction$_properties$_entries entries optional
   o String financial_account
   o String flow optional
-  o undefined flow_details optional
+  o treasury_transactions_resource_flow_details flow_details optional
   o components$_schemas$_treasury_2etransaction$_properties$_flow_type flow_type
   o String id
   o Boolean livemode
@@ -11841,7 +11841,7 @@ concept treasury_2etransaction {
 }
 
 concept components$_schemas$_treasury_2etransaction$_properties$_entries {
-  o undefined[] data
+  o treasury_2etransaction_entry[] data
   o Boolean has_more
   o components$_schemas$_treasury_2etransaction$_properties$_entries$_properties$_object object
   o String url regex=/^/v1/treasury/transaction_entries/
@@ -11880,7 +11880,7 @@ concept treasury_2etransaction_entry {
   o Integer effective_at
   o String financial_account
   o String flow optional
-  o undefined flow_details optional
+  o treasury_transactions_resource_flow_details flow_details optional
   o components$_schemas$_treasury_2etransaction_entry$_properties$_flow_type flow_type
   o String id
   o Boolean livemode
@@ -11939,7 +11939,7 @@ concept treasury_financial_accounts_resource_aba_record {
 concept treasury_financial_accounts_resource_ach_toggle_settings {
   o Boolean requested
   o components$_schemas$_treasury_financial_accounts_resource_ach_toggle_settings$_properties$_status status
-  o undefined[] status_details
+  o treasury_financial_accounts_resource_toggles_setting_status_details[] status_details
 }
 
 enum components$_schemas$_treasury_financial_accounts_resource_ach_toggle_settings$_properties$_status {
@@ -11983,21 +11983,21 @@ enum components$_schemas$_treasury_financial_accounts_resource_financial_address
 }
 
 concept treasury_financial_accounts_resource_financial_addresses_features {
-  o undefined aba optional
+  o treasury_financial_accounts_resource_toggle_settings aba optional
 }
 
 concept treasury_financial_accounts_resource_inbound_transfers {
-  o undefined ach optional
+  o treasury_financial_accounts_resource_ach_toggle_settings ach optional
 }
 
 concept treasury_financial_accounts_resource_outbound_payments {
-  o undefined ach optional
-  o undefined us_domestic_wire optional
+  o treasury_financial_accounts_resource_ach_toggle_settings ach optional
+  o treasury_financial_accounts_resource_toggle_settings us_domestic_wire optional
 }
 
 concept treasury_financial_accounts_resource_outbound_transfers {
-  o undefined ach optional
-  o undefined us_domestic_wire optional
+  o treasury_financial_accounts_resource_ach_toggle_settings ach optional
+  o treasury_financial_accounts_resource_toggle_settings us_domestic_wire optional
 }
 
 concept treasury_financial_accounts_resource_platform_restrictions {
@@ -12016,13 +12016,13 @@ enum components$_schemas$_treasury_financial_accounts_resource_platform_restrict
 }
 
 concept treasury_financial_accounts_resource_status_details {
-  o undefined closed optional
+  o treasury_financial_accounts_resource_closed_status_details closed optional
 }
 
 concept treasury_financial_accounts_resource_toggle_settings {
   o Boolean requested
   o components$_schemas$_treasury_financial_accounts_resource_toggle_settings$_properties$_status status
-  o undefined[] status_details
+  o treasury_financial_accounts_resource_toggles_setting_status_details[] status_details
 }
 
 enum components$_schemas$_treasury_financial_accounts_resource_toggle_settings$_properties$_status {
@@ -12150,7 +12150,7 @@ concept treasury_received_credits_resource_linked_flows {
   o String issuing_authorization optional
   o String issuing_transaction optional
   o String source_flow optional
-  o undefined source_flow_details optional
+  o treasury_received_credits_resource_source_flows_details source_flow_details optional
   o String source_flow_type optional
 }
 
@@ -12168,9 +12168,9 @@ enum components$_schemas$_treasury_received_credits_resource_reversal_details$_p
 }
 
 concept treasury_received_credits_resource_source_flows_details {
-  o undefined credit_reversal optional
-  o undefined outbound_payment optional
-  o undefined payout optional
+  o treasury_2ecredit_reversal credit_reversal optional
+  o treasury_2eoutbound_payment outbound_payment optional
+  o payout payout optional
   o components$_schemas$_treasury_received_credits_resource_source_flows_details$_properties$_type type
 }
 
@@ -12222,7 +12222,7 @@ concept treasury_shared_resource_billing_details {
 concept treasury_shared_resource_initiating_payment_method_details_initiating_payment_method_details {
   o components$_schemas$_treasury_shared_resource_initiating_payment_method_details_initiating_payment_method_details$_properties$_balance balance optional
   o treasury_shared_resource_billing_details billing_details
-  o undefined financial_account optional
+  o received_payment_method_details_financial_account financial_account optional
   o String issuing_card optional
   o components$_schemas$_treasury_shared_resource_initiating_payment_method_details_initiating_payment_method_details$_properties$_type type
   o treasury_shared_resource_initiating_payment_method_details_us_bank_account us_bank_account optional
@@ -12258,14 +12258,14 @@ concept treasury_transactions_resource_balance_impact {
 }
 
 concept treasury_transactions_resource_flow_details {
-  o undefined credit_reversal optional
-  o undefined debit_reversal optional
-  o undefined inbound_transfer optional
-  o undefined issuing_authorization optional
-  o undefined outbound_payment optional
-  o undefined outbound_transfer optional
-  o undefined received_credit optional
-  o undefined received_debit optional
+  o treasury_2ecredit_reversal credit_reversal optional
+  o treasury_2edebit_reversal debit_reversal optional
+  o treasury_2einbound_transfer inbound_transfer optional
+  o issuing_2eauthorization issuing_authorization optional
+  o treasury_2eoutbound_payment outbound_payment optional
+  o treasury_2eoutbound_transfer outbound_transfer optional
+  o treasury_2ereceived_credit received_credit optional
+  o treasury_2ereceived_debit received_debit optional
   o components$_schemas$_treasury_transactions_resource_flow_details$_properties$_type type
 }
 
