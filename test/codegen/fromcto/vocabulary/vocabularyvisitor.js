@@ -19,6 +19,7 @@ chai.should();
 const sinon = require('sinon');
 
 const VocabularyVisitor = require('../../../../lib/codegen/fromcto/vocabulary/vocabularyvisitor.js');
+const { RelationshipDeclaration } = require('@accordproject/concerto-core');
 
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
@@ -27,7 +28,6 @@ const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDe
 const Field = require('@accordproject/concerto-core').Field;
 const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
-const Relationship = require('@accordproject/concerto-core').Relationship;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
 
 describe('VocabularyVisitor', function () {
@@ -101,10 +101,10 @@ describe('VocabularyVisitor', function () {
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
 
-        it('should return visitField for a Field', () => {
+        it('should return visitProperty for a Field', () => {
             let thing = sinon.createStubInstance(Field);
             thing.isField.returns(true);
-            let mockSpecialVisit = sinon.stub(vocabularyVisitor, 'visitField');
+            let mockSpecialVisit = sinon.stub(vocabularyVisitor, 'visitProperty');
             mockSpecialVisit.returns('Duck');
 
             vocabularyVisitor.visit(thing, param).should.deep.equal('Duck');
@@ -112,10 +112,10 @@ describe('VocabularyVisitor', function () {
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
 
-        it('should return visitField for a EnumValueDeclaration', () => {
+        it('should return visitProperty for a EnumValueDeclaration', () => {
             let thing = sinon.createStubInstance(EnumValueDeclaration);
             thing.isEnumValue.returns(true);
-            let mockSpecialVisit = sinon.stub(vocabularyVisitor, 'visitField');
+            let mockSpecialVisit = sinon.stub(vocabularyVisitor, 'visitProperty');
             mockSpecialVisit.returns('Goose');
 
             vocabularyVisitor.visit(thing, param).should.deep.equal('Goose');
@@ -123,10 +123,10 @@ describe('VocabularyVisitor', function () {
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
 
-        it('should return visitField for a Relationship', () => {
-            let thing = sinon.createStubInstance(Relationship);
+        it('should return visitProperty for a Relationship', () => {
+            let thing = sinon.createStubInstance(RelationshipDeclaration);
             thing.isRelationship.returns(true);
-            let mockSpecialVisit = sinon.stub(vocabularyVisitor, 'visitField');
+            let mockSpecialVisit = sinon.stub(vocabularyVisitor, 'visitProperty');
             mockSpecialVisit.returns('Goose');
 
             vocabularyVisitor.visit(thing, param).should.deep.equal('Goose');
@@ -299,6 +299,67 @@ describe('VocabularyVisitor', function () {
 
             param.fileWriter.writeLine.callCount.should.deep.equal(1);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  - Bob: Bob']);
+        });
+    });
+
+    describe('visitProperty for Field', () => {
+        let param;
+        beforeEach(() => {
+            param = {
+                fileWriter: mockFileWriter
+            };
+        });
+        it('should write a line for field name and its vocabulary in english', () => {
+            const mockField = sinon.createStubInstance(Field);
+            const mockParent = {
+                getName: sinon.stub().returns('Person')
+            };
+            mockField.getParent.returns(mockParent);
+            mockField.isPrimitive.returns(false);
+            mockField.getName.returns('name');
+            mockField.getType.returns('String');
+            mockField.isPrimitive.returns(true);
+            vocabularyVisitor.visitProperty(mockField, param);
+            param.fileWriter.writeLine.withArgs(0,'      - name: Name of the Person').calledOnce.should.be.ok;
+        });
+    });
+
+    describe('visitProperty for EnumValueDeclaration', () => {
+        let param;
+        beforeEach(() => {
+            param = {
+                fileWriter: mockFileWriter
+            };
+        });
+        it('should write a line for enum value and its vocabulary in english', () => {
+            const mockEnumValueDeclaration = sinon.createStubInstance(EnumValueDeclaration);
+            const mockParent = {
+                getName: sinon.stub().returns('Colors')
+            };
+            mockEnumValueDeclaration.getParent.returns(mockParent);
+            mockEnumValueDeclaration.getName.returns('red');
+            vocabularyVisitor.visitProperty(mockEnumValueDeclaration, param);
+            param.fileWriter.writeLine.withArgs(0,'      - red: Red of the Colors').calledOnce.should.be.ok;
+        });
+    });
+
+    describe('visitProperty for Relationship', () => {
+        let param;
+        beforeEach(() => {
+            param = {
+                fileWriter: mockFileWriter
+            };
+        });
+        it('should write a line for relationship and its vocabulary in english', () => {
+            const mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            const mockParent = {
+                getName: sinon.stub().returns('Order')
+            };
+            mockRelationship.isRelationship.returns(true);
+            mockRelationship.getParent.returns(mockParent);
+            mockRelationship.getName.returns('orderline');
+            vocabularyVisitor.visitProperty(mockRelationship, param);
+            param.fileWriter.writeLine.withArgs(0,'      - orderline: Orderline of the Order').calledOnce.should.be.ok;
         });
     });
 });

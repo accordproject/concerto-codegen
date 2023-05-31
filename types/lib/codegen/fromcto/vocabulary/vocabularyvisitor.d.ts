@@ -52,10 +52,10 @@ declare class VocabularyVisitor {
     private visitScalarDeclaration;
     /**
      * Visitor design pattern
-     * @param {Field} field - the object being visited
+     * @param {Property} property - the object being visited
      * @param {Object} parameters  - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */
-    private visitField;
+    private visitProperty;
 }
