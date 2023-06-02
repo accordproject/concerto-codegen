@@ -37,6 +37,15 @@ export class Reference extends Visitable {
     isReference: boolean;
 }
 /**
+ * An array property visitable class containing a number of fixed, indexed
+ * elements.
+ *
+ * @class
+ */
+export class FixedElementsArrayProperty extends Visitable {
+    isFixedElementsArrayProperty: boolean;
+}
+/**
  * An array property visitable class.
  *
  * @class

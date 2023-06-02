@@ -19,7 +19,7 @@ declare class JsonSchemaVisitor {
      */
     public static parse(jsonSchemaModel: any): any;
     /**
-     * Returns true if the property maps to the Concerto DateTime type.
+     * Returns "true" if the property maps to the Concerto DateTime type.
      * @param {Object} property - a JSON Schema model property.
      *
      * @return {Boolean} "true" if the property maps to the Concerto DateTime
@@ -28,10 +28,10 @@ declare class JsonSchemaVisitor {
      */
     private isDateTimeProperty;
     /**
-     * Returns true if the object contains an "anyOf" or a "oneOf" element.
+     * Returns "true" if the object contains an "anyOf" or a "oneOf" element.
      * @param {Object} property - a JSON Schema model property.
      *
-     * @return {Boolean} "true" if the object contains aan "anyOf" or a
+     * @return {Boolean} "true" if the object contains an "anyOf" or a
      * "oneOf" element.
      * @private
      */
@@ -56,7 +56,7 @@ declare class JsonSchemaVisitor {
      */
     private flattenAlternationInProperty;
     /**
-     * Returns true if the property contains a JSON Schema model reference.
+     * Returns "true" if the property contains a JSON Schema model reference.
      * @param {Object} property - a JSON Schema model property.
      *
      * @return {Boolean} "true" if the property contains a JSON Schema model
@@ -65,7 +65,7 @@ declare class JsonSchemaVisitor {
      */
     private isReference;
     /**
-     * Returns true if the string is a JSON Schema model local
+     * Returns "true" if the string is a JSON Schema model local
      * reference one.
      * @param {String} potentialReferenceString - a JSON Schema model local
      * reference string.
@@ -152,6 +152,33 @@ declare class JsonSchemaVisitor {
      */
     private deduplicateDeclarations;
     /**
+     * Returns "true" if the JSON Schema object is freeform, i.e.
+     * could contain data in any shape.
+     * @param {Object} object - a JSON Schema model object.
+     *
+     * @return {Boolean} "true" if the object is freeform.
+     * @private
+     */
+    private isObjectFreeform;
+    /**
+     * Returns "true" if the property is an array one.
+     * @param {Object} property - a JSON Schema object property.
+     *
+     * @return {Boolean} "true" if the object property is an array.
+     * @private
+     */
+    private isArrayProperty;
+    /**
+     * Returns "true" if the JSON Schema propetry is a fixed element array one
+     * i.e. it has a list of predefined elements, without room for more.
+     * @param {Object} property - a JSON Schema object property.
+     *
+     * @return {Boolean} "true" if the object property is a fixed element
+     * array one.
+     * @private
+     */
+    private isFixedElementsArrayProperty;
+    /**
      * Local reference property visitor.
      * @param {Object} reference - a JSON Schema model local reference property.
      * @param {Object} parameters - the visitor parameters.
@@ -173,6 +200,17 @@ declare class JsonSchemaVisitor {
      * @private
      */
     private visitReference;
+    /**
+     * Fixed elements array property visitor.
+     * @param {Object} arrayProperty - a JSON Schema model array property
+     *  containing fixed elements.
+     * @param {Object} parameters - the visitor parameters.
+     *
+     * @return {Object} a Concerto definition with the fixed array elements
+     * as the fields.
+     * @private
+     */
+    private visitFixedElementsArrayProperty;
     /**
      * Array property visitor.
      * @param {Object} arrayProperty - a JSON Schema model array property.
