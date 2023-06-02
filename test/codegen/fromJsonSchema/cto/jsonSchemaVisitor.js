@@ -731,7 +731,7 @@ concept Bar {
 
 concept Foo {
   @StringifiedUnionType("[number,boolean]")
-  o String bar
+  o String[] bar
 }`);
         }
     );
