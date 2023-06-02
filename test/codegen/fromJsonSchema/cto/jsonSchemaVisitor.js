@@ -20,7 +20,7 @@ const { assert } = chai;
 const fs = require('fs');
 const path = require('path');
 const Printer = require('@accordproject/concerto-cto').Printer;
-
+const { glob } = require('glob');
 const JsonSchemaVisitor = require(
     '../../../../lib/codegen/fromJsonSchema/cto/jsonSchemaVisitor'
 );
@@ -591,6 +591,46 @@ scalar Bar extends String`);
     );
 
     it(
+        'should generate with a reference to an empty (freeform) definition',
+        async () => {
+            const inferredConcertoJsonModel = JsonSchemaVisitor
+                .parse({
+                    $schema: 'http://json-schema.org/draft-07/schema#',
+                    definitions: {
+                        Foo: {
+                            type: 'object',
+                            properties: {
+                                bar: {
+                                    $ref: '#/definitions/Bar'
+                                },
+                            },
+                            required: [
+                                'bar'
+                            ]
+                        },
+                        Bar: {}
+                    }
+                })
+                .accept(
+                    jsonSchemaVisitor, { ...jsonSchemaVisitorParameters }
+                );
+
+            const inferredConcertoModel = Printer.toCTO(
+                inferredConcertoJsonModel.models[0]
+            );
+
+            inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept Foo {
+  o Bar bar
+}
+
+@StringifiedJson
+scalar Bar extends String`);
+        }
+    );
+
+    it(
         'should generate with a reference to an alternation object',
         async () => {
             const inferredConcertoJsonModel = JsonSchemaVisitor
@@ -652,6 +692,406 @@ concept Foo {
 
 concept Bar {
   o String name
+}`);
+        }
+    );
+
+    it(
+        'should generate with an array with a type union',
+        async () => {
+            const inferredConcertoJsonModel = JsonSchemaVisitor
+                .parse({
+                    $schema: 'http://json-schema.org/draft-07/schema#',
+                    definitions: {
+                        Foo: {
+                            type: 'object',
+                            properties: {
+                                bar: {
+                                    type: 'array',
+                                    items: {
+                                        type: ['number','boolean']
+                                    }
+                                },
+                            },
+                            required: [
+                                'bar'
+                            ]
+                        }
+                    }
+                })
+                .accept(
+                    jsonSchemaVisitor, { ...jsonSchemaVisitorParameters }
+                );
+
+            const inferredConcertoModel = Printer.toCTO(
+                inferredConcertoJsonModel.models[0]
+            );
+
+            inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept Foo {
+  @StringifiedUnionType("[number,boolean]")
+  o String bar
+}`);
+        }
+    );
+
+    it(
+        'should generate with a reference to an array',
+        async () => {
+            const inferredConcertoJsonModel = JsonSchemaVisitor
+                .parse({
+                    $schema: 'http://json-schema.org/draft-07/schema#',
+                    definitions: {
+                        Foo: {
+                            type: 'object',
+                            properties: {
+                                bar: {
+                                    $ref: '#/definitions/Bar'
+                                },
+                            },
+                            required: [
+                                'bar'
+                            ]
+                        },
+                        Bar: {
+                            type: 'array',
+                            items: {
+                                type: 'string'
+                            }
+                        }
+                    }
+                })
+                .accept(
+                    jsonSchemaVisitor, { ...jsonSchemaVisitorParameters }
+                );
+
+            const inferredConcertoModel = Printer.toCTO(
+                inferredConcertoJsonModel.models[0]
+            );
+
+            inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept Foo {
+  o String[] bar optional
+}`);
+        }
+    );
+
+    it(
+        'should generate with a reference to an array with exactly 3 fixed elements of 3 defined',
+        async () => {
+            const inferredConcertoJsonModel = JsonSchemaVisitor
+                .parse({
+                    $schema: 'http://json-schema.org/draft-07/schema#',
+                    definitions: {
+                        Foo: {
+                            type: 'object',
+                            properties: {
+                                bar: {
+                                    $ref: '#/definitions/Bar'
+                                },
+                            },
+                            required: [
+                                'bar'
+                            ]
+                        },
+                        Bar: {
+                            type: 'array',
+                            minItems: 3,
+                            maxItems: 3,
+                            items: [
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        name: {
+                                            type: 'string'
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        dob: {
+                                            type: 'string'
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        address: {
+                                            type: 'string'
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                })
+                .accept(
+                    jsonSchemaVisitor, { ...jsonSchemaVisitorParameters }
+                );
+
+            const inferredConcertoModel = Printer.toCTO(
+                inferredConcertoJsonModel.models[0]
+            );
+
+            inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept Foo {
+  o definitions$_Bar bar optional
+}
+
+concept definitions$_Bar {
+  o definitions$_Bar$_properties$_0 0
+  o definitions$_Bar$_properties$_1 1
+  o definitions$_Bar$_properties$_2 2
+}
+
+concept definitions$_Bar$_properties$_0 {
+  o String name optional
+}
+
+concept definitions$_Bar$_properties$_1 {
+  o String dob optional
+}
+
+concept definitions$_Bar$_properties$_2 {
+  o String address optional
+}`);
+        }
+    );
+
+    it(
+        'should generate with a reference to an array with a maximum of 2 fixed elements of 3 defined',
+        async () => {
+            const inferredConcertoJsonModel = JsonSchemaVisitor
+                .parse({
+                    $schema: 'http://json-schema.org/draft-07/schema#',
+                    definitions: {
+                        Foo: {
+                            type: 'object',
+                            properties: {
+                                bar: {
+                                    $ref: '#/definitions/Bar'
+                                },
+                            },
+                            required: [
+                                'bar'
+                            ]
+                        },
+                        Bar: {
+                            type: 'array',
+                            minItems: 2,
+                            maxItems: 2,
+                            items: [
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        name: {
+                                            type: 'string'
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        dob: {
+                                            type: 'string'
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        address: {
+                                            type: 'string'
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                })
+                .accept(
+                    jsonSchemaVisitor, { ...jsonSchemaVisitorParameters }
+                );
+
+            const inferredConcertoModel = Printer.toCTO(
+                inferredConcertoJsonModel.models[0]
+            );
+
+            inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept Foo {
+  o definitions$_Bar bar optional
+}
+
+concept definitions$_Bar {
+  o definitions$_Bar$_properties$_0 0
+  o definitions$_Bar$_properties$_1 1
+}
+
+concept definitions$_Bar$_properties$_0 {
+  o String name optional
+}
+
+concept definitions$_Bar$_properties$_1 {
+  o String dob optional
+}`);
+        }
+    );
+
+    it(
+        'should generate with a reference to an array with a minimum of 2 fixed elements of 3 defined',
+        async () => {
+            const inferredConcertoJsonModel = JsonSchemaVisitor
+                .parse({
+                    $schema: 'http://json-schema.org/draft-07/schema#',
+                    definitions: {
+                        Foo: {
+                            type: 'object',
+                            properties: {
+                                bar: {
+                                    $ref: '#/definitions/Bar'
+                                },
+                            },
+                            required: [
+                                'bar'
+                            ]
+                        },
+                        Bar: {
+                            type: 'array',
+                            minItems: 2,
+                            maxItems: 3,
+                            items: [
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        name: {
+                                            type: 'string'
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        dob: {
+                                            type: 'string'
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        address: {
+                                            type: 'string'
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                })
+                .accept(
+                    jsonSchemaVisitor, { ...jsonSchemaVisitorParameters }
+                );
+
+            const inferredConcertoModel = Printer.toCTO(
+                inferredConcertoJsonModel.models[0]
+            );
+
+            inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept Foo {
+  o definitions$_Bar bar optional
+}
+
+concept definitions$_Bar {
+  o definitions$_Bar$_properties$_0 0
+  o definitions$_Bar$_properties$_1 1
+  o definitions$_Bar$_properties$_2 2 optional
+}
+
+concept definitions$_Bar$_properties$_0 {
+  o String name optional
+}
+
+concept definitions$_Bar$_properties$_1 {
+  o String dob optional
+}
+
+concept definitions$_Bar$_properties$_2 {
+  o String address optional
+}`);
+        }
+    );
+
+    it(
+        'should generate with a reference to an array with a maximum of elements above the number of defined elements',
+        async () => {
+            const inferredConcertoJsonModel = JsonSchemaVisitor
+                .parse({
+                    $schema: 'http://json-schema.org/draft-07/schema#',
+                    definitions: {
+                        Foo: {
+                            type: 'object',
+                            properties: {
+                                bar: {
+                                    $ref: '#/definitions/Bar'
+                                },
+                            },
+                            required: [
+                                'bar'
+                            ]
+                        },
+                        Bar: {
+                            type: 'array',
+                            minItems: 3,
+                            maxItems: 4,
+                            items: [
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        name: {
+                                            type: 'string'
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        dob: {
+                                            type: 'string'
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        address: {
+                                            type: 'string'
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                })
+                .accept(
+                    jsonSchemaVisitor, { ...jsonSchemaVisitorParameters }
+                );
+
+            const inferredConcertoModel = Printer.toCTO(
+                inferredConcertoJsonModel.models[0]
+            );
+
+            inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept Foo {
+  @StringifiedJson
+  o String bar optional
 }`);
         }
     );
