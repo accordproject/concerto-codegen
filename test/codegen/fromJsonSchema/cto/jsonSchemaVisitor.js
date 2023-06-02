@@ -20,7 +20,7 @@ const { assert } = chai;
 const fs = require('fs');
 const path = require('path');
 const Printer = require('@accordproject/concerto-cto').Printer;
-const { glob } = require('glob');
+
 const JsonSchemaVisitor = require(
     '../../../../lib/codegen/fromJsonSchema/cto/jsonSchemaVisitor'
 );
