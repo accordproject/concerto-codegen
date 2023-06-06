@@ -4100,11 +4100,11 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 
 // Warning: Beware of circular dependencies when modifying these imports
 import type {
-	IState,
+	State,
 	IAddress,
 	ICompany,
-	IDepartment,
-	ILaptopMake
+	Department,
+	LaptopMake
 } from './org.acme.hr';
 
 // Warning: Beware of circular dependencies when modifying these imports
@@ -8947,11 +8947,11 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 
 // Warning: Beware of circular dependencies when modifying these imports
 import type {
-	IState,
+	State,
 	IAddress,
 	ICompany,
-	IDepartment,
-	ILaptopMake
+	Department,
+	LaptopMake
 } from './org.acme.hr@1.0.0';
 
 // Warning: Beware of circular dependencies when modifying these imports
