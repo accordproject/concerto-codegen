@@ -1991,7 +1991,7 @@ class \`org.acme.hr.Employee\` {
    + \`Department\` \`department\`
    + \`Address\` \`officeAddress\`
    + \`Equipment[]\` \`companyAssets\`
-\`org.acme.hr.Employee\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
+   + \`Manager\` \`manager\`
 }
 
 \`org.acme.hr.Employee\` "1" *-- "1" \`org.acme.hr.Department\`
@@ -2002,7 +2002,7 @@ class \`org.acme.hr.Employee\` {
 class \`org.acme.hr.Contractor\` {
 << participant>>
    + \`Company\` \`company\`
-\`org.acme.hr.Contractor\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
+   + \`Manager\` \`manager\`
 }
 
 \`org.acme.hr.Contractor\` "1" *-- "1" \`org.acme.hr.Company\`
@@ -2010,7 +2010,7 @@ class \`org.acme.hr.Contractor\` {
 \`org.acme.hr.Contractor\` --|> \`org.acme.hr.Person\`
 class \`org.acme.hr.Manager\` {
 << participant>>
-\`org.acme.hr.Manager\` "1" o-- "*" \`org.acme.hr.Person\` : reports
+   + \`Person[]\` \`reports\`
 }
 
 \`org.acme.hr.Manager\` "1" o-- "*" \`org.acme.hr.Person\` : reports
@@ -2020,14 +2020,14 @@ class \`org.acme.hr.CompanyEvent\`
 
 class \`org.acme.hr.Onboarded\` {
 << event>>
-\`org.acme.hr.Onboarded\` "1" o-- "1" \`org.acme.hr.Employee\` : employee
+   + \`Employee\` \`employee\`
 }
 
 \`org.acme.hr.Onboarded\` "1" o-- "1" \`org.acme.hr.Employee\` : employee
 \`org.acme.hr.Onboarded\` --|> \`org.acme.hr.CompanyEvent\`
 class \`org.acme.hr.ChangeOfAddress\` {
 << transaction>>
-\`org.acme.hr.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr.Person\` : Person
+   + \`Person\` \`Person\`
    + \`Address\` \`newAddress\`
 }
 
@@ -2123,7 +2123,7 @@ class \`org.acme.hr.Employee\` {
    + \`Department\` \`department\`
    + \`Address\` \`officeAddress\`
    + \`Equipment[]\` \`companyAssets\`
-\`org.acme.hr.Employee\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
+   + \`Manager\` \`manager\`
 }
 
 \`org.acme.hr.Employee\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
@@ -2131,14 +2131,14 @@ class \`org.acme.hr.Employee\` {
 class \`org.acme.hr.Contractor\` {
 << participant>>
    + \`Company\` \`company\`
-\`org.acme.hr.Contractor\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
+   + \`Manager\` \`manager\`
 }
 
 \`org.acme.hr.Contractor\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
 \`org.acme.hr.Contractor\` --|> \`org.acme.hr.Person\`
 class \`org.acme.hr.Manager\` {
 << participant>>
-\`org.acme.hr.Manager\` "1" o-- "*" \`org.acme.hr.Person\` : reports
+   + \`Person[]\` \`reports\`
 }
 
 \`org.acme.hr.Manager\` "1" o-- "*" \`org.acme.hr.Person\` : reports
@@ -2149,14 +2149,14 @@ class \`org.acme.hr.CompanyEvent\`
 \`org.acme.hr.CompanyEvent\` --|> \`concerto@1.0.0.Event\`
 class \`org.acme.hr.Onboarded\` {
 << event>>
-\`org.acme.hr.Onboarded\` "1" o-- "1" \`org.acme.hr.Employee\` : employee
+   + \`Employee\` \`employee\`
 }
 
 \`org.acme.hr.Onboarded\` "1" o-- "1" \`org.acme.hr.Employee\` : employee
 \`org.acme.hr.Onboarded\` --|> \`org.acme.hr.CompanyEvent\`
 class \`org.acme.hr.ChangeOfAddress\` {
 << transaction>>
-\`org.acme.hr.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr.Person\` : Person
+   + \`Person\` \`Person\`
    + \`Address\` \`newAddress\`
 }
 
@@ -4312,90 +4312,6 @@ export interface IChangeOfAddress extends ITransaction {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'vocab' 1`] = `
-{
-  "key": "org.acme.hr_en.voc",
-  "value": "#Generated vocabulary for namespace: org.acme.hr
-locale: en
-namespace: org.acme.hr
-declarations:
-  - State: State
-    properties:
-      - MA: MA of the State
-      - NY: NY of the State
-      - CO: CO of the State
-      - WA: WA of the State
-      - IL: IL of the State
-      - CA: CA of the State
-  - Address: Address
-    properties:
-      - street: Street of the Address
-      - city: City of the Address
-      - state: State of the Address
-      - zipCode: Zip Code of the Address
-      - country: Country of the Address
-  - Company: Company
-    properties:
-      - name: Name of the Company
-      - headquarters: Headquarters of the Company
-  - Department: Department
-    properties:
-      - Sales: Sales of the Department
-      - Marketing: Marketing of the Department
-      - Finance: Finance of the Department
-      - HR: HR of the Department
-      - Engineering: Engineering of the Department
-      - Design: Design of the Department
-  - Equipment: Equipment
-    properties:
-      - serialNumber: Serial Number of the Equipment
-  - LaptopMake: Laptop Make
-    properties:
-      - Apple: Apple of the Laptop Make
-      - Microsoft: Microsoft of the Laptop Make
-  - Laptop: Laptop
-    properties:
-      - make: Make of the Laptop
-  - SSN: SSN
-  - Person: Person
-    properties:
-      - email: Email of the Person
-      - firstName: First Name of the Person
-      - lastName: Last Name of the Person
-      - middleNames: Middle Names of the Person
-      - homeAddress: Home Address of the Person
-      - ssn: Ssn of the Person
-      - height: Height of the Person
-      - dob: Dob of the Person
-  - Employee: Employee
-    properties:
-      - employeeId: Employee Id of the Employee
-      - salary: Salary of the Employee
-      - numDependents: Num Dependents of the Employee
-      - retired: Retired of the Employee
-      - department: Department of the Employee
-      - officeAddress: Office Address of the Employee
-      - companyAssets: Company Assets of the Employee
-      - manager: Manager of the Employee
-  - Contractor: Contractor
-    properties:
-      - company: Company of the Contractor
-      - manager: Manager of the Contractor
-  - Manager: Manager
-    properties:
-      - reports: Reports of the Manager
-  - CompanyEvent: Company Event
-  - Onboarded: Onboarded
-    properties:
-      - employee: Employee of the Onboarded
-  - ChangeOfAddress: Change Of Address
-    properties:
-      - Person: Person of the Change Of Address
-      - newAddress: New Address of the Change Of Address
-",
-}
-`;
-
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'vocabulary' 1`] = `
 {
   "key": "org.acme.hr_en.voc",
@@ -4844,7 +4760,7 @@ class \`org.acme.hr@1.0.0.Employee\` {
    + \`Department\` \`department\`
    + \`Address\` \`officeAddress\`
    + \`Equipment[]\` \`companyAssets\`
-\`org.acme.hr@1.0.0.Employee\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+   + \`Manager\` \`manager\`
 }
 
 \`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Department\`
@@ -4855,7 +4771,7 @@ class \`org.acme.hr@1.0.0.Employee\` {
 class \`org.acme.hr@1.0.0.Contractor\` {
 << participant>>
    + \`Company\` \`company\`
-\`org.acme.hr@1.0.0.Contractor\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+   + \`Manager\` \`manager\`
 }
 
 \`org.acme.hr@1.0.0.Contractor\` "1" *-- "1" \`org.acme.hr@1.0.0.Company\`
@@ -4863,7 +4779,7 @@ class \`org.acme.hr@1.0.0.Contractor\` {
 \`org.acme.hr@1.0.0.Contractor\` --|> \`org.acme.hr@1.0.0.Person\`
 class \`org.acme.hr@1.0.0.Manager\` {
 << participant>>
-\`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
+   + \`Person[]\` \`reports\`
 }
 
 \`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
@@ -4873,14 +4789,14 @@ class \`org.acme.hr@1.0.0.CompanyEvent\`
 
 class \`org.acme.hr@1.0.0.Onboarded\` {
 << event>>
-\`org.acme.hr@1.0.0.Onboarded\` "1" o-- "1" \`org.acme.hr@1.0.0.Employee\` : employee
+   + \`Employee\` \`employee\`
 }
 
 \`org.acme.hr@1.0.0.Onboarded\` "1" o-- "1" \`org.acme.hr@1.0.0.Employee\` : employee
 \`org.acme.hr@1.0.0.Onboarded\` --|> \`org.acme.hr@1.0.0.CompanyEvent\`
 class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 << transaction>>
-\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
+   + \`Person\` \`Person\`
    + \`Address\` \`newAddress\`
 }
 
@@ -6986,7 +6902,7 @@ class \`org.acme.hr@1.0.0.Employee\` {
    + \`Department\` \`department\`
    + \`Address\` \`officeAddress\`
    + \`Equipment[]\` \`companyAssets\`
-\`org.acme.hr@1.0.0.Employee\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+   + \`Manager\` \`manager\`
 }
 
 \`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Department\`
@@ -6997,7 +6913,7 @@ class \`org.acme.hr@1.0.0.Employee\` {
 class \`org.acme.hr@1.0.0.Contractor\` {
 << participant>>
    + \`Company\` \`company\`
-\`org.acme.hr@1.0.0.Contractor\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+   + \`Manager\` \`manager\`
 }
 
 \`org.acme.hr@1.0.0.Contractor\` "1" *-- "1" \`org.acme.hr@1.0.0.Company\`
@@ -7005,7 +6921,7 @@ class \`org.acme.hr@1.0.0.Contractor\` {
 \`org.acme.hr@1.0.0.Contractor\` --|> \`org.acme.hr@1.0.0.Person\`
 class \`org.acme.hr@1.0.0.Manager\` {
 << participant>>
-\`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
+   + \`Person[]\` \`reports\`
 }
 
 \`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
@@ -7015,14 +6931,14 @@ class \`org.acme.hr@1.0.0.CompanyEvent\`
 
 class \`org.acme.hr@1.0.0.Onboarded\` {
 << event>>
-\`org.acme.hr@1.0.0.Onboarded\` "1" o-- "1" \`org.acme.hr@1.0.0.Employee\` : employee
+   + \`Employee\` \`employee\`
 }
 
 \`org.acme.hr@1.0.0.Onboarded\` "1" o-- "1" \`org.acme.hr@1.0.0.Employee\` : employee
 \`org.acme.hr@1.0.0.Onboarded\` --|> \`org.acme.hr@1.0.0.CompanyEvent\`
 class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 << transaction>>
-\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
+   + \`Person\` \`Person\`
    + \`Address\` \`newAddress\`
 }
 
@@ -7123,7 +7039,7 @@ class \`org.acme.hr@1.0.0.Employee\` {
    + \`Department\` \`department\`
    + \`Address\` \`officeAddress\`
    + \`Equipment[]\` \`companyAssets\`
-\`org.acme.hr@1.0.0.Employee\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+   + \`Manager\` \`manager\`
 }
 
 \`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Department\`
@@ -7134,7 +7050,7 @@ class \`org.acme.hr@1.0.0.Employee\` {
 class \`org.acme.hr@1.0.0.Contractor\` {
 << participant>>
    + \`Company\` \`company\`
-\`org.acme.hr@1.0.0.Contractor\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+   + \`Manager\` \`manager\`
 }
 
 \`org.acme.hr@1.0.0.Contractor\` "1" *-- "1" \`org.acme.hr@1.0.0.Company\`
@@ -7142,7 +7058,7 @@ class \`org.acme.hr@1.0.0.Contractor\` {
 \`org.acme.hr@1.0.0.Contractor\` --|> \`org.acme.hr@1.0.0.Person\`
 class \`org.acme.hr@1.0.0.Manager\` {
 << participant>>
-\`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
+   + \`Person[]\` \`reports\`
 }
 
 \`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
@@ -7153,14 +7069,14 @@ class \`org.acme.hr@1.0.0.CompanyEvent\`
 \`org.acme.hr@1.0.0.CompanyEvent\` --|> \`concerto@1.0.0.Event\`
 class \`org.acme.hr@1.0.0.Onboarded\` {
 << event>>
-\`org.acme.hr@1.0.0.Onboarded\` "1" o-- "1" \`org.acme.hr@1.0.0.Employee\` : employee
+   + \`Employee\` \`employee\`
 }
 
 \`org.acme.hr@1.0.0.Onboarded\` "1" o-- "1" \`org.acme.hr@1.0.0.Employee\` : employee
 \`org.acme.hr@1.0.0.Onboarded\` --|> \`org.acme.hr@1.0.0.CompanyEvent\`
 class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 << transaction>>
-\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
+   + \`Person\` \`Person\`
    + \`Address\` \`newAddress\`
 }
 
@@ -9323,90 +9239,6 @@ export interface IChangeOfAddress extends ITransaction {
    newAddress: IAddress;
 }
 
-",
-}
-`;
-
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'vocab' 1`] = `
-{
-  "key": "org.acme.hr@1.0.0_en.voc",
-  "value": "#Generated vocabulary for namespace: org.acme.hr@1.0.0
-locale: en
-namespace: org.acme.hr@1.0.0
-declarations:
-  - State: State
-    properties:
-      - MA: MA of the State
-      - NY: NY of the State
-      - CO: CO of the State
-      - WA: WA of the State
-      - IL: IL of the State
-      - CA: CA of the State
-  - Address: Address
-    properties:
-      - street: Street of the Address
-      - city: City of the Address
-      - state: State of the Address
-      - zipCode: Zip Code of the Address
-      - country: Country of the Address
-  - Company: Company
-    properties:
-      - name: Name of the Company
-      - headquarters: Headquarters of the Company
-  - Department: Department
-    properties:
-      - Sales: Sales of the Department
-      - Marketing: Marketing of the Department
-      - Finance: Finance of the Department
-      - HR: HR of the Department
-      - Engineering: Engineering of the Department
-      - Design: Design of the Department
-  - Equipment: Equipment
-    properties:
-      - serialNumber: Serial Number of the Equipment
-  - LaptopMake: Laptop Make
-    properties:
-      - Apple: Apple of the Laptop Make
-      - Microsoft: Microsoft of the Laptop Make
-  - Laptop: Laptop
-    properties:
-      - make: Make of the Laptop
-  - SSN: SSN
-  - Person: Person
-    properties:
-      - email: Email of the Person
-      - firstName: First Name of the Person
-      - lastName: Last Name of the Person
-      - middleNames: Middle Names of the Person
-      - homeAddress: Home Address of the Person
-      - ssn: Ssn of the Person
-      - height: Height of the Person
-      - dob: Dob of the Person
-  - Employee: Employee
-    properties:
-      - employeeId: Employee Id of the Employee
-      - salary: Salary of the Employee
-      - numDependents: Num Dependents of the Employee
-      - retired: Retired of the Employee
-      - department: Department of the Employee
-      - officeAddress: Office Address of the Employee
-      - companyAssets: Company Assets of the Employee
-      - manager: Manager of the Employee
-  - Contractor: Contractor
-    properties:
-      - company: Company of the Contractor
-      - manager: Manager of the Contractor
-  - Manager: Manager
-    properties:
-      - reports: Reports of the Manager
-  - CompanyEvent: Company Event
-  - Onboarded: Onboarded
-    properties:
-      - employee: Employee of the Onboarded
-  - ChangeOfAddress: Change Of Address
-    properties:
-      - Person: Person of the Change Of Address
-      - newAddress: New Address of the Change Of Address
 ",
 }
 `;
