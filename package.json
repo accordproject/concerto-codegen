@@ -8,7 +8,7 @@
         "npm": ">=6"
     },
     "main": "index.js",
-    "browser": "dist/concerto-codegen.js",
+    "browser": "umd/concerto-codegen.js",
     "typings": "types/index.d.ts",
     "scripts": {
         "coverage": "node ./scripts/coverage.js \"packages/concerto-*\" && nyc report -t coverage --cwd . --report-dir coverage --reporter=lcov && cat ./coverage/lcov.info",
