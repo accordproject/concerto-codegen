@@ -30,7 +30,7 @@ declare class MermaidVisitor extends DiagramVisitor {
      * @param {Object} parameters  - the parameter
      * @protected
      */
-    protected visitRelationship(relationship: RelationshipDeclaration, parameters: any): void;
+    protected writeRelationshipAggregation(relationship: RelationshipDeclaration, parameters: any): void;
     /**
      * Escape versions and periods.
      * @param {String} string - the object being visited
