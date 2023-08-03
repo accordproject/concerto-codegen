@@ -1095,4 +1095,45 @@ concept Foo {
 }`);
         }
     );
+
+    it(
+        'should generate with properties starting with a "$" and replace the starting "$" with a "_$"',
+        async () => {
+            const inferredConcertoJsonModel = JsonSchemaVisitor
+                .parse({
+                    $schema: 'http://json-schema.org/draft-07/schema#',
+                    definitions: {
+                        Foo: {
+                            type: 'object',
+                            properties: {
+                                $bar: {
+                                    type: 'string'
+                                },
+                                ba$z: {
+                                    type: 'string'
+                                }
+                            },
+                            required: [
+                                '$bar',
+                                'ba$z'
+                            ]
+                        }
+                    }
+                })
+                .accept(
+                    jsonSchemaVisitor, { ...jsonSchemaVisitorParameters }
+                );
+
+            const inferredConcertoModel = Printer.toCTO(
+                inferredConcertoJsonModel.models[0]
+            );
+
+            inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept Foo {
+  o String _$bar
+  o String ba$z
+}`);
+        }
+    );
 });
