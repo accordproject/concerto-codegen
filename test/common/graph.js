@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,6 +54,9 @@ describe('graph', function () {
    \`org.acme.hr@1.0.0.Address\`
    \`org.acme.hr@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.State\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map1\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map2\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map3\`
    \`org.acme.hr@1.0.0.Company\`
    \`org.acme.hr@1.0.0.Company\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.Address\`
@@ -106,7 +110,10 @@ describe('graph', function () {
             const connectedGraph = graph.findConnectedGraph('org.acme.hr@1.0.0.ChangeOfAddress');
             expect(connectedGraph.hasEdge('org.acme.hr@1.0.0.ChangeOfAddress', 'org.acme.hr@1.0.0.Person'));
 
-            const filteredModelManager = modelManager.filter(declaration => connectedGraph.hasVertex(declaration.getFullyQualifiedName()));
+
+            const filteredModelManager = modelManager
+                .filter(declaration => !declaration.isMapDeclaration?.())
+                .filter(declaration => connectedGraph.hasVertex(declaration.getFullyQualifiedName()));
 
             expect(filteredModelManager.getModelFiles()).toHaveLength(1);
             expect(filteredModelManager.getModelFiles()[0].getAllDeclarations()).toHaveLength(5);
