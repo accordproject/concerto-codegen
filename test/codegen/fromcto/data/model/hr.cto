@@ -15,6 +15,24 @@ concept Address {
     o State state optional
     o String zipCode
     o String country
+    o Map1 dictionary1
+    o Map2 dictionary2
+    o Map3 dictionary3
+}
+
+map Map1 {
+    o String
+    o String
+}
+
+map Map2 {
+    o String
+    o DateTime
+}
+
+map Map3 {
+    o String
+    o Employee
 }
 
 concept Company {
@@ -69,6 +87,9 @@ participant Employee extends Person {
     o Equipment[] companyAssets
     --> Manager manager optional
 }
+
+
+
 
 participant Contractor extends Person {
     o Company company
