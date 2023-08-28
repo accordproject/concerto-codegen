@@ -33,6 +33,11 @@ const FileWriter = require('@accordproject/concerto-util').FileWriter;
 describe('GoLangVisitor', function () {
     let goVisit;
     let mockFileWriter;
+
+    before(function() {
+        process.env.ENABLE_MAP_TYPE = 'true'; // TODO Remove on release of MapType
+    });
+
     beforeEach(() => {
         goVisit = new GoLangVisitor();
         mockFileWriter = sinon.createStubInstance(FileWriter);

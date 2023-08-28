@@ -28,6 +28,10 @@ chai.use(require('chai-things'));
 describe('graph', function () {
     let modelManager = null;
 
+    before(function() {
+        process.env.ENABLE_MAP_TYPE = 'true'; // TODO Remove on release of MapType
+    });
+
     beforeEach(function() {
         modelManager = new ModelManager();
         const cto = fs.readFileSync('./test/codegen/fromcto/data/model/hr.cto', 'utf-8');
