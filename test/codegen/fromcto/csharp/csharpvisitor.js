@@ -34,13 +34,22 @@ const RelationshipDeclaration = require('@accordproject/concerto-core').Relation
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
 const csharpBuiltInTypes = ['bool','byte','char','decimal','double','float','int','long','nint','nuint','sbyte','short',
     'string','uint','ulong','ushort'];
+let sandbox = sinon.createSandbox();
 
 describe('CSharpVisitor', function () {
     let csharpVisitor;
     let mockFileWriter;
+
     beforeEach(() => {
         csharpVisitor = new CSharpVisitor();
         mockFileWriter = sinon.createStubInstance(FileWriter);
+        sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+            return false;
+        });
+    });
+
+    afterEach(() => {
+        sandbox.restore();
     });
 
     describe('visit improved', () => {
@@ -1351,10 +1360,6 @@ public class SampleModel : Concept {
             param = {
                 fileWriter: mockFileWriter
             };
-
-            sinon.stub(ModelUtil, 'isMap').callsFake(() => {
-                return false;
-            });
         });
 
         it('should write a line for scalar field of type UUID with dotnet type Guid', () => {
@@ -1434,19 +1439,15 @@ public class SampleModel : Concept {
 
     describe('visitField', () => {
         let param;
-        let sandbox;
         beforeEach(() => {
             param = {
                 fileWriter: mockFileWriter
             };
-            sandbox = sinon.createSandbox();
-            // sinon.stub(ModelUtil, 'isMap').callsFake(() => {
-            //     return false;
-            // });
-        });
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
 
-        afterEach(() => {
-            sinon.restore();
         });
 
         it('should write a line for primitive field name and type', () => {
@@ -1501,24 +1502,18 @@ public class SampleModel : Concept {
             param.fileWriter.writeLine.withArgs(1, 'public Person[] Bob { get; set; }').calledOnce.should.be.ok;
         });
 
-        it.skip('should write a line for field name and type thats a map of <String, String>', () => {
-            const mockField = sinon.createStubInstance(Field);
-            sandbox.restore();
-
-            sinon.stub(ModelUtil, 'isMap').callsFake(() => {
-                return true;
-            });
+        it('should write a line for field name and type thats a map of <String, String>', () => {
+            const mockField             = sinon.createStubInstance(Field);
+            const getAllDeclarations    = sinon.stub();
 
             mockField.dummy = 'Dummy Value';
-
-            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
-
-            const getAllDeclarations = sinon.stub();
             mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
 
-            const findStub = sinon.stub();
-            const getKeyType = sinon.stub();
-            const getValueType = sinon.stub();
+            const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
+            const findStub              = sinon.stub();
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
             getAllDeclarations.returns({ find: findStub });
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
@@ -1528,28 +1523,49 @@ public class SampleModel : Concept {
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
+
             csharpVisitor.visitField(mockField, param);
-            param.fileWriter.writeLine.withArgs(1, 'public Dictionary<string, string> Map1 { get; set; };').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'public Dictionary<string, string> Map1 { get; set; };\n').calledOnce.should.be.ok;
         });
 
-        it.skip('should write a line for field name and type thats a map of <String, DateTime>', () => {
-            const mockField = sinon.createStubInstance(Field);
-            sandbox.restore();
-
-            sinon.stub(ModelUtil, 'isMap').callsFake(() => {
-                return true;
-            });
+        it('should write a line for field name and type thats a map of <String, Concept>', () => {
+            const mockField             = sinon.createStubInstance(Field);
+            const getAllDeclarations    = sinon.stub();
 
             mockField.dummy = 'Dummy Value';
-
-            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
-
-            const getAllDeclarations = sinon.stub();
             mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
 
-            const findStub = sinon.stub();
-            const getKeyType = sinon.stub();
-            const getValueType = sinon.stub();
+            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            const findStub              = sinon.stub();
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
+            getAllDeclarations.returns({ find: findStub });
+            findStub.returns(mockMapDeclaration);
+            getKeyType.returns('String');
+            getValueType.returns('Concept');
+            mockField.getName.returns('Map1');
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            csharpVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(0, 'public Dictionary<string, Concept> Map1 { get; set; };\n').calledOnce.should.be.ok;
+        });
+
+        it('should write a line for field name and type thats a map of <String, DateTime>', () => {
+            const mockField             = sinon.createStubInstance(Field);
+            const getAllDeclarations    = sinon.stub();
+
+            mockField.dummy = 'Dummy Value';
+            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+
+            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            const findStub              = sinon.stub();
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
             getAllDeclarations.returns({ find: findStub });
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
@@ -1559,8 +1575,9 @@ public class SampleModel : Concept {
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
+
             csharpVisitor.visitField(mockField, param);
-            param.fileWriter.writeLine.withArgs(1, 'public Dictionary<string, string> Map1 { get; set; };').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'public Dictionary<string, System.DateTime> Map1 { get; set; };\n').calledOnce.should.be.ok;
         });
     });
 
