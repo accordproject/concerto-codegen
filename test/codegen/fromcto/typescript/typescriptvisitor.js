@@ -665,7 +665,7 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'export type Map1 = Map<string, string>;').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, string>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <String, DateTime>', () => {
@@ -675,8 +675,8 @@ describe('TypescriptVisitor', function () {
 
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
 
-            const getKeyType = sinon.stub();
-            const getValueType = sinon.stub();
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
 
             getKeyType.returns('String');
             getValueType.returns('DateTime');
@@ -687,7 +687,7 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'export type Map1 = Map<string, Date>;').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, Date>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <String, Address>', () => {
@@ -697,8 +697,8 @@ describe('TypescriptVisitor', function () {
 
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
 
-            const getKeyType = sinon.stub();
-            const getValueType = sinon.stub();
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
 
             getKeyType.returns('String');
             getValueType.returns('Address');
@@ -709,7 +709,7 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'export type Map1 = Map<string, IAddress>;').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, IAddress>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <DateTime, Address>', () => {
@@ -719,8 +719,8 @@ describe('TypescriptVisitor', function () {
 
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
 
-            const getKeyType = sinon.stub();
-            const getValueType = sinon.stub();
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
 
             getKeyType.returns('String');
             getValueType.returns('Address');
@@ -731,7 +731,7 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'export type Map1 = Map<string, IAddress>;').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, IAddress>;\n').calledOnce.should.be.ok;
         });
     });
 
