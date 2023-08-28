@@ -18,6 +18,7 @@ concept Address {
     o Map1 dictionary1
     o Map2 dictionary2
     o Map3 dictionary3
+    o Map4 dictionary4
 }
 
 map Map1 {
@@ -33,6 +34,11 @@ map Map2 {
 map Map3 {
     o String
     o Employee
+}
+
+map Map4 {
+    o String
+    o Concept
 }
 
 concept Company {
