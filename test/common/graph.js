@@ -61,6 +61,8 @@ describe('graph', function () {
    \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map2\`
    \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map3\`
    \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map4\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map5\`
+   \`org.acme.hr@1.0.0.Time\`
    \`org.acme.hr@1.0.0.Company\`
    \`org.acme.hr@1.0.0.Company\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.Address\`
