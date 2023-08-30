@@ -72,7 +72,7 @@
         "@accordproject/concerto-core": "3.12.3",
         "@accordproject/concerto-util": "3.12.3",
         "@accordproject/concerto-vocabulary": "3.12.3",
-        "@openapi-contrib/openapi-schema-to-json-schema": "3.2.3",
+        "@openapi-contrib/openapi-schema-to-json-schema": "3.2.0",
         "ajv": "8.10.0",
         "ajv-formats": "2.1.1",
         "camelcase": "6.3.0",
