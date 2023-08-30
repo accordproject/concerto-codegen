@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,7 +63,25 @@ describe('graph', function () {
    \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map3\`
    \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map4\`
    \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map5\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map6\`
    \`org.acme.hr@1.0.0.Time\`
+   \`org.acme.hr@1.0.0.Map1\`
+   \`org.acme.hr@1.0.0.Map1\` --> \`String\`
+   \`org.acme.hr@1.0.0.Map2\`
+   \`org.acme.hr@1.0.0.Map2\` --> \`String\`
+   \`org.acme.hr@1.0.0.Map2\` --> \`DateTime\`
+   \`org.acme.hr@1.0.0.Map3\`
+   \`org.acme.hr@1.0.0.Map3\` --> \`String\`
+   \`org.acme.hr@1.0.0.Map3\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Map4\`
+   \`org.acme.hr@1.0.0.Map4\` --> \`String\`
+   \`org.acme.hr@1.0.0.Map4\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.Map5\`
+   \`org.acme.hr@1.0.0.Map5\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Map5\` --> \`String\`
+   \`org.acme.hr@1.0.0.Map6\`
+   \`org.acme.hr@1.0.0.Map6\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Map6\` --> \`org.acme.hr@1.0.0.Employee\`
    \`org.acme.hr@1.0.0.Company\`
    \`org.acme.hr@1.0.0.Company\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.Address\`
@@ -105,7 +124,7 @@ describe('graph', function () {
 `);
         });
 
-        it.skip('should visit find a connected subgraph', function () {
+        it('should visit find a connected subgraph', function () {
             const visitor = new ConcertoGraphVisitor();
             visitor.should.not.be.null;
             const writer = new InMemoryWriter();
@@ -116,13 +135,11 @@ describe('graph', function () {
             const connectedGraph = graph.findConnectedGraph('org.acme.hr@1.0.0.ChangeOfAddress');
             expect(connectedGraph.hasEdge('org.acme.hr@1.0.0.ChangeOfAddress', 'org.acme.hr@1.0.0.Person'));
 
-
             const filteredModelManager = modelManager
-                .filter(declaration => !declaration.isMapDeclaration?.())
                 .filter(declaration => connectedGraph.hasVertex(declaration.getFullyQualifiedName()));
 
             expect(filteredModelManager.getModelFiles()).toHaveLength(1);
-            expect(filteredModelManager.getModelFiles()[0].getAllDeclarations()).toHaveLength(5);
+            expect(filteredModelManager.getModelFiles()[0].getAllDeclarations()).toHaveLength(15);
 
             writer.openFile('graph.mmd');
             connectedGraph.print(writer);
@@ -133,11 +150,47 @@ describe('graph', function () {
    \`org.acme.hr@1.0.0.Address\`
    \`org.acme.hr@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.State\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map1\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map2\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map3\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map4\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map5\`
+   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map6\`
+   \`org.acme.hr@1.0.0.Map1\`
+   \`org.acme.hr@1.0.0.Map1\` --> \`String\`
+   \`org.acme.hr@1.0.0.Map2\`
+   \`org.acme.hr@1.0.0.Map2\` --> \`String\`
+   \`org.acme.hr@1.0.0.Map2\` --> \`DateTime\`
+   \`org.acme.hr@1.0.0.Map3\`
+   \`org.acme.hr@1.0.0.Map3\` --> \`String\`
+   \`org.acme.hr@1.0.0.Map3\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Map4\`
+   \`org.acme.hr@1.0.0.Map4\` --> \`String\`
+   \`org.acme.hr@1.0.0.Map4\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.Map5\`
+   \`org.acme.hr@1.0.0.Map5\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Map5\` --> \`String\`
+   \`org.acme.hr@1.0.0.Map6\`
+   \`org.acme.hr@1.0.0.Map6\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Map6\` --> \`org.acme.hr@1.0.0.Employee\`
+   \`org.acme.hr@1.0.0.Department\`
+   \`org.acme.hr@1.0.0.Department\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.Equipment\`
+   \`org.acme.hr@1.0.0.Equipment\` --> \`concerto@1.0.0.Asset\`
    \`org.acme.hr@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.Person\` --> \`concerto@1.0.0.Participant\`
    \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr@1.0.0.Address\`
    \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Employee\`
+   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Person\`
+   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Department\`
+   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Address\`
+   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Equipment\`
+   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Manager\`
+   \`org.acme.hr@1.0.0.Manager\`
+   \`org.acme.hr@1.0.0.Manager\` --> \`org.acme.hr@1.0.0.Employee\`
+   \`org.acme.hr@1.0.0.Manager\` --> \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.ChangeOfAddress\`
    \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`concerto@1.0.0.Transaction\`
    \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr@1.0.0.Person\`

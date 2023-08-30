@@ -90,6 +90,7 @@ protocol MyProtocol {
       Map3 dictionary3;
       Map4 dictionary4;
       Map5 dictionary5;
+      Map6 dictionary6;
    }
 
    record Company {
@@ -330,11 +331,13 @@ public Dictionary<string, string> dictionary1 { get; set; };
 
 public Dictionary<string, System.DateTime> dictionary2 { get; set; };
 
-public Dictionary<string, Employee> dictionary3 { get; set; };
+public Dictionary<string, SSN> dictionary3 { get; set; };
 
 public Dictionary<string, Concept> dictionary4 { get; set; };
 
-public Dictionary<string, Time> dictionary5 { get; set; };
+public Dictionary<string, string> dictionary5 { get; set; };
+
+public Dictionary<string, Employee> dictionary6 { get; set; };
 
 }
 //Dummy implementation of the scalar declaration to avoid compilation errors.
@@ -532,6 +535,7 @@ type Address struct {
    Dictionary3 Map3 \`json:"dictionary3"\`
    Dictionary4 Map4 \`json:"dictionary4"\`
    Dictionary5 Map5 \`json:"dictionary5"\`
+   Dictionary6 Map6 \`json:"dictionary6"\`
 }
 type Company struct {
    concerto_1_0_0.Concept
@@ -632,6 +636,7 @@ type Address {
    dictionary3: Map3!
    dictionary4: Map4!
    dictionary5: Map5!
+   dictionary6: Map6!
 }
 type Company {
    name: String!
@@ -905,6 +910,7 @@ public class Address extends Concept {
    private Map3 dictionary3;
    private Map4 dictionary4;
    private Map5 dictionary5;
+   private Map6 dictionary6;
    public String getStreet() {
       return this.street;
    }
@@ -935,6 +941,9 @@ public class Address extends Concept {
    public Map5 getDictionary5() {
       return this.dictionary5;
    }
+   public Map6 getDictionary6() {
+      return this.dictionary6;
+   }
    public void setStreet(String street) {
       this.street = street;
    }
@@ -964,6 +973,9 @@ public class Address extends Concept {
    }
    public void setDictionary5(Map5 dictionary5) {
       this.dictionary5 = dictionary5;
+   }
+   public void setDictionary6(Map6 dictionary6) {
+      this.dictionary6 = dictionary6;
    }
 }
 ",
@@ -1482,7 +1494,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "dictionary2",
         "dictionary3",
         "dictionary4",
-        "dictionary5"
+        "dictionary5",
+        "dictionary6"
       ]
     },
     "org.acme.hr.Time": {
@@ -1972,7 +1985,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 - 4 participants
 - 1 transactions
 - 2 events
-- 21 total declarations
+- 22 total declarations
 
 ## Imports
 - concerto@1.0.0.Concept
@@ -2006,6 +2019,7 @@ class \`org.acme.hr.Address\` {
    + \`Map3\` \`dictionary3\`
    + \`Map4\` \`dictionary4\`
    + \`Map5\` \`dictionary5\`
+   + \`Map6\` \`dictionary6\`
 }
 
 \`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.State\`
@@ -2014,6 +2028,7 @@ class \`org.acme.hr.Address\` {
 \`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.Map3\`
 \`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.Map4\`
 \`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.Map5\`
+\`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.Map6\`
 class \`org.acme.hr.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -2147,6 +2162,7 @@ class \`org.acme.hr.Address\` {
    + \`Map3\` \`dictionary3\`
    + \`Map4\` \`dictionary4\`
    + \`Map5\` \`dictionary5\`
+   + \`Map6\` \`dictionary6\`
 }
 
 \`org.acme.hr.Address\` --|> \`concerto@1.0.0.Concept\`
@@ -2333,6 +2349,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          </Property>
          <Property Name="dictionary5" Type="org.acme.hr.Map5"  >
          </Property>
+         <Property Name="dictionary6" Type="org.acme.hr.Map6"  >
+         </Property>
       </ComplexType>
       <ComplexType Name="Company"  BaseType="concerto.Concept">
          <Property Name="name" Type="Edm.String"  >
@@ -2505,7 +2523,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "dictionary2",
           "dictionary3",
           "dictionary4",
-          "dictionary5"
+          "dictionary5",
+          "dictionary6"
         ]
       },
       "org.acme.hr.Time": {
@@ -3259,6 +3278,7 @@ class org.acme.hr.Address {
    + Map3 dictionary3
    + Map4 dictionary4
    + Map5 dictionary5
+   + Map6 dictionary6
 }
 org.acme.hr.Address --|> concerto_1_0_0.Concept
 class org.acme.hr.Company {
@@ -3367,9 +3387,10 @@ message Address {
   Map3 dictionary3 = 5;
   Map4 dictionary4 = 6;
   Map5 dictionary5 = 7;
-  optional State state = 8;
-  string street = 9;
-  string zipCode = 10;
+  Map6 dictionary6 = 8;
+  optional State state = 9;
+  string street = 10;
+  string zipCode = 11;
 }
 
 message Company {
@@ -3774,6 +3795,11 @@ pub struct Address {
       rename = "dictionary5",
    )]
    pub dictionary5: Map5,
+   
+   #[serde(
+      rename = "dictionary6",
+   )]
+   pub dictionary6: Map6,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -4372,17 +4398,20 @@ export interface IAddress extends IConcept {
    dictionary3: Map3;
    dictionary4: Map4;
    dictionary5: Map5;
+   dictionary6: Map6;
 }
 
 export type Map1 = Map<string, string>;
 
 export type Map2 = Map<string, Date>;
 
-export type Map3 = Map<string, IEmployee>;
+export type Map3 = Map<string, string>;
 
 export type Map4 = Map<string, IConcept>;
 
-export type Map5 = Map<string, Date>;
+export type Map5 = Map<string, string>;
+
+export type Map6 = Map<string, IEmployee>;
 
 export interface ICompany extends IConcept {
    name: string;
@@ -4494,6 +4523,7 @@ declarations:
       - dictionary3: Dictionary3 of the Address
       - dictionary4: Dictionary4 of the Address
       - dictionary5: Dictionary5 of the Address
+      - dictionary6: Dictionary6 of the Address
   - Time: Time
   - Company: Company
     properties:
@@ -4700,6 +4730,7 @@ xmlns:concerto="concerto"
       <xs:element name="dictionary3" type="org.acme.hr:Map3"/>
       <xs:element name="dictionary4" type="org.acme.hr:Map4"/>
       <xs:element name="dictionary5" type="org.acme.hr:Map5"/>
+      <xs:element name="dictionary6" type="org.acme.hr:Map6"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -4870,6 +4901,7 @@ class \`org.acme.hr@1.0.0.Address\` {
    + \`Map3\` \`dictionary3\`
    + \`Map4\` \`dictionary4\`
    + \`Map5\` \`dictionary5\`
+   + \`Map6\` \`dictionary6\`
 }
 
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.State\`
@@ -4878,6 +4910,7 @@ class \`org.acme.hr@1.0.0.Address\` {
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map3\`
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map4\`
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map5\`
+\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map6\`
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -5008,6 +5041,7 @@ class org.acme.hr_1_0_0.Address {
    + Map3 dictionary3
    + Map4 dictionary4
    + Map5 dictionary5
+   + Map6 dictionary6
 }
 org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.State : state
 org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map1 : dictionary1
@@ -5015,6 +5049,7 @@ org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map2 : dictionary2
 org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map3 : dictionary3
 org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map4 : dictionary4
 org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map5 : dictionary5
+org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map6 : dictionary6
 class org.acme.hr_1_0_0.Company {
    + String name
    + Address headquarters
@@ -5187,6 +5222,7 @@ protocol MyProtocol {
       Map3 dictionary3;
       Map4 dictionary4;
       Map5 dictionary5;
+      Map6 dictionary6;
    }
 
    record Company {
@@ -5427,11 +5463,13 @@ public Dictionary<string, string> dictionary1 { get; set; };
 
 public Dictionary<string, System.DateTime> dictionary2 { get; set; };
 
-public Dictionary<string, Employee> dictionary3 { get; set; };
+public Dictionary<string, SSN> dictionary3 { get; set; };
 
 public Dictionary<string, Concept> dictionary4 { get; set; };
 
-public Dictionary<string, Time> dictionary5 { get; set; };
+public Dictionary<string, string> dictionary5 { get; set; };
+
+public Dictionary<string, Employee> dictionary6 { get; set; };
 
 }
 //Dummy implementation of the scalar declaration to avoid compilation errors.
@@ -5629,6 +5667,7 @@ type Address struct {
    Dictionary3 Map3 \`json:"dictionary3"\`
    Dictionary4 Map4 \`json:"dictionary4"\`
    Dictionary5 Map5 \`json:"dictionary5"\`
+   Dictionary6 Map6 \`json:"dictionary6"\`
 }
 type Company struct {
    concerto_1_0_0.Concept
@@ -5729,6 +5768,7 @@ type Address {
    dictionary3: Map3!
    dictionary4: Map4!
    dictionary5: Map5!
+   dictionary6: Map6!
 }
 type Company {
    name: String!
@@ -6002,6 +6042,7 @@ public class Address extends Concept {
    private Map3 dictionary3;
    private Map4 dictionary4;
    private Map5 dictionary5;
+   private Map6 dictionary6;
    public String getStreet() {
       return this.street;
    }
@@ -6032,6 +6073,9 @@ public class Address extends Concept {
    public Map5 getDictionary5() {
       return this.dictionary5;
    }
+   public Map6 getDictionary6() {
+      return this.dictionary6;
+   }
    public void setStreet(String street) {
       this.street = street;
    }
@@ -6061,6 +6105,9 @@ public class Address extends Concept {
    }
    public void setDictionary5(Map5 dictionary5) {
       this.dictionary5 = dictionary5;
+   }
+   public void setDictionary6(Map6 dictionary6) {
+      this.dictionary6 = dictionary6;
    }
 }
 ",
@@ -6579,7 +6626,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "dictionary2",
         "dictionary3",
         "dictionary4",
-        "dictionary5"
+        "dictionary5",
+        "dictionary6"
       ]
     },
     "org.acme.hr@1.0.0.Time": {
@@ -7069,7 +7117,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 - 4 participants
 - 1 transactions
 - 2 events
-- 21 total declarations
+- 22 total declarations
 
 ## Imports
 - concerto@1.0.0.Concept
@@ -7103,6 +7151,7 @@ class \`org.acme.hr@1.0.0.Address\` {
    + \`Map3\` \`dictionary3\`
    + \`Map4\` \`dictionary4\`
    + \`Map5\` \`dictionary5\`
+   + \`Map6\` \`dictionary6\`
 }
 
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.State\`
@@ -7111,6 +7160,7 @@ class \`org.acme.hr@1.0.0.Address\` {
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map3\`
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map4\`
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map5\`
+\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map6\`
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -7244,6 +7294,7 @@ class \`org.acme.hr@1.0.0.Address\` {
    + \`Map3\` \`dictionary3\`
    + \`Map4\` \`dictionary4\`
    + \`Map5\` \`dictionary5\`
+   + \`Map6\` \`dictionary6\`
 }
 
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.State\`
@@ -7252,6 +7303,7 @@ class \`org.acme.hr@1.0.0.Address\` {
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map3\`
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map4\`
 \`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map5\`
+\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map6\`
 \`org.acme.hr@1.0.0.Address\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
@@ -7445,6 +7497,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          </Property>
          <Property Name="dictionary5" Type="org.acme.hr.Map5"  >
          </Property>
+         <Property Name="dictionary6" Type="org.acme.hr.Map6"  >
+         </Property>
       </ComplexType>
       <ComplexType Name="Company"  BaseType="concerto.Concept">
          <Property Name="name" Type="Edm.String"  >
@@ -7617,7 +7671,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dictionary2",
           "dictionary3",
           "dictionary4",
-          "dictionary5"
+          "dictionary5",
+          "dictionary6"
         ]
       },
       "org.acme.hr@1.0.0.Time": {
@@ -8371,6 +8426,7 @@ class org.acme.hr_1_0_0.Address {
    + Map3 dictionary3
    + Map4 dictionary4
    + Map5 dictionary5
+   + Map6 dictionary6
 }
 org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.State : state
 org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map1 : dictionary1
@@ -8378,6 +8434,7 @@ org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map2 : dictionary2
 org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map3 : dictionary3
 org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map4 : dictionary4
 org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map5 : dictionary5
+org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map6 : dictionary6
 org.acme.hr_1_0_0.Address --|> concerto_1_0_0.Concept
 class org.acme.hr_1_0_0.Company {
    + String name
@@ -8494,9 +8551,10 @@ message Address {
   Map3 dictionary3 = 5;
   Map4 dictionary4 = 6;
   Map5 dictionary5 = 7;
-  optional State state = 8;
-  string street = 9;
-  string zipCode = 10;
+  Map6 dictionary6 = 8;
+  optional State state = 9;
+  string street = 10;
+  string zipCode = 11;
 }
 
 message Company {
@@ -8901,6 +8959,11 @@ pub struct Address {
       rename = "dictionary5",
    )]
    pub dictionary5: Map5,
+   
+   #[serde(
+      rename = "dictionary6",
+   )]
+   pub dictionary6: Map6,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -9499,17 +9562,20 @@ export interface IAddress extends IConcept {
    dictionary3: Map3;
    dictionary4: Map4;
    dictionary5: Map5;
+   dictionary6: Map6;
 }
 
 export type Map1 = Map<string, string>;
 
 export type Map2 = Map<string, Date>;
 
-export type Map3 = Map<string, IEmployee>;
+export type Map3 = Map<string, string>;
 
 export type Map4 = Map<string, IConcept>;
 
-export type Map5 = Map<string, Date>;
+export type Map5 = Map<string, string>;
+
+export type Map6 = Map<string, IEmployee>;
 
 export interface ICompany extends IConcept {
    name: string;
@@ -9621,6 +9687,7 @@ declarations:
       - dictionary3: Dictionary3 of the Address
       - dictionary4: Dictionary4 of the Address
       - dictionary5: Dictionary5 of the Address
+      - dictionary6: Dictionary6 of the Address
   - Time: Time
   - Company: Company
     properties:
@@ -9827,6 +9894,7 @@ xmlns:concerto="concerto"
       <xs:element name="dictionary3" type="org.acme.hr:Map3"/>
       <xs:element name="dictionary4" type="org.acme.hr:Map4"/>
       <xs:element name="dictionary5" type="org.acme.hr:Map5"/>
+      <xs:element name="dictionary6" type="org.acme.hr:Map6"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>

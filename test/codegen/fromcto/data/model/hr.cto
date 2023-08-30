@@ -20,6 +20,7 @@ concept Address {
     o Map3 dictionary3
     o Map4 dictionary4
     o Map5 dictionary5
+    o Map6 dictionary6
 }
 scalar Time extends DateTime
 
@@ -35,7 +36,7 @@ map Map2 {
 
 map Map3 {
     o String
-    o Employee
+    o SSN
 }
 
 map Map4 {
@@ -44,8 +45,13 @@ map Map4 {
 }
 
 map Map5 {
+    o SSN
     o String
-    o Time
+}
+
+map Map6 {
+    o SSN
+    o Employee
 }
 
 concept Company {
