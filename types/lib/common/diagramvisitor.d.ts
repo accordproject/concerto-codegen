@@ -82,6 +82,13 @@ declare class DiagramVisitor {
     protected visitScalarDeclaration(scalarDeclaration: ScalarDeclaration, parameters: any): void;
     /**
      * Visitor design pattern
+     * @param {MapDeclaration} mapDeclaration - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @protected
+     */
+    protected visitMapDeclaration(mapDeclaration: MapDeclaration, parameters: any): void;
+    /**
+     * Visitor design pattern
      * @param {Field} field - the object being visited
      * @param {Object} parameters  - the parameter
      * @protected
