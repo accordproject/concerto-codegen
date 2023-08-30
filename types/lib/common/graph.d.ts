@@ -14,6 +14,13 @@ export class ConcertoGraphVisitor extends DiagramVisitor {
      * @protected
      */
     protected visitClassDeclaration(classDeclaration: ClassDeclaration, parameters: any): void;
+    /**
+     * Visitor design pattern
+     * @param {MapDeclaration} mapDeclaration - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @protected
+     */
+    protected visitMapDeclaration(mapDeclaration: MapDeclaration, parameters: any): void;
 }
 export class DirectedGraph {
     /**
@@ -80,4 +87,5 @@ export class DirectedGraph {
 }
 import DiagramVisitor = require("./diagramvisitor");
 import { ClassDeclaration } from "@accordproject/concerto-core";
+import { MapDeclaration } from "@accordproject/concerto-core";
 import { Writer } from "@accordproject/concerto-util";

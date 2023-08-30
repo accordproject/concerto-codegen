@@ -29,6 +29,10 @@ describe('codegen', function () {
     let versionedModelManager = null;
     let unversionedModelManager = null;
 
+    before(function() {
+        process.env.ENABLE_MAP_TYPE = 'true'; // TODO Remove on release of MapType
+    });
+
     beforeEach(function() {
         versionedModelManager = new ModelManager();
         unversionedModelManager = new ModelManager();
