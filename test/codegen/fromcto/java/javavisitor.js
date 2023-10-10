@@ -21,6 +21,8 @@ const sinon = require('sinon');
 const JavaVisitor = require('../../../../lib/codegen/fromcto/java/javavisitor.js');
 
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
+const MapDeclaration = require('@accordproject/concerto-core').MapDeclaration;
+const ModelUtil = require('@accordproject/concerto-core').ModelUtil;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
 const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
@@ -28,6 +30,8 @@ const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+
+let sandbox = sinon.createSandbox();
 
 describe('JavaVisitor', function () {
     let javaVisit;
@@ -411,6 +415,47 @@ describe('JavaVisitor', function () {
 
             javaVisit.visitField(mockField, param);
             param.fileWriter.writeLine.withArgs(1, 'private JavaType[] Bob;').calledOnce.should.be.ok;
+        });
+
+        it('should write a line with a HashMap', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+                mode: 'field'
+            };
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const mockField             = sinon.createStubInstance(Field);
+            const getAllDeclarations    = sinon.stub();
+
+            mockField.dummy = 'Dummy Value';
+            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+
+            const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
+            const findStub              = sinon.stub();
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('SpecialType');
+
+            getAllDeclarations.returns({ find: findStub });
+            findStub.returns(mockMapDeclaration);
+            getKeyType.returns('String');
+            getValueType.returns('String');
+            mockField.getName.returns('Map1');
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            javaVisit.visitField(mockField,param);
+
+            param.fileWriter.writeLine.withArgs(1, 'private Map<String, String> Map1 = new HashMap<>();').calledOnce.should.be.ok;
+            sandbox.reset();
         });
 
         it('should write a line defining a field', () => {
