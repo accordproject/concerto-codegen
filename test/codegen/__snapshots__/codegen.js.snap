@@ -905,12 +905,12 @@ public class Address extends Concept {
    private State state;
    private String zipCode;
    private String country;
-   private Map1 dictionary1;
-   private Map2 dictionary2;
-   private Map3 dictionary3;
-   private Map4 dictionary4;
-   private Map5 dictionary5;
-   private Map6 dictionary6;
+   private Map<String, String> dictionary1 = new HashMap<>();
+   private Map<String, java.util.Date> dictionary2 = new HashMap<>();
+   private Map<String, SSN> dictionary3 = new HashMap<>();
+   private Map<String, Concept> dictionary4 = new HashMap<>();
+   private Map<SSN, String> dictionary5 = new HashMap<>();
+   private Map<SSN, Employee> dictionary6 = new HashMap<>();
    public String getStreet() {
       return this.street;
    }
@@ -6037,12 +6037,12 @@ public class Address extends Concept {
    private State state;
    private String zipCode;
    private String country;
-   private Map1 dictionary1;
-   private Map2 dictionary2;
-   private Map3 dictionary3;
-   private Map4 dictionary4;
-   private Map5 dictionary5;
-   private Map6 dictionary6;
+   private Map<String, String> dictionary1 = new HashMap<>();
+   private Map<String, java.util.Date> dictionary2 = new HashMap<>();
+   private Map<String, SSN> dictionary3 = new HashMap<>();
+   private Map<String, Concept> dictionary4 = new HashMap<>();
+   private Map<SSN, String> dictionary5 = new HashMap<>();
+   private Map<SSN, Employee> dictionary6 = new HashMap<>();
    public String getStreet() {
       return this.street;
    }
