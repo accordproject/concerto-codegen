@@ -99,4 +99,11 @@ declare class GoLangVisitor {
      * @private
      */
     private toGoPackageName;
+    /**
+     * Check if field is a Map Declaration
+     * @param {Field} field - the field being visited
+     * @return {boolean} true if field is a Map Declaration
+     * @private
+     */
+    private isMap;
 }
