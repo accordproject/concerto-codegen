@@ -1,0 +1,39 @@
+Targets to Support
+
+- Avro
+    - In Apache Avro, the key type for a map is always a string.
+    - The values can be of any Avro data type, such as strings, integers, doubles, records, or even nested maps.
+
+- sample: 
+        {
+            "type": "map",
+            "values": "string"
+        }
+- GoLang
+    - time.Time for date
+    - string for string
+
+
+
+- GraphQL
+- JsonSchema
+- Markdown
+- Mermaid
+- OData 
+- OpenApi 
+- PlantUML
+- ProtoBuf
+
+- Vocabulary 
+- XMLScehma
+
+
+===
+- Loopback // drop support for loopback in 4.0
+- Java
+    :: HashMap.
+- C#
+- Typescript 
+- Rust 
+    :: let mut book_reviews:HashMap<String, String> = HashMap::new();
+
