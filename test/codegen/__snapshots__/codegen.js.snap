@@ -524,12 +524,12 @@ type Address struct {
    State State \`json:"state"\`
    ZipCode string \`json:"zipCode"\`
    Country string \`json:"country"\`
-   Dictionary1 Map1 \`json:"dictionary1"\`
-   Dictionary2 Map2 \`json:"dictionary2"\`
-   Dictionary3 Map3 \`json:"dictionary3"\`
-   Dictionary4 Map4 \`json:"dictionary4"\`
-   Dictionary5 Map5 \`json:"dictionary5"\`
-   Dictionary6 Map6 \`json:"dictionary6"\`
+   dictionary1 := make(map[string]string)
+   dictionary2 := make(map[string]time.Time)
+   dictionary3 := make(map[string]SSN)
+   dictionary4 := make(map[string]Concept)
+   dictionary5 := make(map[SSN]string)
+   dictionary6 := make(map[SSN]Employee)
 }
 type Company struct {
    concerto_1_0_0.Concept
@@ -5650,12 +5650,12 @@ type Address struct {
    State State \`json:"state"\`
    ZipCode string \`json:"zipCode"\`
    Country string \`json:"country"\`
-   Dictionary1 Map1 \`json:"dictionary1"\`
-   Dictionary2 Map2 \`json:"dictionary2"\`
-   Dictionary3 Map3 \`json:"dictionary3"\`
-   Dictionary4 Map4 \`json:"dictionary4"\`
-   Dictionary5 Map5 \`json:"dictionary5"\`
-   Dictionary6 Map6 \`json:"dictionary6"\`
+   dictionary1 := make(map[string]string)
+   dictionary2 := make(map[string]time.Time)
+   dictionary3 := make(map[string]SSN)
+   dictionary4 := make(map[string]Concept)
+   dictionary5 := make(map[SSN]string)
+   dictionary6 := make(map[SSN]Employee)
 }
 type Company struct {
    concerto_1_0_0.Concept
