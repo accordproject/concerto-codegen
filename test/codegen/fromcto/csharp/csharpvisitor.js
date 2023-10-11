@@ -1525,7 +1525,7 @@ public class SampleModel : Concept {
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             csharpVisitor.visitField(mockField, param);
-            param.fileWriter.writeLine.withArgs(0, 'public Dictionary<string, string> Map1 { get; set; };\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'public Dictionary<string, string> Map1 { get; set; }').calledOnce.should.be.ok;
         });
 
         it('should write a line for field name and type thats a map of <String, Concept>', () => {
@@ -1551,7 +1551,7 @@ public class SampleModel : Concept {
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             csharpVisitor.visitField(mockField, param);
-            param.fileWriter.writeLine.withArgs(0, 'public Dictionary<string, Concept> Map1 { get; set; };\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'public Dictionary<string, Concept> Map1 { get; set; }').calledOnce.should.be.ok;
         });
 
         it('should write a line for field name and type thats a map of <String, DateTime>', () => {
@@ -1577,7 +1577,7 @@ public class SampleModel : Concept {
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             csharpVisitor.visitField(mockField, param);
-            param.fileWriter.writeLine.withArgs(0, 'public Dictionary<string, System.DateTime> Map1 { get; set; };\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'public Dictionary<string, System.DateTime> Map1 { get; set; }').calledOnce.should.be.ok;
         });
     });
 

@@ -327,18 +327,12 @@ public class Address : Concept {
    public State? state { get; set; }
    public string zipCode { get; set; }
    public string country { get; set; }
-public Dictionary<string, string> dictionary1 { get; set; };
-
-public Dictionary<string, System.DateTime> dictionary2 { get; set; };
-
-public Dictionary<string, SSN> dictionary3 { get; set; };
-
-public Dictionary<string, Concept> dictionary4 { get; set; };
-
-public Dictionary<string, string> dictionary5 { get; set; };
-
-public Dictionary<string, Employee> dictionary6 { get; set; };
-
+   public Dictionary<string, string> dictionary1 { get; set; }
+   public Dictionary<string, System.DateTime> dictionary2 { get; set; }
+   public Dictionary<string, SSN> dictionary3 { get; set; }
+   public Dictionary<string, Concept> dictionary4 { get; set; }
+   public Dictionary<string, string> dictionary5 { get; set; }
+   public Dictionary<string, Employee> dictionary6 { get; set; }
 }
 //Dummy implementation of the scalar declaration to avoid compilation errors.
 class Time_Dummy {}
@@ -5459,18 +5453,12 @@ public class Address : Concept {
    public State? state { get; set; }
    public string zipCode { get; set; }
    public string country { get; set; }
-public Dictionary<string, string> dictionary1 { get; set; };
-
-public Dictionary<string, System.DateTime> dictionary2 { get; set; };
-
-public Dictionary<string, SSN> dictionary3 { get; set; };
-
-public Dictionary<string, Concept> dictionary4 { get; set; };
-
-public Dictionary<string, string> dictionary5 { get; set; };
-
-public Dictionary<string, Employee> dictionary6 { get; set; };
-
+   public Dictionary<string, string> dictionary1 { get; set; }
+   public Dictionary<string, System.DateTime> dictionary2 { get; set; }
+   public Dictionary<string, SSN> dictionary3 { get; set; }
+   public Dictionary<string, Concept> dictionary4 { get; set; }
+   public Dictionary<string, string> dictionary5 { get; set; }
+   public Dictionary<string, Employee> dictionary6 { get; set; }
 }
 //Dummy implementation of the scalar declaration to avoid compilation errors.
 class Time_Dummy {}
