@@ -63,7 +63,9 @@ declare class PlantUMLVisitor extends DiagramVisitor {
     /**
      * Escape fully qualified names. We preserve the dots in the
      * package name, remove the '@' symbol because it is invalid
-     * and remove the dots in the version (because otherwise packages get created)
+     * and remove the dots in the version (because otherwise packages get created).
+     * We also replace all '-' characters with '_' because they are invalid in
+     * PlantUML identifiers as '-' can appear in a semver string.
      * @param {String} input - the object being visited
      * @return {String} string  - the parameter
      * @protected
