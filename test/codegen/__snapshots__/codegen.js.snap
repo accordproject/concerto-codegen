@@ -1476,6 +1476,91 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         },
         "country": {
           "type": "string"
+        },
+        "dictionary1": {
+          "$id": "org.acme.hr.Address.dictionary1",
+          "schema": {
+            "title": "Map1",
+            "description": "An instance of org.acme.hr.Map1",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "dictionary2": {
+          "$id": "org.acme.hr.Address.dictionary2",
+          "schema": {
+            "title": "Map2",
+            "description": "An instance of org.acme.hr.Map2",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "dictionary3": {
+          "$id": "org.acme.hr.Address.dictionary3",
+          "schema": {
+            "title": "Map3",
+            "description": "An instance of org.acme.hr.Map3",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "SSN"
+            }
+          }
+        },
+        "dictionary4": {
+          "$id": "org.acme.hr.Address.dictionary4",
+          "schema": {
+            "title": "Map4",
+            "description": "An instance of org.acme.hr.Map4",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "Concept"
+            }
+          }
+        },
+        "dictionary5": {
+          "$id": "org.acme.hr.Address.dictionary5",
+          "schema": {
+            "title": "Map5",
+            "description": "An instance of org.acme.hr.Map5",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "dictionary6": {
+          "$id": "org.acme.hr.Address.dictionary6",
+          "schema": {
+            "title": "Map6",
+            "description": "An instance of org.acme.hr.Map6",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "Employee",
+              "$ref": "#/definitions/org.acme.hr.Employee"
+            }
+          }
         }
       },
       "required": [
@@ -2505,6 +2590,91 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           },
           "country": {
             "type": "string"
+          },
+          "dictionary1": {
+            "$id": "org.acme.hr.Address.dictionary1",
+            "schema": {
+              "title": "Map1",
+              "description": "An instance of org.acme.hr.Map1",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "dictionary2": {
+            "$id": "org.acme.hr.Address.dictionary2",
+            "schema": {
+              "title": "Map2",
+              "description": "An instance of org.acme.hr.Map2",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "dictionary3": {
+            "$id": "org.acme.hr.Address.dictionary3",
+            "schema": {
+              "title": "Map3",
+              "description": "An instance of org.acme.hr.Map3",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "SSN"
+              }
+            }
+          },
+          "dictionary4": {
+            "$id": "org.acme.hr.Address.dictionary4",
+            "schema": {
+              "title": "Map4",
+              "description": "An instance of org.acme.hr.Map4",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "Concept"
+              }
+            }
+          },
+          "dictionary5": {
+            "$id": "org.acme.hr.Address.dictionary5",
+            "schema": {
+              "title": "Map5",
+              "description": "An instance of org.acme.hr.Map5",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "dictionary6": {
+            "$id": "org.acme.hr.Address.dictionary6",
+            "schema": {
+              "title": "Map6",
+              "description": "An instance of org.acme.hr.Map6",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "Employee",
+                "$ref": "#/definitions/org.acme.hr.Employee"
+              }
+            }
           }
         },
         "required": [
@@ -6602,6 +6772,91 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         },
         "country": {
           "type": "string"
+        },
+        "dictionary1": {
+          "$id": "org.acme.hr@1.0.0.Address.dictionary1",
+          "schema": {
+            "title": "Map1",
+            "description": "An instance of org.acme.hr@1.0.0.Map1",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "dictionary2": {
+          "$id": "org.acme.hr@1.0.0.Address.dictionary2",
+          "schema": {
+            "title": "Map2",
+            "description": "An instance of org.acme.hr@1.0.0.Map2",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "dictionary3": {
+          "$id": "org.acme.hr@1.0.0.Address.dictionary3",
+          "schema": {
+            "title": "Map3",
+            "description": "An instance of org.acme.hr@1.0.0.Map3",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "SSN"
+            }
+          }
+        },
+        "dictionary4": {
+          "$id": "org.acme.hr@1.0.0.Address.dictionary4",
+          "schema": {
+            "title": "Map4",
+            "description": "An instance of org.acme.hr@1.0.0.Map4",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "Concept"
+            }
+          }
+        },
+        "dictionary5": {
+          "$id": "org.acme.hr@1.0.0.Address.dictionary5",
+          "schema": {
+            "title": "Map5",
+            "description": "An instance of org.acme.hr@1.0.0.Map5",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "dictionary6": {
+          "$id": "org.acme.hr@1.0.0.Address.dictionary6",
+          "schema": {
+            "title": "Map6",
+            "description": "An instance of org.acme.hr@1.0.0.Map6",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "Employee",
+              "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
+            }
+          }
         }
       },
       "required": [
@@ -7647,6 +7902,91 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "country": {
             "type": "string"
+          },
+          "dictionary1": {
+            "$id": "org.acme.hr@1.0.0.Address.dictionary1",
+            "schema": {
+              "title": "Map1",
+              "description": "An instance of org.acme.hr@1.0.0.Map1",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "dictionary2": {
+            "$id": "org.acme.hr@1.0.0.Address.dictionary2",
+            "schema": {
+              "title": "Map2",
+              "description": "An instance of org.acme.hr@1.0.0.Map2",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "dictionary3": {
+            "$id": "org.acme.hr@1.0.0.Address.dictionary3",
+            "schema": {
+              "title": "Map3",
+              "description": "An instance of org.acme.hr@1.0.0.Map3",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "SSN"
+              }
+            }
+          },
+          "dictionary4": {
+            "$id": "org.acme.hr@1.0.0.Address.dictionary4",
+            "schema": {
+              "title": "Map4",
+              "description": "An instance of org.acme.hr@1.0.0.Map4",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "Concept"
+              }
+            }
+          },
+          "dictionary5": {
+            "$id": "org.acme.hr@1.0.0.Address.dictionary5",
+            "schema": {
+              "title": "Map5",
+              "description": "An instance of org.acme.hr@1.0.0.Map5",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "dictionary6": {
+            "$id": "org.acme.hr@1.0.0.Address.dictionary6",
+            "schema": {
+              "title": "Map6",
+              "description": "An instance of org.acme.hr@1.0.0.Map6",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "Employee",
+                "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
+              }
+            }
           }
         },
         "required": [
