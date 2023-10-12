@@ -162,4 +162,12 @@ declare class JSONSchemaVisitor {
      * @private
      */
     private visitRelationshipDeclaration;
+    /**
+     * Converts a Concerto type to a JSON type. Primitive types are converted
+     * everything else is passed through unchanged.
+     * @param {string} type  - the concerto type
+     * @return {string} the corresponding type in Json
+     * @private
+     */
+    private toJsonType;
 }
