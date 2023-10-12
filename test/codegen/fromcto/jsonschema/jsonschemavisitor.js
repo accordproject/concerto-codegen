@@ -178,6 +178,63 @@ concept OtherThing identified by id {
     o String someId
 }
 `;
+
+
+const MODEL_MAP_STRING = `
+namespace test
+
+map Dictionary {
+  o String
+  o String
+}
+
+concept Foo {
+    o Dictionary dictionary
+}
+`;
+
+const MODEL_MAP_NUMBER = `
+namespace test
+
+map Dictionary {
+  o String
+  o Double
+}
+
+concept Foo {
+    o Dictionary dictionary
+}
+`;
+
+const MODEL_MAP_BOOLEAN = `
+namespace test
+
+map Dictionary {
+  o String
+  o Boolean
+}
+
+concept Foo {
+    o Dictionary dictionary
+}
+`;
+
+const MODEL_MAP_COMPLEX = `
+namespace test
+
+concept Person {
+  o String name
+}
+map Dictionary {
+  o String
+  o Person
+}
+
+concept Foo {
+    o Dictionary dictionary
+}
+`;
+
 const MODEL_RELATIONSHIP_SIMPLE = `
 namespace test
 
@@ -285,6 +342,57 @@ describe('JSONSchema (samples)', function () {
             expect(schema.properties.id.format).equal('uuid');
             expect(schema.properties.someId.type).equal('string');
             expect(schema.properties.someId.format).to.be.undefined;
+        });
+
+        it('should generate for Map of type <String, String>', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel( MODEL_MAP_STRING );
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test.Foo'});
+            expect(schema.properties.dictionary.schema.title).equal('Dictionary');
+            expect(schema.properties.dictionary.schema.description).equal('An instance of test.Dictionary');
+            expect(schema.properties.dictionary.schema.type).equal('object');
+            expect(schema.properties.dictionary.schema.propertyNames.type).equal('string');
+            expect(schema.properties.dictionary.schema.additionalProperties.type).equal('string');
+        });
+
+
+        it('should generate for Map of type <String, Person>', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel( MODEL_MAP_COMPLEX );
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test.Foo'});
+            expect(schema.properties.dictionary.schema.title).equal('Dictionary');
+            expect(schema.properties.dictionary.schema.description).equal('An instance of test.Dictionary');
+            expect(schema.properties.dictionary.schema.type).equal('object');
+            expect(schema.properties.dictionary.schema.propertyNames.type).equal('string');
+            expect(schema.properties.dictionary.schema.additionalProperties.type).equal('Person');
+            expect(schema.properties.dictionary.schema.additionalProperties.$ref).equal('#/definitions/test.Person');
+        });
+
+        it('should generate for Map of type <String, Double>', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel( MODEL_MAP_NUMBER );
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test.Foo'});
+            expect(schema.properties.dictionary.schema.title).equal('Dictionary');
+            expect(schema.properties.dictionary.schema.description).equal('An instance of test.Dictionary');
+            expect(schema.properties.dictionary.schema.type).equal('object');
+            expect(schema.properties.dictionary.schema.propertyNames.type).equal('string');
+            expect(schema.properties.dictionary.schema.additionalProperties.type).equal('number');
+        });
+
+
+        it('should generate for Map of type <String, Boolean>', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel( MODEL_MAP_BOOLEAN );
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test.Foo'});
+            expect(schema.properties.dictionary.schema.title).equal('Dictionary');
+            expect(schema.properties.dictionary.schema.description).equal('An instance of test.Dictionary');
+            expect(schema.properties.dictionary.schema.type).equal('object');
+            expect(schema.properties.dictionary.schema.propertyNames.type).equal('string');
+            expect(schema.properties.dictionary.schema.additionalProperties.type).equal('boolean');
         });
 
         it('should use min max length for string fields when length validator is configured', () => {
