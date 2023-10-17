@@ -3376,12 +3376,12 @@ enum State {
 message Address {
   string city = 1;
   string country = 2;
-  Map1 dictionary1 = 3;
-  Map2 dictionary2 = 4;
-  Map3 dictionary3 = 5;
-  Map4 dictionary4 = 6;
-  Map5 dictionary5 = 7;
-  Map6 dictionary6 = 8;
+  map<string, string> Map1 = 3;
+  map<string, google.protobuf.Timestamp> Map2 = 4;
+  map<string, SSN> Map3 = 5;
+  map<string, Concept> Map4 = 6;
+  map<SSN, string> Map5 = 7;
+  map<SSN, Employee> Map6 = 8;
   optional State state = 9;
   string street = 10;
   string zipCode = 11;
@@ -8534,12 +8534,12 @@ enum State {
 message Address {
   string city = 1;
   string country = 2;
-  Map1 dictionary1 = 3;
-  Map2 dictionary2 = 4;
-  Map3 dictionary3 = 5;
-  Map4 dictionary4 = 6;
-  Map5 dictionary5 = 7;
-  Map6 dictionary6 = 8;
+  map<string, string> Map1 = 3;
+  map<string, google.protobuf.Timestamp> Map2 = 4;
+  map<string, SSN> Map3 = 5;
+  map<string, Concept> Map4 = 6;
+  map<SSN, string> Map5 = 7;
+  map<SSN, Employee> Map6 = 8;
   optional State state = 9;
   string street = 10;
   string zipCode = 11;
