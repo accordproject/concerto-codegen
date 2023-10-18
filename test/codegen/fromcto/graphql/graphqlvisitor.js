@@ -369,6 +369,8 @@ describe('GraphQLVisitor', function () {
             param.fileWriter.writeLine.withArgs(1, 'key: String').calledOnce.should.be.ok;
             param.fileWriter.writeLine.withArgs(1, 'value: String').calledOnce.should.be.ok;
             param.fileWriter.writeLine.withArgs(0, '}').calledOnce.should.be.ok;
+
+            sandbox.restore();
         });
     });
 
