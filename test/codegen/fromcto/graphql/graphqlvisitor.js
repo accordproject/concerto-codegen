@@ -23,10 +23,14 @@ const GraphQLVisitor = require('../../../../lib/codegen/fromcto/graphql/graphqlv
 const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
+const MapDeclaration = require('@accordproject/concerto-core').MapDeclaration;
 const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+const { ModelUtil } = require('@accordproject/concerto-core');
+
+let sandbox = sinon.createSandbox();
 
 const MODEL_WITH_DECORATORS = `
 namespace test
@@ -336,6 +340,35 @@ describe('GraphQLVisitor', function () {
 
             graphQLVisitor.visitEnumValueDeclaration(mockEnumValueDecl, param);
             param.fileWriter.writeLine.withArgs(1, 'Bob').calledOnce.should.be.ok;
+        });
+    });
+
+    describe('visitMapDeclaration', () => {
+        it('should write a type for a Map', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            sandbox.stub(ModelUtil, 'isPrimitiveType').callsFake(() => {
+                return true;
+            });
+
+            const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
+            getKeyType.returns('String');
+            getValueType.returns('String');
+            mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            graphQLVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(0, 'type map1 {').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'key: String').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'value: String').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, '}').calledOnce.should.be.ok;
         });
     });
 
