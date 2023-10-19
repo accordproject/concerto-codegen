@@ -632,6 +632,30 @@ type Address {
    dictionary5: Map5!
    dictionary6: Map6!
 }
+type Map1 {
+   key: String
+   value: String
+}
+type Map2 {
+   key: String
+   value: DateTime
+}
+type Map3 {
+   key: String
+   value: SSN
+}
+type Map4 {
+   key: String
+   value: Concept
+}
+type Map5 {
+   key: SSN
+   value: String
+}
+type Map6 {
+   key: SSN
+   value: Employee
+}
 type Company {
    name: String!
    headquarters: Address!
@@ -5925,6 +5949,30 @@ type Address {
    dictionary4: Map4!
    dictionary5: Map5!
    dictionary6: Map6!
+}
+type Map1 {
+   key: String
+   value: String
+}
+type Map2 {
+   key: String
+   value: DateTime
+}
+type Map3 {
+   key: String
+   value: SSN
+}
+type Map4 {
+   key: String
+   value: Concept
+}
+type Map5 {
+   key: SSN
+   value: String
+}
+type Map6 {
+   key: SSN
+   value: Employee
 }
 type Company {
    name: String!
