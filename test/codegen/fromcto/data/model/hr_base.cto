@@ -15,6 +15,11 @@ enum TShirtSizeType {
     o LARGE
 }
 
+map EmployeeTShirtSizes {
+    o SSN
+    o TShirtSizeType
+}
+
 concept Address {
     o String street
     o String city

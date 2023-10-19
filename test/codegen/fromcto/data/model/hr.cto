@@ -1,6 +1,6 @@
 namespace org.acme.hr@1.0.0
 
-import org.acme.hr.base@1.0.0.{Address, State, SSN, Time}
+import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes}
 
 map CompanyProperties {
     o String
@@ -20,11 +20,6 @@ map EmployeeSocialSecurityNumbers {
 map EmployeeProfiles {
     o String
     o Concept
-}
-
-map EmployeeTShirtSizes {
-    o SSN
-    o TShirtSizeType
 }
 
 map EmployeeDirectory {
