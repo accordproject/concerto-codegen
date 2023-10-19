@@ -1,6 +1,6 @@
 namespace org.acme.hr@1.0.0
 
-import org.acme.hr.base@1.0.0.{State, SSN, Time}
+import org.acme.hr.base@1.0.0.{Address, State, SSN, Time}
 
 map CompanyProperties {
     o String
