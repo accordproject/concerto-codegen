@@ -30,8 +30,9 @@ declare class JSONSchemaVisitor {
     getDecorators(decorated: object): object;
     /**
      * Get the validators for a field or a scalar definition in JSON schema form.
-     * @param {Object} field - the scalar declaration being visited
+     * @param {Object} type - the scalar declaration being visited
      * @param {bool} [isScalarUUID] - flag to indicate given field type is scalar uuid
+     * @param {bool} [validator] - the field validator
      * @return {Object} the result of visiting or null
      * @private
      */
@@ -162,12 +163,4 @@ declare class JSONSchemaVisitor {
      * @private
      */
     private visitRelationshipDeclaration;
-    /**
-     * Converts a Concerto type to a JSON type. Primitive types are converted
-     * everything else is passed through unchanged.
-     * @param {string} type  - the concerto type
-     * @return {string} the corresponding type in Json
-     * @private
-     */
-    private toJsonType;
 }
