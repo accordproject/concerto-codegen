@@ -1,55 +1,33 @@
 namespace org.acme.hr@1.0.0
 
-enum State {
-    o MA
-    o NY
-    o CO
-    o WA
-    o IL
-    o CA
-}
+import org.acme.hr.base@1.0.0.{State, SSN, Time}
 
-concept Address {
-    o String street
-    o String city
-    o State state optional
-    o String zipCode
-    o String country
-    o Map1 dictionary1
-    o Map2 dictionary2
-    o Map3 dictionary3
-    o Map4 dictionary4
-    o Map5 dictionary5
-    o Map6 dictionary6
-}
-scalar Time extends DateTime
-
-map Map1 {
+map CompanyProperties {
     o String
     o String
 }
 
-map Map2 {
+map EmployeeLoginTimes {
     o String
-    o DateTime
+    o Time
 }
 
-map Map3 {
+map EmployeeSocialSecurityNumbers {
     o String
     o SSN
 }
 
-map Map4 {
+map EmployeeProfiles {
     o String
     o Concept
 }
 
-map Map5 {
+map EmployeeTShirtSizes {
     o SSN
-    o String
+    o TShirtSizeType
 }
 
-map Map6 {
+map EmployeeDirectory {
     o SSN
     o Employee
 }
@@ -57,6 +35,11 @@ map Map6 {
 concept Company {
     o String name
     o Address headquarters
+    o CompanyProperties companyProperties optional
+    o EmployeeDirectory employeeDirectory optional
+    o EmployeeTShirtSizes employeeTShirtSizes optional
+    o EmployeeProfiles employeeProfiles optional
+    o EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers optional
 }
 
 enum Department {
@@ -82,8 +65,6 @@ asset Laptop extends Equipment {
     o LaptopMake make
 }
 
-scalar SSN extends String default="000-00-0000" regex=/\d{3}-\d{2}-\{4}+/
-
 @resource
 abstract participant Person identified by email {
     o String email
@@ -106,9 +87,6 @@ participant Employee extends Person {
     o Equipment[] companyAssets
     --> Manager manager optional
 }
-
-
-
 
 participant Contractor extends Person {
     o Company company

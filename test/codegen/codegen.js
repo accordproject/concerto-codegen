@@ -37,10 +37,15 @@ describe('codegen', function () {
         versionedModelManager = new ModelManager();
         unversionedModelManager = new ModelManager();
 
+        const base_cto = fs.readFileSync('./test/codegen/fromcto/data/model/hr_base.cto', 'utf-8');
         const cto = fs.readFileSync('./test/codegen/fromcto/data/model/hr.cto', 'utf-8');
+
+        versionedModelManager.addCTOModel(base_cto, 'hr_base.cto');
         versionedModelManager.addCTOModel(cto, 'hr.cto');
 
+        const unversionedBaseCto = base_cto.replace('namespace org.acme.hr.base@1.0.0', 'namespace org.acme.hr.base');
         const unversionedCto = cto.replace('namespace org.acme.hr@1.0.0', 'namespace org.acme.hr');
+        unversionedModelManager.addCTOModel(unversionedBaseCto, 'hr_base.cto');
         unversionedModelManager.addCTOModel(unversionedCto, 'hr.cto');
     });
 
