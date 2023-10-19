@@ -1557,7 +1557,6 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
               "type": "string"
             },
             "additionalProperties": {
-              "type": "Employee",
               "$ref": "#/definitions/org.acme.hr.Employee"
             }
           }
@@ -2671,7 +2670,6 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
                 "type": "string"
               },
               "additionalProperties": {
-                "type": "Employee",
                 "$ref": "#/definitions/org.acme.hr.Employee"
               }
             }
@@ -6853,7 +6851,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
               "type": "string"
             },
             "additionalProperties": {
-              "type": "Employee",
               "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
             }
           }
@@ -7983,7 +7980,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
                 "type": "string"
               },
               "additionalProperties": {
-                "type": "Employee",
                 "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
               }
             }

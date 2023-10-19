@@ -366,7 +366,6 @@ describe('JSONSchema (samples)', function () {
             expect(schema.properties.dictionary.schema.description).equal('An instance of test.Dictionary');
             expect(schema.properties.dictionary.schema.type).equal('object');
             expect(schema.properties.dictionary.schema.propertyNames.type).equal('string');
-            expect(schema.properties.dictionary.schema.additionalProperties.type).equal('Person');
             expect(schema.properties.dictionary.schema.additionalProperties.$ref).equal('#/definitions/test.Person');
         });
 
