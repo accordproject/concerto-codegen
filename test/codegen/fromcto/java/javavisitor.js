@@ -429,21 +429,19 @@ describe('JavaVisitor', function () {
             });
 
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
+            const getType               = sinon.stub();
 
-            mockField.dummy = 'Dummy Value';
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.ast = { type: { name: 'Dummy Value'} };
+            mockField.getModelFile.returns({ getType: getType });
 
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
-            const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
             mockField.getName.returns('Bob');
             mockField.getType.returns('SpecialType');
 
-            getAllDeclarations.returns({ find: findStub });
-            findStub.returns(mockMapDeclaration);
+            getType.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('String');
             mockField.getName.returns('Map1');
