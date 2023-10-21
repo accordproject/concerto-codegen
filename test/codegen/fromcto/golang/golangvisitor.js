@@ -353,21 +353,18 @@ describe('GoLangVisitor', function () {
             });
 
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
+            const getType    = sinon.stub();
 
             mockField.dummy = 'Dummy Value';
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
 
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
-            const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            mockField.getName.returns('Bob');
-            mockField.getType.returns('SpecialType');
+            mockField.getType.returns('Map1');
 
-            getAllDeclarations.returns({ find: findStub });
-            findStub.returns(mockMapDeclaration);
+            getType.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('String');
             mockField.getName.returns('dictionary');
