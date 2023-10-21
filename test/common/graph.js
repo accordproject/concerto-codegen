@@ -35,8 +35,10 @@ describe('graph', function () {
 
     beforeEach(function() {
         modelManager = new ModelManager();
-        const cto = fs.readFileSync('./test/codegen/fromcto/data/model/hr.cto', 'utf-8');
-        modelManager.addCTOModel(cto, 'hr.cto');
+        const hrBase = fs.readFileSync('./test/codegen/fromcto/data/model/hr_base.cto', 'utf-8');
+        modelManager.addCTOModel(hrBase, 'hr_base.cto');
+        const hr = fs.readFileSync('./test/codegen/fromcto/data/model/hr.cto', 'utf-8');
+        modelManager.addCTOModel(hr, 'hr.cto');
     });
 
 
@@ -53,38 +55,40 @@ describe('graph', function () {
             graph.print(writer);
             writer.closeFile();
             expect(writer.data.get('graph.mmd')).toEqual(`flowchart LR
-   \`org.acme.hr@1.0.0.State\`
-   \`org.acme.hr@1.0.0.State\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.State\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map1\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map2\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map3\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map4\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map5\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map6\`
-   \`org.acme.hr@1.0.0.Time\`
-   \`org.acme.hr@1.0.0.Map1\`
-   \`org.acme.hr@1.0.0.Map1\` --> \`String\`
-   \`org.acme.hr@1.0.0.Map2\`
-   \`org.acme.hr@1.0.0.Map2\` --> \`String\`
-   \`org.acme.hr@1.0.0.Map2\` --> \`DateTime\`
-   \`org.acme.hr@1.0.0.Map3\`
-   \`org.acme.hr@1.0.0.Map3\` --> \`String\`
-   \`org.acme.hr@1.0.0.Map3\` --> \`org.acme.hr@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.Map4\`
-   \`org.acme.hr@1.0.0.Map4\` --> \`String\`
-   \`org.acme.hr@1.0.0.Map4\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Map5\`
-   \`org.acme.hr@1.0.0.Map5\` --> \`org.acme.hr@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.Map5\` --> \`String\`
-   \`org.acme.hr@1.0.0.Map6\`
-   \`org.acme.hr@1.0.0.Map6\` --> \`org.acme.hr@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.Map6\` --> \`org.acme.hr@1.0.0.Employee\`
+   \`org.acme.hr.base@1.0.0.State\`
+   \`org.acme.hr.base@1.0.0.State\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr.base@1.0.0.TShirtSizeType\`
+   \`org.acme.hr.base@1.0.0.TShirtSizeType\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
+   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` --> \`org.acme.hr.base@1.0.0.SSN\`
+   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` --> \`org.acme.hr.base@1.0.0.TShirtSizeType\`
+   \`org.acme.hr.base@1.0.0.Address\`
+   \`org.acme.hr.base@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr.base@1.0.0.State\`
+   \`org.acme.hr.base@1.0.0.Time\`
+   \`org.acme.hr.base@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.CompanyProperties\`
+   \`org.acme.hr@1.0.0.CompanyProperties\` --> \`String\`
+   \`org.acme.hr@1.0.0.EmployeeLoginTimes\`
+   \`org.acme.hr@1.0.0.EmployeeLoginTimes\` --> \`String\`
+   \`org.acme.hr@1.0.0.EmployeeLoginTimes\` --> \`org.acme.hr.base@1.0.0.Time\`
+   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
+   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` --> \`String\`
+   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` --> \`org.acme.hr.base@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.EmployeeProfiles\`
+   \`org.acme.hr@1.0.0.EmployeeProfiles\` --> \`String\`
+   \`org.acme.hr@1.0.0.EmployeeProfiles\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.EmployeeDirectory\`
+   \`org.acme.hr@1.0.0.EmployeeDirectory\` --> \`org.acme.hr.base@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.EmployeeDirectory\` --> \`org.acme.hr@1.0.0.Employee\`
    \`org.acme.hr@1.0.0.Company\`
    \`org.acme.hr@1.0.0.Company\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.Address\`
+   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr.base@1.0.0.Address\`
+   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.CompanyProperties\`
+   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeDirectory\`
+   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
+   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeProfiles\`
+   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
    \`org.acme.hr@1.0.0.Department\`
    \`org.acme.hr@1.0.0.Department\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr@1.0.0.Equipment\`
@@ -94,15 +98,14 @@ describe('graph', function () {
    \`org.acme.hr@1.0.0.Laptop\`
    \`org.acme.hr@1.0.0.Laptop\` --> \`org.acme.hr@1.0.0.Equipment\`
    \`org.acme.hr@1.0.0.Laptop\` --> \`org.acme.hr@1.0.0.LaptopMake\`
-   \`org.acme.hr@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.Person\` --> \`concerto@1.0.0.Participant\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr.base@1.0.0.Address\`
+   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr.base@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.Employee\`
    \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Department\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Address\`
+   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr.base@1.0.0.Address\`
    \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Equipment\`
    \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Manager\`
    \`org.acme.hr@1.0.0.Contractor\`
@@ -120,7 +123,7 @@ describe('graph', function () {
    \`org.acme.hr@1.0.0.ChangeOfAddress\`
    \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`concerto@1.0.0.Transaction\`
    \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr@1.0.0.Address\`
+   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr.base@1.0.0.Address\`
 `);
         });
 
@@ -145,17 +148,17 @@ describe('graph', function () {
             connectedGraph.print(writer);
             writer.closeFile();
             expect(writer.data.get('graph.mmd')).toEqual(`flowchart LR
-   \`org.acme.hr@1.0.0.State\`
-   \`org.acme.hr@1.0.0.State\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.State\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map1\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map2\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map3\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map4\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map5\`
-   \`org.acme.hr@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map6\`
+   \`org.acme.hr.base@1.0.0.State\`
+   \`org.acme.hr.base@1.0.0.State\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr.base@1.0.0.Address\`
+   \`org.acme.hr.base@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr.base@1.0.0.State\`
+   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map1\`
+   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map2\`
+   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map3\`
+   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map4\`
+   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map5\`
+   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr@1.0.0.Map6\`
    \`org.acme.hr@1.0.0.Map1\`
    \`org.acme.hr@1.0.0.Map1\` --> \`String\`
    \`org.acme.hr@1.0.0.Map2\`
@@ -163,29 +166,29 @@ describe('graph', function () {
    \`org.acme.hr@1.0.0.Map2\` --> \`DateTime\`
    \`org.acme.hr@1.0.0.Map3\`
    \`org.acme.hr@1.0.0.Map3\` --> \`String\`
-   \`org.acme.hr@1.0.0.Map3\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Map3\` --> \`org.acme.hr.base@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.Map4\`
    \`org.acme.hr@1.0.0.Map4\` --> \`String\`
    \`org.acme.hr@1.0.0.Map4\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr@1.0.0.Map5\`
-   \`org.acme.hr@1.0.0.Map5\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Map5\` --> \`org.acme.hr.base@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.Map5\` --> \`String\`
    \`org.acme.hr@1.0.0.Map6\`
-   \`org.acme.hr@1.0.0.Map6\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Map6\` --> \`org.acme.hr.base@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.Map6\` --> \`org.acme.hr@1.0.0.Employee\`
    \`org.acme.hr@1.0.0.Department\`
    \`org.acme.hr@1.0.0.Department\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr@1.0.0.Equipment\`
    \`org.acme.hr@1.0.0.Equipment\` --> \`concerto@1.0.0.Asset\`
-   \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr.base@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.Person\` --> \`concerto@1.0.0.Participant\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr.base@1.0.0.Address\`
+   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr.base@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.Employee\`
    \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Department\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Address\`
+   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr.base@1.0.0.Address\`
    \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Equipment\`
    \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Manager\`
    \`org.acme.hr@1.0.0.Manager\`
@@ -194,7 +197,7 @@ describe('graph', function () {
    \`org.acme.hr@1.0.0.ChangeOfAddress\`
    \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`concerto@1.0.0.Transaction\`
    \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr@1.0.0.Address\`
+   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr.base@1.0.0.Address\`
 `);
         });
     });
