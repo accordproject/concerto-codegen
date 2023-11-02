@@ -17,6 +17,11 @@ map EmployeeSocialSecurityNumbers {
     o SSN
 }
 
+map NextOfKin {
+    o KinName
+    o KinTelephone
+}
+
 map EmployeeProfiles {
     o String
     o Concept
@@ -70,6 +75,7 @@ abstract participant Person identified by email {
     o SSN ssn
     o Double height
     o DateTime dob
+    o NextOfKin nextOfKin
 }
 
 participant Employee extends Person {
@@ -103,3 +109,6 @@ transaction ChangeOfAddress {
     --> Person Person
     o Address newAddress
 }
+
+scalar KinName extends String
+scalar KinTelephone extends DateTime

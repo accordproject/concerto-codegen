@@ -150,6 +150,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Employee {
@@ -170,6 +171,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Contractor {
@@ -184,6 +186,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Manager {
@@ -205,6 +208,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record CompanyEvent {
@@ -424,6 +428,7 @@ public abstract class Person : Participant {
    public string ssn { get; set; }
    public float height { get; set; }
    public System.DateTime dob { get; set; }
+   public Dictionary<string, KinTelephone> nextOfKin { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = null, Name = "Employee")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -475,6 +480,10 @@ public class ChangeOfAddress : Transaction {
    public Person Person { get; set; }
    public org.acme.hr.base.Address newAddress { get; set; }
 }
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class KinName_Dummy {}
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class KinTelephone_Dummy {}
 ",
 }
 `;
@@ -619,6 +628,7 @@ type Person struct {
    Ssn string \`json:"ssn"\`
    Height float64 \`json:"height"\`
    Dob time.Time \`json:"dob"\`
+   NextOfKin NextOfKin \`json:"nextOfKin"\`
 }
 type Employee struct {
    Person
@@ -699,6 +709,10 @@ type EmployeeSocialSecurityNumbers {
    key: String
    value: SSN
 }
+type NextOfKin {
+   key: KinName
+   value: KinTelephone
+}
 type EmployeeProfiles {
    key: String
    value: Concept
@@ -746,6 +760,7 @@ type Person @resource {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Employee {
@@ -765,6 +780,7 @@ type Employee {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Contractor {
@@ -778,6 +794,7 @@ type Contractor {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Manager {
@@ -798,6 +815,7 @@ type Manager {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type CompanyEvent {
@@ -1254,6 +1272,7 @@ public abstract class Person extends Participant {
    private String ssn;
    private double height;
    private java.util.Date dob;
+   private NextOfKin nextOfKin;
    public String getEmail() {
       return this.email;
    }
@@ -1278,6 +1297,9 @@ public abstract class Person extends Participant {
    public java.util.Date getDob() {
       return this.dob;
    }
+   public NextOfKin getNextOfKin() {
+      return this.nextOfKin;
+   }
    public void setEmail(String email) {
       this.email = email;
    }
@@ -1301,6 +1323,9 @@ public abstract class Person extends Participant {
    }
    public void setDob(java.util.Date dob) {
       this.dob = dob;
+   }
+   public void setNextOfKin(NextOfKin nextOfKin) {
+      this.nextOfKin = nextOfKin;
    }
 }
 ",
@@ -1784,7 +1809,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ],
       "$decorators": {
         "resource": []
@@ -1880,7 +1906,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr.Contractor": {
@@ -1939,7 +1966,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr.Manager": {
@@ -2039,7 +2067,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr.CompanyEvent": {
@@ -2103,6 +2132,13 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "Person",
         "newAddress"
       ]
+    },
+    "org.acme.hr.KinName": {
+      "type": "string"
+    },
+    "org.acme.hr.KinTelephone": {
+      "format": "date-time",
+      "type": "string"
     }
   }
 }
@@ -2172,7 +2208,7 @@ class \`org.acme.hr.base.Address\` {
 - 4 participants
 - 1 transactions
 - 2 events
-- 17 total declarations
+- 20 total declarations
 
 ## Imports
 - org.acme.hr.base.Address
@@ -2244,10 +2280,12 @@ class \`org.acme.hr.Person\` {
    + \`String\` \`ssn\`
    + \`Double\` \`height\`
    + \`DateTime\` \`dob\`
+   + \`NextOfKin\` \`nextOfKin\`
 }
 
 \`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.base.Address\`
 \`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.base.SSN\`
+\`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.NextOfKin\`
 class \`org.acme.hr.Employee\` {
 << participant>>
    + \`String\` \`employeeId\`
@@ -2390,6 +2428,7 @@ class \`org.acme.hr.Person\` {
    + \`String\` \`ssn\`
    + \`Double\` \`height\`
    + \`DateTime\` \`dob\`
+   + \`NextOfKin\` \`nextOfKin\`
 }
 
 \`org.acme.hr.Person\` --|> \`concerto@1.0.0.Participant\`
@@ -2614,6 +2653,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          <Property Name="height" Type="Edm.Double"  >
          </Property>
          <Property Name="dob" Type="Edm.DateTimeOffset"  >
+         </Property>
+         <Property Name="nextOfKin" Type="org.acme.hr.NextOfKin"  >
          </Property>
       </EntityType>
       <EntityType Name="Employee"  BaseType="org.acme.hr.Person">
@@ -2887,7 +2928,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ],
         "$decorators": {
           "resource": []
@@ -2983,7 +3025,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr.Contractor": {
@@ -3042,7 +3085,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr.Manager": {
@@ -3142,7 +3186,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr.CompanyEvent": {
@@ -3206,6 +3251,13 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "Person",
           "newAddress"
         ]
+      },
+      "org.acme.hr.KinName": {
+        "type": "string"
+      },
+      "org.acme.hr.KinTelephone": {
+        "format": "date-time",
+        "type": "string"
       }
     }
   },
@@ -3533,6 +3585,7 @@ class org.acme.hr.Person << (P,lightblue) >> {
    + String ssn
    + Double height
    + DateTime dob
+   + NextOfKin nextOfKin
 }
 org.acme.hr.Person --|> concerto_1_0_0.Participant
 class org.acme.hr.Employee << (P,lightblue) >> {
@@ -3678,11 +3731,12 @@ message Employee {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  sint64 numDependents = 12;
-  Address officeAddress = 13;
-  bool retired = 14;
-  sint64 salary = 15;
-  string ssn = 16;
+  NextOfKin nextOfKin = 12;
+  sint64 numDependents = 13;
+  Address officeAddress = 14;
+  bool retired = 15;
+  sint64 salary = 16;
+  string ssn = 17;
 }
 
 message _Subclasses_of_class_Employee {
@@ -3702,7 +3756,8 @@ message Contractor {
   string lastName = 7;
   optional string manager = 8;
   optional string middleNames = 9;
-  string ssn = 10;
+  NextOfKin nextOfKin = 10;
+  string ssn = 11;
 }
 
 message Manager {
@@ -3717,12 +3772,13 @@ message Manager {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  sint64 numDependents = 12;
-  Address officeAddress = 13;
-  repeated string reports = 14;
-  bool retired = 15;
-  sint64 salary = 16;
-  string ssn = 17;
+  NextOfKin nextOfKin = 12;
+  sint64 numDependents = 13;
+  Address officeAddress = 14;
+  repeated string reports = 15;
+  bool retired = 16;
+  sint64 salary = 17;
+  string ssn = 18;
 }
 
 message CompanyEvent {
@@ -4197,6 +4253,11 @@ pub struct Person {
    pub dob: DateTime<Utc>,
    
    #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+   
+   #[serde(
       rename = "$identifier",
    )]
    pub _identifier: String,
@@ -4291,6 +4352,11 @@ pub struct Employee {
    pub dob: DateTime<Utc>,
    
    #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+   
+   #[serde(
       rename = "$identifier",
    )]
    pub _identifier: String,
@@ -4353,6 +4419,11 @@ pub struct Contractor {
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
    
    #[serde(
       rename = "$identifier",
@@ -4450,6 +4521,11 @@ pub struct Manager {
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
    
    #[serde(
       rename = "$identifier",
@@ -4688,6 +4764,8 @@ export type EmployeeLoginTimes = Map<string, null>;
 
 export type EmployeeSocialSecurityNumbers = Map<string, null>;
 
+export type NextOfKin = Map<string, null>;
+
 export type EmployeeProfiles = Map<string, IConcept>;
 
 export type EmployeeDirectory = Map<string, IEmployee>;
@@ -4735,6 +4813,7 @@ export interface IPerson extends IParticipant {
    ssn: string;
    height: number;
    dob: Date;
+   nextOfKin: NextOfKin;
 }
 
 export type PersonUnion = IEmployee | 
@@ -4857,6 +4936,7 @@ declarations:
       - ssn: Ssn of the Person
       - height: Height of the Person
       - dob: Dob of the Person
+      - nextOfKin: Next Of Kin of the Person
   - Employee: Employee
     properties:
       - employeeId: Employee Id of the Employee
@@ -4882,6 +4962,8 @@ declarations:
     properties:
       - Person: Person of the Change Of Address
       - newAddress: New Address of the Change Of Address
+  - KinName: Kin Name
+  - KinTelephone: Kin Telephone
 ",
 }
 `;
@@ -5118,6 +5200,7 @@ xmlns:concerto="concerto"
       <xs:element name="ssn" type="xs:string"/>
       <xs:element name="height" type="xs:double"/>
       <xs:element name="dob" type="xs:dateTime"/>
+      <xs:element name="nextOfKin" type="org.acme.hr:NextOfKin"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -5282,10 +5365,12 @@ class \`org.acme.hr@1.0.0.Person\` {
    + \`String\` \`ssn\`
    + \`Double\` \`height\`
    + \`DateTime\` \`dob\`
+   + \`NextOfKin\` \`nextOfKin\`
 }
 
 \`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 \`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.NextOfKin\`
 class \`org.acme.hr@1.0.0.Employee\` {
 << participant>>
    + \`String\` \`employeeId\`
@@ -5413,9 +5498,11 @@ class org.acme.hr_1_0_0.Person << (P,lightblue) >> {
    + String ssn
    + Double height
    + DateTime dob
+   + NextOfKin nextOfKin
 }
 org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.Address : homeAddress
 org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.SSN : ssn
+org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr_1_0_0.NextOfKin : nextOfKin
 class org.acme.hr_1_0_0.Employee << (P,lightblue) >> {
    + String employeeId
    + Long salary
@@ -5611,6 +5698,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Employee {
@@ -5631,6 +5719,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Contractor {
@@ -5645,6 +5734,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Manager {
@@ -5666,6 +5756,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record CompanyEvent {
@@ -5885,6 +5976,7 @@ public abstract class Person : Participant {
    public string ssn { get; set; }
    public float height { get; set; }
    public System.DateTime dob { get; set; }
+   public Dictionary<string, KinTelephone> nextOfKin { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Employee")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -5936,6 +6028,10 @@ public class ChangeOfAddress : Transaction {
    public Person Person { get; set; }
    public org.acme.hr.base.Address newAddress { get; set; }
 }
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class KinName_Dummy {}
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class KinTelephone_Dummy {}
 ",
 }
 `;
@@ -6080,6 +6176,7 @@ type Person struct {
    Ssn string \`json:"ssn"\`
    Height float64 \`json:"height"\`
    Dob time.Time \`json:"dob"\`
+   NextOfKin NextOfKin \`json:"nextOfKin"\`
 }
 type Employee struct {
    Person
@@ -6160,6 +6257,10 @@ type EmployeeSocialSecurityNumbers {
    key: String
    value: SSN
 }
+type NextOfKin {
+   key: KinName
+   value: KinTelephone
+}
 type EmployeeProfiles {
    key: String
    value: Concept
@@ -6207,6 +6308,7 @@ type Person @resource {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Employee {
@@ -6226,6 +6328,7 @@ type Employee {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Contractor {
@@ -6239,6 +6342,7 @@ type Contractor {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Manager {
@@ -6259,6 +6363,7 @@ type Manager {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type CompanyEvent {
@@ -6715,6 +6820,7 @@ public abstract class Person extends Participant {
    private String ssn;
    private double height;
    private java.util.Date dob;
+   private NextOfKin nextOfKin;
    public String getEmail() {
       return this.email;
    }
@@ -6739,6 +6845,9 @@ public abstract class Person extends Participant {
    public java.util.Date getDob() {
       return this.dob;
    }
+   public NextOfKin getNextOfKin() {
+      return this.nextOfKin;
+   }
    public void setEmail(String email) {
       this.email = email;
    }
@@ -6762,6 +6871,9 @@ public abstract class Person extends Participant {
    }
    public void setDob(java.util.Date dob) {
       this.dob = dob;
+   }
+   public void setNextOfKin(NextOfKin nextOfKin) {
+      this.nextOfKin = nextOfKin;
    }
 }
 ",
@@ -7245,7 +7357,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ],
       "$decorators": {
         "resource": []
@@ -7341,7 +7454,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr@1.0.0.Contractor": {
@@ -7400,7 +7514,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr@1.0.0.Manager": {
@@ -7500,7 +7615,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr@1.0.0.CompanyEvent": {
@@ -7564,6 +7680,13 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "Person",
         "newAddress"
       ]
+    },
+    "org.acme.hr@1.0.0.KinName": {
+      "type": "string"
+    },
+    "org.acme.hr@1.0.0.KinTelephone": {
+      "format": "date-time",
+      "type": "string"
     }
   }
 }
@@ -7633,7 +7756,7 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 - 4 participants
 - 1 transactions
 - 2 events
-- 17 total declarations
+- 20 total declarations
 
 ## Imports
 - org.acme.hr.base@1.0.0.Address
@@ -7705,10 +7828,12 @@ class \`org.acme.hr@1.0.0.Person\` {
    + \`String\` \`ssn\`
    + \`Double\` \`height\`
    + \`DateTime\` \`dob\`
+   + \`NextOfKin\` \`nextOfKin\`
 }
 
 \`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 \`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.NextOfKin\`
 class \`org.acme.hr@1.0.0.Employee\` {
 << participant>>
    + \`String\` \`employeeId\`
@@ -7859,10 +7984,12 @@ class \`org.acme.hr@1.0.0.Person\` {
    + \`String\` \`ssn\`
    + \`Double\` \`height\`
    + \`DateTime\` \`dob\`
+   + \`NextOfKin\` \`nextOfKin\`
 }
 
 \`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 \`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.NextOfKin\`
 \`org.acme.hr@1.0.0.Person\` --|> \`concerto@1.0.0.Participant\`
 class \`org.acme.hr@1.0.0.Employee\` {
 << participant>>
@@ -8090,6 +8217,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          <Property Name="height" Type="Edm.Double"  >
          </Property>
          <Property Name="dob" Type="Edm.DateTimeOffset"  >
+         </Property>
+         <Property Name="nextOfKin" Type="org.acme.hr.NextOfKin"  >
          </Property>
       </EntityType>
       <EntityType Name="Employee"  BaseType="org.acme.hr.Person">
@@ -8363,7 +8492,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ],
         "$decorators": {
           "resource": []
@@ -8459,7 +8589,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr@1.0.0.Contractor": {
@@ -8518,7 +8649,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr@1.0.0.Manager": {
@@ -8618,7 +8750,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr@1.0.0.CompanyEvent": {
@@ -8682,6 +8815,13 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "Person",
           "newAddress"
         ]
+      },
+      "org.acme.hr@1.0.0.KinName": {
+        "type": "string"
+      },
+      "org.acme.hr@1.0.0.KinTelephone": {
+        "format": "date-time",
+        "type": "string"
       }
     }
   },
@@ -9017,9 +9157,11 @@ class org.acme.hr_1_0_0.Person << (P,lightblue) >> {
    + String ssn
    + Double height
    + DateTime dob
+   + NextOfKin nextOfKin
 }
 org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.Address : homeAddress
 org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.SSN : ssn
+org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr_1_0_0.NextOfKin : nextOfKin
 org.acme.hr_1_0_0.Person --|> concerto_1_0_0.Participant
 class org.acme.hr_1_0_0.Employee << (P,lightblue) >> {
    + String employeeId
@@ -9169,11 +9311,12 @@ message Employee {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  sint64 numDependents = 12;
-  Address officeAddress = 13;
-  bool retired = 14;
-  sint64 salary = 15;
-  string ssn = 16;
+  NextOfKin nextOfKin = 12;
+  sint64 numDependents = 13;
+  Address officeAddress = 14;
+  bool retired = 15;
+  sint64 salary = 16;
+  string ssn = 17;
 }
 
 message _Subclasses_of_class_Employee {
@@ -9193,7 +9336,8 @@ message Contractor {
   string lastName = 7;
   optional string manager = 8;
   optional string middleNames = 9;
-  string ssn = 10;
+  NextOfKin nextOfKin = 10;
+  string ssn = 11;
 }
 
 message Manager {
@@ -9208,12 +9352,13 @@ message Manager {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  sint64 numDependents = 12;
-  Address officeAddress = 13;
-  repeated string reports = 14;
-  bool retired = 15;
-  sint64 salary = 16;
-  string ssn = 17;
+  NextOfKin nextOfKin = 12;
+  sint64 numDependents = 13;
+  Address officeAddress = 14;
+  repeated string reports = 15;
+  bool retired = 16;
+  sint64 salary = 17;
+  string ssn = 18;
 }
 
 message CompanyEvent {
@@ -9688,6 +9833,11 @@ pub struct Person {
    pub dob: DateTime<Utc>,
    
    #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+   
+   #[serde(
       rename = "$identifier",
    )]
    pub _identifier: String,
@@ -9782,6 +9932,11 @@ pub struct Employee {
    pub dob: DateTime<Utc>,
    
    #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+   
+   #[serde(
       rename = "$identifier",
    )]
    pub _identifier: String,
@@ -9844,6 +9999,11 @@ pub struct Contractor {
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
    
    #[serde(
       rename = "$identifier",
@@ -9941,6 +10101,11 @@ pub struct Manager {
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
+   
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
    
    #[serde(
       rename = "$identifier",
@@ -10179,6 +10344,8 @@ export type EmployeeLoginTimes = Map<string, null>;
 
 export type EmployeeSocialSecurityNumbers = Map<string, null>;
 
+export type NextOfKin = Map<string, null>;
+
 export type EmployeeProfiles = Map<string, IConcept>;
 
 export type EmployeeDirectory = Map<string, IEmployee>;
@@ -10226,6 +10393,7 @@ export interface IPerson extends IParticipant {
    ssn: string;
    height: number;
    dob: Date;
+   nextOfKin: NextOfKin;
 }
 
 export type PersonUnion = IEmployee | 
@@ -10348,6 +10516,7 @@ declarations:
       - ssn: Ssn of the Person
       - height: Height of the Person
       - dob: Dob of the Person
+      - nextOfKin: Next Of Kin of the Person
   - Employee: Employee
     properties:
       - employeeId: Employee Id of the Employee
@@ -10373,6 +10542,8 @@ declarations:
     properties:
       - Person: Person of the Change Of Address
       - newAddress: New Address of the Change Of Address
+  - KinName: Kin Name
+  - KinTelephone: Kin Telephone
 ",
 }
 `;
@@ -10609,6 +10780,7 @@ xmlns:concerto="concerto"
       <xs:element name="ssn" type="xs:string"/>
       <xs:element name="height" type="xs:double"/>
       <xs:element name="dob" type="xs:dateTime"/>
+      <xs:element name="nextOfKin" type="org.acme.hr:NextOfKin"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
