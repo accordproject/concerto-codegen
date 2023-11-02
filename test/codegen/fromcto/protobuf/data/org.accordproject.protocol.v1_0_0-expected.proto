@@ -45,7 +45,7 @@ message Code {
 
 message Function {
   Code code = 1;
-  string emittedTypes = 2;
+  repeated string emittedTypes = 2;
   string name = 3;
   string requestType = 4;
   string responseType = 5;
