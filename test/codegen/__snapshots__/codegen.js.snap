@@ -6,7 +6,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "@namespace("concerto@1.0.0")
 protocol MyProtocol {
 
-   
+
    record Concept {
    }
 
@@ -39,7 +39,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "@namespace("concerto")
 protocol MyProtocol {
 
-   
+
    record Concept {
    }
 
@@ -64,12 +64,12 @@ protocol MyProtocol {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'avro' 3`] = `
 {
-  "key": "org.acme.hr.avdl",
-  "value": "@namespace("org.acme.hr")
+  "key": "org.acme.hr.base.avdl",
+  "value": "@namespace("org.acme.hr.base")
 protocol MyProtocol {
 
    import idl "concerto@1.0.0.avdl";
-   
+
    enum State {
       MA,
       NY,
@@ -79,23 +79,42 @@ protocol MyProtocol {
       CA
    }
 
+   enum TShirtSizeType {
+      SMALL,
+      MEDIUM,
+      LARGE
+   }
+
    record Address {
       string street;
       string city;
       union { null, State } state;
       string zipCode;
       string country;
-      Map1 dictionary1;
-      Map2 dictionary2;
-      Map3 dictionary3;
-      Map4 dictionary4;
-      Map5 dictionary5;
-      Map6 dictionary6;
    }
+
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'avro' 4`] = `
+{
+  "key": "org.acme.hr.avdl",
+  "value": "@namespace("org.acme.hr")
+protocol MyProtocol {
+
+   import idl "org.acme.hr.base.avdl";
+   import idl "concerto@1.0.0.avdl";
 
    record Company {
       string name;
       Address headquarters;
+      union { null, CompanyProperties } companyProperties;
+      union { null, EmployeeDirectory } employeeDirectory;
+      union { null, EmployeeTShirtSizes } employeeTShirtSizes;
+      union { null, EmployeeProfiles } employeeProfiles;
+      union { null, EmployeeSocialSecurityNumbers } employeeSocialSecurityNumbers;
    }
 
    enum Department {
@@ -131,6 +150,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Employee {
@@ -151,6 +171,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Contractor {
@@ -165,6 +186,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Manager {
@@ -186,6 +208,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record CompanyEvent {
@@ -305,8 +328,8 @@ public abstract class Event : Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'csharp' 3`] = `
 {
-  "key": "org.acme.hr.cs",
-  "value": "namespace org.acme.hr;
+  "key": "org.acme.hr.base.cs",
+  "value": "namespace org.acme.hr.base;
 using AccordProject.Concerto;
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum State {
@@ -317,32 +340,49 @@ public enum State {
       IL,
       CA,
 }
-[AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = null, Name = "Address")]
+[System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+public enum TShirtSizeType {
+      SMALL,
+      MEDIUM,
+      LARGE,
+}
+[AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = null, Name = "Address")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public class Address : Concept {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
-   public override string _class { get; } = "org.acme.hr.Address";
+   public override string _class { get; } = "org.acme.hr.base.Address";
    public string street { get; set; }
    public string city { get; set; }
    public State? state { get; set; }
    public string zipCode { get; set; }
    public string country { get; set; }
-   public Dictionary<string, string> dictionary1 { get; set; }
-   public Dictionary<string, System.DateTime> dictionary2 { get; set; }
-   public Dictionary<string, SSN> dictionary3 { get; set; }
-   public Dictionary<string, Concept> dictionary4 { get; set; }
-   public Dictionary<string, string> dictionary5 { get; set; }
-   public Dictionary<string, Employee> dictionary6 { get; set; }
 }
 //Dummy implementation of the scalar declaration to avoid compilation errors.
 class Time_Dummy {}
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class SSN_Dummy {}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'csharp' 4`] = `
+{
+  "key": "org.acme.hr.cs",
+  "value": "namespace org.acme.hr;
+using org.acme.hr.base;
+using AccordProject.Concerto;
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = null, Name = "Company")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public class Company : Concept {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr.Company";
    public string name { get; set; }
-   public Address headquarters { get; set; }
+   public org.acme.hr.base.Address headquarters { get; set; }
+   public Dictionary<string, string> companyProperties { get; set; }
+   public Dictionary<string, Employee> employeeDirectory { get; set; }
+   public Dictionary<string, TShirtSizeType> employeeTShirtSizes { get; set; }
+   public Dictionary<string, Concept> employeeProfiles { get; set; }
+   public Dictionary<string, SSN> employeeSocialSecurityNumbers { get; set; }
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum Department {
@@ -373,8 +413,6 @@ public class Laptop : Equipment {
    public override string _class { get; } = "org.acme.hr.Laptop";
    public LaptopMake make { get; set; }
 }
-//Dummy implementation of the scalar declaration to avoid compilation errors.
-class SSN_Dummy {}
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = null, Name = "Person")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public abstract class Person : Participant {
@@ -385,11 +423,12 @@ public abstract class Person : Participant {
    public string firstName { get; set; }
    public string lastName { get; set; }
    public string? middleNames { get; set; }
-   public Address homeAddress { get; set; }
+   public org.acme.hr.base.Address homeAddress { get; set; }
    [System.ComponentModel.DataAnnotations.RegularExpression(@"\\d{3}-\\d{2}-\\{4}+", ErrorMessage = "Invalid characters")]
    public string ssn { get; set; }
    public float height { get; set; }
    public System.DateTime dob { get; set; }
+   public Dictionary<string, KinTelephone> nextOfKin { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = null, Name = "Employee")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -401,7 +440,7 @@ public class Employee : Person {
    public int numDependents { get; set; }
    public bool retired { get; set; }
    public Department department { get; set; }
-   public Address officeAddress { get; set; }
+   public org.acme.hr.base.Address officeAddress { get; set; }
    public Equipment[] companyAssets { get; set; }
    public Manager manager { get; set; }
 }
@@ -439,8 +478,12 @@ public class ChangeOfAddress : Transaction {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr.ChangeOfAddress";
    public Person Person { get; set; }
-   public Address newAddress { get; set; }
+   public org.acme.hr.base.Address newAddress { get; set; }
 }
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class KinName_Dummy {}
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class KinTelephone_Dummy {}
 ",
 }
 `;
@@ -451,7 +494,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "// Package concerto_1_0_0 contains domain objects and was generated from Concerto namespace concerto@1.0.0.
 package concerto_1_0_0
 import "time"
-   
+
 type Concept struct {
 }
 type Asset struct {
@@ -479,7 +522,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "concerto.go",
   "value": "// Package concerto contains domain objects and was generated from Concerto namespace concerto.
 package concerto
-   
+
 type Concept struct {
 }
 type Asset struct {
@@ -502,12 +545,11 @@ type Event struct {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'golang' 3`] = `
 {
-  "key": "org.acme.hr.go",
-  "value": "// Package org_acme_hr contains domain objects and was generated from Concerto namespace org.acme.hr.
-package org_acme_hr
-import "time"
+  "key": "org.acme.hr.base.go",
+  "value": "// Package org_acme_hr_base contains domain objects and was generated from Concerto namespace org.acme.hr.base.
+package org_acme_hr_base
 import "concerto_1_0_0";
-   
+
 type State int
 const (
    MA State = 1 + iota
@@ -517,6 +559,12 @@ const (
    IL
    CA
 )
+type TShirtSizeType int
+const (
+   SMALL TShirtSizeType = 1 + iota
+   MEDIUM
+   LARGE
+)
 type Address struct {
    concerto_1_0_0.Concept
    Street string \`json:"street"\`
@@ -524,17 +572,29 @@ type Address struct {
    State State \`json:"state"\`
    ZipCode string \`json:"zipCode"\`
    Country string \`json:"country"\`
-   Dictionary1 Map1 \`json:"dictionary1"\`
-   Dictionary2 Map2 \`json:"dictionary2"\`
-   Dictionary3 Map3 \`json:"dictionary3"\`
-   Dictionary4 Map4 \`json:"dictionary4"\`
-   Dictionary5 Map5 \`json:"dictionary5"\`
-   Dictionary6 Map6 \`json:"dictionary6"\`
 }
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'golang' 4`] = `
+{
+  "key": "org.acme.hr.go",
+  "value": "// Package org_acme_hr contains domain objects and was generated from Concerto namespace org.acme.hr.
+package org_acme_hr
+import "time"
+import "org_acme_hr_base";
+import "concerto_1_0_0";
+
 type Company struct {
    concerto_1_0_0.Concept
    Name string \`json:"name"\`
    Headquarters Address \`json:"headquarters"\`
+   CompanyProperties CompanyProperties \`json:"companyProperties"\`
+   EmployeeDirectory EmployeeDirectory \`json:"employeeDirectory"\`
+   EmployeeTShirtSizes EmployeeTShirtSizes \`json:"employeeTShirtSizes"\`
+   EmployeeProfiles EmployeeProfiles \`json:"employeeProfiles"\`
+   EmployeeSocialSecurityNumbers EmployeeSocialSecurityNumbers \`json:"employeeSocialSecurityNumbers"\`
 }
 type Department int
 const (
@@ -568,6 +628,7 @@ type Person struct {
    Ssn string \`json:"ssn"\`
    Height float64 \`json:"height"\`
    Dob time.Time \`json:"dob"\`
+   NextOfKin NextOfKin \`json:"nextOfKin"\`
 }
 type Employee struct {
    Person
@@ -610,7 +671,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "model.gql",
   "value": "directive @resource on OBJECT | FIELD_DEFINITION
 scalar DateTime
-# namespace org.acme.hr
+# namespace org.acme.hr.base
 enum State {
    MA
    NY
@@ -619,46 +680,55 @@ enum State {
    IL
    CA
 }
+enum TShirtSizeType {
+   SMALL
+   MEDIUM
+   LARGE
+}
+type EmployeeTShirtSizes {
+   key: SSN
+   value: TShirtSizeType
+}
 type Address {
    street: String!
    city: String!
    state: State
    zipCode: String!
    country: String!
-   dictionary1: Map1!
-   dictionary2: Map2!
-   dictionary3: Map3!
-   dictionary4: Map4!
-   dictionary5: Map5!
-   dictionary6: Map6!
 }
-type Map1 {
+# namespace org.acme.hr
+type CompanyProperties {
    key: String
    value: String
 }
-type Map2 {
+type EmployeeLoginTimes {
    key: String
-   value: DateTime
+   value: Time
 }
-type Map3 {
+type EmployeeSocialSecurityNumbers {
    key: String
    value: SSN
 }
-type Map4 {
+type NextOfKin {
+   key: KinName
+   value: KinTelephone
+}
+type EmployeeProfiles {
    key: String
    value: Concept
 }
-type Map5 {
-   key: SSN
-   value: String
-}
-type Map6 {
+type EmployeeDirectory {
    key: SSN
    value: Employee
 }
 type Company {
    name: String!
    headquarters: Address!
+   companyProperties: CompanyProperties
+   employeeDirectory: EmployeeDirectory
+   employeeTShirtSizes: EmployeeTShirtSizes
+   employeeProfiles: EmployeeProfiles
+   employeeSocialSecurityNumbers: EmployeeSocialSecurityNumbers
 }
 enum Department {
    Sales
@@ -690,6 +760,7 @@ type Person @resource {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Employee {
@@ -709,6 +780,7 @@ type Employee {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Contractor {
@@ -722,6 +794,7 @@ type Contractor {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Manager {
@@ -742,6 +815,7 @@ type Manager {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type CompanyEvent {
@@ -796,7 +870,7 @@ public abstract class Asset extends Concept {
             public void set$id(String i) {
                 $id = i;
             }
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.get$identifier();
@@ -835,7 +909,7 @@ public abstract class Participant extends Concept {
             public void set$id(String i) {
                 $id = i;
             }
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.get$identifier();
@@ -885,9 +959,9 @@ public abstract class Event extends Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 6`] = `
 {
-  "key": "org/acme/hr/State.java",
+  "key": "org/acme/hr/base/State.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr.base;
 
 import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"$class"})
@@ -905,9 +979,26 @@ public enum State {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 7`] = `
 {
-  "key": "org/acme/hr/Address.java",
+  "key": "org/acme/hr/base/TShirtSizeType.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr.base;
+
+import com.fasterxml.jackson.annotation.*;
+@JsonIgnoreProperties({"$class"})
+public enum TShirtSizeType {
+   SMALL,
+   MEDIUM,
+   LARGE,
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 8`] = `
+{
+  "key": "org/acme/hr/base/Address.java",
+  "value": "// this code is generated and should not be modified
+package org.acme.hr.base;
 
 import concerto.Concept;
 import concerto.Asset;
@@ -923,12 +1014,6 @@ public class Address extends Concept {
    private State state;
    private String zipCode;
    private String country;
-   private Map<String, String> dictionary1 = new HashMap<>();
-   private Map<String, java.util.Date> dictionary2 = new HashMap<>();
-   private Map<String, SSN> dictionary3 = new HashMap<>();
-   private Map<String, Concept> dictionary4 = new HashMap<>();
-   private Map<SSN, String> dictionary5 = new HashMap<>();
-   private Map<SSN, Employee> dictionary6 = new HashMap<>();
    public String getStreet() {
       return this.street;
    }
@@ -943,24 +1028,6 @@ public class Address extends Concept {
    }
    public String getCountry() {
       return this.country;
-   }
-   public Map1 getDictionary1() {
-      return this.dictionary1;
-   }
-   public Map2 getDictionary2() {
-      return this.dictionary2;
-   }
-   public Map3 getDictionary3() {
-      return this.dictionary3;
-   }
-   public Map4 getDictionary4() {
-      return this.dictionary4;
-   }
-   public Map5 getDictionary5() {
-      return this.dictionary5;
-   }
-   public Map6 getDictionary6() {
-      return this.dictionary6;
    }
    public void setStreet(String street) {
       this.street = street;
@@ -977,35 +1044,22 @@ public class Address extends Concept {
    public void setCountry(String country) {
       this.country = country;
    }
-   public void setDictionary1(Map1 dictionary1) {
-      this.dictionary1 = dictionary1;
-   }
-   public void setDictionary2(Map2 dictionary2) {
-      this.dictionary2 = dictionary2;
-   }
-   public void setDictionary3(Map3 dictionary3) {
-      this.dictionary3 = dictionary3;
-   }
-   public void setDictionary4(Map4 dictionary4) {
-      this.dictionary4 = dictionary4;
-   }
-   public void setDictionary5(Map5 dictionary5) {
-      this.dictionary5 = dictionary5;
-   }
-   public void setDictionary6(Map6 dictionary6) {
-      this.dictionary6 = dictionary6;
-   }
 }
 ",
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 8`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 9`] = `
 {
   "key": "org/acme/hr/Company.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1017,11 +1071,31 @@ import com.fasterxml.jackson.annotation.*;
 public class Company extends Concept {
    private String name;
    private Address headquarters;
+   private CompanyProperties companyProperties;
+   private EmployeeDirectory employeeDirectory;
+   private EmployeeTShirtSizes employeeTShirtSizes;
+   private EmployeeProfiles employeeProfiles;
+   private EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers;
    public String getName() {
       return this.name;
    }
    public Address getHeadquarters() {
       return this.headquarters;
+   }
+   public CompanyProperties getCompanyProperties() {
+      return this.companyProperties;
+   }
+   public EmployeeDirectory getEmployeeDirectory() {
+      return this.employeeDirectory;
+   }
+   public EmployeeTShirtSizes getEmployeeTShirtSizes() {
+      return this.employeeTShirtSizes;
+   }
+   public EmployeeProfiles getEmployeeProfiles() {
+      return this.employeeProfiles;
+   }
+   public EmployeeSocialSecurityNumbers getEmployeeSocialSecurityNumbers() {
+      return this.employeeSocialSecurityNumbers;
    }
    public void setName(String name) {
       this.name = name;
@@ -1029,12 +1103,27 @@ public class Company extends Concept {
    public void setHeadquarters(Address headquarters) {
       this.headquarters = headquarters;
    }
+   public void setCompanyProperties(CompanyProperties companyProperties) {
+      this.companyProperties = companyProperties;
+   }
+   public void setEmployeeDirectory(EmployeeDirectory employeeDirectory) {
+      this.employeeDirectory = employeeDirectory;
+   }
+   public void setEmployeeTShirtSizes(EmployeeTShirtSizes employeeTShirtSizes) {
+      this.employeeTShirtSizes = employeeTShirtSizes;
+   }
+   public void setEmployeeProfiles(EmployeeProfiles employeeProfiles) {
+      this.employeeProfiles = employeeProfiles;
+   }
+   public void setEmployeeSocialSecurityNumbers(EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers) {
+      this.employeeSocialSecurityNumbers = employeeSocialSecurityNumbers;
+   }
 }
 ",
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 9`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 10`] = `
 {
   "key": "org/acme/hr/Department.java",
   "value": "// this code is generated and should not be modified
@@ -1054,12 +1143,17 @@ public enum Department {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 10`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 11`] = `
 {
   "key": "org/acme/hr/Equipment.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1070,7 +1164,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "serialNumber")
 public abstract class Equipment extends Asset {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getSerialNumber();
@@ -1088,7 +1182,7 @@ public abstract class Equipment extends Asset {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 11`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 12`] = `
 {
   "key": "org/acme/hr/LaptopMake.java",
   "value": "// this code is generated and should not be modified
@@ -1104,12 +1198,17 @@ public enum LaptopMake {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 12`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 13`] = `
 {
   "key": "org/acme/hr/Laptop.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1120,7 +1219,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "serialNumber")
 public class Laptop extends Equipment {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getSerialNumber();
@@ -1138,12 +1237,17 @@ public class Laptop extends Equipment {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 13`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 14`] = `
 {
   "key": "org/acme/hr/Person.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1154,7 +1258,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public abstract class Person extends Participant {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -1168,6 +1272,7 @@ public abstract class Person extends Participant {
    private String ssn;
    private double height;
    private java.util.Date dob;
+   private NextOfKin nextOfKin;
    public String getEmail() {
       return this.email;
    }
@@ -1191,6 +1296,9 @@ public abstract class Person extends Participant {
    }
    public java.util.Date getDob() {
       return this.dob;
+   }
+   public NextOfKin getNextOfKin() {
+      return this.nextOfKin;
    }
    public void setEmail(String email) {
       this.email = email;
@@ -1216,17 +1324,25 @@ public abstract class Person extends Participant {
    public void setDob(java.util.Date dob) {
       this.dob = dob;
    }
+   public void setNextOfKin(NextOfKin nextOfKin) {
+      this.nextOfKin = nextOfKin;
+   }
 }
 ",
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 14`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 15`] = `
 {
   "key": "org/acme/hr/Employee.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1237,7 +1353,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Employee extends Person {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -1304,12 +1420,17 @@ public class Employee extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 15`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 16`] = `
 {
   "key": "org/acme/hr/Contractor.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1320,7 +1441,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Contractor extends Person {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -1345,12 +1466,17 @@ public class Contractor extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 16`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 17`] = `
 {
   "key": "org/acme/hr/Manager.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1361,7 +1487,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Manager extends Employee {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -1379,12 +1505,17 @@ public class Manager extends Employee {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 17`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 18`] = `
 {
   "key": "org/acme/hr/CompanyEvent.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1398,12 +1529,17 @@ public class CompanyEvent extends Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 18`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 19`] = `
 {
   "key": "org/acme/hr/Onboarded.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1424,12 +1560,17 @@ public class Onboarded extends CompanyEvent {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 19`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 20`] = `
 {
   "key": "org/acme/hr/ChangeOfAddress.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1463,9 +1604,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "org.acme.hr.State": {
+    "org.acme.hr.base.State": {
       "title": "State",
-      "description": "An instance of org.acme.hr.State",
+      "description": "An instance of org.acme.hr.base.State",
       "enum": [
         "MA",
         "NY",
@@ -1475,16 +1616,25 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "CA"
       ]
     },
-    "org.acme.hr.Address": {
+    "org.acme.hr.base.TShirtSizeType": {
+      "title": "TShirtSizeType",
+      "description": "An instance of org.acme.hr.base.TShirtSizeType",
+      "enum": [
+        "SMALL",
+        "MEDIUM",
+        "LARGE"
+      ]
+    },
+    "org.acme.hr.base.Address": {
       "title": "Address",
-      "description": "An instance of org.acme.hr.Address",
+      "description": "An instance of org.acme.hr.base.Address",
       "type": "object",
       "properties": {
         "$class": {
           "type": "string",
-          "default": "org.acme.hr.Address",
-          "pattern": "^org\\\\.acme\\\\.hr\\\\.Address$",
-          "description": "The class identifier for org.acme.hr.Address"
+          "default": "org.acme.hr.base.Address",
+          "pattern": "^org\\\\.acme\\\\.hr\\\\.base\\\\.Address$",
+          "description": "The class identifier for org.acme.hr.base.Address"
         },
         "street": {
           "type": "string"
@@ -1493,7 +1643,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "type": "string"
         },
         "state": {
-          "$ref": "#/definitions/org.acme.hr.State"
+          "$ref": "#/definitions/org.acme.hr.base.State"
         },
         "zipCode": {
           "type": "string"
@@ -1507,18 +1657,16 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "street",
         "city",
         "zipCode",
-        "country",
-        "dictionary1",
-        "dictionary2",
-        "dictionary3",
-        "dictionary4",
-        "dictionary5",
-        "dictionary6"
+        "country"
       ]
     },
-    "org.acme.hr.Time": {
+    "org.acme.hr.base.Time": {
       "format": "date-time",
       "type": "string"
+    },
+    "org.acme.hr.base.SSN": {
+      "type": "string",
+      "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
     },
     "org.acme.hr.Company": {
       "title": "Company",
@@ -1535,7 +1683,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "type": "string"
         },
         "headquarters": {
-          "$ref": "#/definitions/org.acme.hr.Address"
+          "$ref": "#/definitions/org.acme.hr.base.Address"
         }
       },
       "required": [
@@ -1613,10 +1761,6 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "serialNumber"
       ]
     },
-    "org.acme.hr.SSN": {
-      "type": "string",
-      "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
-    },
     "org.acme.hr.Person": {
       "title": "Person",
       "description": "An instance of org.acme.hr.Person",
@@ -1642,7 +1786,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "type": "string"
         },
         "homeAddress": {
-          "$ref": "#/definitions/org.acme.hr.Address"
+          "$ref": "#/definitions/org.acme.hr.base.Address"
         },
         "ssn": {
           "default": "000-00-0000",
@@ -1665,7 +1809,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ],
       "$decorators": {
         "resource": []
@@ -1698,7 +1843,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "$ref": "#/definitions/org.acme.hr.Department"
         },
         "officeAddress": {
-          "$ref": "#/definitions/org.acme.hr.Address"
+          "$ref": "#/definitions/org.acme.hr.base.Address"
         },
         "companyAssets": {
           "type": "array",
@@ -1731,7 +1876,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "type": "string"
         },
         "homeAddress": {
-          "$ref": "#/definitions/org.acme.hr.Address"
+          "$ref": "#/definitions/org.acme.hr.base.Address"
         },
         "ssn": {
           "default": "000-00-0000",
@@ -1761,7 +1906,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr.Contractor": {
@@ -1796,7 +1942,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "type": "string"
         },
         "homeAddress": {
-          "$ref": "#/definitions/org.acme.hr.Address"
+          "$ref": "#/definitions/org.acme.hr.base.Address"
         },
         "ssn": {
           "default": "000-00-0000",
@@ -1820,7 +1966,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr.Manager": {
@@ -1857,7 +2004,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "$ref": "#/definitions/org.acme.hr.Department"
         },
         "officeAddress": {
-          "$ref": "#/definitions/org.acme.hr.Address"
+          "$ref": "#/definitions/org.acme.hr.base.Address"
         },
         "companyAssets": {
           "type": "array",
@@ -1890,7 +2037,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "type": "string"
         },
         "homeAddress": {
-          "$ref": "#/definitions/org.acme.hr.Address"
+          "$ref": "#/definitions/org.acme.hr.base.Address"
         },
         "ssn": {
           "default": "000-00-0000",
@@ -1920,7 +2067,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr.CompanyEvent": {
@@ -1976,7 +2124,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "description": "The identifier of an instance of org.acme.hr.Person"
         },
         "newAddress": {
-          "$ref": "#/definitions/org.acme.hr.Address"
+          "$ref": "#/definitions/org.acme.hr.base.Address"
         }
       },
       "required": [
@@ -1984,6 +2132,13 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "Person",
         "newAddress"
       ]
+    },
+    "org.acme.hr.KinName": {
+      "type": "string"
+    },
+    "org.acme.hr.KinTelephone": {
+      "format": "date-time",
+      "type": "string"
     }
   }
 }
@@ -1994,16 +2149,16 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'markdown' 1`] = `
 {
   "key": "models.md",
-  "value": "# Namespace org.acme.hr
+  "value": "# Namespace org.acme.hr.base
 
 ## Overview
-- 2 concepts
-- 3 enumerations
-- 2 assets
-- 4 participants
-- 1 transactions
-- 2 events
-- 22 total declarations
+- 1 concepts
+- 2 enumerations
+- 0 assets
+- 0 participants
+- 0 transactions
+- 0 events
+- 6 total declarations
 
 ## Imports
 - concerto@1.0.0.Concept
@@ -2015,7 +2170,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 ## Diagram
 \`\`\`mermaid
 classDiagram
-class \`org.acme.hr.State\` {
+class \`org.acme.hr.base.State\` {
 << enumeration>>
    + \`MA\`
    + \`NY\`
@@ -2025,35 +2180,68 @@ class \`org.acme.hr.State\` {
    + \`CA\`
 }
 
-class \`org.acme.hr.Address\` {
+class \`org.acme.hr.base.TShirtSizeType\` {
+<< enumeration>>
+   + \`SMALL\`
+   + \`MEDIUM\`
+   + \`LARGE\`
+}
+
+class \`org.acme.hr.base.Address\` {
 << concept>>
    + \`String\` \`street\`
    + \`String\` \`city\`
    + \`State\` \`state\`
    + \`String\` \`zipCode\`
    + \`String\` \`country\`
-   + \`Map1\` \`dictionary1\`
-   + \`Map2\` \`dictionary2\`
-   + \`Map3\` \`dictionary3\`
-   + \`Map4\` \`dictionary4\`
-   + \`Map5\` \`dictionary5\`
-   + \`Map6\` \`dictionary6\`
 }
 
-\`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.State\`
-\`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.Map1\`
-\`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.Map2\`
-\`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.Map3\`
-\`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.Map4\`
-\`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.Map5\`
-\`org.acme.hr.Address\` "1" *-- "1" \`org.acme.hr.Map6\`
+\`org.acme.hr.base.Address\` "1" *-- "1" \`org.acme.hr.base.State\`
+\`\`\`
+
+# Namespace org.acme.hr
+
+## Overview
+- 1 concepts
+- 2 enumerations
+- 2 assets
+- 4 participants
+- 1 transactions
+- 2 events
+- 20 total declarations
+
+## Imports
+- org.acme.hr.base.Address
+- org.acme.hr.base.State
+- org.acme.hr.base.SSN
+- org.acme.hr.base.Time
+- org.acme.hr.base.EmployeeTShirtSizes
+- concerto@1.0.0.Concept
+- concerto@1.0.0.Asset
+- concerto@1.0.0.Transaction
+- concerto@1.0.0.Participant
+- concerto@1.0.0.Event
+
+## Diagram
+\`\`\`mermaid
+classDiagram
 class \`org.acme.hr.Company\` {
 << concept>>
    + \`String\` \`name\`
    + \`Address\` \`headquarters\`
+   + \`CompanyProperties\` \`companyProperties\`
+   + \`EmployeeDirectory\` \`employeeDirectory\`
+   + \`EmployeeTShirtSizes\` \`employeeTShirtSizes\`
+   + \`EmployeeProfiles\` \`employeeProfiles\`
+   + \`EmployeeSocialSecurityNumbers\` \`employeeSocialSecurityNumbers\`
 }
 
-\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.Address\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.base.Address\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.CompanyProperties\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.EmployeeDirectory\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.base.EmployeeTShirtSizes\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.EmployeeProfiles\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.EmployeeSocialSecurityNumbers\`
 class \`org.acme.hr.Department\` {
 << enumeration>>
    + \`Sales\`
@@ -2092,10 +2280,12 @@ class \`org.acme.hr.Person\` {
    + \`String\` \`ssn\`
    + \`Double\` \`height\`
    + \`DateTime\` \`dob\`
+   + \`NextOfKin\` \`nextOfKin\`
 }
 
-\`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.Address\`
-\`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.SSN\`
+\`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.base.Address\`
+\`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.base.SSN\`
+\`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.NextOfKin\`
 class \`org.acme.hr.Employee\` {
 << participant>>
    + \`String\` \`employeeId\`
@@ -2109,7 +2299,7 @@ class \`org.acme.hr.Employee\` {
 }
 
 \`org.acme.hr.Employee\` "1" *-- "1" \`org.acme.hr.Department\`
-\`org.acme.hr.Employee\` "1" *-- "1" \`org.acme.hr.Address\`
+\`org.acme.hr.Employee\` "1" *-- "1" \`org.acme.hr.base.Address\`
 \`org.acme.hr.Employee\` "1" *-- "*" \`org.acme.hr.Equipment\`
 \`org.acme.hr.Employee\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
 \`org.acme.hr.Employee\` --|> \`org.acme.hr.Person\`
@@ -2146,7 +2336,7 @@ class \`org.acme.hr.ChangeOfAddress\` {
 }
 
 \`org.acme.hr.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr.Person\` : Person
-\`org.acme.hr.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.Address\`
+\`org.acme.hr.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base.Address\`
 \`\`\`
 
 ",
@@ -2157,7 +2347,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "model.mmd",
   "value": "classDiagram
-class \`org.acme.hr.State\` {
+class \`org.acme.hr.base.State\` {
 << enumeration>>
    + \`MA\`
    + \`NY\`
@@ -2167,27 +2357,34 @@ class \`org.acme.hr.State\` {
    + \`CA\`
 }
 
-\`org.acme.hr.State\` --|> \`concerto@1.0.0.Concept\`
-class \`org.acme.hr.Address\` {
+\`org.acme.hr.base.State\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base.TShirtSizeType\` {
+<< enumeration>>
+   + \`SMALL\`
+   + \`MEDIUM\`
+   + \`LARGE\`
+}
+
+\`org.acme.hr.base.TShirtSizeType\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base.Address\` {
 << concept>>
    + \`String\` \`street\`
    + \`String\` \`city\`
    + \`State\` \`state\`
    + \`String\` \`zipCode\`
    + \`String\` \`country\`
-   + \`Map1\` \`dictionary1\`
-   + \`Map2\` \`dictionary2\`
-   + \`Map3\` \`dictionary3\`
-   + \`Map4\` \`dictionary4\`
-   + \`Map5\` \`dictionary5\`
-   + \`Map6\` \`dictionary6\`
 }
 
-\`org.acme.hr.Address\` --|> \`concerto@1.0.0.Concept\`
+\`org.acme.hr.base.Address\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr.Company\` {
 << concept>>
    + \`String\` \`name\`
    + \`Address\` \`headquarters\`
+   + \`CompanyProperties\` \`companyProperties\`
+   + \`EmployeeDirectory\` \`employeeDirectory\`
+   + \`EmployeeTShirtSizes\` \`employeeTShirtSizes\`
+   + \`EmployeeProfiles\` \`employeeProfiles\`
+   + \`EmployeeSocialSecurityNumbers\` \`employeeSocialSecurityNumbers\`
 }
 
 \`org.acme.hr.Company\` --|> \`concerto@1.0.0.Concept\`
@@ -2231,6 +2428,7 @@ class \`org.acme.hr.Person\` {
    + \`String\` \`ssn\`
    + \`Double\` \`height\`
    + \`DateTime\` \`dob\`
+   + \`NextOfKin\` \`nextOfKin\`
 }
 
 \`org.acme.hr.Person\` --|> \`concerto@1.0.0.Participant\`
@@ -2321,7 +2519,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'odata' 2`] = `
 {
-  "key": "org.acme.hr.csdl",
+  "key": "org.acme.hr.base.csdl",
   "value": "<?xml version="1.0"?>
 <edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
 <edmx:Reference Uri="http://docs.oasis-open.org/odata/odata/v4.0/cs01/vocabularies/Org.OData.Core.V1.xml">
@@ -2331,7 +2529,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
    <edmx:Include Namespace="concerto" />
 </edmx:Reference>
 <edmx:DataServices>
-   <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr">
+   <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr.base">
       <EnumType Name="State">
          <Member Name="MA">
          </Member>
@@ -2346,34 +2544,65 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          <Member Name="CA">
          </Member>
       </EnumType>
+      <EnumType Name="TShirtSizeType">
+         <Member Name="SMALL">
+         </Member>
+         <Member Name="MEDIUM">
+         </Member>
+         <Member Name="LARGE">
+         </Member>
+      </EnumType>
       <ComplexType Name="Address"  BaseType="concerto.Concept">
          <Property Name="street" Type="Edm.String"  >
          </Property>
          <Property Name="city" Type="Edm.String"  >
          </Property>
-         <Property Name="state" Type="org.acme.hr.State" Nullable="true" >
+         <Property Name="state" Type="org.acme.hr.base.State" Nullable="true" >
          </Property>
          <Property Name="zipCode" Type="Edm.String"  >
          </Property>
          <Property Name="country" Type="Edm.String"  >
          </Property>
-         <Property Name="dictionary1" Type="org.acme.hr.Map1"  >
-         </Property>
-         <Property Name="dictionary2" Type="org.acme.hr.Map2"  >
-         </Property>
-         <Property Name="dictionary3" Type="org.acme.hr.Map3"  >
-         </Property>
-         <Property Name="dictionary4" Type="org.acme.hr.Map4"  >
-         </Property>
-         <Property Name="dictionary5" Type="org.acme.hr.Map5"  >
-         </Property>
-         <Property Name="dictionary6" Type="org.acme.hr.Map6"  >
-         </Property>
       </ComplexType>
+   <EntityContainer Name="org.acme.hr.baseService">
+   </EntityContainer>
+   </Schema>
+</edmx:DataServices>
+</edmx:Edmx>
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'odata' 3`] = `
+{
+  "key": "org.acme.hr.csdl",
+  "value": "<?xml version="1.0"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+<edmx:Reference Uri="http://docs.oasis-open.org/odata/odata/v4.0/cs01/vocabularies/Org.OData.Core.V1.xml">
+   <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core" />
+</edmx:Reference>
+<edmx:Reference Uri="./org.acme.hr.base.csdl">
+   <edmx:Include Namespace="org.acme.hr.base" />
+</edmx:Reference>
+<edmx:Reference Uri="./concerto.csdl">
+   <edmx:Include Namespace="concerto" />
+</edmx:Reference>
+<edmx:DataServices>
+   <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr">
       <ComplexType Name="Company"  BaseType="concerto.Concept">
          <Property Name="name" Type="Edm.String"  >
          </Property>
-         <Property Name="headquarters" Type="org.acme.hr.Address"  >
+         <Property Name="headquarters" Type="org.acme.hr.base.Address"  >
+         </Property>
+         <Property Name="companyProperties" Type="org.acme.hr.CompanyProperties" Nullable="true" >
+         </Property>
+         <Property Name="employeeDirectory" Type="org.acme.hr.EmployeeDirectory" Nullable="true" >
+         </Property>
+         <Property Name="employeeTShirtSizes" Type="org.acme.hr.base.EmployeeTShirtSizes" Nullable="true" >
+         </Property>
+         <Property Name="employeeProfiles" Type="org.acme.hr.EmployeeProfiles" Nullable="true" >
+         </Property>
+         <Property Name="employeeSocialSecurityNumbers" Type="org.acme.hr.EmployeeSocialSecurityNumbers" Nullable="true" >
          </Property>
       </ComplexType>
       <EnumType Name="Department">
@@ -2417,13 +2646,15 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          </Property>
          <Property Name="middleNames" Type="Edm.String" Nullable="true" >
          </Property>
-         <Property Name="homeAddress" Type="org.acme.hr.Address"  >
+         <Property Name="homeAddress" Type="org.acme.hr.base.Address"  >
          </Property>
          <Property Name="ssn" Type="Edm.String"  DefaultValue="000-00-0000">
          </Property>
          <Property Name="height" Type="Edm.Double"  >
          </Property>
          <Property Name="dob" Type="Edm.DateTimeOffset"  >
+         </Property>
+         <Property Name="nextOfKin" Type="org.acme.hr.NextOfKin"  >
          </Property>
       </EntityType>
       <EntityType Name="Employee"  BaseType="org.acme.hr.Person">
@@ -2437,7 +2668,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          </Property>
          <Property Name="department" Type="org.acme.hr.Department"  >
          </Property>
-         <Property Name="officeAddress" Type="org.acme.hr.Address"  >
+         <Property Name="officeAddress" Type="org.acme.hr.base.Address"  >
          </Property>
          <Property Name="companyAssets" Type="Collection(org.acme.hr.Equipment)"  >
          </Property>
@@ -2463,7 +2694,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
       <ComplexType Name="ChangeOfAddress"  BaseType="concerto.Transaction">
          <NavigationProperty Name="Person" Type="org.acme.hr.Person" >
          </NavigationProperty>
-         <Property Name="newAddress" Type="org.acme.hr.Address"  >
+         <Property Name="newAddress" Type="org.acme.hr.base.Address"  >
          </Property>
       </ComplexType>
    <EntityContainer Name="org.acme.hrService">
@@ -2492,9 +2723,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   },
   "components": {
     "schemas": {
-      "org.acme.hr.State": {
+      "org.acme.hr.base.State": {
         "title": "State",
-        "description": "An instance of org.acme.hr.State",
+        "description": "An instance of org.acme.hr.base.State",
         "enum": [
           "MA",
           "NY",
@@ -2504,16 +2735,25 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "CA"
         ]
       },
-      "org.acme.hr.Address": {
+      "org.acme.hr.base.TShirtSizeType": {
+        "title": "TShirtSizeType",
+        "description": "An instance of org.acme.hr.base.TShirtSizeType",
+        "enum": [
+          "SMALL",
+          "MEDIUM",
+          "LARGE"
+        ]
+      },
+      "org.acme.hr.base.Address": {
         "title": "Address",
-        "description": "An instance of org.acme.hr.Address",
+        "description": "An instance of org.acme.hr.base.Address",
         "type": "object",
         "properties": {
           "$class": {
             "type": "string",
-            "default": "org.acme.hr.Address",
-            "pattern": "^org\\\\.acme\\\\.hr\\\\.Address$",
-            "description": "The class identifier for org.acme.hr.Address"
+            "default": "org.acme.hr.base.Address",
+            "pattern": "^org\\\\.acme\\\\.hr\\\\.base\\\\.Address$",
+            "description": "The class identifier for org.acme.hr.base.Address"
           },
           "street": {
             "type": "string"
@@ -2522,7 +2762,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "type": "string"
           },
           "state": {
-            "$ref": "#/components/schemas/org.acme.hr.State"
+            "$ref": "#/components/schemas/org.acme.hr.base.State"
           },
           "zipCode": {
             "type": "string"
@@ -2536,18 +2776,16 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "street",
           "city",
           "zipCode",
-          "country",
-          "dictionary1",
-          "dictionary2",
-          "dictionary3",
-          "dictionary4",
-          "dictionary5",
-          "dictionary6"
+          "country"
         ]
       },
-      "org.acme.hr.Time": {
+      "org.acme.hr.base.Time": {
         "format": "date-time",
         "type": "string"
+      },
+      "org.acme.hr.base.SSN": {
+        "type": "string",
+        "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
       },
       "org.acme.hr.Company": {
         "title": "Company",
@@ -2564,7 +2802,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "type": "string"
           },
           "headquarters": {
-            "$ref": "#/components/schemas/org.acme.hr.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base.Address"
           }
         },
         "required": [
@@ -2642,10 +2880,6 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "serialNumber"
         ]
       },
-      "org.acme.hr.SSN": {
-        "type": "string",
-        "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
-      },
       "org.acme.hr.Person": {
         "title": "Person",
         "description": "An instance of org.acme.hr.Person",
@@ -2671,7 +2905,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "type": "string"
           },
           "homeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base.Address"
           },
           "ssn": {
             "default": "000-00-0000",
@@ -2694,7 +2928,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ],
         "$decorators": {
           "resource": []
@@ -2727,7 +2962,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "$ref": "#/components/schemas/org.acme.hr.Department"
           },
           "officeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base.Address"
           },
           "companyAssets": {
             "type": "array",
@@ -2760,7 +2995,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "type": "string"
           },
           "homeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base.Address"
           },
           "ssn": {
             "default": "000-00-0000",
@@ -2790,7 +3025,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr.Contractor": {
@@ -2825,7 +3061,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "type": "string"
           },
           "homeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base.Address"
           },
           "ssn": {
             "default": "000-00-0000",
@@ -2849,7 +3085,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr.Manager": {
@@ -2886,7 +3123,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "$ref": "#/components/schemas/org.acme.hr.Department"
           },
           "officeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base.Address"
           },
           "companyAssets": {
             "type": "array",
@@ -2919,7 +3156,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "type": "string"
           },
           "homeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base.Address"
           },
           "ssn": {
             "default": "000-00-0000",
@@ -2949,7 +3186,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr.CompanyEvent": {
@@ -3005,7 +3243,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "description": "The identifier of an instance of org.acme.hr.Person"
           },
           "newAddress": {
-            "$ref": "#/components/schemas/org.acme.hr.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base.Address"
           }
         },
         "required": [
@@ -3013,6 +3251,13 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "Person",
           "newAddress"
         ]
+      },
+      "org.acme.hr.KinName": {
+        "type": "string"
+      },
+      "org.acme.hr.KinTelephone": {
+        "format": "date-time",
+        "type": "string"
       }
     }
   },
@@ -3276,7 +3521,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 title
 Model
 endtitle
-class org.acme.hr.State << (E,grey) >> {
+class org.acme.hr.base.State << (E,grey) >> {
    + MA
    + NY
    + CO
@@ -3284,24 +3529,29 @@ class org.acme.hr.State << (E,grey) >> {
    + IL
    + CA
 }
-org.acme.hr.State --|> concerto_1_0_0.Concept
-class org.acme.hr.Address {
+org.acme.hr.base.State --|> concerto_1_0_0.Concept
+class org.acme.hr.base.TShirtSizeType << (E,grey) >> {
+   + SMALL
+   + MEDIUM
+   + LARGE
+}
+org.acme.hr.base.TShirtSizeType --|> concerto_1_0_0.Concept
+class org.acme.hr.base.Address {
    + String street
    + String city
    + State state
    + String zipCode
    + String country
-   + Map1 dictionary1
-   + Map2 dictionary2
-   + Map3 dictionary3
-   + Map4 dictionary4
-   + Map5 dictionary5
-   + Map6 dictionary6
 }
-org.acme.hr.Address --|> concerto_1_0_0.Concept
+org.acme.hr.base.Address --|> concerto_1_0_0.Concept
 class org.acme.hr.Company {
    + String name
    + Address headquarters
+   + CompanyProperties companyProperties
+   + EmployeeDirectory employeeDirectory
+   + EmployeeTShirtSizes employeeTShirtSizes
+   + EmployeeProfiles employeeProfiles
+   + EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers
 }
 org.acme.hr.Company --|> concerto_1_0_0.Concept
 class org.acme.hr.Department << (E,grey) >> {
@@ -3335,6 +3585,7 @@ class org.acme.hr.Person << (P,lightblue) >> {
    + String ssn
    + Double height
    + DateTime dob
+   + NextOfKin nextOfKin
 }
 org.acme.hr.Person --|> concerto_1_0_0.Participant
 class org.acme.hr.Employee << (P,lightblue) >> {
@@ -3381,10 +3632,10 @@ org.acme.hr.ChangeOfAddress --|> concerto_1_0_0.Transaction
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'protobuf' 1`] = `
 {
-  "key": "org.acme.hr.v.proto",
+  "key": "org.acme.hr.base.v.proto",
   "value": "syntax = "proto3";
 
-package org.acme.hr.v;
+package org.acme.hr.base.v;
 
 import "google/protobuf/timestamp.proto";
 
@@ -3397,23 +3648,42 @@ enum State {
   State_WA = 5;
 }
 
+enum TShirtSizeType {
+  TShirtSizeType_LARGE = 0;
+  TShirtSizeType_MEDIUM = 1;
+  TShirtSizeType_SMALL = 2;
+}
+
 message Address {
   string city = 1;
   string country = 2;
-  Map1 dictionary1 = 3;
-  Map2 dictionary2 = 4;
-  Map3 dictionary3 = 5;
-  Map4 dictionary4 = 6;
-  Map5 dictionary5 = 7;
-  Map6 dictionary6 = 8;
-  optional State state = 9;
-  string street = 10;
-  string zipCode = 11;
+  optional State state = 3;
+  string street = 4;
+  string zipCode = 5;
 }
 
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'protobuf' 2`] = `
+{
+  "key": "org.acme.hr.v.proto",
+  "value": "syntax = "proto3";
+
+package org.acme.hr.v;
+
+import "google/protobuf/timestamp.proto";
+import "org.acme.hr.base.v.proto";
+
 message Company {
-  Address headquarters = 1;
-  string name = 2;
+  optional CompanyProperties companyProperties = 1;
+  optional EmployeeDirectory employeeDirectory = 2;
+  optional EmployeeProfiles employeeProfiles = 3;
+  optional EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers = 4;
+  optional EmployeeTShirtSizes employeeTShirtSizes = 5;
+  Address headquarters = 6;
+  string name = 7;
 }
 
 enum Department {
@@ -3461,11 +3731,12 @@ message Employee {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  sint64 numDependents = 12;
-  Address officeAddress = 13;
-  bool retired = 14;
-  sint64 salary = 15;
-  string ssn = 16;
+  NextOfKin nextOfKin = 12;
+  sint64 numDependents = 13;
+  Address officeAddress = 14;
+  bool retired = 15;
+  sint64 salary = 16;
+  string ssn = 17;
 }
 
 message _Subclasses_of_class_Employee {
@@ -3485,7 +3756,8 @@ message Contractor {
   string lastName = 7;
   optional string manager = 8;
   optional string middleNames = 9;
-  string ssn = 10;
+  NextOfKin nextOfKin = 10;
+  string ssn = 11;
 }
 
 message Manager {
@@ -3500,12 +3772,13 @@ message Manager {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  sint64 numDependents = 12;
-  Address officeAddress = 13;
-  repeated string reports = 14;
-  bool retired = 15;
-  sint64 salary = 16;
-  string ssn = 17;
+  NextOfKin nextOfKin = 12;
+  sint64 numDependents = 13;
+  Address officeAddress = 14;
+  repeated string reports = 15;
+  bool retired = 16;
+  sint64 salary = 17;
+  string ssn = 18;
 }
 
 message CompanyEvent {
@@ -3539,6 +3812,8 @@ pub mod concerto_1_0_0;
 #[allow(unused_imports)]
 pub mod concerto;
 #[allow(unused_imports)]
+pub mod org_acme_hr_base;
+#[allow(unused_imports)]
 pub mod org_acme_hr;
 #[allow(unused_imports)]
 pub mod utils;
@@ -3551,7 +3826,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "utils.rs",
   "value": "use chrono::{ DateTime, TimeZone, Utc };
 use serde::{ Deserialize, Serialize, Deserializer, Serializer };
-   
+
 pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>
 where
    S: Serializer,
@@ -3581,7 +3856,7 @@ where
    let datetime_str = String::deserialize(deserializer)?;
    Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)
 }
-   
+
 pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
 where
    S: Serializer,
@@ -3598,9 +3873,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "concerto_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
@@ -3615,7 +3890,7 @@ pub struct Asset {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -3628,7 +3903,7 @@ pub struct Participant {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -3641,7 +3916,7 @@ pub struct Transaction {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -3656,7 +3931,7 @@ pub struct Event {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -3674,9 +3949,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "concerto.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
@@ -3691,7 +3966,7 @@ pub struct Asset {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -3704,7 +3979,7 @@ pub struct Participant {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -3733,13 +4008,13 @@ pub struct Event {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 5`] = `
 {
-  "key": "org_acme_hr.rs",
+  "key": "org_acme_hr_base.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::concerto_1_0_0::*;
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub enum State {
    #[allow(non_camel_case_types)]
@@ -3757,68 +4032,62 @@ pub enum State {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub enum TShirtSizeType {
+   #[allow(non_camel_case_types)]
+   SMALL,
+   #[allow(non_camel_case_types)]
+   MEDIUM,
+   #[allow(non_camel_case_types)]
+   LARGE,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Address {
    #[serde(
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "street",
    )]
    pub street: String,
-   
+
    #[serde(
       rename = "city",
    )]
    pub city: String,
-   
+
    #[serde(
       rename = "state",
       skip_serializing_if = "Option::is_none",
    )]
    pub state: Option<State>,
-   
+
    #[serde(
       rename = "zipCode",
    )]
    pub zip_code: String,
-   
+
    #[serde(
       rename = "country",
    )]
    pub country: String,
-   
-   #[serde(
-      rename = "dictionary1",
-   )]
-   pub dictionary1: Map1,
-   
-   #[serde(
-      rename = "dictionary2",
-   )]
-   pub dictionary2: Map2,
-   
-   #[serde(
-      rename = "dictionary3",
-   )]
-   pub dictionary3: Map3,
-   
-   #[serde(
-      rename = "dictionary4",
-   )]
-   pub dictionary4: Map4,
-   
-   #[serde(
-      rename = "dictionary5",
-   )]
-   pub dictionary5: Map5,
-   
-   #[serde(
-      rename = "dictionary6",
-   )]
-   pub dictionary6: Map6,
 }
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 6`] = `
+{
+  "key": "org_acme_hr.rs",
+  "value": "use serde::{ Deserialize, Serialize };
+use chrono::{ DateTime, TimeZone, Utc };
+
+use crate::org_acme_hr_base::*;
+use crate::concerto_1_0_0::*;
+use crate::utils::*;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Company {
@@ -3826,16 +4095,46 @@ pub struct Company {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "name",
    )]
    pub name: String,
-   
+
    #[serde(
       rename = "headquarters",
    )]
    pub headquarters: Address,
+
+   #[serde(
+      rename = "companyProperties",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub company_properties: Option<CompanyProperties>,
+
+   #[serde(
+      rename = "employeeDirectory",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub employee_directory: Option<EmployeeDirectory>,
+
+   #[serde(
+      rename = "employeeTShirtSizes",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub employee_t_shirt_sizes: Option<EmployeeTShirtSizes>,
+
+   #[serde(
+      rename = "employeeProfiles",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub employee_profiles: Option<EmployeeProfiles>,
+
+   #[serde(
+      rename = "employeeSocialSecurityNumbers",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub employee_social_security_numbers: Option<EmployeeSocialSecurityNumbers>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -3860,12 +4159,12 @@ pub struct Equipment {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "serialNumber",
    )]
    pub serial_number: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -3886,17 +4185,17 @@ pub struct Laptop {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "make",
    )]
    pub make: LaptopMake,
-   
+
    #[serde(
       rename = "serialNumber",
    )]
    pub serial_number: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -3909,50 +4208,55 @@ pub struct Person {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+
    #[serde(
       rename = "$identifier",
    )]
@@ -3965,88 +4269,93 @@ pub struct Employee {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "employeeId",
    )]
    pub employee_id: String,
-   
+
    #[serde(
       rename = "salary",
    )]
    pub salary: u64,
-   
+
    #[serde(
       rename = "numDependents",
    )]
    pub num_dependents: Integer,
-   
+
    #[serde(
       rename = "retired",
    )]
    pub retired: bool,
-   
+
    #[serde(
       rename = "department",
    )]
    pub department: Department,
-   
+
    #[serde(
       rename = "officeAddress",
    )]
    pub office_address: Address,
-   
+
    #[serde(
       rename = "companyAssets",
    )]
    pub company_assets: Vec<Equipment>,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+
    #[serde(
       rename = "$identifier",
    )]
@@ -4059,58 +4368,63 @@ pub struct Contractor {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "company",
    )]
    pub company: Company,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+
    #[serde(
       rename = "$identifier",
    )]
@@ -4123,91 +4437,96 @@ pub struct Manager {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "reports")]
    pub reports: Option<Vec<Person>>,
-   
+
    #[serde(
       rename = "employeeId",
    )]
    pub employee_id: String,
-   
+
    #[serde(
       rename = "salary",
    )]
    pub salary: u64,
-   
+
    #[serde(
       rename = "numDependents",
    )]
    pub num_dependents: Integer,
-   
+
    #[serde(
       rename = "retired",
    )]
    pub retired: bool,
-   
+
    #[serde(
       rename = "department",
    )]
    pub department: Department,
-   
+
    #[serde(
       rename = "officeAddress",
    )]
    pub office_address: Address,
-   
+
    #[serde(
       rename = "companyAssets",
    )]
    pub company_assets: Vec<Equipment>,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+
    #[serde(
       rename = "$identifier",
    )]
@@ -4220,7 +4539,7 @@ pub struct CompanyEvent {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -4235,10 +4554,10 @@ pub struct Onboarded {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "employee")]
    pub employee: Employee,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -4253,15 +4572,15 @@ pub struct ChangeOfAddress {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "Person")]
    pub person: Person,
-   
+
    #[serde(
       rename = "newAddress",
    )]
    pub new_address: Address,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -4285,7 +4604,10 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 // Warning: Beware of circular dependencies when modifying these imports
 import type {
 	State,
-	IAddress,
+	TShirtSizeType,
+	IAddress
+} from './org.acme.hr.base';
+import type {
 	ICompany,
 	Department,
 	LaptopMake
@@ -4316,7 +4638,7 @@ export interface IConcept {
    $class: string;
 }
 
-export type ConceptUnion = IAddress | 
+export type ConceptUnion = IAddress |
 ICompany;
 
 export interface IAsset extends IConcept {
@@ -4380,6 +4702,45 @@ export interface IEvent extends IConcept {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 3`] = `
 {
+  "key": "org.acme.hr.base.ts",
+  "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
+// Generated code for namespace: org.acme.hr.base
+
+// imports
+import {IConcept} from './concerto@1.0.0';
+
+// interfaces
+export enum State {
+   MA = 'MA',
+   NY = 'NY',
+   CO = 'CO',
+   WA = 'WA',
+   IL = 'IL',
+   CA = 'CA',
+}
+
+export enum TShirtSizeType {
+   SMALL = 'SMALL',
+   MEDIUM = 'MEDIUM',
+   LARGE = 'LARGE',
+}
+
+export type EmployeeTShirtSizes = Map<string, ITShirtSizeType>;
+
+export interface IAddress extends IConcept {
+   street: string;
+   city: string;
+   state?: State;
+   zipCode: string;
+   country: string;
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 4`] = `
+{
   "key": "org.acme.hr.ts",
   "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
 // Generated code for namespace: org.acme.hr
@@ -4393,47 +4754,30 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 // Warning: Beware of circular dependencies when modifying these imports
 
 // Warning: Beware of circular dependencies when modifying these imports
+import {IAddress,IEmployeeTShirtSizes,ISSN} from './org.acme.hr.base';
 import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0';
 
 // interfaces
-export enum State {
-   MA = 'MA',
-   NY = 'NY',
-   CO = 'CO',
-   WA = 'WA',
-   IL = 'IL',
-   CA = 'CA',
-}
+export type CompanyProperties = Map<string, string>;
 
-export interface IAddress extends IConcept {
-   street: string;
-   city: string;
-   state?: State;
-   zipCode: string;
-   country: string;
-   dictionary1: Map1;
-   dictionary2: Map2;
-   dictionary3: Map3;
-   dictionary4: Map4;
-   dictionary5: Map5;
-   dictionary6: Map6;
-}
+export type EmployeeLoginTimes = Map<string, null>;
 
-export type Map1 = Map<string, string>;
+export type EmployeeSocialSecurityNumbers = Map<string, null>;
 
-export type Map2 = Map<string, Date>;
+export type NextOfKin = Map<string, null>;
 
-export type Map3 = Map<string, string>;
+export type EmployeeProfiles = Map<string, IConcept>;
 
-export type Map4 = Map<string, IConcept>;
-
-export type Map5 = Map<string, string>;
-
-export type Map6 = Map<string, IEmployee>;
+export type EmployeeDirectory = Map<string, IEmployee>;
 
 export interface ICompany extends IConcept {
    name: string;
    headquarters: IAddress;
+   companyProperties?: CompanyProperties;
+   employeeDirectory?: EmployeeDirectory;
+   employeeTShirtSizes?: EmployeeTShirtSizes;
+   employeeProfiles?: EmployeeProfiles;
+   employeeSocialSecurityNumbers?: EmployeeSocialSecurityNumbers;
 }
 
 export enum Department {
@@ -4469,9 +4813,10 @@ export interface IPerson extends IParticipant {
    ssn: string;
    height: number;
    dob: Date;
+   nextOfKin: NextOfKin;
 }
 
-export type PersonUnion = IEmployee | 
+export type PersonUnion = IEmployee |
 IContractor;
 
 export interface IEmployee extends IPerson {
@@ -4516,10 +4861,10 @@ export interface IChangeOfAddress extends ITransaction {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'vocabulary' 1`] = `
 {
-  "key": "org.acme.hr_en.voc",
-  "value": "#Generated vocabulary for namespace: org.acme.hr
+  "key": "org.acme.hr.base_en.voc",
+  "value": "#Generated vocabulary for namespace: org.acme.hr.base
 locale: en
-namespace: org.acme.hr
+namespace: org.acme.hr.base
 declarations:
   - State: State
     properties:
@@ -4529,6 +4874,11 @@ declarations:
       - WA: WA of the State
       - IL: IL of the State
       - CA: CA of the State
+  - TShirtSizeType: TShirt Size Type
+    properties:
+      - SMALL: SMALL of the TShirt Size Type
+      - MEDIUM: MEDIUM of the TShirt Size Type
+      - LARGE: LARGE of the TShirt Size Type
   - Address: Address
     properties:
       - street: Street of the Address
@@ -4536,17 +4886,28 @@ declarations:
       - state: State of the Address
       - zipCode: Zip Code of the Address
       - country: Country of the Address
-      - dictionary1: Dictionary1 of the Address
-      - dictionary2: Dictionary2 of the Address
-      - dictionary3: Dictionary3 of the Address
-      - dictionary4: Dictionary4 of the Address
-      - dictionary5: Dictionary5 of the Address
-      - dictionary6: Dictionary6 of the Address
   - Time: Time
+  - SSN: SSN
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'vocabulary' 2`] = `
+{
+  "key": "org.acme.hr_en.voc",
+  "value": "#Generated vocabulary for namespace: org.acme.hr
+locale: en
+namespace: org.acme.hr
+declarations:
   - Company: Company
     properties:
       - name: Name of the Company
       - headquarters: Headquarters of the Company
+      - companyProperties: Company Properties of the Company
+      - employeeDirectory: Employee Directory of the Company
+      - employeeTShirtSizes: Employee TShirt Sizes of the Company
+      - employeeProfiles: Employee Profiles of the Company
+      - employeeSocialSecurityNumbers: Employee Social Security Numbers of the Company
   - Department: Department
     properties:
       - Sales: Sales of the Department
@@ -4565,7 +4926,6 @@ declarations:
   - Laptop: Laptop
     properties:
       - make: Make of the Laptop
-  - SSN: SSN
   - Person: Person
     properties:
       - email: Email of the Person
@@ -4576,6 +4936,7 @@ declarations:
       - ssn: Ssn of the Person
       - height: Height of the Person
       - dob: Dob of the Person
+      - nextOfKin: Next Of Kin of the Person
   - Employee: Employee
     properties:
       - employeeId: Employee Id of the Employee
@@ -4601,6 +4962,8 @@ declarations:
     properties:
       - Person: Person of the Change Of Address
       - newAddress: New Address of the Change Of Address
+  - KinName: Kin Name
+  - KinTelephone: Kin Telephone
 ",
 }
 `;
@@ -4609,7 +4972,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "concerto@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 <xs:complexType name="Concept">
    <xs:sequence>
@@ -4665,7 +5028,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "concerto.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 <xs:complexType name="Concept">
    <xs:sequence>
@@ -4717,9 +5080,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'xmlschema' 3`] = `
 {
-  "key": "org.acme.hr.xsd",
+  "key": "org.acme.hr.base.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:org.acme.hr="org.acme.hr" targetNamespace="org.acme.hr" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:org.acme.hr.base="org.acme.hr.base" targetNamespace="org.acme.hr.base" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 xmlns:concerto="concerto"
 >
 <xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
@@ -4733,33 +5096,55 @@ xmlns:concerto="concerto"
       <xs:enumeration value="CA"/>
    </xs:restriction>
 </xs:simpleType>
-<xs:element name="State" type="org.acme.hr:State"/>
+<xs:element name="State" type="org.acme.hr.base:State"/>
+<xs:simpleType name="TShirtSizeType">
+   <xs:restriction base="xs:string">
+      <xs:enumeration value="SMALL"/>
+      <xs:enumeration value="MEDIUM"/>
+      <xs:enumeration value="LARGE"/>
+   </xs:restriction>
+</xs:simpleType>
+<xs:element name="TShirtSizeType" type="org.acme.hr.base:TShirtSizeType"/>
 <xs:complexType name="Address">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
    <xs:sequence>
       <xs:element name="street" type="xs:string"/>
       <xs:element name="city" type="xs:string"/>
-      <xs:element name="state" type="org.acme.hr:State"/>
+      <xs:element name="state" type="org.acme.hr.base:State"/>
       <xs:element name="zipCode" type="xs:string"/>
       <xs:element name="country" type="xs:string"/>
-      <xs:element name="dictionary1" type="org.acme.hr:Map1"/>
-      <xs:element name="dictionary2" type="org.acme.hr:Map2"/>
-      <xs:element name="dictionary3" type="org.acme.hr:Map3"/>
-      <xs:element name="dictionary4" type="org.acme.hr:Map4"/>
-      <xs:element name="dictionary5" type="org.acme.hr:Map5"/>
-      <xs:element name="dictionary6" type="org.acme.hr:Map6"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
 </xs:complexType>
-<xs:element name="Address" type="org.acme.hr:Address"/>
+<xs:element name="Address" type="org.acme.hr.base:Address"/>
+</xs:schema>
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'xmlschema' 4`] = `
+{
+  "key": "org.acme.hr.xsd",
+  "value": "<?xml version="1.0"?>
+<xs:schema xmlns:org.acme.hr="org.acme.hr" targetNamespace="org.acme.hr" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:org.acme.hr.base="org.acme.hr.base"
+xmlns:concerto="concerto"
+>
+<xs:import namespace="org.acme.hr.base" schemaLocation="org.acme.hr.base.xsd"/>
+<xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
 <xs:complexType name="Company">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
    <xs:sequence>
       <xs:element name="name" type="xs:string"/>
-      <xs:element name="headquarters" type="org.acme.hr:Address"/>
+      <xs:element name="headquarters" type="org.acme.hr.base:Address"/>
+      <xs:element name="companyProperties" type="org.acme.hr:CompanyProperties"/>
+      <xs:element name="employeeDirectory" type="org.acme.hr:EmployeeDirectory"/>
+      <xs:element name="employeeTShirtSizes" type="org.acme.hr.base:EmployeeTShirtSizes"/>
+      <xs:element name="employeeProfiles" type="org.acme.hr:EmployeeProfiles"/>
+      <xs:element name="employeeSocialSecurityNumbers" type="org.acme.hr:EmployeeSocialSecurityNumbers"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -4811,10 +5196,11 @@ xmlns:concerto="concerto"
       <xs:element name="firstName" type="xs:string"/>
       <xs:element name="lastName" type="xs:string"/>
       <xs:element name="middleNames" type="xs:string"/>
-      <xs:element name="homeAddress" type="org.acme.hr:Address"/>
+      <xs:element name="homeAddress" type="org.acme.hr.base:Address"/>
       <xs:element name="ssn" type="xs:string"/>
       <xs:element name="height" type="xs:double"/>
       <xs:element name="dob" type="xs:dateTime"/>
+      <xs:element name="nextOfKin" type="org.acme.hr:NextOfKin"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -4829,7 +5215,7 @@ xmlns:concerto="concerto"
       <xs:element name="numDependents" type="xs:integer"/>
       <xs:element name="retired" type="xs:boolean"/>
       <xs:element name="department" type="org.acme.hr:Department"/>
-      <xs:element name="officeAddress" type="org.acme.hr:Address"/>
+      <xs:element name="officeAddress" type="org.acme.hr.base:Address"/>
       <xs:element name="companyAssets" type="org.acme.hr:Equipment" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="manager" type="org.acme.hr:Manager"/>
    </xs:sequence>
@@ -4882,7 +5268,7 @@ xmlns:concerto="concerto"
    <xs:extension base="concerto:Transaction">
    <xs:sequence>
       <xs:element name="Person" type="org.acme.hr:Person"/>
-      <xs:element name="newAddress" type="org.acme.hr:Address"/>
+      <xs:element name="newAddress" type="org.acme.hr.base:Address"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -4897,7 +5283,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "model.mmd",
   "value": "classDiagram
-class \`org.acme.hr@1.0.0.State\` {
+class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
    + \`MA\`
    + \`NY\`
@@ -4907,35 +5293,40 @@ class \`org.acme.hr@1.0.0.State\` {
    + \`CA\`
 }
 
-class \`org.acme.hr@1.0.0.Address\` {
+class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
+<< enumeration>>
+   + \`SMALL\`
+   + \`MEDIUM\`
+   + \`LARGE\`
+}
+
+class \`org.acme.hr.base@1.0.0.Address\` {
 << concept>>
    + \`String\` \`street\`
    + \`String\` \`city\`
    + \`State\` \`state\`
    + \`String\` \`zipCode\`
    + \`String\` \`country\`
-   + \`Map1\` \`dictionary1\`
-   + \`Map2\` \`dictionary2\`
-   + \`Map3\` \`dictionary3\`
-   + \`Map4\` \`dictionary4\`
-   + \`Map5\` \`dictionary5\`
-   + \`Map6\` \`dictionary6\`
 }
 
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.State\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map1\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map2\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map3\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map4\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map5\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map6\`
+\`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
    + \`Address\` \`headquarters\`
+   + \`CompanyProperties\` \`companyProperties\`
+   + \`EmployeeDirectory\` \`employeeDirectory\`
+   + \`EmployeeTShirtSizes\` \`employeeTShirtSizes\`
+   + \`EmployeeProfiles\` \`employeeProfiles\`
+   + \`EmployeeSocialSecurityNumbers\` \`employeeSocialSecurityNumbers\`
 }
 
-\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.CompanyProperties\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeDirectory\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeProfiles\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
 class \`org.acme.hr@1.0.0.Department\` {
 << enumeration>>
    + \`Sales\`
@@ -4974,10 +5365,12 @@ class \`org.acme.hr@1.0.0.Person\` {
    + \`String\` \`ssn\`
    + \`Double\` \`height\`
    + \`DateTime\` \`dob\`
+   + \`NextOfKin\` \`nextOfKin\`
 }
 
-\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
-\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.NextOfKin\`
 class \`org.acme.hr@1.0.0.Employee\` {
 << participant>>
    + \`String\` \`employeeId\`
@@ -4991,7 +5384,7 @@ class \`org.acme.hr@1.0.0.Employee\` {
 }
 
 \`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Department\`
-\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 \`org.acme.hr@1.0.0.Employee\` "1" *-- "*" \`org.acme.hr@1.0.0.Equipment\`
 \`org.acme.hr@1.0.0.Employee\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
 \`org.acme.hr@1.0.0.Employee\` --|> \`org.acme.hr@1.0.0.Person\`
@@ -5028,7 +5421,7 @@ class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 }
 
 \`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
-\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
+\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 ",
 }
 `;
@@ -5040,7 +5433,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 title
 Model
 endtitle
-class org.acme.hr_1_0_0.State << (E,grey) >> {
+class org.acme.hr.base_1_0_0.State << (E,grey) >> {
    + MA
    + NY
    + CO
@@ -5048,31 +5441,34 @@ class org.acme.hr_1_0_0.State << (E,grey) >> {
    + IL
    + CA
 }
-class org.acme.hr_1_0_0.Address {
+class org.acme.hr.base_1_0_0.TShirtSizeType << (E,grey) >> {
+   + SMALL
+   + MEDIUM
+   + LARGE
+}
+class org.acme.hr.base_1_0_0.Address {
    + String street
    + String city
    + State state
    + String zipCode
    + String country
-   + Map1 dictionary1
-   + Map2 dictionary2
-   + Map3 dictionary3
-   + Map4 dictionary4
-   + Map5 dictionary5
-   + Map6 dictionary6
 }
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.State : state
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map1 : dictionary1
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map2 : dictionary2
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map3 : dictionary3
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map4 : dictionary4
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map5 : dictionary5
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map6 : dictionary6
+org.acme.hr.base_1_0_0.Address "1" *-- "1" org.acme.hr.base_1_0_0.State : state
 class org.acme.hr_1_0_0.Company {
    + String name
    + Address headquarters
+   + CompanyProperties companyProperties
+   + EmployeeDirectory employeeDirectory
+   + EmployeeTShirtSizes employeeTShirtSizes
+   + EmployeeProfiles employeeProfiles
+   + EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers
 }
-org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr_1_0_0.Address : headquarters
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr.base_1_0_0.Address : headquarters
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr_1_0_0.CompanyProperties : companyProperties
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr_1_0_0.EmployeeDirectory : employeeDirectory
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr.base_1_0_0.EmployeeTShirtSizes : employeeTShirtSizes
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr_1_0_0.EmployeeProfiles : employeeProfiles
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr_1_0_0.EmployeeSocialSecurityNumbers : employeeSocialSecurityNumbers
 class org.acme.hr_1_0_0.Department << (E,grey) >> {
    + Sales
    + Marketing
@@ -5102,9 +5498,11 @@ class org.acme.hr_1_0_0.Person << (P,lightblue) >> {
    + String ssn
    + Double height
    + DateTime dob
+   + NextOfKin nextOfKin
 }
-org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr_1_0_0.Address : homeAddress
-org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr_1_0_0.SSN : ssn
+org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.Address : homeAddress
+org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.SSN : ssn
+org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr_1_0_0.NextOfKin : nextOfKin
 class org.acme.hr_1_0_0.Employee << (P,lightblue) >> {
    + String employeeId
    + Long salary
@@ -5116,7 +5514,7 @@ class org.acme.hr_1_0_0.Employee << (P,lightblue) >> {
    + Manager manager
 }
 org.acme.hr_1_0_0.Employee "1" *-- "1" org.acme.hr_1_0_0.Department : department
-org.acme.hr_1_0_0.Employee "1" *-- "1" org.acme.hr_1_0_0.Address : officeAddress
+org.acme.hr_1_0_0.Employee "1" *-- "1" org.acme.hr.base_1_0_0.Address : officeAddress
 org.acme.hr_1_0_0.Employee "1" *-- "*" org.acme.hr_1_0_0.Equipment : companyAssets
 org.acme.hr_1_0_0.Employee "1" o-- "1" org.acme.hr_1_0_0.Manager : manager
 org.acme.hr_1_0_0.Employee --|> org.acme.hr_1_0_0.Person
@@ -5144,7 +5542,7 @@ class org.acme.hr_1_0_0.ChangeOfAddress << (T,yellow) >> {
    + Address newAddress
 }
 org.acme.hr_1_0_0.ChangeOfAddress "1" o-- "1" org.acme.hr_1_0_0.Person : Person
-org.acme.hr_1_0_0.ChangeOfAddress "1" *-- "1" org.acme.hr_1_0_0.Address : newAddress
+org.acme.hr_1_0_0.ChangeOfAddress "1" *-- "1" org.acme.hr.base_1_0_0.Address : newAddress
 @enduml
 ",
 }
@@ -5156,7 +5554,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "@namespace("concerto@1.0.0")
 protocol MyProtocol {
 
-   
+
    record Concept {
    }
 
@@ -5189,7 +5587,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "@namespace("concerto")
 protocol MyProtocol {
 
-   
+
    record Concept {
    }
 
@@ -5214,12 +5612,12 @@ protocol MyProtocol {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 3`] = `
 {
-  "key": "org.acme.hr@1.0.0.avdl",
-  "value": "@namespace("org.acme.hr@1.0.0")
+  "key": "org.acme.hr.base@1.0.0.avdl",
+  "value": "@namespace("org.acme.hr.base@1.0.0")
 protocol MyProtocol {
 
    import idl "concerto@1.0.0.avdl";
-   
+
    enum State {
       MA,
       NY,
@@ -5229,23 +5627,42 @@ protocol MyProtocol {
       CA
    }
 
+   enum TShirtSizeType {
+      SMALL,
+      MEDIUM,
+      LARGE
+   }
+
    record Address {
       string street;
       string city;
       union { null, State } state;
       string zipCode;
       string country;
-      Map1 dictionary1;
-      Map2 dictionary2;
-      Map3 dictionary3;
-      Map4 dictionary4;
-      Map5 dictionary5;
-      Map6 dictionary6;
    }
+
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 4`] = `
+{
+  "key": "org.acme.hr@1.0.0.avdl",
+  "value": "@namespace("org.acme.hr@1.0.0")
+protocol MyProtocol {
+
+   import idl "org.acme.hr.base@1.0.0.avdl";
+   import idl "concerto@1.0.0.avdl";
 
    record Company {
       string name;
       Address headquarters;
+      union { null, CompanyProperties } companyProperties;
+      union { null, EmployeeDirectory } employeeDirectory;
+      union { null, EmployeeTShirtSizes } employeeTShirtSizes;
+      union { null, EmployeeProfiles } employeeProfiles;
+      union { null, EmployeeSocialSecurityNumbers } employeeSocialSecurityNumbers;
    }
 
    enum Department {
@@ -5281,6 +5698,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Employee {
@@ -5301,6 +5719,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Contractor {
@@ -5315,6 +5734,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record Manager {
@@ -5336,6 +5756,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
+      NextOfKin nextOfKin;
    }
 
    record CompanyEvent {
@@ -5455,8 +5876,8 @@ public abstract class Event : Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 3`] = `
 {
-  "key": "org.acme.hr@1.0.0.cs",
-  "value": "namespace org.acme.hr;
+  "key": "org.acme.hr.base@1.0.0.cs",
+  "value": "namespace org.acme.hr.base;
 using AccordProject.Concerto;
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum State {
@@ -5467,32 +5888,49 @@ public enum State {
       IL,
       CA,
 }
-[AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Address")]
+[System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+public enum TShirtSizeType {
+      SMALL,
+      MEDIUM,
+      LARGE,
+}
+[AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = "1.0.0", Name = "Address")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public class Address : Concept {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
-   public override string _class { get; } = "org.acme.hr@1.0.0.Address";
+   public override string _class { get; } = "org.acme.hr.base@1.0.0.Address";
    public string street { get; set; }
    public string city { get; set; }
    public State? state { get; set; }
    public string zipCode { get; set; }
    public string country { get; set; }
-   public Dictionary<string, string> dictionary1 { get; set; }
-   public Dictionary<string, System.DateTime> dictionary2 { get; set; }
-   public Dictionary<string, SSN> dictionary3 { get; set; }
-   public Dictionary<string, Concept> dictionary4 { get; set; }
-   public Dictionary<string, string> dictionary5 { get; set; }
-   public Dictionary<string, Employee> dictionary6 { get; set; }
 }
 //Dummy implementation of the scalar declaration to avoid compilation errors.
 class Time_Dummy {}
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class SSN_Dummy {}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 4`] = `
+{
+  "key": "org.acme.hr@1.0.0.cs",
+  "value": "namespace org.acme.hr;
+using org.acme.hr.base;
+using AccordProject.Concerto;
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Company")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public class Company : Concept {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.Company";
    public string name { get; set; }
-   public Address headquarters { get; set; }
+   public org.acme.hr.base.Address headquarters { get; set; }
+   public Dictionary<string, string> companyProperties { get; set; }
+   public Dictionary<string, Employee> employeeDirectory { get; set; }
+   public Dictionary<string, TShirtSizeType> employeeTShirtSizes { get; set; }
+   public Dictionary<string, Concept> employeeProfiles { get; set; }
+   public Dictionary<string, SSN> employeeSocialSecurityNumbers { get; set; }
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum Department {
@@ -5523,8 +5961,6 @@ public class Laptop : Equipment {
    public override string _class { get; } = "org.acme.hr@1.0.0.Laptop";
    public LaptopMake make { get; set; }
 }
-//Dummy implementation of the scalar declaration to avoid compilation errors.
-class SSN_Dummy {}
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Person")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public abstract class Person : Participant {
@@ -5535,11 +5971,12 @@ public abstract class Person : Participant {
    public string firstName { get; set; }
    public string lastName { get; set; }
    public string? middleNames { get; set; }
-   public Address homeAddress { get; set; }
+   public org.acme.hr.base.Address homeAddress { get; set; }
    [System.ComponentModel.DataAnnotations.RegularExpression(@"\\d{3}-\\d{2}-\\{4}+", ErrorMessage = "Invalid characters")]
    public string ssn { get; set; }
    public float height { get; set; }
    public System.DateTime dob { get; set; }
+   public Dictionary<string, KinTelephone> nextOfKin { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Employee")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -5551,7 +5988,7 @@ public class Employee : Person {
    public int numDependents { get; set; }
    public bool retired { get; set; }
    public Department department { get; set; }
-   public Address officeAddress { get; set; }
+   public org.acme.hr.base.Address officeAddress { get; set; }
    public Equipment[] companyAssets { get; set; }
    public Manager manager { get; set; }
 }
@@ -5589,8 +6026,12 @@ public class ChangeOfAddress : Transaction {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.ChangeOfAddress";
    public Person Person { get; set; }
-   public Address newAddress { get; set; }
+   public org.acme.hr.base.Address newAddress { get; set; }
 }
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class KinName_Dummy {}
+//Dummy implementation of the scalar declaration to avoid compilation errors.
+class KinTelephone_Dummy {}
 ",
 }
 `;
@@ -5601,7 +6042,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "// Package concerto_1_0_0 contains domain objects and was generated from Concerto namespace concerto@1.0.0.
 package concerto_1_0_0
 import "time"
-   
+
 type Concept struct {
 }
 type Asset struct {
@@ -5629,7 +6070,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "concerto.go",
   "value": "// Package concerto contains domain objects and was generated from Concerto namespace concerto.
 package concerto
-   
+
 type Concept struct {
 }
 type Asset struct {
@@ -5652,12 +6093,11 @@ type Event struct {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'golang' 3`] = `
 {
-  "key": "org.acme.hr@1.0.0.go",
-  "value": "// Package org_acme_hr_1_0_0 contains domain objects and was generated from Concerto namespace org.acme.hr@1.0.0.
-package org_acme_hr_1_0_0
-import "time"
+  "key": "org.acme.hr.base@1.0.0.go",
+  "value": "// Package org_acme_hr_base_1_0_0 contains domain objects and was generated from Concerto namespace org.acme.hr.base@1.0.0.
+package org_acme_hr_base_1_0_0
 import "concerto_1_0_0";
-   
+
 type State int
 const (
    MA State = 1 + iota
@@ -5667,6 +6107,12 @@ const (
    IL
    CA
 )
+type TShirtSizeType int
+const (
+   SMALL TShirtSizeType = 1 + iota
+   MEDIUM
+   LARGE
+)
 type Address struct {
    concerto_1_0_0.Concept
    Street string \`json:"street"\`
@@ -5674,17 +6120,29 @@ type Address struct {
    State State \`json:"state"\`
    ZipCode string \`json:"zipCode"\`
    Country string \`json:"country"\`
-   Dictionary1 Map1 \`json:"dictionary1"\`
-   Dictionary2 Map2 \`json:"dictionary2"\`
-   Dictionary3 Map3 \`json:"dictionary3"\`
-   Dictionary4 Map4 \`json:"dictionary4"\`
-   Dictionary5 Map5 \`json:"dictionary5"\`
-   Dictionary6 Map6 \`json:"dictionary6"\`
 }
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'golang' 4`] = `
+{
+  "key": "org.acme.hr@1.0.0.go",
+  "value": "// Package org_acme_hr_1_0_0 contains domain objects and was generated from Concerto namespace org.acme.hr@1.0.0.
+package org_acme_hr_1_0_0
+import "time"
+import "org_acme_hr_base_1_0_0";
+import "concerto_1_0_0";
+
 type Company struct {
    concerto_1_0_0.Concept
    Name string \`json:"name"\`
    Headquarters Address \`json:"headquarters"\`
+   CompanyProperties CompanyProperties \`json:"companyProperties"\`
+   EmployeeDirectory EmployeeDirectory \`json:"employeeDirectory"\`
+   EmployeeTShirtSizes EmployeeTShirtSizes \`json:"employeeTShirtSizes"\`
+   EmployeeProfiles EmployeeProfiles \`json:"employeeProfiles"\`
+   EmployeeSocialSecurityNumbers EmployeeSocialSecurityNumbers \`json:"employeeSocialSecurityNumbers"\`
 }
 type Department int
 const (
@@ -5718,6 +6176,7 @@ type Person struct {
    Ssn string \`json:"ssn"\`
    Height float64 \`json:"height"\`
    Dob time.Time \`json:"dob"\`
+   NextOfKin NextOfKin \`json:"nextOfKin"\`
 }
 type Employee struct {
    Person
@@ -5760,7 +6219,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "model.gql",
   "value": "directive @resource on OBJECT | FIELD_DEFINITION
 scalar DateTime
-# namespace org.acme.hr@1.0.0
+# namespace org.acme.hr.base@1.0.0
 enum State {
    MA
    NY
@@ -5769,46 +6228,55 @@ enum State {
    IL
    CA
 }
+enum TShirtSizeType {
+   SMALL
+   MEDIUM
+   LARGE
+}
+type EmployeeTShirtSizes {
+   key: SSN
+   value: TShirtSizeType
+}
 type Address {
    street: String!
    city: String!
    state: State
    zipCode: String!
    country: String!
-   dictionary1: Map1!
-   dictionary2: Map2!
-   dictionary3: Map3!
-   dictionary4: Map4!
-   dictionary5: Map5!
-   dictionary6: Map6!
 }
-type Map1 {
+# namespace org.acme.hr@1.0.0
+type CompanyProperties {
    key: String
    value: String
 }
-type Map2 {
+type EmployeeLoginTimes {
    key: String
-   value: DateTime
+   value: Time
 }
-type Map3 {
+type EmployeeSocialSecurityNumbers {
    key: String
    value: SSN
 }
-type Map4 {
+type NextOfKin {
+   key: KinName
+   value: KinTelephone
+}
+type EmployeeProfiles {
    key: String
    value: Concept
 }
-type Map5 {
-   key: SSN
-   value: String
-}
-type Map6 {
+type EmployeeDirectory {
    key: SSN
    value: Employee
 }
 type Company {
    name: String!
    headquarters: Address!
+   companyProperties: CompanyProperties
+   employeeDirectory: EmployeeDirectory
+   employeeTShirtSizes: EmployeeTShirtSizes
+   employeeProfiles: EmployeeProfiles
+   employeeSocialSecurityNumbers: EmployeeSocialSecurityNumbers
 }
 enum Department {
    Sales
@@ -5840,6 +6308,7 @@ type Person @resource {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Employee {
@@ -5859,6 +6328,7 @@ type Employee {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Contractor {
@@ -5872,6 +6342,7 @@ type Contractor {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type Manager {
@@ -5892,6 +6363,7 @@ type Manager {
    ssn: String!
    height: Float!
    dob: DateTime!
+   nextOfKin: NextOfKin!
    _identifier: String!
 }
 type CompanyEvent {
@@ -5946,7 +6418,7 @@ public abstract class Asset extends Concept {
             public void set$id(String i) {
                 $id = i;
             }
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.get$identifier();
@@ -5985,7 +6457,7 @@ public abstract class Participant extends Concept {
             public void set$id(String i) {
                 $id = i;
             }
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.get$identifier();
@@ -6035,9 +6507,9 @@ public abstract class Event extends Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 6`] = `
 {
-  "key": "org/acme/hr/State.java",
+  "key": "org/acme/hr/base/State.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr.base;
 
 import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"$class"})
@@ -6055,9 +6527,26 @@ public enum State {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 7`] = `
 {
-  "key": "org/acme/hr/Address.java",
+  "key": "org/acme/hr/base/TShirtSizeType.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr.base;
+
+import com.fasterxml.jackson.annotation.*;
+@JsonIgnoreProperties({"$class"})
+public enum TShirtSizeType {
+   SMALL,
+   MEDIUM,
+   LARGE,
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 8`] = `
+{
+  "key": "org/acme/hr/base/Address.java",
+  "value": "// this code is generated and should not be modified
+package org.acme.hr.base;
 
 import concerto.Concept;
 import concerto.Asset;
@@ -6073,12 +6562,6 @@ public class Address extends Concept {
    private State state;
    private String zipCode;
    private String country;
-   private Map<String, String> dictionary1 = new HashMap<>();
-   private Map<String, java.util.Date> dictionary2 = new HashMap<>();
-   private Map<String, SSN> dictionary3 = new HashMap<>();
-   private Map<String, Concept> dictionary4 = new HashMap<>();
-   private Map<SSN, String> dictionary5 = new HashMap<>();
-   private Map<SSN, Employee> dictionary6 = new HashMap<>();
    public String getStreet() {
       return this.street;
    }
@@ -6093,24 +6576,6 @@ public class Address extends Concept {
    }
    public String getCountry() {
       return this.country;
-   }
-   public Map1 getDictionary1() {
-      return this.dictionary1;
-   }
-   public Map2 getDictionary2() {
-      return this.dictionary2;
-   }
-   public Map3 getDictionary3() {
-      return this.dictionary3;
-   }
-   public Map4 getDictionary4() {
-      return this.dictionary4;
-   }
-   public Map5 getDictionary5() {
-      return this.dictionary5;
-   }
-   public Map6 getDictionary6() {
-      return this.dictionary6;
    }
    public void setStreet(String street) {
       this.street = street;
@@ -6127,35 +6592,22 @@ public class Address extends Concept {
    public void setCountry(String country) {
       this.country = country;
    }
-   public void setDictionary1(Map1 dictionary1) {
-      this.dictionary1 = dictionary1;
-   }
-   public void setDictionary2(Map2 dictionary2) {
-      this.dictionary2 = dictionary2;
-   }
-   public void setDictionary3(Map3 dictionary3) {
-      this.dictionary3 = dictionary3;
-   }
-   public void setDictionary4(Map4 dictionary4) {
-      this.dictionary4 = dictionary4;
-   }
-   public void setDictionary5(Map5 dictionary5) {
-      this.dictionary5 = dictionary5;
-   }
-   public void setDictionary6(Map6 dictionary6) {
-      this.dictionary6 = dictionary6;
-   }
 }
 ",
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 8`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 9`] = `
 {
   "key": "org/acme/hr/Company.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -6167,11 +6619,31 @@ import com.fasterxml.jackson.annotation.*;
 public class Company extends Concept {
    private String name;
    private Address headquarters;
+   private CompanyProperties companyProperties;
+   private EmployeeDirectory employeeDirectory;
+   private EmployeeTShirtSizes employeeTShirtSizes;
+   private EmployeeProfiles employeeProfiles;
+   private EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers;
    public String getName() {
       return this.name;
    }
    public Address getHeadquarters() {
       return this.headquarters;
+   }
+   public CompanyProperties getCompanyProperties() {
+      return this.companyProperties;
+   }
+   public EmployeeDirectory getEmployeeDirectory() {
+      return this.employeeDirectory;
+   }
+   public EmployeeTShirtSizes getEmployeeTShirtSizes() {
+      return this.employeeTShirtSizes;
+   }
+   public EmployeeProfiles getEmployeeProfiles() {
+      return this.employeeProfiles;
+   }
+   public EmployeeSocialSecurityNumbers getEmployeeSocialSecurityNumbers() {
+      return this.employeeSocialSecurityNumbers;
    }
    public void setName(String name) {
       this.name = name;
@@ -6179,12 +6651,27 @@ public class Company extends Concept {
    public void setHeadquarters(Address headquarters) {
       this.headquarters = headquarters;
    }
+   public void setCompanyProperties(CompanyProperties companyProperties) {
+      this.companyProperties = companyProperties;
+   }
+   public void setEmployeeDirectory(EmployeeDirectory employeeDirectory) {
+      this.employeeDirectory = employeeDirectory;
+   }
+   public void setEmployeeTShirtSizes(EmployeeTShirtSizes employeeTShirtSizes) {
+      this.employeeTShirtSizes = employeeTShirtSizes;
+   }
+   public void setEmployeeProfiles(EmployeeProfiles employeeProfiles) {
+      this.employeeProfiles = employeeProfiles;
+   }
+   public void setEmployeeSocialSecurityNumbers(EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers) {
+      this.employeeSocialSecurityNumbers = employeeSocialSecurityNumbers;
+   }
 }
 ",
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 9`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 10`] = `
 {
   "key": "org/acme/hr/Department.java",
   "value": "// this code is generated and should not be modified
@@ -6204,12 +6691,17 @@ public enum Department {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 10`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 11`] = `
 {
   "key": "org/acme/hr/Equipment.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -6220,7 +6712,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "serialNumber")
 public abstract class Equipment extends Asset {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getSerialNumber();
@@ -6238,7 +6730,7 @@ public abstract class Equipment extends Asset {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 11`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 12`] = `
 {
   "key": "org/acme/hr/LaptopMake.java",
   "value": "// this code is generated and should not be modified
@@ -6254,12 +6746,17 @@ public enum LaptopMake {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 12`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 13`] = `
 {
   "key": "org/acme/hr/Laptop.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -6270,7 +6767,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "serialNumber")
 public class Laptop extends Equipment {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getSerialNumber();
@@ -6288,12 +6785,17 @@ public class Laptop extends Equipment {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 13`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 14`] = `
 {
   "key": "org/acme/hr/Person.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -6304,7 +6806,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public abstract class Person extends Participant {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -6318,6 +6820,7 @@ public abstract class Person extends Participant {
    private String ssn;
    private double height;
    private java.util.Date dob;
+   private NextOfKin nextOfKin;
    public String getEmail() {
       return this.email;
    }
@@ -6341,6 +6844,9 @@ public abstract class Person extends Participant {
    }
    public java.util.Date getDob() {
       return this.dob;
+   }
+   public NextOfKin getNextOfKin() {
+      return this.nextOfKin;
    }
    public void setEmail(String email) {
       this.email = email;
@@ -6366,17 +6872,25 @@ public abstract class Person extends Participant {
    public void setDob(java.util.Date dob) {
       this.dob = dob;
    }
+   public void setNextOfKin(NextOfKin nextOfKin) {
+      this.nextOfKin = nextOfKin;
+   }
 }
 ",
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 14`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 15`] = `
 {
   "key": "org/acme/hr/Employee.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -6387,7 +6901,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Employee extends Person {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -6454,12 +6968,17 @@ public class Employee extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 15`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 16`] = `
 {
   "key": "org/acme/hr/Contractor.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -6470,7 +6989,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Contractor extends Person {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -6495,12 +7014,17 @@ public class Contractor extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 16`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 17`] = `
 {
   "key": "org/acme/hr/Manager.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -6511,7 +7035,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Manager extends Employee {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -6529,12 +7053,17 @@ public class Manager extends Employee {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 17`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 18`] = `
 {
   "key": "org/acme/hr/CompanyEvent.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -6548,12 +7077,17 @@ public class CompanyEvent extends Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 18`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 19`] = `
 {
   "key": "org/acme/hr/Onboarded.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -6574,12 +7108,17 @@ public class Onboarded extends CompanyEvent {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 19`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 20`] = `
 {
   "key": "org/acme/hr/ChangeOfAddress.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
 
+import org.acme.hr.base.Address;
+import org.acme.hr.base.State;
+import org.acme.hr.base.SSN;
+import org.acme.hr.base.Time;
+import org.acme.hr.base.EmployeeTShirtSizes;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -6613,9 +7152,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "org.acme.hr@1.0.0.State": {
+    "org.acme.hr.base@1.0.0.State": {
       "title": "State",
-      "description": "An instance of org.acme.hr@1.0.0.State",
+      "description": "An instance of org.acme.hr.base@1.0.0.State",
       "enum": [
         "MA",
         "NY",
@@ -6625,16 +7164,25 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "CA"
       ]
     },
-    "org.acme.hr@1.0.0.Address": {
+    "org.acme.hr.base@1.0.0.TShirtSizeType": {
+      "title": "TShirtSizeType",
+      "description": "An instance of org.acme.hr.base@1.0.0.TShirtSizeType",
+      "enum": [
+        "SMALL",
+        "MEDIUM",
+        "LARGE"
+      ]
+    },
+    "org.acme.hr.base@1.0.0.Address": {
       "title": "Address",
-      "description": "An instance of org.acme.hr@1.0.0.Address",
+      "description": "An instance of org.acme.hr.base@1.0.0.Address",
       "type": "object",
       "properties": {
         "$class": {
           "type": "string",
-          "default": "org.acme.hr@1.0.0.Address",
-          "pattern": "^org\\\\.acme\\\\.hr@1\\\\.0\\\\.0\\\\.Address$",
-          "description": "The class identifier for org.acme.hr@1.0.0.Address"
+          "default": "org.acme.hr.base@1.0.0.Address",
+          "pattern": "^org\\\\.acme\\\\.hr\\\\.base@1\\\\.0\\\\.0\\\\.Address$",
+          "description": "The class identifier for org.acme.hr.base@1.0.0.Address"
         },
         "street": {
           "type": "string"
@@ -6643,7 +7191,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "state": {
-          "$ref": "#/definitions/org.acme.hr@1.0.0.State"
+          "$ref": "#/definitions/org.acme.hr.base@1.0.0.State"
         },
         "zipCode": {
           "type": "string"
@@ -6657,18 +7205,16 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "street",
         "city",
         "zipCode",
-        "country",
-        "dictionary1",
-        "dictionary2",
-        "dictionary3",
-        "dictionary4",
-        "dictionary5",
-        "dictionary6"
+        "country"
       ]
     },
-    "org.acme.hr@1.0.0.Time": {
+    "org.acme.hr.base@1.0.0.Time": {
       "format": "date-time",
       "type": "string"
+    },
+    "org.acme.hr.base@1.0.0.SSN": {
+      "type": "string",
+      "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
     },
     "org.acme.hr@1.0.0.Company": {
       "title": "Company",
@@ -6685,7 +7231,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "headquarters": {
-          "$ref": "#/definitions/org.acme.hr@1.0.0.Address"
+          "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
         }
       },
       "required": [
@@ -6763,10 +7309,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "serialNumber"
       ]
     },
-    "org.acme.hr@1.0.0.SSN": {
-      "type": "string",
-      "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
-    },
     "org.acme.hr@1.0.0.Person": {
       "title": "Person",
       "description": "An instance of org.acme.hr@1.0.0.Person",
@@ -6792,7 +7334,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "homeAddress": {
-          "$ref": "#/definitions/org.acme.hr@1.0.0.Address"
+          "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
         },
         "ssn": {
           "default": "000-00-0000",
@@ -6815,7 +7357,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ],
       "$decorators": {
         "resource": []
@@ -6848,7 +7391,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "$ref": "#/definitions/org.acme.hr@1.0.0.Department"
         },
         "officeAddress": {
-          "$ref": "#/definitions/org.acme.hr@1.0.0.Address"
+          "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
         },
         "companyAssets": {
           "type": "array",
@@ -6881,7 +7424,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "homeAddress": {
-          "$ref": "#/definitions/org.acme.hr@1.0.0.Address"
+          "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
         },
         "ssn": {
           "default": "000-00-0000",
@@ -6911,7 +7454,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr@1.0.0.Contractor": {
@@ -6946,7 +7490,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "homeAddress": {
-          "$ref": "#/definitions/org.acme.hr@1.0.0.Address"
+          "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
         },
         "ssn": {
           "default": "000-00-0000",
@@ -6970,7 +7514,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr@1.0.0.Manager": {
@@ -7007,7 +7552,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "$ref": "#/definitions/org.acme.hr@1.0.0.Department"
         },
         "officeAddress": {
-          "$ref": "#/definitions/org.acme.hr@1.0.0.Address"
+          "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
         },
         "companyAssets": {
           "type": "array",
@@ -7040,7 +7585,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "homeAddress": {
-          "$ref": "#/definitions/org.acme.hr@1.0.0.Address"
+          "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
         },
         "ssn": {
           "default": "000-00-0000",
@@ -7070,7 +7615,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "homeAddress",
         "ssn",
         "height",
-        "dob"
+        "dob",
+        "nextOfKin"
       ]
     },
     "org.acme.hr@1.0.0.CompanyEvent": {
@@ -7126,7 +7672,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "description": "The identifier of an instance of org.acme.hr@1.0.0.Person"
         },
         "newAddress": {
-          "$ref": "#/definitions/org.acme.hr@1.0.0.Address"
+          "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
         }
       },
       "required": [
@@ -7134,6 +7680,13 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "Person",
         "newAddress"
       ]
+    },
+    "org.acme.hr@1.0.0.KinName": {
+      "type": "string"
+    },
+    "org.acme.hr@1.0.0.KinTelephone": {
+      "format": "date-time",
+      "type": "string"
     }
   }
 }
@@ -7144,16 +7697,16 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'markdown' 1`] = `
 {
   "key": "models.md",
-  "value": "# Namespace org.acme.hr@1.0.0
+  "value": "# Namespace org.acme.hr.base@1.0.0
 
 ## Overview
-- 2 concepts
-- 3 enumerations
-- 2 assets
-- 4 participants
-- 1 transactions
-- 2 events
-- 22 total declarations
+- 1 concepts
+- 2 enumerations
+- 0 assets
+- 0 participants
+- 0 transactions
+- 0 events
+- 6 total declarations
 
 ## Imports
 - concerto@1.0.0.Concept
@@ -7165,7 +7718,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 ## Diagram
 \`\`\`mermaid
 classDiagram
-class \`org.acme.hr@1.0.0.State\` {
+class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
    + \`MA\`
    + \`NY\`
@@ -7175,35 +7728,68 @@ class \`org.acme.hr@1.0.0.State\` {
    + \`CA\`
 }
 
-class \`org.acme.hr@1.0.0.Address\` {
+class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
+<< enumeration>>
+   + \`SMALL\`
+   + \`MEDIUM\`
+   + \`LARGE\`
+}
+
+class \`org.acme.hr.base@1.0.0.Address\` {
 << concept>>
    + \`String\` \`street\`
    + \`String\` \`city\`
    + \`State\` \`state\`
    + \`String\` \`zipCode\`
    + \`String\` \`country\`
-   + \`Map1\` \`dictionary1\`
-   + \`Map2\` \`dictionary2\`
-   + \`Map3\` \`dictionary3\`
-   + \`Map4\` \`dictionary4\`
-   + \`Map5\` \`dictionary5\`
-   + \`Map6\` \`dictionary6\`
 }
 
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.State\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map1\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map2\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map3\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map4\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map5\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map6\`
+\`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
+\`\`\`
+
+# Namespace org.acme.hr@1.0.0
+
+## Overview
+- 1 concepts
+- 2 enumerations
+- 2 assets
+- 4 participants
+- 1 transactions
+- 2 events
+- 20 total declarations
+
+## Imports
+- org.acme.hr.base@1.0.0.Address
+- org.acme.hr.base@1.0.0.State
+- org.acme.hr.base@1.0.0.SSN
+- org.acme.hr.base@1.0.0.Time
+- org.acme.hr.base@1.0.0.EmployeeTShirtSizes
+- concerto@1.0.0.Concept
+- concerto@1.0.0.Asset
+- concerto@1.0.0.Transaction
+- concerto@1.0.0.Participant
+- concerto@1.0.0.Event
+
+## Diagram
+\`\`\`mermaid
+classDiagram
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
    + \`Address\` \`headquarters\`
+   + \`CompanyProperties\` \`companyProperties\`
+   + \`EmployeeDirectory\` \`employeeDirectory\`
+   + \`EmployeeTShirtSizes\` \`employeeTShirtSizes\`
+   + \`EmployeeProfiles\` \`employeeProfiles\`
+   + \`EmployeeSocialSecurityNumbers\` \`employeeSocialSecurityNumbers\`
 }
 
-\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.CompanyProperties\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeDirectory\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeProfiles\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
 class \`org.acme.hr@1.0.0.Department\` {
 << enumeration>>
    + \`Sales\`
@@ -7242,10 +7828,12 @@ class \`org.acme.hr@1.0.0.Person\` {
    + \`String\` \`ssn\`
    + \`Double\` \`height\`
    + \`DateTime\` \`dob\`
+   + \`NextOfKin\` \`nextOfKin\`
 }
 
-\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
-\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.NextOfKin\`
 class \`org.acme.hr@1.0.0.Employee\` {
 << participant>>
    + \`String\` \`employeeId\`
@@ -7259,7 +7847,7 @@ class \`org.acme.hr@1.0.0.Employee\` {
 }
 
 \`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Department\`
-\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 \`org.acme.hr@1.0.0.Employee\` "1" *-- "*" \`org.acme.hr@1.0.0.Equipment\`
 \`org.acme.hr@1.0.0.Employee\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
 \`org.acme.hr@1.0.0.Employee\` --|> \`org.acme.hr@1.0.0.Person\`
@@ -7296,7 +7884,7 @@ class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 }
 
 \`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
-\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
+\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 \`\`\`
 
 ",
@@ -7307,7 +7895,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "model.mmd",
   "value": "classDiagram
-class \`org.acme.hr@1.0.0.State\` {
+class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
    + \`MA\`
    + \`NY\`
@@ -7317,37 +7905,43 @@ class \`org.acme.hr@1.0.0.State\` {
    + \`CA\`
 }
 
-\`org.acme.hr@1.0.0.State\` --|> \`concerto@1.0.0.Concept\`
-class \`org.acme.hr@1.0.0.Address\` {
+\`org.acme.hr.base@1.0.0.State\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
+<< enumeration>>
+   + \`SMALL\`
+   + \`MEDIUM\`
+   + \`LARGE\`
+}
+
+\`org.acme.hr.base@1.0.0.TShirtSizeType\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base@1.0.0.Address\` {
 << concept>>
    + \`String\` \`street\`
    + \`String\` \`city\`
    + \`State\` \`state\`
    + \`String\` \`zipCode\`
    + \`String\` \`country\`
-   + \`Map1\` \`dictionary1\`
-   + \`Map2\` \`dictionary2\`
-   + \`Map3\` \`dictionary3\`
-   + \`Map4\` \`dictionary4\`
-   + \`Map5\` \`dictionary5\`
-   + \`Map6\` \`dictionary6\`
 }
 
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.State\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map1\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map2\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map3\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map4\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map5\`
-\`org.acme.hr@1.0.0.Address\` "1" *-- "1" \`org.acme.hr@1.0.0.Map6\`
-\`org.acme.hr@1.0.0.Address\` --|> \`concerto@1.0.0.Concept\`
+\`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
+\`org.acme.hr.base@1.0.0.Address\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
    + \`Address\` \`headquarters\`
+   + \`CompanyProperties\` \`companyProperties\`
+   + \`EmployeeDirectory\` \`employeeDirectory\`
+   + \`EmployeeTShirtSizes\` \`employeeTShirtSizes\`
+   + \`EmployeeProfiles\` \`employeeProfiles\`
+   + \`EmployeeSocialSecurityNumbers\` \`employeeSocialSecurityNumbers\`
 }
 
-\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.CompanyProperties\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeDirectory\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeProfiles\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
 \`org.acme.hr@1.0.0.Company\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr@1.0.0.Department\` {
 << enumeration>>
@@ -7390,10 +7984,12 @@ class \`org.acme.hr@1.0.0.Person\` {
    + \`String\` \`ssn\`
    + \`Double\` \`height\`
    + \`DateTime\` \`dob\`
+   + \`NextOfKin\` \`nextOfKin\`
 }
 
-\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
-\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.NextOfKin\`
 \`org.acme.hr@1.0.0.Person\` --|> \`concerto@1.0.0.Participant\`
 class \`org.acme.hr@1.0.0.Employee\` {
 << participant>>
@@ -7408,7 +8004,7 @@ class \`org.acme.hr@1.0.0.Employee\` {
 }
 
 \`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Department\`
-\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 \`org.acme.hr@1.0.0.Employee\` "1" *-- "*" \`org.acme.hr@1.0.0.Equipment\`
 \`org.acme.hr@1.0.0.Employee\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
 \`org.acme.hr@1.0.0.Employee\` --|> \`org.acme.hr@1.0.0.Person\`
@@ -7446,7 +8042,7 @@ class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 }
 
 \`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
-\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr@1.0.0.Address\`
+\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 \`org.acme.hr@1.0.0.ChangeOfAddress\` --|> \`concerto@1.0.0.Transaction\`
 ",
 }
@@ -7487,7 +8083,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'odata' 2`] = `
 {
-  "key": "org.acme.hr.csdl",
+  "key": "org.acme.hr.base.csdl",
   "value": "<?xml version="1.0"?>
 <edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
 <edmx:Reference Uri="http://docs.oasis-open.org/odata/odata/v4.0/cs01/vocabularies/Org.OData.Core.V1.xml">
@@ -7497,7 +8093,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
    <edmx:Include Namespace="concerto" />
 </edmx:Reference>
 <edmx:DataServices>
-   <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr">
+   <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr.base">
       <EnumType Name="State">
          <Member Name="MA">
          </Member>
@@ -7512,34 +8108,65 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          <Member Name="CA">
          </Member>
       </EnumType>
+      <EnumType Name="TShirtSizeType">
+         <Member Name="SMALL">
+         </Member>
+         <Member Name="MEDIUM">
+         </Member>
+         <Member Name="LARGE">
+         </Member>
+      </EnumType>
       <ComplexType Name="Address"  BaseType="concerto.Concept">
          <Property Name="street" Type="Edm.String"  >
          </Property>
          <Property Name="city" Type="Edm.String"  >
          </Property>
-         <Property Name="state" Type="org.acme.hr.State" Nullable="true" >
+         <Property Name="state" Type="org.acme.hr.base.State" Nullable="true" >
          </Property>
          <Property Name="zipCode" Type="Edm.String"  >
          </Property>
          <Property Name="country" Type="Edm.String"  >
          </Property>
-         <Property Name="dictionary1" Type="org.acme.hr.Map1"  >
-         </Property>
-         <Property Name="dictionary2" Type="org.acme.hr.Map2"  >
-         </Property>
-         <Property Name="dictionary3" Type="org.acme.hr.Map3"  >
-         </Property>
-         <Property Name="dictionary4" Type="org.acme.hr.Map4"  >
-         </Property>
-         <Property Name="dictionary5" Type="org.acme.hr.Map5"  >
-         </Property>
-         <Property Name="dictionary6" Type="org.acme.hr.Map6"  >
-         </Property>
       </ComplexType>
+   <EntityContainer Name="org.acme.hr.baseService">
+   </EntityContainer>
+   </Schema>
+</edmx:DataServices>
+</edmx:Edmx>
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'odata' 3`] = `
+{
+  "key": "org.acme.hr.csdl",
+  "value": "<?xml version="1.0"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+<edmx:Reference Uri="http://docs.oasis-open.org/odata/odata/v4.0/cs01/vocabularies/Org.OData.Core.V1.xml">
+   <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core" />
+</edmx:Reference>
+<edmx:Reference Uri="./org.acme.hr.base.csdl">
+   <edmx:Include Namespace="org.acme.hr.base" />
+</edmx:Reference>
+<edmx:Reference Uri="./concerto.csdl">
+   <edmx:Include Namespace="concerto" />
+</edmx:Reference>
+<edmx:DataServices>
+   <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr">
       <ComplexType Name="Company"  BaseType="concerto.Concept">
          <Property Name="name" Type="Edm.String"  >
          </Property>
-         <Property Name="headquarters" Type="org.acme.hr.Address"  >
+         <Property Name="headquarters" Type="org.acme.hr.base.Address"  >
+         </Property>
+         <Property Name="companyProperties" Type="org.acme.hr.CompanyProperties" Nullable="true" >
+         </Property>
+         <Property Name="employeeDirectory" Type="org.acme.hr.EmployeeDirectory" Nullable="true" >
+         </Property>
+         <Property Name="employeeTShirtSizes" Type="org.acme.hr.base.EmployeeTShirtSizes" Nullable="true" >
+         </Property>
+         <Property Name="employeeProfiles" Type="org.acme.hr.EmployeeProfiles" Nullable="true" >
+         </Property>
+         <Property Name="employeeSocialSecurityNumbers" Type="org.acme.hr.EmployeeSocialSecurityNumbers" Nullable="true" >
          </Property>
       </ComplexType>
       <EnumType Name="Department">
@@ -7583,13 +8210,15 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          </Property>
          <Property Name="middleNames" Type="Edm.String" Nullable="true" >
          </Property>
-         <Property Name="homeAddress" Type="org.acme.hr.Address"  >
+         <Property Name="homeAddress" Type="org.acme.hr.base.Address"  >
          </Property>
          <Property Name="ssn" Type="Edm.String"  DefaultValue="000-00-0000">
          </Property>
          <Property Name="height" Type="Edm.Double"  >
          </Property>
          <Property Name="dob" Type="Edm.DateTimeOffset"  >
+         </Property>
+         <Property Name="nextOfKin" Type="org.acme.hr.NextOfKin"  >
          </Property>
       </EntityType>
       <EntityType Name="Employee"  BaseType="org.acme.hr.Person">
@@ -7603,7 +8232,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          </Property>
          <Property Name="department" Type="org.acme.hr.Department"  >
          </Property>
-         <Property Name="officeAddress" Type="org.acme.hr.Address"  >
+         <Property Name="officeAddress" Type="org.acme.hr.base.Address"  >
          </Property>
          <Property Name="companyAssets" Type="Collection(org.acme.hr.Equipment)"  >
          </Property>
@@ -7629,7 +8258,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
       <ComplexType Name="ChangeOfAddress"  BaseType="concerto.Transaction">
          <NavigationProperty Name="Person" Type="org.acme.hr.Person" >
          </NavigationProperty>
-         <Property Name="newAddress" Type="org.acme.hr.Address"  >
+         <Property Name="newAddress" Type="org.acme.hr.base.Address"  >
          </Property>
       </ComplexType>
    <EntityContainer Name="org.acme.hrService">
@@ -7658,9 +8287,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   },
   "components": {
     "schemas": {
-      "org.acme.hr@1.0.0.State": {
+      "org.acme.hr.base@1.0.0.State": {
         "title": "State",
-        "description": "An instance of org.acme.hr@1.0.0.State",
+        "description": "An instance of org.acme.hr.base@1.0.0.State",
         "enum": [
           "MA",
           "NY",
@@ -7670,16 +8299,25 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "CA"
         ]
       },
-      "org.acme.hr@1.0.0.Address": {
+      "org.acme.hr.base@1.0.0.TShirtSizeType": {
+        "title": "TShirtSizeType",
+        "description": "An instance of org.acme.hr.base@1.0.0.TShirtSizeType",
+        "enum": [
+          "SMALL",
+          "MEDIUM",
+          "LARGE"
+        ]
+      },
+      "org.acme.hr.base@1.0.0.Address": {
         "title": "Address",
-        "description": "An instance of org.acme.hr@1.0.0.Address",
+        "description": "An instance of org.acme.hr.base@1.0.0.Address",
         "type": "object",
         "properties": {
           "$class": {
             "type": "string",
-            "default": "org.acme.hr@1.0.0.Address",
-            "pattern": "^org\\\\.acme\\\\.hr@1\\\\.0\\\\.0\\\\.Address$",
-            "description": "The class identifier for org.acme.hr@1.0.0.Address"
+            "default": "org.acme.hr.base@1.0.0.Address",
+            "pattern": "^org\\\\.acme\\\\.hr\\\\.base@1\\\\.0\\\\.0\\\\.Address$",
+            "description": "The class identifier for org.acme.hr.base@1.0.0.Address"
           },
           "street": {
             "type": "string"
@@ -7688,7 +8326,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "state": {
-            "$ref": "#/components/schemas/org.acme.hr@1.0.0.State"
+            "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.State"
           },
           "zipCode": {
             "type": "string"
@@ -7702,18 +8340,16 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "street",
           "city",
           "zipCode",
-          "country",
-          "dictionary1",
-          "dictionary2",
-          "dictionary3",
-          "dictionary4",
-          "dictionary5",
-          "dictionary6"
+          "country"
         ]
       },
-      "org.acme.hr@1.0.0.Time": {
+      "org.acme.hr.base@1.0.0.Time": {
         "format": "date-time",
         "type": "string"
+      },
+      "org.acme.hr.base@1.0.0.SSN": {
+        "type": "string",
+        "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
       },
       "org.acme.hr@1.0.0.Company": {
         "title": "Company",
@@ -7730,7 +8366,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "headquarters": {
-            "$ref": "#/components/schemas/org.acme.hr@1.0.0.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
           }
         },
         "required": [
@@ -7808,10 +8444,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "serialNumber"
         ]
       },
-      "org.acme.hr@1.0.0.SSN": {
-        "type": "string",
-        "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
-      },
       "org.acme.hr@1.0.0.Person": {
         "title": "Person",
         "description": "An instance of org.acme.hr@1.0.0.Person",
@@ -7837,7 +8469,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "homeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr@1.0.0.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
           },
           "ssn": {
             "default": "000-00-0000",
@@ -7860,7 +8492,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ],
         "$decorators": {
           "resource": []
@@ -7893,7 +8526,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "$ref": "#/components/schemas/org.acme.hr@1.0.0.Department"
           },
           "officeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr@1.0.0.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
           },
           "companyAssets": {
             "type": "array",
@@ -7926,7 +8559,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "homeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr@1.0.0.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
           },
           "ssn": {
             "default": "000-00-0000",
@@ -7956,7 +8589,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr@1.0.0.Contractor": {
@@ -7991,7 +8625,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "homeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr@1.0.0.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
           },
           "ssn": {
             "default": "000-00-0000",
@@ -8015,7 +8649,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr@1.0.0.Manager": {
@@ -8052,7 +8687,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "$ref": "#/components/schemas/org.acme.hr@1.0.0.Department"
           },
           "officeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr@1.0.0.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
           },
           "companyAssets": {
             "type": "array",
@@ -8085,7 +8720,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "homeAddress": {
-            "$ref": "#/components/schemas/org.acme.hr@1.0.0.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
           },
           "ssn": {
             "default": "000-00-0000",
@@ -8115,7 +8750,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "homeAddress",
           "ssn",
           "height",
-          "dob"
+          "dob",
+          "nextOfKin"
         ]
       },
       "org.acme.hr@1.0.0.CompanyEvent": {
@@ -8171,7 +8807,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "description": "The identifier of an instance of org.acme.hr@1.0.0.Person"
           },
           "newAddress": {
-            "$ref": "#/components/schemas/org.acme.hr@1.0.0.Address"
+            "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
           }
         },
         "required": [
@@ -8179,6 +8815,13 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "Person",
           "newAddress"
         ]
+      },
+      "org.acme.hr@1.0.0.KinName": {
+        "type": "string"
+      },
+      "org.acme.hr@1.0.0.KinTelephone": {
+        "format": "date-time",
+        "type": "string"
       }
     }
   },
@@ -8442,7 +9085,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 title
 Model
 endtitle
-class org.acme.hr_1_0_0.State << (E,grey) >> {
+class org.acme.hr.base_1_0_0.State << (E,grey) >> {
    + MA
    + NY
    + CO
@@ -8450,33 +9093,37 @@ class org.acme.hr_1_0_0.State << (E,grey) >> {
    + IL
    + CA
 }
-org.acme.hr_1_0_0.State --|> concerto_1_0_0.Concept
-class org.acme.hr_1_0_0.Address {
+org.acme.hr.base_1_0_0.State --|> concerto_1_0_0.Concept
+class org.acme.hr.base_1_0_0.TShirtSizeType << (E,grey) >> {
+   + SMALL
+   + MEDIUM
+   + LARGE
+}
+org.acme.hr.base_1_0_0.TShirtSizeType --|> concerto_1_0_0.Concept
+class org.acme.hr.base_1_0_0.Address {
    + String street
    + String city
    + State state
    + String zipCode
    + String country
-   + Map1 dictionary1
-   + Map2 dictionary2
-   + Map3 dictionary3
-   + Map4 dictionary4
-   + Map5 dictionary5
-   + Map6 dictionary6
 }
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.State : state
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map1 : dictionary1
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map2 : dictionary2
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map3 : dictionary3
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map4 : dictionary4
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map5 : dictionary5
-org.acme.hr_1_0_0.Address "1" *-- "1" org.acme.hr_1_0_0.Map6 : dictionary6
-org.acme.hr_1_0_0.Address --|> concerto_1_0_0.Concept
+org.acme.hr.base_1_0_0.Address "1" *-- "1" org.acme.hr.base_1_0_0.State : state
+org.acme.hr.base_1_0_0.Address --|> concerto_1_0_0.Concept
 class org.acme.hr_1_0_0.Company {
    + String name
    + Address headquarters
+   + CompanyProperties companyProperties
+   + EmployeeDirectory employeeDirectory
+   + EmployeeTShirtSizes employeeTShirtSizes
+   + EmployeeProfiles employeeProfiles
+   + EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers
 }
-org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr_1_0_0.Address : headquarters
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr.base_1_0_0.Address : headquarters
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr_1_0_0.CompanyProperties : companyProperties
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr_1_0_0.EmployeeDirectory : employeeDirectory
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr.base_1_0_0.EmployeeTShirtSizes : employeeTShirtSizes
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr_1_0_0.EmployeeProfiles : employeeProfiles
+org.acme.hr_1_0_0.Company "1" *-- "1" org.acme.hr_1_0_0.EmployeeSocialSecurityNumbers : employeeSocialSecurityNumbers
 org.acme.hr_1_0_0.Company --|> concerto_1_0_0.Concept
 class org.acme.hr_1_0_0.Department << (E,grey) >> {
    + Sales
@@ -8510,9 +9157,11 @@ class org.acme.hr_1_0_0.Person << (P,lightblue) >> {
    + String ssn
    + Double height
    + DateTime dob
+   + NextOfKin nextOfKin
 }
-org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr_1_0_0.Address : homeAddress
-org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr_1_0_0.SSN : ssn
+org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.Address : homeAddress
+org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.SSN : ssn
+org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr_1_0_0.NextOfKin : nextOfKin
 org.acme.hr_1_0_0.Person --|> concerto_1_0_0.Participant
 class org.acme.hr_1_0_0.Employee << (P,lightblue) >> {
    + String employeeId
@@ -8525,7 +9174,7 @@ class org.acme.hr_1_0_0.Employee << (P,lightblue) >> {
    + Manager manager
 }
 org.acme.hr_1_0_0.Employee "1" *-- "1" org.acme.hr_1_0_0.Department : department
-org.acme.hr_1_0_0.Employee "1" *-- "1" org.acme.hr_1_0_0.Address : officeAddress
+org.acme.hr_1_0_0.Employee "1" *-- "1" org.acme.hr.base_1_0_0.Address : officeAddress
 org.acme.hr_1_0_0.Employee "1" *-- "*" org.acme.hr_1_0_0.Equipment : companyAssets
 org.acme.hr_1_0_0.Employee "1" o-- "1" org.acme.hr_1_0_0.Manager : manager
 org.acme.hr_1_0_0.Employee --|> org.acme.hr_1_0_0.Person
@@ -8554,7 +9203,7 @@ class org.acme.hr_1_0_0.ChangeOfAddress << (T,yellow) >> {
    + Address newAddress
 }
 org.acme.hr_1_0_0.ChangeOfAddress "1" o-- "1" org.acme.hr_1_0_0.Person : Person
-org.acme.hr_1_0_0.ChangeOfAddress "1" *-- "1" org.acme.hr_1_0_0.Address : newAddress
+org.acme.hr_1_0_0.ChangeOfAddress "1" *-- "1" org.acme.hr.base_1_0_0.Address : newAddress
 org.acme.hr_1_0_0.ChangeOfAddress --|> concerto_1_0_0.Transaction
 @enduml
 ",
@@ -8563,10 +9212,10 @@ org.acme.hr_1_0_0.ChangeOfAddress --|> concerto_1_0_0.Transaction
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'protobuf' 1`] = `
 {
-  "key": "org.acme.hr.v1_0_0.proto",
+  "key": "org.acme.hr.base.v1_0_0.proto",
   "value": "syntax = "proto3";
 
-package org.acme.hr.v1_0_0;
+package org.acme.hr.base.v1_0_0;
 
 import "google/protobuf/timestamp.proto";
 
@@ -8579,23 +9228,42 @@ enum State {
   State_WA = 5;
 }
 
+enum TShirtSizeType {
+  TShirtSizeType_LARGE = 0;
+  TShirtSizeType_MEDIUM = 1;
+  TShirtSizeType_SMALL = 2;
+}
+
 message Address {
   string city = 1;
   string country = 2;
-  Map1 dictionary1 = 3;
-  Map2 dictionary2 = 4;
-  Map3 dictionary3 = 5;
-  Map4 dictionary4 = 6;
-  Map5 dictionary5 = 7;
-  Map6 dictionary6 = 8;
-  optional State state = 9;
-  string street = 10;
-  string zipCode = 11;
+  optional State state = 3;
+  string street = 4;
+  string zipCode = 5;
 }
 
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'protobuf' 2`] = `
+{
+  "key": "org.acme.hr.v1_0_0.proto",
+  "value": "syntax = "proto3";
+
+package org.acme.hr.v1_0_0;
+
+import "google/protobuf/timestamp.proto";
+import "org.acme.hr.base.v1_0_0.proto";
+
 message Company {
-  Address headquarters = 1;
-  string name = 2;
+  optional CompanyProperties companyProperties = 1;
+  optional EmployeeDirectory employeeDirectory = 2;
+  optional EmployeeProfiles employeeProfiles = 3;
+  optional EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers = 4;
+  optional EmployeeTShirtSizes employeeTShirtSizes = 5;
+  Address headquarters = 6;
+  string name = 7;
 }
 
 enum Department {
@@ -8643,11 +9311,12 @@ message Employee {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  sint64 numDependents = 12;
-  Address officeAddress = 13;
-  bool retired = 14;
-  sint64 salary = 15;
-  string ssn = 16;
+  NextOfKin nextOfKin = 12;
+  sint64 numDependents = 13;
+  Address officeAddress = 14;
+  bool retired = 15;
+  sint64 salary = 16;
+  string ssn = 17;
 }
 
 message _Subclasses_of_class_Employee {
@@ -8667,7 +9336,8 @@ message Contractor {
   string lastName = 7;
   optional string manager = 8;
   optional string middleNames = 9;
-  string ssn = 10;
+  NextOfKin nextOfKin = 10;
+  string ssn = 11;
 }
 
 message Manager {
@@ -8682,12 +9352,13 @@ message Manager {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  sint64 numDependents = 12;
-  Address officeAddress = 13;
-  repeated string reports = 14;
-  bool retired = 15;
-  sint64 salary = 16;
-  string ssn = 17;
+  NextOfKin nextOfKin = 12;
+  sint64 numDependents = 13;
+  Address officeAddress = 14;
+  repeated string reports = 15;
+  bool retired = 16;
+  sint64 salary = 17;
+  string ssn = 18;
 }
 
 message CompanyEvent {
@@ -8721,6 +9392,8 @@ pub mod concerto_1_0_0;
 #[allow(unused_imports)]
 pub mod concerto;
 #[allow(unused_imports)]
+pub mod org_acme_hr_base_1_0_0;
+#[allow(unused_imports)]
 pub mod org_acme_hr_1_0_0;
 #[allow(unused_imports)]
 pub mod utils;
@@ -8733,7 +9406,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "utils.rs",
   "value": "use chrono::{ DateTime, TimeZone, Utc };
 use serde::{ Deserialize, Serialize, Deserializer, Serializer };
-   
+
 pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>
 where
    S: Serializer,
@@ -8763,7 +9436,7 @@ where
    let datetime_str = String::deserialize(deserializer)?;
    Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)
 }
-   
+
 pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
 where
    S: Serializer,
@@ -8780,9 +9453,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "concerto_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
@@ -8797,7 +9470,7 @@ pub struct Asset {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -8810,7 +9483,7 @@ pub struct Participant {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -8823,7 +9496,7 @@ pub struct Transaction {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -8838,7 +9511,7 @@ pub struct Event {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -8856,9 +9529,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "concerto.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
@@ -8873,7 +9546,7 @@ pub struct Asset {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -8886,7 +9559,7 @@ pub struct Participant {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -8915,13 +9588,13 @@ pub struct Event {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 5`] = `
 {
-  "key": "org_acme_hr_1_0_0.rs",
+  "key": "org_acme_hr_base_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::concerto_1_0_0::*;
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub enum State {
    #[allow(non_camel_case_types)]
@@ -8939,68 +9612,62 @@ pub enum State {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub enum TShirtSizeType {
+   #[allow(non_camel_case_types)]
+   SMALL,
+   #[allow(non_camel_case_types)]
+   MEDIUM,
+   #[allow(non_camel_case_types)]
+   LARGE,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Address {
    #[serde(
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "street",
    )]
    pub street: String,
-   
+
    #[serde(
       rename = "city",
    )]
    pub city: String,
-   
+
    #[serde(
       rename = "state",
       skip_serializing_if = "Option::is_none",
    )]
    pub state: Option<State>,
-   
+
    #[serde(
       rename = "zipCode",
    )]
    pub zip_code: String,
-   
+
    #[serde(
       rename = "country",
    )]
    pub country: String,
-   
-   #[serde(
-      rename = "dictionary1",
-   )]
-   pub dictionary1: Map1,
-   
-   #[serde(
-      rename = "dictionary2",
-   )]
-   pub dictionary2: Map2,
-   
-   #[serde(
-      rename = "dictionary3",
-   )]
-   pub dictionary3: Map3,
-   
-   #[serde(
-      rename = "dictionary4",
-   )]
-   pub dictionary4: Map4,
-   
-   #[serde(
-      rename = "dictionary5",
-   )]
-   pub dictionary5: Map5,
-   
-   #[serde(
-      rename = "dictionary6",
-   )]
-   pub dictionary6: Map6,
 }
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 6`] = `
+{
+  "key": "org_acme_hr_1_0_0.rs",
+  "value": "use serde::{ Deserialize, Serialize };
+use chrono::{ DateTime, TimeZone, Utc };
+
+use crate::org_acme_hr_base_1_0_0::*;
+use crate::concerto_1_0_0::*;
+use crate::utils::*;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Company {
@@ -9008,16 +9675,46 @@ pub struct Company {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "name",
    )]
    pub name: String,
-   
+
    #[serde(
       rename = "headquarters",
    )]
    pub headquarters: Address,
+
+   #[serde(
+      rename = "companyProperties",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub company_properties: Option<CompanyProperties>,
+
+   #[serde(
+      rename = "employeeDirectory",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub employee_directory: Option<EmployeeDirectory>,
+
+   #[serde(
+      rename = "employeeTShirtSizes",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub employee_t_shirt_sizes: Option<EmployeeTShirtSizes>,
+
+   #[serde(
+      rename = "employeeProfiles",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub employee_profiles: Option<EmployeeProfiles>,
+
+   #[serde(
+      rename = "employeeSocialSecurityNumbers",
+      skip_serializing_if = "Option::is_none",
+   )]
+   pub employee_social_security_numbers: Option<EmployeeSocialSecurityNumbers>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -9042,12 +9739,12 @@ pub struct Equipment {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "serialNumber",
    )]
    pub serial_number: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9068,17 +9765,17 @@ pub struct Laptop {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "make",
    )]
    pub make: LaptopMake,
-   
+
    #[serde(
       rename = "serialNumber",
    )]
    pub serial_number: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9091,50 +9788,55 @@ pub struct Person {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9147,88 +9849,93 @@ pub struct Employee {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "employeeId",
    )]
    pub employee_id: String,
-   
+
    #[serde(
       rename = "salary",
    )]
    pub salary: u64,
-   
+
    #[serde(
       rename = "numDependents",
    )]
    pub num_dependents: Integer,
-   
+
    #[serde(
       rename = "retired",
    )]
    pub retired: bool,
-   
+
    #[serde(
       rename = "department",
    )]
    pub department: Department,
-   
+
    #[serde(
       rename = "officeAddress",
    )]
    pub office_address: Address,
-   
+
    #[serde(
       rename = "companyAssets",
    )]
    pub company_assets: Vec<Equipment>,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9241,58 +9948,63 @@ pub struct Contractor {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "company",
    )]
    pub company: Company,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9305,91 +10017,96 @@ pub struct Manager {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "reports")]
    pub reports: Option<Vec<Person>>,
-   
+
    #[serde(
       rename = "employeeId",
    )]
    pub employee_id: String,
-   
+
    #[serde(
       rename = "salary",
    )]
    pub salary: u64,
-   
+
    #[serde(
       rename = "numDependents",
    )]
    pub num_dependents: Integer,
-   
+
    #[serde(
       rename = "retired",
    )]
    pub retired: bool,
-   
+
    #[serde(
       rename = "department",
    )]
    pub department: Department,
-   
+
    #[serde(
       rename = "officeAddress",
    )]
    pub office_address: Address,
-   
+
    #[serde(
       rename = "companyAssets",
    )]
    pub company_assets: Vec<Equipment>,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
+   #[serde(
+      rename = "nextOfKin",
+   )]
+   pub next_of_kin: NextOfKin,
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9402,7 +10119,7 @@ pub struct CompanyEvent {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -9417,10 +10134,10 @@ pub struct Onboarded {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "employee")]
    pub employee: Employee,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -9435,15 +10152,15 @@ pub struct ChangeOfAddress {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "Person")]
    pub person: Person,
-   
+
    #[serde(
       rename = "newAddress",
    )]
    pub new_address: Address,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -9467,7 +10184,10 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 // Warning: Beware of circular dependencies when modifying these imports
 import type {
 	State,
-	IAddress,
+	TShirtSizeType,
+	IAddress
+} from './org.acme.hr.base@1.0.0';
+import type {
 	ICompany,
 	Department,
 	LaptopMake
@@ -9498,7 +10218,7 @@ export interface IConcept {
    $class: string;
 }
 
-export type ConceptUnion = IAddress | 
+export type ConceptUnion = IAddress |
 ICompany;
 
 export interface IAsset extends IConcept {
@@ -9562,6 +10282,45 @@ export interface IEvent extends IConcept {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'typescript' 3`] = `
 {
+  "key": "org.acme.hr.base@1.0.0.ts",
+  "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
+// Generated code for namespace: org.acme.hr.base@1.0.0
+
+// imports
+import {IConcept} from './concerto@1.0.0';
+
+// interfaces
+export enum State {
+   MA = 'MA',
+   NY = 'NY',
+   CO = 'CO',
+   WA = 'WA',
+   IL = 'IL',
+   CA = 'CA',
+}
+
+export enum TShirtSizeType {
+   SMALL = 'SMALL',
+   MEDIUM = 'MEDIUM',
+   LARGE = 'LARGE',
+}
+
+export type EmployeeTShirtSizes = Map<string, ITShirtSizeType>;
+
+export interface IAddress extends IConcept {
+   street: string;
+   city: string;
+   state?: State;
+   zipCode: string;
+   country: string;
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'typescript' 4`] = `
+{
   "key": "org.acme.hr@1.0.0.ts",
   "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
 // Generated code for namespace: org.acme.hr@1.0.0
@@ -9575,47 +10334,30 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 // Warning: Beware of circular dependencies when modifying these imports
 
 // Warning: Beware of circular dependencies when modifying these imports
+import {IAddress,IEmployeeTShirtSizes,ISSN} from './org.acme.hr.base@1.0.0';
 import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0';
 
 // interfaces
-export enum State {
-   MA = 'MA',
-   NY = 'NY',
-   CO = 'CO',
-   WA = 'WA',
-   IL = 'IL',
-   CA = 'CA',
-}
+export type CompanyProperties = Map<string, string>;
 
-export interface IAddress extends IConcept {
-   street: string;
-   city: string;
-   state?: State;
-   zipCode: string;
-   country: string;
-   dictionary1: Map1;
-   dictionary2: Map2;
-   dictionary3: Map3;
-   dictionary4: Map4;
-   dictionary5: Map5;
-   dictionary6: Map6;
-}
+export type EmployeeLoginTimes = Map<string, null>;
 
-export type Map1 = Map<string, string>;
+export type EmployeeSocialSecurityNumbers = Map<string, null>;
 
-export type Map2 = Map<string, Date>;
+export type NextOfKin = Map<string, null>;
 
-export type Map3 = Map<string, string>;
+export type EmployeeProfiles = Map<string, IConcept>;
 
-export type Map4 = Map<string, IConcept>;
-
-export type Map5 = Map<string, string>;
-
-export type Map6 = Map<string, IEmployee>;
+export type EmployeeDirectory = Map<string, IEmployee>;
 
 export interface ICompany extends IConcept {
    name: string;
    headquarters: IAddress;
+   companyProperties?: CompanyProperties;
+   employeeDirectory?: EmployeeDirectory;
+   employeeTShirtSizes?: EmployeeTShirtSizes;
+   employeeProfiles?: EmployeeProfiles;
+   employeeSocialSecurityNumbers?: EmployeeSocialSecurityNumbers;
 }
 
 export enum Department {
@@ -9651,9 +10393,10 @@ export interface IPerson extends IParticipant {
    ssn: string;
    height: number;
    dob: Date;
+   nextOfKin: NextOfKin;
 }
 
-export type PersonUnion = IEmployee | 
+export type PersonUnion = IEmployee |
 IContractor;
 
 export interface IEmployee extends IPerson {
@@ -9698,10 +10441,10 @@ export interface IChangeOfAddress extends ITransaction {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'vocabulary' 1`] = `
 {
-  "key": "org.acme.hr@1.0.0_en.voc",
-  "value": "#Generated vocabulary for namespace: org.acme.hr@1.0.0
+  "key": "org.acme.hr.base@1.0.0_en.voc",
+  "value": "#Generated vocabulary for namespace: org.acme.hr.base@1.0.0
 locale: en
-namespace: org.acme.hr@1.0.0
+namespace: org.acme.hr.base@1.0.0
 declarations:
   - State: State
     properties:
@@ -9711,6 +10454,11 @@ declarations:
       - WA: WA of the State
       - IL: IL of the State
       - CA: CA of the State
+  - TShirtSizeType: TShirt Size Type
+    properties:
+      - SMALL: SMALL of the TShirt Size Type
+      - MEDIUM: MEDIUM of the TShirt Size Type
+      - LARGE: LARGE of the TShirt Size Type
   - Address: Address
     properties:
       - street: Street of the Address
@@ -9718,17 +10466,28 @@ declarations:
       - state: State of the Address
       - zipCode: Zip Code of the Address
       - country: Country of the Address
-      - dictionary1: Dictionary1 of the Address
-      - dictionary2: Dictionary2 of the Address
-      - dictionary3: Dictionary3 of the Address
-      - dictionary4: Dictionary4 of the Address
-      - dictionary5: Dictionary5 of the Address
-      - dictionary6: Dictionary6 of the Address
   - Time: Time
+  - SSN: SSN
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'vocabulary' 2`] = `
+{
+  "key": "org.acme.hr@1.0.0_en.voc",
+  "value": "#Generated vocabulary for namespace: org.acme.hr@1.0.0
+locale: en
+namespace: org.acme.hr@1.0.0
+declarations:
   - Company: Company
     properties:
       - name: Name of the Company
       - headquarters: Headquarters of the Company
+      - companyProperties: Company Properties of the Company
+      - employeeDirectory: Employee Directory of the Company
+      - employeeTShirtSizes: Employee TShirt Sizes of the Company
+      - employeeProfiles: Employee Profiles of the Company
+      - employeeSocialSecurityNumbers: Employee Social Security Numbers of the Company
   - Department: Department
     properties:
       - Sales: Sales of the Department
@@ -9747,7 +10506,6 @@ declarations:
   - Laptop: Laptop
     properties:
       - make: Make of the Laptop
-  - SSN: SSN
   - Person: Person
     properties:
       - email: Email of the Person
@@ -9758,6 +10516,7 @@ declarations:
       - ssn: Ssn of the Person
       - height: Height of the Person
       - dob: Dob of the Person
+      - nextOfKin: Next Of Kin of the Person
   - Employee: Employee
     properties:
       - employeeId: Employee Id of the Employee
@@ -9783,6 +10542,8 @@ declarations:
     properties:
       - Person: Person of the Change Of Address
       - newAddress: New Address of the Change Of Address
+  - KinName: Kin Name
+  - KinTelephone: Kin Telephone
 ",
 }
 `;
@@ -9791,7 +10552,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "concerto@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 <xs:complexType name="Concept">
    <xs:sequence>
@@ -9847,7 +10608,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "concerto.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 <xs:complexType name="Concept">
    <xs:sequence>
@@ -9899,9 +10660,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'xmlschema' 3`] = `
 {
-  "key": "org.acme.hr@1.0.0.xsd",
+  "key": "org.acme.hr.base@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:org.acme.hr="org.acme.hr" targetNamespace="org.acme.hr" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:org.acme.hr.base="org.acme.hr.base" targetNamespace="org.acme.hr.base" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 xmlns:concerto="concerto"
 >
 <xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
@@ -9915,33 +10676,55 @@ xmlns:concerto="concerto"
       <xs:enumeration value="CA"/>
    </xs:restriction>
 </xs:simpleType>
-<xs:element name="State" type="org.acme.hr:State"/>
+<xs:element name="State" type="org.acme.hr.base:State"/>
+<xs:simpleType name="TShirtSizeType">
+   <xs:restriction base="xs:string">
+      <xs:enumeration value="SMALL"/>
+      <xs:enumeration value="MEDIUM"/>
+      <xs:enumeration value="LARGE"/>
+   </xs:restriction>
+</xs:simpleType>
+<xs:element name="TShirtSizeType" type="org.acme.hr.base:TShirtSizeType"/>
 <xs:complexType name="Address">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
    <xs:sequence>
       <xs:element name="street" type="xs:string"/>
       <xs:element name="city" type="xs:string"/>
-      <xs:element name="state" type="org.acme.hr:State"/>
+      <xs:element name="state" type="org.acme.hr.base:State"/>
       <xs:element name="zipCode" type="xs:string"/>
       <xs:element name="country" type="xs:string"/>
-      <xs:element name="dictionary1" type="org.acme.hr:Map1"/>
-      <xs:element name="dictionary2" type="org.acme.hr:Map2"/>
-      <xs:element name="dictionary3" type="org.acme.hr:Map3"/>
-      <xs:element name="dictionary4" type="org.acme.hr:Map4"/>
-      <xs:element name="dictionary5" type="org.acme.hr:Map5"/>
-      <xs:element name="dictionary6" type="org.acme.hr:Map6"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
 </xs:complexType>
-<xs:element name="Address" type="org.acme.hr:Address"/>
+<xs:element name="Address" type="org.acme.hr.base:Address"/>
+</xs:schema>
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'xmlschema' 4`] = `
+{
+  "key": "org.acme.hr@1.0.0.xsd",
+  "value": "<?xml version="1.0"?>
+<xs:schema xmlns:org.acme.hr="org.acme.hr" targetNamespace="org.acme.hr" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:org.acme.hr.base="org.acme.hr.base"
+xmlns:concerto="concerto"
+>
+<xs:import namespace="org.acme.hr.base" schemaLocation="org.acme.hr.base@1.0.0.xsd"/>
+<xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
 <xs:complexType name="Company">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
    <xs:sequence>
       <xs:element name="name" type="xs:string"/>
-      <xs:element name="headquarters" type="org.acme.hr:Address"/>
+      <xs:element name="headquarters" type="org.acme.hr.base:Address"/>
+      <xs:element name="companyProperties" type="org.acme.hr:CompanyProperties"/>
+      <xs:element name="employeeDirectory" type="org.acme.hr:EmployeeDirectory"/>
+      <xs:element name="employeeTShirtSizes" type="org.acme.hr.base:EmployeeTShirtSizes"/>
+      <xs:element name="employeeProfiles" type="org.acme.hr:EmployeeProfiles"/>
+      <xs:element name="employeeSocialSecurityNumbers" type="org.acme.hr:EmployeeSocialSecurityNumbers"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -9993,10 +10776,11 @@ xmlns:concerto="concerto"
       <xs:element name="firstName" type="xs:string"/>
       <xs:element name="lastName" type="xs:string"/>
       <xs:element name="middleNames" type="xs:string"/>
-      <xs:element name="homeAddress" type="org.acme.hr:Address"/>
+      <xs:element name="homeAddress" type="org.acme.hr.base:Address"/>
       <xs:element name="ssn" type="xs:string"/>
       <xs:element name="height" type="xs:double"/>
       <xs:element name="dob" type="xs:dateTime"/>
+      <xs:element name="nextOfKin" type="org.acme.hr:NextOfKin"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -10011,7 +10795,7 @@ xmlns:concerto="concerto"
       <xs:element name="numDependents" type="xs:integer"/>
       <xs:element name="retired" type="xs:boolean"/>
       <xs:element name="department" type="org.acme.hr:Department"/>
-      <xs:element name="officeAddress" type="org.acme.hr:Address"/>
+      <xs:element name="officeAddress" type="org.acme.hr.base:Address"/>
       <xs:element name="companyAssets" type="org.acme.hr:Equipment" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="manager" type="org.acme.hr:Manager"/>
    </xs:sequence>
@@ -10064,7 +10848,7 @@ xmlns:concerto="concerto"
    <xs:extension base="concerto:Transaction">
    <xs:sequence>
       <xs:element name="Person" type="org.acme.hr:Person"/>
-      <xs:element name="newAddress" type="org.acme.hr:Address"/>
+      <xs:element name="newAddress" type="org.acme.hr.base:Address"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
