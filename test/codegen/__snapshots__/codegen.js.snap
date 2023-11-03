@@ -6,7 +6,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "@namespace("concerto@1.0.0")
 protocol MyProtocol {
 
-   
+
    record Concept {
    }
 
@@ -39,7 +39,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "@namespace("concerto")
 protocol MyProtocol {
 
-   
+
    record Concept {
    }
 
@@ -69,7 +69,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 protocol MyProtocol {
 
    import idl "concerto@1.0.0.avdl";
-   
+
    enum State {
       MA,
       NY,
@@ -106,7 +106,7 @@ protocol MyProtocol {
 
    import idl "org.acme.hr.base.avdl";
    import idl "concerto@1.0.0.avdl";
-   
+
    record Company {
       string name;
       Address headquarters;
@@ -494,7 +494,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "// Package concerto_1_0_0 contains domain objects and was generated from Concerto namespace concerto@1.0.0.
 package concerto_1_0_0
 import "time"
-   
+
 type Concept struct {
 }
 type Asset struct {
@@ -522,7 +522,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "concerto.go",
   "value": "// Package concerto contains domain objects and was generated from Concerto namespace concerto.
 package concerto
-   
+
 type Concept struct {
 }
 type Asset struct {
@@ -549,7 +549,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "// Package org_acme_hr_base contains domain objects and was generated from Concerto namespace org.acme.hr.base.
 package org_acme_hr_base
 import "concerto_1_0_0";
-   
+
 type State int
 const (
    MA State = 1 + iota
@@ -585,7 +585,7 @@ package org_acme_hr
 import "time"
 import "org_acme_hr_base";
 import "concerto_1_0_0";
-   
+
 type Company struct {
    concerto_1_0_0.Concept
    Name string \`json:"name"\`
@@ -870,7 +870,7 @@ public abstract class Asset extends Concept {
             public void set$id(String i) {
                 $id = i;
             }
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.get$identifier();
@@ -909,7 +909,7 @@ public abstract class Participant extends Concept {
             public void set$id(String i) {
                 $id = i;
             }
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.get$identifier();
@@ -1071,11 +1071,11 @@ import com.fasterxml.jackson.annotation.*;
 public class Company extends Concept {
    private String name;
    private Address headquarters;
-   private Map<String, String> companyProperties = new HashMap<>();
-   private Map<SSN, Employee> employeeDirectory = new HashMap<>();
-   private Map<SSN, TShirtSizeType> employeeTShirtSizes = new HashMap<>();
-   private Map<String, Concept> employeeProfiles = new HashMap<>();
-   private Map<String, SSN> employeeSocialSecurityNumbers = new HashMap<>();
+   private CompanyProperties companyProperties;
+   private EmployeeDirectory employeeDirectory;
+   private EmployeeTShirtSizes employeeTShirtSizes;
+   private EmployeeProfiles employeeProfiles;
+   private EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers;
    public String getName() {
       return this.name;
    }
@@ -1164,7 +1164,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "serialNumber")
 public abstract class Equipment extends Asset {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getSerialNumber();
@@ -1219,7 +1219,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "serialNumber")
 public class Laptop extends Equipment {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getSerialNumber();
@@ -1258,7 +1258,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public abstract class Person extends Participant {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -1272,7 +1272,7 @@ public abstract class Person extends Participant {
    private String ssn;
    private double height;
    private java.util.Date dob;
-   private Map<KinName, KinTelephone> nextOfKin = new HashMap<>();
+   private NextOfKin nextOfKin;
    public String getEmail() {
       return this.email;
    }
@@ -1353,7 +1353,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Employee extends Person {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -1441,7 +1441,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Contractor extends Person {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -1487,7 +1487,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Manager extends Employee {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -3826,7 +3826,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "utils.rs",
   "value": "use chrono::{ DateTime, TimeZone, Utc };
 use serde::{ Deserialize, Serialize, Deserializer, Serializer };
-   
+
 pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>
 where
    S: Serializer,
@@ -3856,7 +3856,7 @@ where
    let datetime_str = String::deserialize(deserializer)?;
    Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)
 }
-   
+
 pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
 where
    S: Serializer,
@@ -3873,9 +3873,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "concerto_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
@@ -3890,7 +3890,7 @@ pub struct Asset {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -3903,7 +3903,7 @@ pub struct Participant {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -3916,7 +3916,7 @@ pub struct Transaction {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -3931,7 +3931,7 @@ pub struct Event {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -3949,9 +3949,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "concerto.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
@@ -3966,7 +3966,7 @@ pub struct Asset {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -3979,7 +3979,7 @@ pub struct Participant {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -4011,10 +4011,10 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "org_acme_hr_base.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::concerto_1_0_0::*;
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub enum State {
    #[allow(non_camel_case_types)]
@@ -4047,28 +4047,28 @@ pub struct Address {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "street",
    )]
    pub street: String,
-   
+
    #[serde(
       rename = "city",
    )]
    pub city: String,
-   
+
    #[serde(
       rename = "state",
       skip_serializing_if = "Option::is_none",
    )]
    pub state: Option<State>,
-   
+
    #[serde(
       rename = "zipCode",
    )]
    pub zip_code: String,
-   
+
    #[serde(
       rename = "country",
    )]
@@ -4084,52 +4084,52 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "org_acme_hr.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::org_acme_hr_base::*;
 use crate::concerto_1_0_0::*;
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Company {
    #[serde(
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "name",
    )]
    pub name: String,
-   
+
    #[serde(
       rename = "headquarters",
    )]
    pub headquarters: Address,
-   
+
    #[serde(
       rename = "companyProperties",
       skip_serializing_if = "Option::is_none",
    )]
    pub company_properties: Option<CompanyProperties>,
-   
+
    #[serde(
       rename = "employeeDirectory",
       skip_serializing_if = "Option::is_none",
    )]
    pub employee_directory: Option<EmployeeDirectory>,
-   
+
    #[serde(
       rename = "employeeTShirtSizes",
       skip_serializing_if = "Option::is_none",
    )]
    pub employee_t_shirt_sizes: Option<EmployeeTShirtSizes>,
-   
+
    #[serde(
       rename = "employeeProfiles",
       skip_serializing_if = "Option::is_none",
    )]
    pub employee_profiles: Option<EmployeeProfiles>,
-   
+
    #[serde(
       rename = "employeeSocialSecurityNumbers",
       skip_serializing_if = "Option::is_none",
@@ -4159,12 +4159,12 @@ pub struct Equipment {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "serialNumber",
    )]
    pub serial_number: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -4185,17 +4185,17 @@ pub struct Laptop {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "make",
    )]
    pub make: LaptopMake,
-   
+
    #[serde(
       rename = "serialNumber",
    )]
    pub serial_number: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -4208,55 +4208,55 @@ pub struct Person {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
    #[serde(
       rename = "nextOfKin",
    )]
    pub next_of_kin: NextOfKin,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -4269,93 +4269,93 @@ pub struct Employee {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "employeeId",
    )]
    pub employee_id: String,
-   
+
    #[serde(
       rename = "salary",
    )]
    pub salary: u64,
-   
+
    #[serde(
       rename = "numDependents",
    )]
    pub num_dependents: Integer,
-   
+
    #[serde(
       rename = "retired",
    )]
    pub retired: bool,
-   
+
    #[serde(
       rename = "department",
    )]
    pub department: Department,
-   
+
    #[serde(
       rename = "officeAddress",
    )]
    pub office_address: Address,
-   
+
    #[serde(
       rename = "companyAssets",
    )]
    pub company_assets: Vec<Equipment>,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
    #[serde(
       rename = "nextOfKin",
    )]
    pub next_of_kin: NextOfKin,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -4368,63 +4368,63 @@ pub struct Contractor {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "company",
    )]
    pub company: Company,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
    #[serde(
       rename = "nextOfKin",
    )]
    pub next_of_kin: NextOfKin,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -4437,96 +4437,96 @@ pub struct Manager {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "reports")]
    pub reports: Option<Vec<Person>>,
-   
+
    #[serde(
       rename = "employeeId",
    )]
    pub employee_id: String,
-   
+
    #[serde(
       rename = "salary",
    )]
    pub salary: u64,
-   
+
    #[serde(
       rename = "numDependents",
    )]
    pub num_dependents: Integer,
-   
+
    #[serde(
       rename = "retired",
    )]
    pub retired: bool,
-   
+
    #[serde(
       rename = "department",
    )]
    pub department: Department,
-   
+
    #[serde(
       rename = "officeAddress",
    )]
    pub office_address: Address,
-   
+
    #[serde(
       rename = "companyAssets",
    )]
    pub company_assets: Vec<Equipment>,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
    #[serde(
       rename = "nextOfKin",
    )]
    pub next_of_kin: NextOfKin,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -4539,7 +4539,7 @@ pub struct CompanyEvent {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -4554,10 +4554,10 @@ pub struct Onboarded {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "employee")]
    pub employee: Employee,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -4572,15 +4572,15 @@ pub struct ChangeOfAddress {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "Person")]
    pub person: Person,
-   
+
    #[serde(
       rename = "newAddress",
    )]
    pub new_address: Address,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -4638,7 +4638,7 @@ export interface IConcept {
    $class: string;
 }
 
-export type ConceptUnion = IAddress | 
+export type ConceptUnion = IAddress |
 ICompany;
 
 export interface IAsset extends IConcept {
@@ -4816,7 +4816,7 @@ export interface IPerson extends IParticipant {
    nextOfKin: NextOfKin;
 }
 
-export type PersonUnion = IEmployee | 
+export type PersonUnion = IEmployee |
 IContractor;
 
 export interface IEmployee extends IPerson {
@@ -4972,7 +4972,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "concerto@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 <xs:complexType name="Concept">
    <xs:sequence>
@@ -5028,7 +5028,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "concerto.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 <xs:complexType name="Concept">
    <xs:sequence>
@@ -5082,7 +5082,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "org.acme.hr.base.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:org.acme.hr.base="org.acme.hr.base" targetNamespace="org.acme.hr.base" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:org.acme.hr.base="org.acme.hr.base" targetNamespace="org.acme.hr.base" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 xmlns:concerto="concerto"
 >
 <xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
@@ -5128,7 +5128,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "org.acme.hr.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:org.acme.hr="org.acme.hr" targetNamespace="org.acme.hr" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:org.acme.hr="org.acme.hr" targetNamespace="org.acme.hr" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 xmlns:org.acme.hr.base="org.acme.hr.base"
 xmlns:concerto="concerto"
 >
@@ -5554,7 +5554,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "@namespace("concerto@1.0.0")
 protocol MyProtocol {
 
-   
+
    record Concept {
    }
 
@@ -5587,7 +5587,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "@namespace("concerto")
 protocol MyProtocol {
 
-   
+
    record Concept {
    }
 
@@ -5617,7 +5617,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 protocol MyProtocol {
 
    import idl "concerto@1.0.0.avdl";
-   
+
    enum State {
       MA,
       NY,
@@ -5654,7 +5654,7 @@ protocol MyProtocol {
 
    import idl "org.acme.hr.base@1.0.0.avdl";
    import idl "concerto@1.0.0.avdl";
-   
+
    record Company {
       string name;
       Address headquarters;
@@ -6042,7 +6042,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "// Package concerto_1_0_0 contains domain objects and was generated from Concerto namespace concerto@1.0.0.
 package concerto_1_0_0
 import "time"
-   
+
 type Concept struct {
 }
 type Asset struct {
@@ -6070,7 +6070,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "concerto.go",
   "value": "// Package concerto contains domain objects and was generated from Concerto namespace concerto.
 package concerto
-   
+
 type Concept struct {
 }
 type Asset struct {
@@ -6097,7 +6097,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "// Package org_acme_hr_base_1_0_0 contains domain objects and was generated from Concerto namespace org.acme.hr.base@1.0.0.
 package org_acme_hr_base_1_0_0
 import "concerto_1_0_0";
-   
+
 type State int
 const (
    MA State = 1 + iota
@@ -6133,7 +6133,7 @@ package org_acme_hr_1_0_0
 import "time"
 import "org_acme_hr_base_1_0_0";
 import "concerto_1_0_0";
-   
+
 type Company struct {
    concerto_1_0_0.Concept
    Name string \`json:"name"\`
@@ -6418,7 +6418,7 @@ public abstract class Asset extends Concept {
             public void set$id(String i) {
                 $id = i;
             }
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.get$identifier();
@@ -6457,7 +6457,7 @@ public abstract class Participant extends Concept {
             public void set$id(String i) {
                 $id = i;
             }
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.get$identifier();
@@ -6619,11 +6619,11 @@ import com.fasterxml.jackson.annotation.*;
 public class Company extends Concept {
    private String name;
    private Address headquarters;
-   private Map<String, String> companyProperties = new HashMap<>();
-   private Map<SSN, Employee> employeeDirectory = new HashMap<>();
-   private Map<SSN, TShirtSizeType> employeeTShirtSizes = new HashMap<>();
-   private Map<String, Concept> employeeProfiles = new HashMap<>();
-   private Map<String, SSN> employeeSocialSecurityNumbers = new HashMap<>();
+   private CompanyProperties companyProperties;
+   private EmployeeDirectory employeeDirectory;
+   private EmployeeTShirtSizes employeeTShirtSizes;
+   private EmployeeProfiles employeeProfiles;
+   private EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers;
    public String getName() {
       return this.name;
    }
@@ -6712,7 +6712,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "serialNumber")
 public abstract class Equipment extends Asset {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getSerialNumber();
@@ -6767,7 +6767,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "serialNumber")
 public class Laptop extends Equipment {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getSerialNumber();
@@ -6806,7 +6806,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public abstract class Person extends Participant {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -6820,7 +6820,7 @@ public abstract class Person extends Participant {
    private String ssn;
    private double height;
    private java.util.Date dob;
-   private Map<KinName, KinTelephone> nextOfKin = new HashMap<>();
+   private NextOfKin nextOfKin;
    public String getEmail() {
       return this.email;
    }
@@ -6901,7 +6901,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Employee extends Person {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -6989,7 +6989,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Contractor extends Person {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -7035,7 +7035,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"id"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "email")
 public class Manager extends Employee {
-   
+
    // the accessor for the identifying field
    public String getID() {
       return this.getEmail();
@@ -9406,7 +9406,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "utils.rs",
   "value": "use chrono::{ DateTime, TimeZone, Utc };
 use serde::{ Deserialize, Serialize, Deserializer, Serializer };
-   
+
 pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>
 where
    S: Serializer,
@@ -9436,7 +9436,7 @@ where
    let datetime_str = String::deserialize(deserializer)?;
    Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)
 }
-   
+
 pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
 where
    S: Serializer,
@@ -9453,9 +9453,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "concerto_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
@@ -9470,7 +9470,7 @@ pub struct Asset {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9483,7 +9483,7 @@ pub struct Participant {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9496,7 +9496,7 @@ pub struct Transaction {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -9511,7 +9511,7 @@ pub struct Event {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -9529,9 +9529,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "concerto.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
@@ -9546,7 +9546,7 @@ pub struct Asset {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9559,7 +9559,7 @@ pub struct Participant {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9591,10 +9591,10 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "org_acme_hr_base_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::concerto_1_0_0::*;
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub enum State {
    #[allow(non_camel_case_types)]
@@ -9627,28 +9627,28 @@ pub struct Address {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "street",
    )]
    pub street: String,
-   
+
    #[serde(
       rename = "city",
    )]
    pub city: String,
-   
+
    #[serde(
       rename = "state",
       skip_serializing_if = "Option::is_none",
    )]
    pub state: Option<State>,
-   
+
    #[serde(
       rename = "zipCode",
    )]
    pub zip_code: String,
-   
+
    #[serde(
       rename = "country",
    )]
@@ -9664,52 +9664,52 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "org_acme_hr_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
-   
+
 use crate::org_acme_hr_base_1_0_0::*;
 use crate::concerto_1_0_0::*;
 use crate::utils::*;
-   
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Company {
    #[serde(
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "name",
    )]
    pub name: String,
-   
+
    #[serde(
       rename = "headquarters",
    )]
    pub headquarters: Address,
-   
+
    #[serde(
       rename = "companyProperties",
       skip_serializing_if = "Option::is_none",
    )]
    pub company_properties: Option<CompanyProperties>,
-   
+
    #[serde(
       rename = "employeeDirectory",
       skip_serializing_if = "Option::is_none",
    )]
    pub employee_directory: Option<EmployeeDirectory>,
-   
+
    #[serde(
       rename = "employeeTShirtSizes",
       skip_serializing_if = "Option::is_none",
    )]
    pub employee_t_shirt_sizes: Option<EmployeeTShirtSizes>,
-   
+
    #[serde(
       rename = "employeeProfiles",
       skip_serializing_if = "Option::is_none",
    )]
    pub employee_profiles: Option<EmployeeProfiles>,
-   
+
    #[serde(
       rename = "employeeSocialSecurityNumbers",
       skip_serializing_if = "Option::is_none",
@@ -9739,12 +9739,12 @@ pub struct Equipment {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "serialNumber",
    )]
    pub serial_number: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9765,17 +9765,17 @@ pub struct Laptop {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "make",
    )]
    pub make: LaptopMake,
-   
+
    #[serde(
       rename = "serialNumber",
    )]
    pub serial_number: String,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9788,55 +9788,55 @@ pub struct Person {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
    #[serde(
       rename = "nextOfKin",
    )]
    pub next_of_kin: NextOfKin,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9849,93 +9849,93 @@ pub struct Employee {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "employeeId",
    )]
    pub employee_id: String,
-   
+
    #[serde(
       rename = "salary",
    )]
    pub salary: u64,
-   
+
    #[serde(
       rename = "numDependents",
    )]
    pub num_dependents: Integer,
-   
+
    #[serde(
       rename = "retired",
    )]
    pub retired: bool,
-   
+
    #[serde(
       rename = "department",
    )]
    pub department: Department,
-   
+
    #[serde(
       rename = "officeAddress",
    )]
    pub office_address: Address,
-   
+
    #[serde(
       rename = "companyAssets",
    )]
    pub company_assets: Vec<Equipment>,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
    #[serde(
       rename = "nextOfKin",
    )]
    pub next_of_kin: NextOfKin,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -9948,63 +9948,63 @@ pub struct Contractor {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "company",
    )]
    pub company: Company,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
    #[serde(
       rename = "nextOfKin",
    )]
    pub next_of_kin: NextOfKin,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -10017,96 +10017,96 @@ pub struct Manager {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "reports")]
    pub reports: Option<Vec<Person>>,
-   
+
    #[serde(
       rename = "employeeId",
    )]
    pub employee_id: String,
-   
+
    #[serde(
       rename = "salary",
    )]
    pub salary: u64,
-   
+
    #[serde(
       rename = "numDependents",
    )]
    pub num_dependents: Integer,
-   
+
    #[serde(
       rename = "retired",
    )]
    pub retired: bool,
-   
+
    #[serde(
       rename = "department",
    )]
    pub department: Department,
-   
+
    #[serde(
       rename = "officeAddress",
    )]
    pub office_address: Address,
-   
+
    #[serde(
       rename = "companyAssets",
    )]
    pub company_assets: Vec<Equipment>,
-   
+
    #[serde(rename = "manager")]
    pub manager: Option<Manager>,
-   
+
    #[serde(
       rename = "email",
    )]
    pub email: String,
-   
+
    #[serde(
       rename = "firstName",
    )]
    pub first_name: String,
-   
+
    #[serde(
       rename = "lastName",
    )]
    pub last_name: String,
-   
+
    #[serde(
       rename = "middleNames",
       skip_serializing_if = "Option::is_none",
    )]
    pub middle_names: Option<String>,
-   
+
    #[serde(
       rename = "homeAddress",
    )]
    pub home_address: Address,
-   
+
    #[serde(
       rename = "ssn",
    )]
    pub ssn: String,
-   
+
    #[serde(
       rename = "height",
    )]
    pub height: f64,
-   
+
    #[serde(
       rename = "dob",
       serialize_with = "serialize_datetime",
       deserialize_with = "deserialize_datetime",
    )]
    pub dob: DateTime<Utc>,
-   
+
    #[serde(
       rename = "nextOfKin",
    )]
    pub next_of_kin: NextOfKin,
-   
+
    #[serde(
       rename = "$identifier",
    )]
@@ -10119,7 +10119,7 @@ pub struct CompanyEvent {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -10134,10 +10134,10 @@ pub struct Onboarded {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "employee")]
    pub employee: Employee,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -10152,15 +10152,15 @@ pub struct ChangeOfAddress {
       rename = "$class",
    )]
    pub _class: String,
-   
+
    #[serde(rename = "Person")]
    pub person: Person,
-   
+
    #[serde(
       rename = "newAddress",
    )]
    pub new_address: Address,
-   
+
    #[serde(
       rename = "$timestamp",
       serialize_with = "serialize_datetime",
@@ -10218,7 +10218,7 @@ export interface IConcept {
    $class: string;
 }
 
-export type ConceptUnion = IAddress | 
+export type ConceptUnion = IAddress |
 ICompany;
 
 export interface IAsset extends IConcept {
@@ -10396,7 +10396,7 @@ export interface IPerson extends IParticipant {
    nextOfKin: NextOfKin;
 }
 
-export type PersonUnion = IEmployee | 
+export type PersonUnion = IEmployee |
 IContractor;
 
 export interface IEmployee extends IPerson {
@@ -10552,7 +10552,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "concerto@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 <xs:complexType name="Concept">
    <xs:sequence>
@@ -10608,7 +10608,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "concerto.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 <xs:complexType name="Concept">
    <xs:sequence>
@@ -10662,7 +10662,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "org.acme.hr.base@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:org.acme.hr.base="org.acme.hr.base" targetNamespace="org.acme.hr.base" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:org.acme.hr.base="org.acme.hr.base" targetNamespace="org.acme.hr.base" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 xmlns:concerto="concerto"
 >
 <xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
@@ -10708,7 +10708,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "org.acme.hr@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:org.acme.hr="org.acme.hr" targetNamespace="org.acme.hr" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:org.acme.hr="org.acme.hr" targetNamespace="org.acme.hr" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 xmlns:org.acme.hr.base="org.acme.hr.base"
 xmlns:concerto="concerto"
 >
