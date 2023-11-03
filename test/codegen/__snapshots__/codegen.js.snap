@@ -1065,6 +1065,8 @@ import concerto.Asset;
 import concerto.Transaction;
 import concerto.Participant;
 import concerto.Event;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1253,6 +1255,8 @@ import concerto.Asset;
 import concerto.Transaction;
 import concerto.Participant;
 import concerto.Event;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -6613,6 +6617,8 @@ import concerto.Asset;
 import concerto.Transaction;
 import concerto.Participant;
 import concerto.Event;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -6801,6 +6807,8 @@ import concerto.Asset;
 import concerto.Transaction;
 import concerto.Participant;
 import concerto.Event;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})

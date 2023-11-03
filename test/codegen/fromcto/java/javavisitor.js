@@ -39,6 +39,13 @@ describe('JavaVisitor', function () {
     beforeEach(() => {
         javaVisit = new JavaVisitor();
         mockFileWriter = sinon.createStubInstance(FileWriter);
+        sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+            return false;
+        });
+    });
+
+    afterEach(() => {
+        sandbox.restore();
     });
 
     describe('visit', () => {
