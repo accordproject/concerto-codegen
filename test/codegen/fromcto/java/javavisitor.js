@@ -387,6 +387,36 @@ describe('JavaVisitor', function () {
             acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'setter'})).calledTwice.should.be.ok;
             mockEndClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
         });
+
+        it('should write a class declaration, including imports for java.util Map & HashMap types', () => {
+            mockClassDeclaration.getIdentifierFieldName.returns('employeeID');
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+            javaVisit.visitClassDeclaration(mockClassDeclaration, param);
+
+            mockStartClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.callCount.should.deep.equal(9);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'import fruit.oranges;']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, 'import fruit.apples;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'import java.util.HashMap;']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, 'import java.util.Map;']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, 'import com.fasterxml.jackson.annotation.*;']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '']);
+            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, 'public class Bob {']);
+            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([1, `
+   // the accessor for the identifying field
+   public String getID() {
+      return this.getEmployeeID();
+   }
+`]);
+            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([0, '}']);
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'field'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'getter'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'setter'})).calledTwice.should.be.ok;
+            mockEndClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
+        });
     });
 
     describe('visitField', () => {
