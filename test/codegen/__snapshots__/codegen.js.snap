@@ -1706,7 +1706,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "description": "An instance of org.acme.hr.EmployeeDirectory",
             "type": "object",
             "propertyNames": {
-              "type": "string"
+              "type": "string",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
             },
             "additionalProperties": {
               "$ref": "#/definitions/org.acme.hr.Employee"
@@ -1720,7 +1721,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "description": "An instance of org.acme.hr.base.EmployeeTShirtSizes",
             "type": "object",
             "propertyNames": {
-              "type": "string"
+              "type": "string",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
             },
             "additionalProperties": {
               "$ref": "#/definitions/org.acme.hr.TShirtSizeType"
@@ -1751,7 +1753,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
               "type": "string"
             },
             "additionalProperties": {
-              "type": "SSN"
+              "type": "SSN",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
             }
           }
         }
@@ -2951,7 +2954,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
               "description": "An instance of org.acme.hr.EmployeeDirectory",
               "type": "object",
               "propertyNames": {
-                "type": "string"
+                "type": "string",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
               },
               "additionalProperties": {
                 "$ref": "#/definitions/org.acme.hr.Employee"
@@ -2965,7 +2969,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
               "description": "An instance of org.acme.hr.base.EmployeeTShirtSizes",
               "type": "object",
               "propertyNames": {
-                "type": "string"
+                "type": "string",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
               },
               "additionalProperties": {
                 "$ref": "#/definitions/org.acme.hr.TShirtSizeType"
@@ -2996,7 +3001,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
                 "type": "string"
               },
               "additionalProperties": {
-                "type": "SSN"
+                "type": "SSN",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
               }
             }
           }
@@ -7506,7 +7512,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "description": "An instance of org.acme.hr@1.0.0.EmployeeDirectory",
             "type": "object",
             "propertyNames": {
-              "type": "string"
+              "type": "string",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
             },
             "additionalProperties": {
               "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
@@ -7520,7 +7527,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "description": "An instance of org.acme.hr.base@1.0.0.EmployeeTShirtSizes",
             "type": "object",
             "propertyNames": {
-              "type": "string"
+              "type": "string",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
             },
             "additionalProperties": {
               "$ref": "#/definitions/org.acme.hr@1.0.0.TShirtSizeType"
@@ -7551,7 +7559,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
               "type": "string"
             },
             "additionalProperties": {
-              "type": "SSN"
+              "type": "SSN",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
             }
           }
         }
@@ -8767,7 +8776,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
               "description": "An instance of org.acme.hr@1.0.0.EmployeeDirectory",
               "type": "object",
               "propertyNames": {
-                "type": "string"
+                "type": "string",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
               },
               "additionalProperties": {
                 "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
@@ -8781,7 +8791,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
               "description": "An instance of org.acme.hr.base@1.0.0.EmployeeTShirtSizes",
               "type": "object",
               "propertyNames": {
-                "type": "string"
+                "type": "string",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
               },
               "additionalProperties": {
                 "$ref": "#/definitions/org.acme.hr@1.0.0.TShirtSizeType"
@@ -8812,7 +8823,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
                 "type": "string"
               },
               "additionalProperties": {
-                "type": "SSN"
+                "type": "SSN",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
               }
             }
           }
