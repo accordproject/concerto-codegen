@@ -418,15 +418,15 @@ describe('ProtobufVisitor', function () {
                 return true;
             });
 
+            const getType               = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('String');
@@ -451,15 +451,15 @@ describe('ProtobufVisitor', function () {
                 return true;
             });
 
+            const getType               = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('DateTime');
@@ -484,15 +484,15 @@ describe('ProtobufVisitor', function () {
                 return true;
             });
 
+            const getType               = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('SSN');
@@ -517,15 +517,15 @@ describe('ProtobufVisitor', function () {
                 return true;
             });
 
+            const getType               = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Concept');
@@ -550,15 +550,15 @@ describe('ProtobufVisitor', function () {
                 return true;
             });
 
+            const getType               = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('SSN');
             getValueType.returns('String');
@@ -579,19 +579,22 @@ describe('ProtobufVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.restore();
+
             sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
                 return true;
             });
 
+            const getType               = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('SSN');
             getValueType.returns('Employee');
@@ -618,15 +621,15 @@ describe('ProtobufVisitor', function () {
                 return true;
             });
 
+            const getType               = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Double');
@@ -651,15 +654,15 @@ describe('ProtobufVisitor', function () {
                 return true;
             });
 
+            const getType               = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Integer');
@@ -684,15 +687,15 @@ describe('ProtobufVisitor', function () {
                 return true;
             });
 
+            const getType               = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Long');
