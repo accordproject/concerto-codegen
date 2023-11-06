@@ -1065,17 +1065,19 @@ import concerto.Asset;
 import concerto.Transaction;
 import concerto.Participant;
 import concerto.Event;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
 public class Company extends Concept {
    private String name;
    private Address headquarters;
-   private CompanyProperties companyProperties;
-   private EmployeeDirectory employeeDirectory;
-   private EmployeeTShirtSizes employeeTShirtSizes;
-   private EmployeeProfiles employeeProfiles;
-   private EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers;
+   private Map<String, String> companyProperties = new HashMap<>();
+   private Map<SSN, Employee> employeeDirectory = new HashMap<>();
+   private Map<SSN, TShirtSizeType> employeeTShirtSizes = new HashMap<>();
+   private Map<String, Concept> employeeProfiles = new HashMap<>();
+   private Map<String, SSN> employeeSocialSecurityNumbers = new HashMap<>();
    public String getName() {
       return this.name;
    }
@@ -1253,6 +1255,8 @@ import concerto.Asset;
 import concerto.Transaction;
 import concerto.Participant;
 import concerto.Event;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -1272,7 +1276,7 @@ public abstract class Person extends Participant {
    private String ssn;
    private double height;
    private java.util.Date dob;
-   private NextOfKin nextOfKin;
+   private Map<KinName, KinTelephone> nextOfKin = new HashMap<>();
    public String getEmail() {
       return this.email;
    }
@@ -6613,17 +6617,19 @@ import concerto.Asset;
 import concerto.Transaction;
 import concerto.Participant;
 import concerto.Event;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
 public class Company extends Concept {
    private String name;
    private Address headquarters;
-   private CompanyProperties companyProperties;
-   private EmployeeDirectory employeeDirectory;
-   private EmployeeTShirtSizes employeeTShirtSizes;
-   private EmployeeProfiles employeeProfiles;
-   private EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers;
+   private Map<String, String> companyProperties = new HashMap<>();
+   private Map<SSN, Employee> employeeDirectory = new HashMap<>();
+   private Map<SSN, TShirtSizeType> employeeTShirtSizes = new HashMap<>();
+   private Map<String, Concept> employeeProfiles = new HashMap<>();
+   private Map<String, SSN> employeeSocialSecurityNumbers = new HashMap<>();
    public String getName() {
       return this.name;
    }
@@ -6801,6 +6807,8 @@ import concerto.Asset;
 import concerto.Transaction;
 import concerto.Participant;
 import concerto.Event;
+import java.util.HashMap;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -6820,7 +6828,7 @@ public abstract class Person extends Participant {
    private String ssn;
    private double height;
    private java.util.Date dob;
-   private NextOfKin nextOfKin;
+   private Map<KinName, KinTelephone> nextOfKin = new HashMap<>();
    public String getEmail() {
       return this.email;
    }

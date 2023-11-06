@@ -20,10 +20,13 @@ const sinon = require('sinon');
 
 const JavaVisitor = require('../../../../lib/codegen/fromcto/java/javavisitor.js');
 const AbstractPlugin = require('../../../../lib/codegen/abstractplugin.js');
+const ModelUtil = require('@accordproject/concerto-core').ModelUtil;
 
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+
+let sandbox = sinon.createSandbox();
 
 describe('JavaMissingPlugin', function () {
     let javaVisit;
@@ -115,6 +118,15 @@ describe('JavaMissingPlugin', function () {
 
             sinon.stub(javaVisit, 'startClassFile');
             sinon.stub(javaVisit, 'endClassFile');
+
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+        });
+
+        afterEach(() => {
+            sandbox.restore();
+
         });
 
         it('should fail to write a class declaration and call accept on each property', () => {
