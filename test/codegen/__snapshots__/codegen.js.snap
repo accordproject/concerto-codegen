@@ -1650,90 +1650,6 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         },
         "country": {
           "type": "string"
-        },
-        "dictionary1": {
-          "$id": "org.acme.hr.Address.dictionary1",
-          "schema": {
-            "title": "Map1",
-            "description": "An instance of org.acme.hr.Map1",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            }
-          }
-        },
-        "dictionary2": {
-          "$id": "org.acme.hr.Address.dictionary2",
-          "schema": {
-            "title": "Map2",
-            "description": "An instance of org.acme.hr.Map2",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            }
-          }
-        },
-        "dictionary3": {
-          "$id": "org.acme.hr.Address.dictionary3",
-          "schema": {
-            "title": "Map3",
-            "description": "An instance of org.acme.hr.Map3",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "SSN"
-            }
-          }
-        },
-        "dictionary4": {
-          "$id": "org.acme.hr.Address.dictionary4",
-          "schema": {
-            "title": "Map4",
-            "description": "An instance of org.acme.hr.Map4",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "Concept"
-            }
-          }
-        },
-        "dictionary5": {
-          "$id": "org.acme.hr.Address.dictionary5",
-          "schema": {
-            "title": "Map5",
-            "description": "An instance of org.acme.hr.Map5",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            }
-          }
-        },
-        "dictionary6": {
-          "$id": "org.acme.hr.Address.dictionary6",
-          "schema": {
-            "title": "Map6",
-            "description": "An instance of org.acme.hr.Map6",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "$ref": "#/definitions/org.acme.hr.Employee"
-            }
-          }
         }
       },
       "required": [
@@ -1768,6 +1684,76 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         },
         "headquarters": {
           "$ref": "#/definitions/org.acme.hr.base.Address"
+        },
+        "companyProperties": {
+          "$id": "org.acme.hr.Company.companyProperties",
+          "schema": {
+            "title": "CompanyProperties",
+            "description": "An instance of org.acme.hr.CompanyProperties",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "employeeDirectory": {
+          "$id": "org.acme.hr.Company.employeeDirectory",
+          "schema": {
+            "title": "EmployeeDirectory",
+            "description": "An instance of org.acme.hr.EmployeeDirectory",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "$ref": "#/definitions/org.acme.hr.Employee"
+            }
+          }
+        },
+        "employeeTShirtSizes": {
+          "$id": "org.acme.hr.Company.employeeTShirtSizes",
+          "schema": {
+            "title": "EmployeeTShirtSizes",
+            "description": "An instance of org.acme.hr.base.EmployeeTShirtSizes",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "$ref": "#/definitions/org.acme.hr.TShirtSizeType"
+            }
+          }
+        },
+        "employeeProfiles": {
+          "$id": "org.acme.hr.Company.employeeProfiles",
+          "schema": {
+            "title": "EmployeeProfiles",
+            "description": "An instance of org.acme.hr.EmployeeProfiles",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "Concept"
+            }
+          }
+        },
+        "employeeSocialSecurityNumbers": {
+          "$id": "org.acme.hr.Company.employeeSocialSecurityNumbers",
+          "schema": {
+            "title": "EmployeeSocialSecurityNumbers",
+            "description": "An instance of org.acme.hr.EmployeeSocialSecurityNumbers",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "SSN"
+            }
+          }
         }
       },
       "required": [
@@ -1883,6 +1869,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -1973,6 +1973,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -2039,6 +2053,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -2134,6 +2162,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -2853,90 +2895,6 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           },
           "country": {
             "type": "string"
-          },
-          "dictionary1": {
-            "$id": "org.acme.hr.Address.dictionary1",
-            "schema": {
-              "title": "Map1",
-              "description": "An instance of org.acme.hr.Map1",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "type": "string"
-              }
-            }
-          },
-          "dictionary2": {
-            "$id": "org.acme.hr.Address.dictionary2",
-            "schema": {
-              "title": "Map2",
-              "description": "An instance of org.acme.hr.Map2",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "type": "string"
-              }
-            }
-          },
-          "dictionary3": {
-            "$id": "org.acme.hr.Address.dictionary3",
-            "schema": {
-              "title": "Map3",
-              "description": "An instance of org.acme.hr.Map3",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "type": "SSN"
-              }
-            }
-          },
-          "dictionary4": {
-            "$id": "org.acme.hr.Address.dictionary4",
-            "schema": {
-              "title": "Map4",
-              "description": "An instance of org.acme.hr.Map4",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "type": "Concept"
-              }
-            }
-          },
-          "dictionary5": {
-            "$id": "org.acme.hr.Address.dictionary5",
-            "schema": {
-              "title": "Map5",
-              "description": "An instance of org.acme.hr.Map5",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "type": "string"
-              }
-            }
-          },
-          "dictionary6": {
-            "$id": "org.acme.hr.Address.dictionary6",
-            "schema": {
-              "title": "Map6",
-              "description": "An instance of org.acme.hr.Map6",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "$ref": "#/definitions/org.acme.hr.Employee"
-              }
-            }
           }
         },
         "required": [
@@ -2971,6 +2929,76 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           },
           "headquarters": {
             "$ref": "#/components/schemas/org.acme.hr.base.Address"
+          },
+          "companyProperties": {
+            "$id": "org.acme.hr.Company.companyProperties",
+            "schema": {
+              "title": "CompanyProperties",
+              "description": "An instance of org.acme.hr.CompanyProperties",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "employeeDirectory": {
+            "$id": "org.acme.hr.Company.employeeDirectory",
+            "schema": {
+              "title": "EmployeeDirectory",
+              "description": "An instance of org.acme.hr.EmployeeDirectory",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "$ref": "#/definitions/org.acme.hr.Employee"
+              }
+            }
+          },
+          "employeeTShirtSizes": {
+            "$id": "org.acme.hr.Company.employeeTShirtSizes",
+            "schema": {
+              "title": "EmployeeTShirtSizes",
+              "description": "An instance of org.acme.hr.base.EmployeeTShirtSizes",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "$ref": "#/definitions/org.acme.hr.TShirtSizeType"
+              }
+            }
+          },
+          "employeeProfiles": {
+            "$id": "org.acme.hr.Company.employeeProfiles",
+            "schema": {
+              "title": "EmployeeProfiles",
+              "description": "An instance of org.acme.hr.EmployeeProfiles",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "Concept"
+              }
+            }
+          },
+          "employeeSocialSecurityNumbers": {
+            "$id": "org.acme.hr.Company.employeeSocialSecurityNumbers",
+            "schema": {
+              "title": "EmployeeSocialSecurityNumbers",
+              "description": "An instance of org.acme.hr.EmployeeSocialSecurityNumbers",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "SSN"
+              }
+            }
           }
         },
         "required": [
@@ -3086,6 +3114,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -3176,6 +3218,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -3242,6 +3298,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -3337,6 +3407,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -7366,90 +7450,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         },
         "country": {
           "type": "string"
-        },
-        "dictionary1": {
-          "$id": "org.acme.hr@1.0.0.Address.dictionary1",
-          "schema": {
-            "title": "Map1",
-            "description": "An instance of org.acme.hr@1.0.0.Map1",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            }
-          }
-        },
-        "dictionary2": {
-          "$id": "org.acme.hr@1.0.0.Address.dictionary2",
-          "schema": {
-            "title": "Map2",
-            "description": "An instance of org.acme.hr@1.0.0.Map2",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            }
-          }
-        },
-        "dictionary3": {
-          "$id": "org.acme.hr@1.0.0.Address.dictionary3",
-          "schema": {
-            "title": "Map3",
-            "description": "An instance of org.acme.hr@1.0.0.Map3",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "SSN"
-            }
-          }
-        },
-        "dictionary4": {
-          "$id": "org.acme.hr@1.0.0.Address.dictionary4",
-          "schema": {
-            "title": "Map4",
-            "description": "An instance of org.acme.hr@1.0.0.Map4",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "Concept"
-            }
-          }
-        },
-        "dictionary5": {
-          "$id": "org.acme.hr@1.0.0.Address.dictionary5",
-          "schema": {
-            "title": "Map5",
-            "description": "An instance of org.acme.hr@1.0.0.Map5",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            }
-          }
-        },
-        "dictionary6": {
-          "$id": "org.acme.hr@1.0.0.Address.dictionary6",
-          "schema": {
-            "title": "Map6",
-            "description": "An instance of org.acme.hr@1.0.0.Map6",
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
-            }
-          }
         }
       },
       "required": [
@@ -7484,6 +7484,76 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         },
         "headquarters": {
           "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
+        },
+        "companyProperties": {
+          "$id": "org.acme.hr@1.0.0.Company.companyProperties",
+          "schema": {
+            "title": "CompanyProperties",
+            "description": "An instance of org.acme.hr@1.0.0.CompanyProperties",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "employeeDirectory": {
+          "$id": "org.acme.hr@1.0.0.Company.employeeDirectory",
+          "schema": {
+            "title": "EmployeeDirectory",
+            "description": "An instance of org.acme.hr@1.0.0.EmployeeDirectory",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
+            }
+          }
+        },
+        "employeeTShirtSizes": {
+          "$id": "org.acme.hr@1.0.0.Company.employeeTShirtSizes",
+          "schema": {
+            "title": "EmployeeTShirtSizes",
+            "description": "An instance of org.acme.hr.base@1.0.0.EmployeeTShirtSizes",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "$ref": "#/definitions/org.acme.hr@1.0.0.TShirtSizeType"
+            }
+          }
+        },
+        "employeeProfiles": {
+          "$id": "org.acme.hr@1.0.0.Company.employeeProfiles",
+          "schema": {
+            "title": "EmployeeProfiles",
+            "description": "An instance of org.acme.hr@1.0.0.EmployeeProfiles",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "Concept"
+            }
+          }
+        },
+        "employeeSocialSecurityNumbers": {
+          "$id": "org.acme.hr@1.0.0.Company.employeeSocialSecurityNumbers",
+          "schema": {
+            "title": "EmployeeSocialSecurityNumbers",
+            "description": "An instance of org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "SSN"
+            }
+          }
         }
       },
       "required": [
@@ -7599,6 +7669,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -7689,6 +7773,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -7755,6 +7853,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -7850,6 +7962,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -8585,90 +8711,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "country": {
             "type": "string"
-          },
-          "dictionary1": {
-            "$id": "org.acme.hr@1.0.0.Address.dictionary1",
-            "schema": {
-              "title": "Map1",
-              "description": "An instance of org.acme.hr@1.0.0.Map1",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "type": "string"
-              }
-            }
-          },
-          "dictionary2": {
-            "$id": "org.acme.hr@1.0.0.Address.dictionary2",
-            "schema": {
-              "title": "Map2",
-              "description": "An instance of org.acme.hr@1.0.0.Map2",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "type": "string"
-              }
-            }
-          },
-          "dictionary3": {
-            "$id": "org.acme.hr@1.0.0.Address.dictionary3",
-            "schema": {
-              "title": "Map3",
-              "description": "An instance of org.acme.hr@1.0.0.Map3",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "type": "SSN"
-              }
-            }
-          },
-          "dictionary4": {
-            "$id": "org.acme.hr@1.0.0.Address.dictionary4",
-            "schema": {
-              "title": "Map4",
-              "description": "An instance of org.acme.hr@1.0.0.Map4",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "type": "Concept"
-              }
-            }
-          },
-          "dictionary5": {
-            "$id": "org.acme.hr@1.0.0.Address.dictionary5",
-            "schema": {
-              "title": "Map5",
-              "description": "An instance of org.acme.hr@1.0.0.Map5",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "type": "string"
-              }
-            }
-          },
-          "dictionary6": {
-            "$id": "org.acme.hr@1.0.0.Address.dictionary6",
-            "schema": {
-              "title": "Map6",
-              "description": "An instance of org.acme.hr@1.0.0.Map6",
-              "type": "object",
-              "propertyNames": {
-                "type": "string"
-              },
-              "additionalProperties": {
-                "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
-              }
-            }
           }
         },
         "required": [
@@ -8703,6 +8745,76 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "headquarters": {
             "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
+          },
+          "companyProperties": {
+            "$id": "org.acme.hr@1.0.0.Company.companyProperties",
+            "schema": {
+              "title": "CompanyProperties",
+              "description": "An instance of org.acme.hr@1.0.0.CompanyProperties",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "employeeDirectory": {
+            "$id": "org.acme.hr@1.0.0.Company.employeeDirectory",
+            "schema": {
+              "title": "EmployeeDirectory",
+              "description": "An instance of org.acme.hr@1.0.0.EmployeeDirectory",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
+              }
+            }
+          },
+          "employeeTShirtSizes": {
+            "$id": "org.acme.hr@1.0.0.Company.employeeTShirtSizes",
+            "schema": {
+              "title": "EmployeeTShirtSizes",
+              "description": "An instance of org.acme.hr.base@1.0.0.EmployeeTShirtSizes",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "$ref": "#/definitions/org.acme.hr@1.0.0.TShirtSizeType"
+              }
+            }
+          },
+          "employeeProfiles": {
+            "$id": "org.acme.hr@1.0.0.Company.employeeProfiles",
+            "schema": {
+              "title": "EmployeeProfiles",
+              "description": "An instance of org.acme.hr@1.0.0.EmployeeProfiles",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "Concept"
+              }
+            }
+          },
+          "employeeSocialSecurityNumbers": {
+            "$id": "org.acme.hr@1.0.0.Company.employeeSocialSecurityNumbers",
+            "schema": {
+              "title": "EmployeeSocialSecurityNumbers",
+              "description": "An instance of org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "SSN"
+              }
+            }
           }
         },
         "required": [
@@ -8818,6 +8930,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -8908,6 +9034,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -8974,6 +9114,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -9069,6 +9223,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
