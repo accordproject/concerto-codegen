@@ -1737,7 +1737,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
               "type": "string"
             },
             "additionalProperties": {
-              "type": "Concept"
+              "$ref": "#/definitions/org.acme.hr.Concept"
             }
           }
         },
@@ -2982,7 +2982,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
                 "type": "string"
               },
               "additionalProperties": {
-                "type": "Concept"
+                "$ref": "#/definitions/org.acme.hr.Concept"
               }
             }
           },
@@ -7537,7 +7537,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
               "type": "string"
             },
             "additionalProperties": {
-              "type": "Concept"
+              "$ref": "#/definitions/org.acme.hr@1.0.0.Concept"
             }
           }
         },
@@ -8798,7 +8798,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
                 "type": "string"
               },
               "additionalProperties": {
-                "type": "Concept"
+                "$ref": "#/definitions/org.acme.hr@1.0.0.Concept"
               }
             }
           },
