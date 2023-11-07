@@ -315,6 +315,11 @@ describe('GoLangVisitor', function () {
             param = {
                 fileWriter: mockFileWriter
             };
+
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return false;
+            });
+
         });
 
         it('should write a line defining a field', () => {
@@ -348,6 +353,7 @@ describe('GoLangVisitor', function () {
                 fileWriter: mockFileWriter,
             };
 
+            sandbox.restore();
             sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
                 return true;
             });
