@@ -590,11 +590,11 @@ type Company struct {
    concerto_1_0_0.Concept
    Name string \`json:"name"\`
    Headquarters Address \`json:"headquarters"\`
-   companyProperties := make(map[string]string)
-   employeeDirectory := make(map[SSN]Employee)
-   employeeTShirtSizes := make(map[SSN]TShirtSizeType)
-   employeeProfiles := make(map[string]Concept)
-   employeeSocialSecurityNumbers := make(map[string]SSN)
+   companyProperties := make(map[string]string) \`json:"companyProperties"\`
+   employeeDirectory := make(map[string]Employee) \`json:"employeeDirectory"\`
+   employeeTShirtSizes := make(map[string]TShirtSizeType) \`json:"employeeTShirtSizes"\`
+   employeeProfiles := make(map[string]Concept) \`json:"employeeProfiles"\`
+   employeeSocialSecurityNumbers := make(map[string]string) \`json:"employeeSocialSecurityNumbers"\`
 }
 type Department int
 const (
@@ -628,7 +628,7 @@ type Person struct {
    Ssn string \`json:"ssn"\`
    Height float64 \`json:"height"\`
    Dob time.Time \`json:"dob"\`
-   nextOfKin := make(map[KinName]KinTelephone)
+   nextOfKin := make(map[string]time.Time) \`json:"nextOfKin"\`
 }
 type Employee struct {
    Person
@@ -6142,11 +6142,11 @@ type Company struct {
    concerto_1_0_0.Concept
    Name string \`json:"name"\`
    Headquarters Address \`json:"headquarters"\`
-   companyProperties := make(map[string]string)
-   employeeDirectory := make(map[SSN]Employee)
-   employeeTShirtSizes := make(map[SSN]TShirtSizeType)
-   employeeProfiles := make(map[string]Concept)
-   employeeSocialSecurityNumbers := make(map[string]SSN)
+   companyProperties := make(map[string]string) \`json:"companyProperties"\`
+   employeeDirectory := make(map[string]Employee) \`json:"employeeDirectory"\`
+   employeeTShirtSizes := make(map[string]TShirtSizeType) \`json:"employeeTShirtSizes"\`
+   employeeProfiles := make(map[string]Concept) \`json:"employeeProfiles"\`
+   employeeSocialSecurityNumbers := make(map[string]string) \`json:"employeeSocialSecurityNumbers"\`
 }
 type Department int
 const (
@@ -6180,7 +6180,7 @@ type Person struct {
    Ssn string \`json:"ssn"\`
    Height float64 \`json:"height"\`
    Dob time.Time \`json:"dob"\`
-   nextOfKin := make(map[KinName]KinTelephone)
+   nextOfKin := make(map[string]time.Time) \`json:"nextOfKin"\`
 }
 type Employee struct {
    Person
