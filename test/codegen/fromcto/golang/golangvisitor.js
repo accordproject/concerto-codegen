@@ -358,7 +358,7 @@ describe('GoLangVisitor', function () {
                 return true;
             });
 
-            const mockField             = sinon.createStubInstance(Field);
+            const mockField  = sinon.createStubInstance(Field);
             const getType    = sinon.stub();
 
             mockField.dummy = 'Dummy Value';
@@ -378,10 +378,11 @@ describe('GoLangVisitor', function () {
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
+            mockMapDeclaration.getModelFile.returns({ getType: getType });
 
             goVisit.visitField(mockField,param);
 
-            param.fileWriter.writeLine.withArgs(1, 'dictionary := make(map[string]string)').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'dictionary := make(map[string]string) `json:"dictionary"`').calledOnce.should.be.ok;
         });
 
     });
