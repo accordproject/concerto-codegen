@@ -411,17 +411,13 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(10);
+            param.fileWriter.writeLine.callCount.should.deep.equal(7);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([3, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([4, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([4, '<xs:element name="value" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([3, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([2, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="value" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
         });
 
 
@@ -455,17 +451,13 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(10);
+            param.fileWriter.writeLine.callCount.should.deep.equal(7);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([3, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([4, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([4, '<xs:element name="value" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([3, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([2, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="value" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
         });
 
         it('should write the map declaration for a map <string, Person>', () => {
@@ -496,17 +488,13 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(10);
+            param.fileWriter.writeLine.callCount.should.deep.equal(7);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([3, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([4, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([4, '<xs:element name="value" type="org.acme:Person"/>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([3, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([2, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="value" type="org.acme:Person"/>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
 
         });
 
@@ -536,17 +524,13 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(10);
+            param.fileWriter.writeLine.callCount.should.deep.equal(7);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([3, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([4, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([4, '<xs:element name="value" type="xs:long"/>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([3, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([2, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="value" type="xs:long"/>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
         });
 
         it('should write the map declaration for a map <string, Double>', () => {
@@ -576,17 +560,13 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(10);
+            param.fileWriter.writeLine.callCount.should.deep.equal(7);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([3, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([4, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([4, '<xs:element name="value" type="xs:double"/>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([3, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([2, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="value" type="xs:double"/>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
         });
 
         it('should write the map declaration for a map <string, Integer>', () => {
@@ -616,17 +596,13 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(10);
+            param.fileWriter.writeLine.callCount.should.deep.equal(7);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([3, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([4, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([4, '<xs:element name="value" type="xs:integer"/>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([3, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([2, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="value" type="xs:integer"/>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
         });
 
     });
