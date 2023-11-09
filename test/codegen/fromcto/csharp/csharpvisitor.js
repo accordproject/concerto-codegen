@@ -1504,18 +1504,16 @@ public class SampleModel : Concept {
 
         it('should write a line for field name and type thats a map of <String, String>', () => {
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
+            const getType               = sinon.stub();
 
             mockField.dummy = 'Dummy Value';
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
 
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
-            const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            findStub.returns(mockMapDeclaration);
+            getType.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('String');
             mockField.getName.returns('Map1');
@@ -1530,18 +1528,17 @@ public class SampleModel : Concept {
 
         it('should write a line for field name and type thats a map of <String, Concept>', () => {
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
+            const getType               = sinon.stub();
 
             mockField.dummy = 'Dummy Value';
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
+
 
             let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
-            const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            findStub.returns(mockMapDeclaration);
+            getType.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Concept');
             mockField.getName.returns('Map1');
@@ -1556,18 +1553,16 @@ public class SampleModel : Concept {
 
         it('should write a line for field name and type thats a map of <String, DateTime>', () => {
             const mockField             = sinon.createStubInstance(Field);
-            const getAllDeclarations    = sinon.stub();
+            const getType               = sinon.stub();
 
             mockField.dummy = 'Dummy Value';
-            mockField.getModelFile.returns({ getAllDeclarations: getAllDeclarations });
+            mockField.getModelFile.returns({ getType: getType });
 
             let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
-            const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            findStub.returns(mockMapDeclaration);
+            getType.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('DateTime');
             mockField.getName.returns('Map1');

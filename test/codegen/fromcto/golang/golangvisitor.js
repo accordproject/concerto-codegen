@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +25,14 @@ const GoLangVisitor = require('../../../../lib/codegen/fromcto/golang/golangvisi
 const AssetDeclaration = require('@accordproject/concerto-core').AssetDeclaration;
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
+const MapDeclaration = require('@accordproject/concerto-core').MapDeclaration;
+const ModelUtil = require('@accordproject/concerto-core').ModelUtil;
 const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
 const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+let sandbox = sinon.createSandbox();
 
 describe('GoLangVisitor', function () {
     let goVisit;
@@ -41,6 +45,10 @@ describe('GoLangVisitor', function () {
     beforeEach(() => {
         goVisit = new GoLangVisitor();
         mockFileWriter = sinon.createStubInstance(FileWriter);
+    });
+
+    afterEach(function() {
+        sandbox.restore();
     });
 
     describe('visit', () => {
@@ -307,6 +315,11 @@ describe('GoLangVisitor', function () {
             param = {
                 fileWriter: mockFileWriter
             };
+
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return false;
+            });
+
         });
 
         it('should write a line defining a field', () => {
@@ -334,6 +347,44 @@ describe('GoLangVisitor', function () {
 
             param.fileWriter.writeLine.withArgs(1, 'Bob []string `json:"bob"`').calledOnce.should.be.ok;
         });
+
+        it('should write a line defining a map field ', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const mockField  = sinon.createStubInstance(Field);
+            const getType    = sinon.stub();
+
+            mockField.dummy = 'Dummy Value';
+            mockField.getModelFile.returns({ getType: getType });
+
+            const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
+            mockField.getType.returns('Map1');
+
+            getType.returns(mockMapDeclaration);
+            getKeyType.returns('String');
+            getValueType.returns('String');
+            mockField.getName.returns('dictionary');
+            mockMapDeclaration.getName.returns('dictionary');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+            mockMapDeclaration.getModelFile.returns({ getType: getType });
+
+            goVisit.visitField(mockField,param);
+
+            param.fileWriter.writeLine.withArgs(1, 'dictionary := make(map[string]string) `json:"dictionary"`').calledOnce.should.be.ok;
+        });
+
     });
 
     describe('visitEnumValueDeclaration', () => {

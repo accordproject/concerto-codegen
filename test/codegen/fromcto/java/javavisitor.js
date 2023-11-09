@@ -21,6 +21,8 @@ const sinon = require('sinon');
 const JavaVisitor = require('../../../../lib/codegen/fromcto/java/javavisitor.js');
 
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
+const MapDeclaration = require('@accordproject/concerto-core').MapDeclaration;
+const ModelUtil = require('@accordproject/concerto-core').ModelUtil;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
 const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
@@ -29,12 +31,21 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
 
+let sandbox = sinon.createSandbox();
+
 describe('JavaVisitor', function () {
     let javaVisit;
     let mockFileWriter;
     beforeEach(() => {
         javaVisit = new JavaVisitor();
         mockFileWriter = sinon.createStubInstance(FileWriter);
+        sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+            return false;
+        });
+    });
+
+    afterEach(() => {
+        sandbox.restore();
     });
 
     describe('visit', () => {
@@ -376,6 +387,36 @@ describe('JavaVisitor', function () {
             acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'setter'})).calledTwice.should.be.ok;
             mockEndClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
         });
+
+        it('should write a class declaration, including imports for java.util Map & HashMap types', () => {
+            mockClassDeclaration.getIdentifierFieldName.returns('employeeID');
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+            javaVisit.visitClassDeclaration(mockClassDeclaration, param);
+
+            mockStartClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.callCount.should.deep.equal(9);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'import fruit.oranges;']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, 'import fruit.apples;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'import java.util.HashMap;']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, 'import java.util.Map;']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, 'import com.fasterxml.jackson.annotation.*;']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '']);
+            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, 'public class Bob {']);
+            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([1, `
+   // the accessor for the identifying field
+   public String getID() {
+      return this.getEmployeeID();
+   }
+`]);
+            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([0, '}']);
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'field'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'getter'})).calledTwice.should.be.ok;
+            acceptSpy.withArgs(javaVisit, Object.assign({},param,{mode:'setter'})).calledTwice.should.be.ok;
+            mockEndClassFile.withArgs(mockClassDeclaration, param).calledOnce.should.be.ok;
+        });
     });
 
     describe('visitField', () => {
@@ -411,6 +452,45 @@ describe('JavaVisitor', function () {
 
             javaVisit.visitField(mockField, param);
             param.fileWriter.writeLine.withArgs(1, 'private JavaType[] Bob;').calledOnce.should.be.ok;
+        });
+
+        it('should write a line with a HashMap', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+                mode: 'field'
+            };
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const mockField             = sinon.createStubInstance(Field);
+            const getType               = sinon.stub();
+
+            mockField.ast = { type: { name: 'Dummy Value'} };
+            mockField.getModelFile.returns({ getType: getType });
+
+            const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('SpecialType');
+
+            getType.returns(mockMapDeclaration);
+            getKeyType.returns('String');
+            getValueType.returns('String');
+            mockField.getName.returns('Map1');
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            javaVisit.visitField(mockField,param);
+
+            param.fileWriter.writeLine.withArgs(1, 'private Map<String, String> Map1 = new HashMap<>();').calledOnce.should.be.ok;
+            sandbox.reset();
         });
 
         it('should write a line defining a field', () => {
