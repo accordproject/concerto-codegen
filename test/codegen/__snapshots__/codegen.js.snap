@@ -5111,14 +5111,11 @@ xmlns:concerto="concerto"
 <xs:element name="TShirtSizeType" type="org.acme.hr.base:TShirtSizeType"/>
 <xs:complexType name="EmployeeTShirtSizes">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="org.acme.hr.base:TShirtSizeType"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="org.acme.hr.base:TShirtSizeType"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="EmployeeTShirtSizes" type="org.acme.hr.base:EmployeeTShirtSizes"/>
 <xs:complexType name="Address">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
@@ -5150,64 +5147,46 @@ xmlns:concerto="concerto"
 <xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
 <xs:complexType name="CompanyProperties">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="xs:string"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="CompanyProperties" type="org.acme.hr:CompanyProperties"/>
 <xs:complexType name="EmployeeLoginTimes">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="concerto:Time"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="concerto:Time"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="EmployeeLoginTimes" type="org.acme.hr:EmployeeLoginTimes"/>
 <xs:complexType name="EmployeeSocialSecurityNumbers">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="concerto:SSN"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="concerto:SSN"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="EmployeeSocialSecurityNumbers" type="org.acme.hr:EmployeeSocialSecurityNumbers"/>
 <xs:complexType name="NextOfKin">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="xs:dateTime"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:dateTime"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="NextOfKin" type="org.acme.hr:NextOfKin"/>
 <xs:complexType name="EmployeeProfiles">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="concerto:Concept"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="concerto:Concept"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="EmployeeProfiles" type="org.acme.hr:EmployeeProfiles"/>
 <xs:complexType name="EmployeeDirectory">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="concerto:SSN"/>
-            <xs:element name="value" type="org.acme.hr:Employee"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="concerto:SSN"/>
+      <xs:element name="value" type="org.acme.hr:Employee"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="EmployeeDirectory" type="org.acme.hr:EmployeeDirectory"/>
 <xs:complexType name="Company">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
@@ -10765,14 +10744,11 @@ xmlns:concerto="concerto"
 <xs:element name="TShirtSizeType" type="org.acme.hr.base:TShirtSizeType"/>
 <xs:complexType name="EmployeeTShirtSizes">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="org.acme.hr.base:TShirtSizeType"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="org.acme.hr.base:TShirtSizeType"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="EmployeeTShirtSizes" type="org.acme.hr.base:EmployeeTShirtSizes"/>
 <xs:complexType name="Address">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
@@ -10804,64 +10780,46 @@ xmlns:concerto="concerto"
 <xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
 <xs:complexType name="CompanyProperties">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="xs:string"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="CompanyProperties" type="org.acme.hr:CompanyProperties"/>
 <xs:complexType name="EmployeeLoginTimes">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="concerto:Time"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="concerto:Time"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="EmployeeLoginTimes" type="org.acme.hr:EmployeeLoginTimes"/>
 <xs:complexType name="EmployeeSocialSecurityNumbers">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="concerto:SSN"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="concerto:SSN"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="EmployeeSocialSecurityNumbers" type="org.acme.hr:EmployeeSocialSecurityNumbers"/>
 <xs:complexType name="NextOfKin">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="xs:dateTime"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:dateTime"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="NextOfKin" type="org.acme.hr:NextOfKin"/>
 <xs:complexType name="EmployeeProfiles">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="xs:string"/>
-            <xs:element name="value" type="concerto:Concept"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="concerto:Concept"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="EmployeeProfiles" type="org.acme.hr:EmployeeProfiles"/>
 <xs:complexType name="EmployeeDirectory">
    <xs:sequence>
-      <xs:complexType>
-         <xs:sequence>
-            <xs:element name="key" type="concerto:SSN"/>
-            <xs:element name="value" type="org.acme.hr:Employee"/>
-         </xs:sequence>
-      </xs:complexType>
+      <xs:element name="key" type="concerto:SSN"/>
+      <xs:element name="value" type="org.acme.hr:Employee"/>
    </xs:sequence>
 </xs:complexType>
+<xs:element name="EmployeeDirectory" type="org.acme.hr:EmployeeDirectory"/>
 <xs:complexType name="Company">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
