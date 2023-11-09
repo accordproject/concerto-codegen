@@ -23,11 +23,11 @@ declare class ProtobufVisitor {
     public concertoToProto3FieldRule(field: any): any;
     /**
      * Transform a Concerto primitive type into a Proto3 one.
-     * @param {Object} field - the Concerto primitive type
+     * @param {Object} type - the Concerto primitive type
      * @return {Object} the Proto3 primitive type
      * @public
      */
-    public concertoToProto3PrimitiveType(field: any): any;
+    public concertoToProto3PrimitiveType(type: any): any;
     /**
      * Transform a Concerto class or enum type into a Proto3 message or enum one.
      * @param {Object} field - the Concerto class or enum type

@@ -3681,11 +3681,11 @@ import "google/protobuf/timestamp.proto";
 import "org.acme.hr.base.v.proto";
 
 message Company {
-  optional CompanyProperties companyProperties = 1;
-  optional EmployeeDirectory employeeDirectory = 2;
-  optional EmployeeProfiles employeeProfiles = 3;
-  optional EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers = 4;
-  optional EmployeeTShirtSizes employeeTShirtSizes = 5;
+  optional map<string, string> CompanyProperties = 1;
+  optional map<SSN, Employee> EmployeeDirectory = 2;
+  optional map<string, Concept> EmployeeProfiles = 3;
+  optional map<string, SSN> EmployeeSocialSecurityNumbers = 4;
+  optional map<SSN, TShirtSizeType> EmployeeTShirtSizes = 5;
   Address headquarters = 6;
   string name = 7;
 }
@@ -3735,7 +3735,7 @@ message Employee {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  NextOfKin nextOfKin = 12;
+  map<KinName, KinTelephone> NextOfKin = 12;
   sint64 numDependents = 13;
   Address officeAddress = 14;
   bool retired = 15;
@@ -3760,7 +3760,7 @@ message Contractor {
   string lastName = 7;
   optional string manager = 8;
   optional string middleNames = 9;
-  NextOfKin nextOfKin = 10;
+  map<KinName, KinTelephone> NextOfKin = 10;
   string ssn = 11;
 }
 
@@ -3776,7 +3776,7 @@ message Manager {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  NextOfKin nextOfKin = 12;
+  map<KinName, KinTelephone> NextOfKin = 12;
   sint64 numDependents = 13;
   Address officeAddress = 14;
   repeated string reports = 15;
@@ -9265,11 +9265,11 @@ import "google/protobuf/timestamp.proto";
 import "org.acme.hr.base.v1_0_0.proto";
 
 message Company {
-  optional CompanyProperties companyProperties = 1;
-  optional EmployeeDirectory employeeDirectory = 2;
-  optional EmployeeProfiles employeeProfiles = 3;
-  optional EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers = 4;
-  optional EmployeeTShirtSizes employeeTShirtSizes = 5;
+  optional map<string, string> CompanyProperties = 1;
+  optional map<SSN, Employee> EmployeeDirectory = 2;
+  optional map<string, Concept> EmployeeProfiles = 3;
+  optional map<string, SSN> EmployeeSocialSecurityNumbers = 4;
+  optional map<SSN, TShirtSizeType> EmployeeTShirtSizes = 5;
   Address headquarters = 6;
   string name = 7;
 }
@@ -9319,7 +9319,7 @@ message Employee {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  NextOfKin nextOfKin = 12;
+  map<KinName, KinTelephone> NextOfKin = 12;
   sint64 numDependents = 13;
   Address officeAddress = 14;
   bool retired = 15;
@@ -9344,7 +9344,7 @@ message Contractor {
   string lastName = 7;
   optional string manager = 8;
   optional string middleNames = 9;
-  NextOfKin nextOfKin = 10;
+  map<KinName, KinTelephone> NextOfKin = 10;
   string ssn = 11;
 }
 
@@ -9360,7 +9360,7 @@ message Manager {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  NextOfKin nextOfKin = 12;
+  map<KinName, KinTelephone> NextOfKin = 12;
   sint64 numDependents = 13;
   Address officeAddress = 14;
   repeated string reports = 15;
