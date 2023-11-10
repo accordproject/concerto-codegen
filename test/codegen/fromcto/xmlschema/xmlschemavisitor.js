@@ -30,6 +30,7 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
 const ModelUtil = require('@accordproject/concerto-core').ModelUtil;
+let sandbox = sinon.createSandbox();
 
 describe('XmlSchemaVisitor', function () {
     let xmlSchemaVisitor;
@@ -383,9 +384,13 @@ describe('XmlSchemaVisitor', function () {
     describe('visitMapDeclaration', () => {
 
         before(() => {
-            sinon.stub(ModelUtil, 'parseNamespace').callsFake(() => {
+            sandbox.stub(ModelUtil, 'parseNamespace').callsFake(() => {
                 return {name:'org.acme'};
             });
+        });
+
+        after(() => {
+            sandbox.restore();
         });
 
         it('should write the map declaration for a map <string, string>', () => {
@@ -422,7 +427,6 @@ describe('XmlSchemaVisitor', function () {
 
 
         it('should write the map declaration for a map <string, SSN>', () => {
-
             let param = {
                 fileWriter: mockFileWriter
             };
@@ -436,7 +440,6 @@ describe('XmlSchemaVisitor', function () {
             const getScalarType         = sinon.stub();
 
             mockMapDeclaration.getModelFile.returns({ getType: getType});
-
             getType.returns(mockDeclaration);
             mockDeclaration.isClassDeclaration.returns(false);
             mockDeclaration.isScalarDeclaration.returns(true);
@@ -446,7 +449,6 @@ describe('XmlSchemaVisitor', function () {
             getScalarType.returns('String');
             mockMapDeclaration.getName.returns('Map1');
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
-            mockMapDeclaration.getType.returns('String');
             mockMapDeclaration.getValue.returns({ getType: getValueType });
             isScalarDeclaration.returns(true);
 
@@ -467,7 +469,7 @@ describe('XmlSchemaVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
-            sinon.stub(ModelUtil, 'getNamespace').callsFake(() => {
+            sandbox.stub(ModelUtil, 'getNamespace').callsFake(() => {
                 return {name:'org.acme'};
             });
 
@@ -502,7 +504,6 @@ describe('XmlSchemaVisitor', function () {
             param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="value" type="org.acme:Person"/>']);
             param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
             param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
-
         });
 
         it('should write the map declaration for a map <string, Long>', () => {
@@ -511,20 +512,12 @@ describe('XmlSchemaVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
-            const findStub              = sinon.stub();
-            const getAllDeclarations    = sinon.stub();
-            const isClassDeclaration    = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
 
-            getAllDeclarations.returns({ find: findStub });
-            mockMapDeclaration.getModelFile.returns({ getAllDeclarations: getAllDeclarations});
-            mockMapDeclaration.isClassDeclaration.returns(true);
-            findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Long');
-            isClassDeclaration.returns(true);
             mockMapDeclaration.getName.returns('Map1');
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
@@ -546,21 +539,12 @@ describe('XmlSchemaVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
-            const findStub              = sinon.stub();
-            const getAllDeclarations    = sinon.stub();
-            const isClassDeclaration    = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
 
-            getAllDeclarations.returns({ find: findStub });
-
-            mockMapDeclaration.getModelFile.returns({ getAllDeclarations: getAllDeclarations});
-            mockMapDeclaration.isClassDeclaration.returns(true);
-            findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Double');
-            isClassDeclaration.returns(true);
             mockMapDeclaration.getName.returns('Map1');
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
@@ -582,18 +566,11 @@ describe('XmlSchemaVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
-            const findStub              = sinon.stub();
-            const getAllDeclarations    = sinon.stub();
             const isClassDeclaration    = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
 
-
-            getAllDeclarations.returns({ find: findStub });
-            mockMapDeclaration.getModelFile.returns({ getAllDeclarations: getAllDeclarations});
-            mockMapDeclaration.isClassDeclaration.returns(true);
-            findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Integer');
             isClassDeclaration.returns(true);
