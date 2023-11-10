@@ -4764,11 +4764,11 @@ import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0
 // interfaces
 export type CompanyProperties = Map<string, string>;
 
-export type EmployeeLoginTimes = Map<string, null>;
+export type EmployeeLoginTimes = Map<string, Date>;
 
-export type EmployeeSocialSecurityNumbers = Map<string, null>;
+export type EmployeeSocialSecurityNumbers = Map<string, string>;
 
-export type NextOfKin = Map<string, null>;
+export type NextOfKin = Map<string, Date>;
 
 export type EmployeeProfiles = Map<string, IConcept>;
 
@@ -10348,11 +10348,11 @@ import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0
 // interfaces
 export type CompanyProperties = Map<string, string>;
 
-export type EmployeeLoginTimes = Map<string, null>;
+export type EmployeeLoginTimes = Map<string, Date>;
 
-export type EmployeeSocialSecurityNumbers = Map<string, null>;
+export type EmployeeSocialSecurityNumbers = Map<string, string>;
 
-export type NextOfKin = Map<string, null>;
+export type NextOfKin = Map<string, Date>;
 
 export type EmployeeProfiles = Map<string, IConcept>;
 
