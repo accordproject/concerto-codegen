@@ -376,6 +376,7 @@ using AccordProject.Concerto;
 public class Company : Concept {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr.Company";
+   [System.ComponentModel.DataAnnotations.RegularExpression(@"abc.*", ErrorMessage = "Invalid characters")]
    public string name { get; set; }
    public org.acme.hr.base.Address headquarters { get; set; }
    public Dictionary<string, string> companyProperties { get; set; }
@@ -1684,7 +1685,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "description": "The class identifier for org.acme.hr.Company"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "pattern": "abc.*"
         },
         "headquarters": {
           "$ref": "#/definitions/org.acme.hr.base.Address"
@@ -2932,7 +2934,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "description": "The class identifier for org.acme.hr.Company"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "pattern": "abc.*"
           },
           "headquarters": {
             "$ref": "#/components/schemas/org.acme.hr.base.Address"
@@ -6186,6 +6189,7 @@ using AccordProject.Concerto;
 public class Company : Concept {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.Company";
+   [System.ComponentModel.DataAnnotations.RegularExpression(@"abc.*", ErrorMessage = "Invalid characters")]
    public string name { get; set; }
    public org.acme.hr.base.Address headquarters { get; set; }
    public Dictionary<string, string> companyProperties { get; set; }
@@ -7494,7 +7498,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "description": "The class identifier for org.acme.hr@1.0.0.Company"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "pattern": "abc.*"
         },
         "headquarters": {
           "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
@@ -8758,7 +8763,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "description": "The class identifier for org.acme.hr@1.0.0.Company"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "pattern": "abc.*"
           },
           "headquarters": {
             "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
