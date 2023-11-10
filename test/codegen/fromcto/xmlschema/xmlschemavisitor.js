@@ -428,18 +428,19 @@ describe('XmlSchemaVisitor', function () {
             };
 
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
-            const getAllDeclarations    = sinon.stub();
+            const mockDeclaration       = sinon.createStubInstance(ClassDeclaration);
             const isScalarDeclaration   = sinon.stub();
-            const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+            const getType               = sinon.stub();
             const getScalarType         = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
-            mockMapDeclaration.getModelFile.returns({ getAllDeclarations: getAllDeclarations});
-            mockMapDeclaration.isScalarDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns({ getType: getType});
 
-            findStub.returns(mockMapDeclaration);
+            getType.returns(mockDeclaration);
+            mockDeclaration.isClassDeclaration.returns(false);
+            mockDeclaration.isScalarDeclaration.returns(true);
+            mockDeclaration.getType.returns('String');
             getKeyType.returns('String');
             getValueType.returns('SSN');
             getScalarType.returns('String');
@@ -466,19 +467,25 @@ describe('XmlSchemaVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sinon.stub(ModelUtil, 'getNamespace').callsFake(() => {
+                return {name:'org.acme'};
+            });
+
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
-            const findStub              = sinon.stub();
-            const getAllDeclarations    = sinon.stub();
+            const mockDeclaration       = sinon.createStubInstance(ClassDeclaration);
             const isClassDeclaration    = sinon.stub();
             const getNamespaceStub      = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+            const getType               = sinon.stub();
 
-            getAllDeclarations.returns({ find: findStub });
+            mockMapDeclaration.getModelFile.returns({ getType: getType});
+            getType.returns(mockDeclaration);
+            mockDeclaration.isClassDeclaration.returns(true);
+            mockDeclaration.isScalarDeclaration.returns(false);
+            mockDeclaration.getType.returns('Person');
             getNamespaceStub.returns('');
-            mockMapDeclaration.getModelFile.returns({ getAllDeclarations: getAllDeclarations, getNamespace: getNamespaceStub});
             mockMapDeclaration.isClassDeclaration.returns(true);
-            findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Person');
             isClassDeclaration.returns(true);
