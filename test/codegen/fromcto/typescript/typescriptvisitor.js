@@ -29,6 +29,7 @@ const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+let sandbox = sinon.createSandbox();
 
 describe('TypescriptVisitor', function () {
     let typescriptVisitor;
@@ -642,6 +643,13 @@ describe('TypescriptVisitor', function () {
     });
 
     describe('visitMapValueDeclaration', () => {
+
+        before(() => {
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return false;
+            });
+        });
+
         it('should write a line with the name, key and value of the map <String, String>', () => {
             let param = {
                 fileWriter: mockFileWriter
@@ -651,10 +659,6 @@ describe('TypescriptVisitor', function () {
 
             const getKeyType = sinon.stub();
             const getValueType = sinon.stub();
-
-            sinon.stub(ModelUtil, 'isScalar').callsFake(() => {
-                return false;
-            });
 
             getKeyType.returns('String');
             getValueType.returns('String');
