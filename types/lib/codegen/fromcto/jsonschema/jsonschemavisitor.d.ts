@@ -30,7 +30,7 @@ declare class JSONSchemaVisitor {
     getDecorators(decorated: object): object;
     /**
      * Get the validators for a field or a scalar definition in JSON schema form.
-     * @param {Object} type - the scalar declaration being visited
+     * @param {String} type - the field type
      * @param {bool} [isScalarUUID] - flag to indicate given field type is scalar uuid
      * @param {bool} [validator] - the field validator
      * @return {Object} the result of visiting or null
