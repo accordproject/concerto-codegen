@@ -5155,14 +5155,14 @@ xmlns:concerto="concerto"
 <xs:complexType name="EmployeeLoginTimes">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
-      <xs:element name="value" type="concerto:Time"/>
+      <xs:element name="value" type="xs:dateTime"/>
    </xs:sequence>
 </xs:complexType>
 <xs:element name="EmployeeLoginTimes" type="org.acme.hr:EmployeeLoginTimes"/>
 <xs:complexType name="EmployeeSocialSecurityNumbers">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
-      <xs:element name="value" type="concerto:SSN"/>
+      <xs:element name="value" type="xs:string"/>
    </xs:sequence>
 </xs:complexType>
 <xs:element name="EmployeeSocialSecurityNumbers" type="org.acme.hr:EmployeeSocialSecurityNumbers"/>
@@ -5176,13 +5176,13 @@ xmlns:concerto="concerto"
 <xs:complexType name="EmployeeProfiles">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
-      <xs:element name="value" type="concerto:Concept"/>
+      <xs:element name="value" type="org.acme.hr:Concept"/>
    </xs:sequence>
 </xs:complexType>
 <xs:element name="EmployeeProfiles" type="org.acme.hr:EmployeeProfiles"/>
 <xs:complexType name="EmployeeDirectory">
    <xs:sequence>
-      <xs:element name="key" type="concerto:SSN"/>
+      <xs:element name="key" type="xs:string"/>
       <xs:element name="value" type="org.acme.hr:Employee"/>
    </xs:sequence>
 </xs:complexType>
@@ -10788,14 +10788,14 @@ xmlns:concerto="concerto"
 <xs:complexType name="EmployeeLoginTimes">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
-      <xs:element name="value" type="concerto:Time"/>
+      <xs:element name="value" type="xs:dateTime"/>
    </xs:sequence>
 </xs:complexType>
 <xs:element name="EmployeeLoginTimes" type="org.acme.hr:EmployeeLoginTimes"/>
 <xs:complexType name="EmployeeSocialSecurityNumbers">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
-      <xs:element name="value" type="concerto:SSN"/>
+      <xs:element name="value" type="xs:string"/>
    </xs:sequence>
 </xs:complexType>
 <xs:element name="EmployeeSocialSecurityNumbers" type="org.acme.hr:EmployeeSocialSecurityNumbers"/>
@@ -10809,13 +10809,13 @@ xmlns:concerto="concerto"
 <xs:complexType name="EmployeeProfiles">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
-      <xs:element name="value" type="concerto:Concept"/>
+      <xs:element name="value" type="org.acme.hr:Concept"/>
    </xs:sequence>
 </xs:complexType>
 <xs:element name="EmployeeProfiles" type="org.acme.hr:EmployeeProfiles"/>
 <xs:complexType name="EmployeeDirectory">
    <xs:sequence>
-      <xs:element name="key" type="concerto:SSN"/>
+      <xs:element name="key" type="xs:string"/>
       <xs:element name="value" type="org.acme.hr:Employee"/>
    </xs:sequence>
 </xs:complexType>
