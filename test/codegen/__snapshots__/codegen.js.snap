@@ -628,7 +628,7 @@ type Person struct {
    Ssn string \`json:"ssn"\`
    Height float64 \`json:"height"\`
    Dob time.Time \`json:"dob"\`
-   nextOfKin := make(map[string]time.Time) \`json:"nextOfKin"\`
+   nextOfKin := make(map[string]string) \`json:"nextOfKin"\`
 }
 type Employee struct {
    Person
@@ -2141,7 +2141,6 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
       "type": "string"
     },
     "org.acme.hr.KinTelephone": {
-      "format": "date-time",
       "type": "string"
     }
   }
@@ -3260,7 +3259,6 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "type": "string"
       },
       "org.acme.hr.KinTelephone": {
-        "format": "date-time",
         "type": "string"
       }
     }
@@ -4764,11 +4762,11 @@ import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0
 // interfaces
 export type CompanyProperties = Map<string, string>;
 
-export type EmployeeLoginTimes = Map<string, null>;
+export type EmployeeLoginTimes = Map<string, Date>;
 
-export type EmployeeSocialSecurityNumbers = Map<string, null>;
+export type EmployeeSocialSecurityNumbers = Map<string, string>;
 
-export type NextOfKin = Map<string, null>;
+export type NextOfKin = Map<string, string>;
 
 export type EmployeeProfiles = Map<string, IConcept>;
 
@@ -6180,7 +6178,7 @@ type Person struct {
    Ssn string \`json:"ssn"\`
    Height float64 \`json:"height"\`
    Dob time.Time \`json:"dob"\`
-   nextOfKin := make(map[string]time.Time) \`json:"nextOfKin"\`
+   nextOfKin := make(map[string]string) \`json:"nextOfKin"\`
 }
 type Employee struct {
    Person
@@ -7693,7 +7691,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
       "type": "string"
     },
     "org.acme.hr@1.0.0.KinTelephone": {
-      "format": "date-time",
       "type": "string"
     }
   }
@@ -8828,7 +8825,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "type": "string"
       },
       "org.acme.hr@1.0.0.KinTelephone": {
-        "format": "date-time",
         "type": "string"
       }
     }
@@ -10348,11 +10344,11 @@ import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0
 // interfaces
 export type CompanyProperties = Map<string, string>;
 
-export type EmployeeLoginTimes = Map<string, null>;
+export type EmployeeLoginTimes = Map<string, Date>;
 
-export type EmployeeSocialSecurityNumbers = Map<string, null>;
+export type EmployeeSocialSecurityNumbers = Map<string, string>;
 
-export type NextOfKin = Map<string, null>;
+export type NextOfKin = Map<string, string>;
 
 export type EmployeeProfiles = Map<string, IConcept>;
 
