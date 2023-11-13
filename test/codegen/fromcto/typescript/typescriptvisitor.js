@@ -19,7 +19,7 @@ chai.should();
 const sinon = require('sinon');
 
 const TypescriptVisitor = require('../../../../lib/codegen/fromcto/typescript/typescriptvisitor.js');
-const { MapDeclaration, ModelUtil, ScalarDeclaration } = require('@accordproject/concerto-core');
+const { MapDeclaration, MapKeyType, ModelUtil, ScalarDeclaration } = require('@accordproject/concerto-core');
 
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
@@ -655,6 +655,10 @@ describe('TypescriptVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.stub(ModelUtil, 'isPrimitiveType').callsFake(() => {
+                return true;
+            });
+
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
 
             const getKeyType = sinon.stub();
@@ -699,21 +703,27 @@ describe('TypescriptVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return false;
+            });
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            let mockMapKeyType     = sinon.createStubInstance(MapKeyType);
 
             const getKeyType    = sinon.stub();
             const getValueType  = sinon.stub();
 
+            mockMapKeyType.getType.returns('String');
             getKeyType.returns('String');
             getValueType.returns('Address');
             mockMapDeclaration.getName.returns('Map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
-            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getKey.returns(mockMapKeyType);
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<String, IAddress>;\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, IAddress>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <DateTime, Address>', () => {
@@ -721,21 +731,27 @@ describe('TypescriptVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return false;
+            });
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            let mockMapKeyType     = sinon.createStubInstance(MapKeyType);
 
             const getKeyType    = sinon.stub();
             const getValueType  = sinon.stub();
 
-            getKeyType.returns('String');
+            mockMapKeyType.getType.returns('DateTime');
+            getKeyType.returns('DateTime');
             getValueType.returns('Address');
             mockMapDeclaration.getName.returns('Map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
-            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getKey.returns(mockMapKeyType);
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, IAddress>;\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<Date, IAddress>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <String, Concept>', () => {
@@ -785,7 +801,7 @@ describe('TypescriptVisitor', function () {
             mockModelFile.getType.returns(mockScalarDeclaration);
             mockScalarDeclaration.getType.returns('String');
             getKeyType.returns('SSN');
-            getValueType.returns('DateTime');
+            getValueType.returns('String');
             mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockMapDeclaration.getName.returns('Map1');
             mockMapDeclaration.isMapDeclaration.returns(true);

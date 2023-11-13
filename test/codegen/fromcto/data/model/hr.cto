@@ -111,4 +111,4 @@ transaction ChangeOfAddress {
 }
 
 scalar KinName extends String
-scalar KinTelephone extends DateTime
+scalar KinTelephone extends String
