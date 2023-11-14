@@ -19,7 +19,7 @@ chai.should();
 const sinon = require('sinon');
 
 const TypescriptVisitor = require('../../../../lib/codegen/fromcto/typescript/typescriptvisitor.js');
-const { MapDeclaration, ModelUtil } = require('@accordproject/concerto-core');
+const { MapDeclaration, MapKeyType, ModelUtil, ScalarDeclaration } = require('@accordproject/concerto-core');
 
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
@@ -29,6 +29,7 @@ const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+let sandbox = sinon.createSandbox();
 
 describe('TypescriptVisitor', function () {
     let typescriptVisitor;
@@ -642,19 +643,26 @@ describe('TypescriptVisitor', function () {
     });
 
     describe('visitMapValueDeclaration', () => {
+
+        before(() => {
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return false;
+            });
+        });
+
         it('should write a line with the name, key and value of the map <String, String>', () => {
             let param = {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.stub(ModelUtil, 'isPrimitiveType').callsFake(() => {
+                return true;
+            });
+
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
 
             const getKeyType = sinon.stub();
             const getValueType = sinon.stub();
-
-            sinon.stub(ModelUtil, 'isScalar').callsFake(() => {
-                return false;
-            });
 
             getKeyType.returns('String');
             getValueType.returns('String');
@@ -695,16 +703,22 @@ describe('TypescriptVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return false;
+            });
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            let mockMapKeyType     = sinon.createStubInstance(MapKeyType);
 
             const getKeyType    = sinon.stub();
             const getValueType  = sinon.stub();
 
+            mockMapKeyType.getType.returns('String');
             getKeyType.returns('String');
             getValueType.returns('Address');
             mockMapDeclaration.getName.returns('Map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
-            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getKey.returns(mockMapKeyType);
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
@@ -717,13 +731,45 @@ describe('TypescriptVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return false;
+            });
+            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            let mockMapKeyType     = sinon.createStubInstance(MapKeyType);
+
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
+
+            mockMapKeyType.getType.returns('DateTime');
+            getKeyType.returns('DateTime');
+            getValueType.returns('Address');
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns(mockMapKeyType);
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<Date, IAddress>;\n').calledOnce.should.be.ok;
+        });
+
+        it('should write a line with the name, key and value of the map <String, Concept>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return false;
+            });
+
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
 
             const getKeyType    = sinon.stub();
             const getValueType  = sinon.stub();
 
             getKeyType.returns('String');
-            getValueType.returns('Address');
+            getValueType.returns('Concept');
             mockMapDeclaration.getName.returns('Map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
@@ -731,7 +777,73 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, IAddress>;\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, IConcept>;\n').calledOnce.should.be.ok;
+        });
+
+        it('should write a line with the name, key and value of the map <SSN, String>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return true;
+            });
+
+            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            let mockScalarDeclaration   = sinon.createStubInstance(ScalarDeclaration);
+            const mockModelFile         = sinon.createStubInstance(ModelFile);
+
+            mockModelFile.getType.returns(ScalarDeclaration);
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
+
+            mockModelFile.getType.returns(mockScalarDeclaration);
+            mockScalarDeclaration.getType.returns('String');
+            getKeyType.returns('SSN');
+            getValueType.returns('String');
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, string>;\n').calledOnce.should.be.ok;
+        });
+
+        it('should write a line with the name, key and value of the map <String, SSN>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return true;
+            });
+
+            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            let mockScalarDeclaration   = sinon.createStubInstance(ScalarDeclaration);
+            const mockModelFile         = sinon.createStubInstance(ModelFile);
+
+            mockModelFile.getType.returns(ScalarDeclaration);
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
+
+            mockModelFile.getType.returns(mockScalarDeclaration);
+            mockScalarDeclaration.getType.returns('String');
+            getKeyType.returns('string');
+            getValueType.returns('SSN');
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, string>;\n').calledOnce.should.be.ok;
         });
     });
 
