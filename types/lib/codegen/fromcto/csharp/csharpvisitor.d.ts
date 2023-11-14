@@ -92,14 +92,6 @@ declare class CSharpVisitor {
      */
     private writeField;
     /**
-     * Apply proper casing to the string value
-     * @param {string} string value
-     * @param {boolean} isPascalCase flag to convert to pascalCase
-     * @returns {String} properly cased string value
-     * @private
-     */
-    private doMap;
-    /**
      * Visitor design pattern
      * @param {EnumValueDeclaration} enumValueDeclaration - the object being visited
      * @param {Object} parameters  - the parameter
