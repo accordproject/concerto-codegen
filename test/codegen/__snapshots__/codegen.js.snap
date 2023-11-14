@@ -428,7 +428,7 @@ public abstract class Person : Participant {
    public string ssn { get; set; }
    public float height { get; set; }
    public System.DateTime dob { get; set; }
-   public Dictionary<string, System.DateTime> nextOfKin { get; set; }
+   public Dictionary<string, string> nextOfKin { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = null, Name = "Employee")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -5978,7 +5978,7 @@ public abstract class Person : Participant {
    public string ssn { get; set; }
    public float height { get; set; }
    public System.DateTime dob { get; set; }
-   public Dictionary<string, System.DateTime> nextOfKin { get; set; }
+   public Dictionary<string, string> nextOfKin { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Employee")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
