@@ -633,6 +633,8 @@ describe('XmlSchemaVisitor', function () {
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
+            sandbox.reset();
+
             mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockModelFile.getNamespace.returns('org.acme');
             mockModelFile.getType.returns(mockDeclaration);
