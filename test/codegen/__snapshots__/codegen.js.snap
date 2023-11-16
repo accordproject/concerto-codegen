@@ -376,6 +376,7 @@ using AccordProject.Concerto;
 public class Company : Concept {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr.Company";
+   [System.ComponentModel.DataAnnotations.RegularExpression(@"abc.*", ErrorMessage = "Invalid characters")]
    public string name { get; set; }
    public org.acme.hr.base.Address headquarters { get; set; }
    public Dictionary<string, string> companyProperties { get; set; }
@@ -1684,10 +1685,84 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "description": "The class identifier for org.acme.hr.Company"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "pattern": "abc.*"
         },
         "headquarters": {
           "$ref": "#/definitions/org.acme.hr.base.Address"
+        },
+        "companyProperties": {
+          "$id": "org.acme.hr.Company.companyProperties",
+          "schema": {
+            "title": "CompanyProperties",
+            "description": "An instance of org.acme.hr.CompanyProperties",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "employeeDirectory": {
+          "$id": "org.acme.hr.Company.employeeDirectory",
+          "schema": {
+            "title": "EmployeeDirectory",
+            "description": "An instance of org.acme.hr.EmployeeDirectory",
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+            },
+            "additionalProperties": {
+              "$ref": "#/definitions/org.acme.hr.Employee"
+            }
+          }
+        },
+        "employeeTShirtSizes": {
+          "$id": "org.acme.hr.Company.employeeTShirtSizes",
+          "schema": {
+            "title": "EmployeeTShirtSizes",
+            "description": "An instance of org.acme.hr.base.EmployeeTShirtSizes",
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+            },
+            "additionalProperties": {
+              "$ref": "#/definitions/org.acme.hr.TShirtSizeType"
+            }
+          }
+        },
+        "employeeProfiles": {
+          "$id": "org.acme.hr.Company.employeeProfiles",
+          "schema": {
+            "title": "EmployeeProfiles",
+            "description": "An instance of org.acme.hr.EmployeeProfiles",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "$ref": "#/definitions/org.acme.hr.Concept"
+            }
+          }
+        },
+        "employeeSocialSecurityNumbers": {
+          "$id": "org.acme.hr.Company.employeeSocialSecurityNumbers",
+          "schema": {
+            "title": "EmployeeSocialSecurityNumbers",
+            "description": "An instance of org.acme.hr.EmployeeSocialSecurityNumbers",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "SSN",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+            }
+          }
         }
       },
       "required": [
@@ -1803,6 +1878,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -1893,6 +1982,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -1959,6 +2062,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -2054,6 +2171,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -2802,10 +2933,84 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "description": "The class identifier for org.acme.hr.Company"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "pattern": "abc.*"
           },
           "headquarters": {
             "$ref": "#/components/schemas/org.acme.hr.base.Address"
+          },
+          "companyProperties": {
+            "$id": "org.acme.hr.Company.companyProperties",
+            "schema": {
+              "title": "CompanyProperties",
+              "description": "An instance of org.acme.hr.CompanyProperties",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "employeeDirectory": {
+            "$id": "org.acme.hr.Company.employeeDirectory",
+            "schema": {
+              "title": "EmployeeDirectory",
+              "description": "An instance of org.acme.hr.EmployeeDirectory",
+              "type": "object",
+              "propertyNames": {
+                "type": "string",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              },
+              "additionalProperties": {
+                "$ref": "#/definitions/org.acme.hr.Employee"
+              }
+            }
+          },
+          "employeeTShirtSizes": {
+            "$id": "org.acme.hr.Company.employeeTShirtSizes",
+            "schema": {
+              "title": "EmployeeTShirtSizes",
+              "description": "An instance of org.acme.hr.base.EmployeeTShirtSizes",
+              "type": "object",
+              "propertyNames": {
+                "type": "string",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              },
+              "additionalProperties": {
+                "$ref": "#/definitions/org.acme.hr.TShirtSizeType"
+              }
+            }
+          },
+          "employeeProfiles": {
+            "$id": "org.acme.hr.Company.employeeProfiles",
+            "schema": {
+              "title": "EmployeeProfiles",
+              "description": "An instance of org.acme.hr.EmployeeProfiles",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "$ref": "#/definitions/org.acme.hr.Concept"
+              }
+            }
+          },
+          "employeeSocialSecurityNumbers": {
+            "$id": "org.acme.hr.Company.employeeSocialSecurityNumbers",
+            "schema": {
+              "title": "EmployeeSocialSecurityNumbers",
+              "description": "An instance of org.acme.hr.EmployeeSocialSecurityNumbers",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "SSN",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              }
+            }
           }
         },
         "required": [
@@ -2921,6 +3126,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -3011,6 +3230,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -3077,6 +3310,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -3172,6 +3419,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -5926,6 +6187,7 @@ using AccordProject.Concerto;
 public class Company : Concept {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.Company";
+   [System.ComponentModel.DataAnnotations.RegularExpression(@"abc.*", ErrorMessage = "Invalid characters")]
    public string name { get; set; }
    public org.acme.hr.base.Address headquarters { get; set; }
    public Dictionary<string, string> companyProperties { get; set; }
@@ -7234,10 +7496,84 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "description": "The class identifier for org.acme.hr@1.0.0.Company"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "pattern": "abc.*"
         },
         "headquarters": {
           "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
+        },
+        "companyProperties": {
+          "$id": "org.acme.hr@1.0.0.Company.companyProperties",
+          "schema": {
+            "title": "CompanyProperties",
+            "description": "An instance of org.acme.hr@1.0.0.CompanyProperties",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "employeeDirectory": {
+          "$id": "org.acme.hr@1.0.0.Company.employeeDirectory",
+          "schema": {
+            "title": "EmployeeDirectory",
+            "description": "An instance of org.acme.hr@1.0.0.EmployeeDirectory",
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+            },
+            "additionalProperties": {
+              "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
+            }
+          }
+        },
+        "employeeTShirtSizes": {
+          "$id": "org.acme.hr@1.0.0.Company.employeeTShirtSizes",
+          "schema": {
+            "title": "EmployeeTShirtSizes",
+            "description": "An instance of org.acme.hr.base@1.0.0.EmployeeTShirtSizes",
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+            },
+            "additionalProperties": {
+              "$ref": "#/definitions/org.acme.hr@1.0.0.TShirtSizeType"
+            }
+          }
+        },
+        "employeeProfiles": {
+          "$id": "org.acme.hr@1.0.0.Company.employeeProfiles",
+          "schema": {
+            "title": "EmployeeProfiles",
+            "description": "An instance of org.acme.hr@1.0.0.EmployeeProfiles",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "$ref": "#/definitions/org.acme.hr@1.0.0.Concept"
+            }
+          }
+        },
+        "employeeSocialSecurityNumbers": {
+          "$id": "org.acme.hr@1.0.0.Company.employeeSocialSecurityNumbers",
+          "schema": {
+            "title": "EmployeeSocialSecurityNumbers",
+            "description": "An instance of org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "SSN",
+              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+            }
+          }
         }
       },
       "required": [
@@ -7353,6 +7689,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -7443,6 +7793,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -7509,6 +7873,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -7604,6 +7982,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "dob": {
           "format": "date-time",
           "type": "string"
+        },
+        "nextOfKin": {
+          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+          "schema": {
+            "title": "NextOfKin",
+            "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "KinTelephone"
+            }
+          }
         }
       },
       "required": [
@@ -8368,10 +8760,84 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "description": "The class identifier for org.acme.hr@1.0.0.Company"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "pattern": "abc.*"
           },
           "headquarters": {
             "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
+          },
+          "companyProperties": {
+            "$id": "org.acme.hr@1.0.0.Company.companyProperties",
+            "schema": {
+              "title": "CompanyProperties",
+              "description": "An instance of org.acme.hr@1.0.0.CompanyProperties",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "employeeDirectory": {
+            "$id": "org.acme.hr@1.0.0.Company.employeeDirectory",
+            "schema": {
+              "title": "EmployeeDirectory",
+              "description": "An instance of org.acme.hr@1.0.0.EmployeeDirectory",
+              "type": "object",
+              "propertyNames": {
+                "type": "string",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              },
+              "additionalProperties": {
+                "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
+              }
+            }
+          },
+          "employeeTShirtSizes": {
+            "$id": "org.acme.hr@1.0.0.Company.employeeTShirtSizes",
+            "schema": {
+              "title": "EmployeeTShirtSizes",
+              "description": "An instance of org.acme.hr.base@1.0.0.EmployeeTShirtSizes",
+              "type": "object",
+              "propertyNames": {
+                "type": "string",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              },
+              "additionalProperties": {
+                "$ref": "#/definitions/org.acme.hr@1.0.0.TShirtSizeType"
+              }
+            }
+          },
+          "employeeProfiles": {
+            "$id": "org.acme.hr@1.0.0.Company.employeeProfiles",
+            "schema": {
+              "title": "EmployeeProfiles",
+              "description": "An instance of org.acme.hr@1.0.0.EmployeeProfiles",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "$ref": "#/definitions/org.acme.hr@1.0.0.Concept"
+              }
+            }
+          },
+          "employeeSocialSecurityNumbers": {
+            "$id": "org.acme.hr@1.0.0.Company.employeeSocialSecurityNumbers",
+            "schema": {
+              "title": "EmployeeSocialSecurityNumbers",
+              "description": "An instance of org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "SSN",
+                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              }
+            }
           }
         },
         "required": [
@@ -8487,6 +8953,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -8577,6 +9057,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -8643,6 +9137,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [
@@ -8738,6 +9246,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dob": {
             "format": "date-time",
             "type": "string"
+          },
+          "nextOfKin": {
+            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
+            "schema": {
+              "title": "NextOfKin",
+              "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "KinTelephone"
+              }
+            }
           }
         },
         "required": [

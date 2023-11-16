@@ -33,7 +33,7 @@ map EmployeeDirectory {
 }
 
 concept Company {
-    o String name
+    o String name regex=/abc.*/
     o Address headquarters
     o CompanyProperties companyProperties optional
     o EmployeeDirectory employeeDirectory optional
