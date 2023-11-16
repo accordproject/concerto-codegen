@@ -25,6 +25,7 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const AssetDeclaration = require('@accordproject/concerto-core').AssetDeclaration;
 const ParticipantDeclaration = require('@accordproject/concerto-core').ParticipantDeclaration;
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
+const {MapDeclaration, MapKeyType, MapValueType } = require('@accordproject/concerto-core');
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
 const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
@@ -437,6 +438,33 @@ describe('PlantUMLVisitor', function () {
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'org.acme.Person --|> org.acme.Human']);
 
             acceptSpy.withArgs(plantUMLvisitor, param).calledTwice.should.be.ok;
+        });
+    });
+
+    describe('visitMapDeclaration', () => {
+        it('should write the map declaration for a map', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockMapDeclaration  = sinon.createStubInstance(MapDeclaration);
+            let mockMapKey          = sinon.createStubInstance(MapKeyType);
+            let mockMapValue        = sinon.createStubInstance(MapValueType);
+
+            mockMapDeclaration.getKey.returns(mockMapKey);
+            mockMapDeclaration.getValue.returns(mockMapValue);
+            mockMapKey.getType.returns('String');
+            mockMapValue.getType.returns('String');
+
+            mockMapDeclaration.getFullyQualifiedName.returns('org.acme.NextOfKin');
+
+            plantUMLvisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(4);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'class org.acme.NextOfKin << (M,pink) >> {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '+ String']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '+ String']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '}']);
         });
     });
 
