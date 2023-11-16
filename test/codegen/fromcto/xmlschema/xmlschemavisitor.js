@@ -393,7 +393,7 @@ describe('XmlSchemaVisitor', function () {
             sandbox.restore();
         });
 
-        it('should write the map declaration for a map <string, string>', () => {
+        it('should write the map declaration for a map <String, String>', () => {
 
             let param = {
                 fileWriter: mockFileWriter
@@ -431,7 +431,7 @@ describe('XmlSchemaVisitor', function () {
         });
 
 
-        it('should write the map declaration for a map <string, SSN>', () => {
+        it('should write the map declaration for a map <String, SSN>', () => {
             let param = {
                 fileWriter: mockFileWriter
             };
