@@ -3799,6 +3799,10 @@ class org.acme.hr.base.TShirtSizeType << (E,grey) >> {
    + LARGE
 }
 org.acme.hr.base.TShirtSizeType --|> concerto_1_0_0.Concept
+class org.acme.hr.base.EmployeeTShirtSizes << (M,pink) >> {
+   + SSN
+   + TShirtSizeType
+}
 class org.acme.hr.base.Address {
    + String street
    + String city
@@ -3807,6 +3811,30 @@ class org.acme.hr.base.Address {
    + String country
 }
 org.acme.hr.base.Address --|> concerto_1_0_0.Concept
+class org.acme.hr.CompanyProperties << (M,pink) >> {
+   + String
+   + String
+}
+class org.acme.hr.EmployeeLoginTimes << (M,pink) >> {
+   + String
+   + Time
+}
+class org.acme.hr.EmployeeSocialSecurityNumbers << (M,pink) >> {
+   + String
+   + SSN
+}
+class org.acme.hr.NextOfKin << (M,pink) >> {
+   + KinName
+   + KinTelephone
+}
+class org.acme.hr.EmployeeProfiles << (M,pink) >> {
+   + String
+   + Concept
+}
+class org.acme.hr.EmployeeDirectory << (M,pink) >> {
+   + SSN
+   + Employee
+}
 class org.acme.hr.Company {
    + String name
    + Address headquarters
@@ -5800,6 +5828,10 @@ class org.acme.hr.base_1_0_0.TShirtSizeType << (E,grey) >> {
    + MEDIUM
    + LARGE
 }
+class org.acme.hr.base_1_0_0.EmployeeTShirtSizes << (M,pink) >> {
+   + SSN
+   + TShirtSizeType
+}
 class org.acme.hr.base_1_0_0.Address {
    + String street
    + String city
@@ -5808,6 +5840,30 @@ class org.acme.hr.base_1_0_0.Address {
    + String country
 }
 org.acme.hr.base_1_0_0.Address "1" *-- "1" org.acme.hr.base_1_0_0.State : state
+class org.acme.hr_1_0_0.CompanyProperties << (M,pink) >> {
+   + String
+   + String
+}
+class org.acme.hr_1_0_0.EmployeeLoginTimes << (M,pink) >> {
+   + String
+   + Time
+}
+class org.acme.hr_1_0_0.EmployeeSocialSecurityNumbers << (M,pink) >> {
+   + String
+   + SSN
+}
+class org.acme.hr_1_0_0.NextOfKin << (M,pink) >> {
+   + KinName
+   + KinTelephone
+}
+class org.acme.hr_1_0_0.EmployeeProfiles << (M,pink) >> {
+   + String
+   + Concept
+}
+class org.acme.hr_1_0_0.EmployeeDirectory << (M,pink) >> {
+   + SSN
+   + Employee
+}
 class org.acme.hr_1_0_0.Company {
    + String name
    + Address headquarters
@@ -9717,6 +9773,10 @@ class org.acme.hr.base_1_0_0.TShirtSizeType << (E,grey) >> {
    + LARGE
 }
 org.acme.hr.base_1_0_0.TShirtSizeType --|> concerto_1_0_0.Concept
+class org.acme.hr.base_1_0_0.EmployeeTShirtSizes << (M,pink) >> {
+   + SSN
+   + TShirtSizeType
+}
 class org.acme.hr.base_1_0_0.Address {
    + String street
    + String city
@@ -9726,6 +9786,30 @@ class org.acme.hr.base_1_0_0.Address {
 }
 org.acme.hr.base_1_0_0.Address "1" *-- "1" org.acme.hr.base_1_0_0.State : state
 org.acme.hr.base_1_0_0.Address --|> concerto_1_0_0.Concept
+class org.acme.hr_1_0_0.CompanyProperties << (M,pink) >> {
+   + String
+   + String
+}
+class org.acme.hr_1_0_0.EmployeeLoginTimes << (M,pink) >> {
+   + String
+   + Time
+}
+class org.acme.hr_1_0_0.EmployeeSocialSecurityNumbers << (M,pink) >> {
+   + String
+   + SSN
+}
+class org.acme.hr_1_0_0.NextOfKin << (M,pink) >> {
+   + KinName
+   + KinTelephone
+}
+class org.acme.hr_1_0_0.EmployeeProfiles << (M,pink) >> {
+   + String
+   + Concept
+}
+class org.acme.hr_1_0_0.EmployeeDirectory << (M,pink) >> {
+   + SSN
+   + Employee
+}
 class org.acme.hr_1_0_0.Company {
    + String name
    + Address headquarters
