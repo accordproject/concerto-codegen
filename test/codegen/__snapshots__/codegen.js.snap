@@ -5368,6 +5368,19 @@ xmlns:concerto="concerto"
    </xs:restriction>
 </xs:simpleType>
 <xs:element name="TShirtSizeType" type="org.acme.hr.base:TShirtSizeType"/>
+<xs:element name="EmployeeTShirtSizes">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="EmployeeTShirtSizesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="EmployeeTShirtSizesEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="org.acme.hr.base:TShirtSizeType"/>
+   </xs:sequence>
+</xs:complexType>
 <xs:complexType name="Address">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
@@ -5397,6 +5410,84 @@ xmlns:concerto="concerto"
 >
 <xs:import namespace="org.acme.hr.base" schemaLocation="org.acme.hr.base.xsd"/>
 <xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
+<xs:element name="CompanyProperties">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="CompanyPropertiesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="CompanyPropertiesEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="EmployeeLoginTimes">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="EmployeeLoginTimesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="EmployeeLoginTimesEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:dateTime"/>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="EmployeeSocialSecurityNumbers">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="EmployeeSocialSecurityNumbersEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="EmployeeSocialSecurityNumbersEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="NextOfKin">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="NextOfKinEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="NextOfKinEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="EmployeeProfiles">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="EmployeeProfilesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="EmployeeProfilesEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="concerto:Concept"/>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="EmployeeDirectory">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="EmployeeDirectoryEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="EmployeeDirectoryEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="org.acme.hr:Employee"/>
+   </xs:sequence>
+</xs:complexType>
 <xs:complexType name="Company">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
@@ -11211,6 +11302,19 @@ xmlns:concerto="concerto"
    </xs:restriction>
 </xs:simpleType>
 <xs:element name="TShirtSizeType" type="org.acme.hr.base:TShirtSizeType"/>
+<xs:element name="EmployeeTShirtSizes">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="EmployeeTShirtSizesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="EmployeeTShirtSizesEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="org.acme.hr.base:TShirtSizeType"/>
+   </xs:sequence>
+</xs:complexType>
 <xs:complexType name="Address">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
@@ -11240,6 +11344,84 @@ xmlns:concerto="concerto"
 >
 <xs:import namespace="org.acme.hr.base" schemaLocation="org.acme.hr.base@1.0.0.xsd"/>
 <xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
+<xs:element name="CompanyProperties">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="CompanyPropertiesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="CompanyPropertiesEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="EmployeeLoginTimes">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="EmployeeLoginTimesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="EmployeeLoginTimesEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:dateTime"/>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="EmployeeSocialSecurityNumbers">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="EmployeeSocialSecurityNumbersEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="EmployeeSocialSecurityNumbersEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="NextOfKin">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="NextOfKinEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="NextOfKinEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="EmployeeProfiles">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="EmployeeProfilesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="EmployeeProfilesEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="concerto:Concept"/>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="EmployeeDirectory">
+<xs:complexType>
+   <xs:sequence>
+      <xs:element name="entry" type="EmployeeDirectoryEntryType" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:complexType name="EmployeeDirectoryEntryType">
+   <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="org.acme.hr:Employee"/>
+   </xs:sequence>
+</xs:complexType>
 <xs:complexType name="Company">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">

@@ -44,6 +44,14 @@ declare class XmlSchemaVisitor {
     private visitEnumDeclaration;
     /**
      * Visitor design pattern
+     * @param {MapDeclaration} mapDeclaration - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitMapDeclaration;
+    /**
+     * Visitor design pattern
      * @param {ClassDeclaration} classDeclaration - the object being visited
      * @param {Object} parameters  - the parameter
      * @return {Object} the result of visiting or null
@@ -85,6 +93,8 @@ declare class XmlSchemaVisitor {
      * Converts a Concerto type to a XML Schema type. Primitive types are converted
      * everything else is passed through unchanged.
      * @param {string} type  - the fully qualified concerto type name
+     * @param {Object} mapElement  - the mapElement representing either the Key or Value of a MapDeclaration
+     * @param {MapDeclaration} mapDeclaration  - the object representing a MapDeclaration
      * @return {string} the corresponding type in XML Schema
      * @private
      */
