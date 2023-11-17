@@ -19,9 +19,13 @@ chai.should();
 const sinon = require('sinon');
 
 const ODataVisitor = require('../../../../lib/codegen/fromcto/odata/odatavisitor.js');
+const { ConceptDeclaration } = require('@accordproject/concerto-core');
 
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
+const ScalarDeclaration = require('@accordproject/concerto-core').ScalarDeclaration;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
+const MapDeclaration = require('@accordproject/concerto-core').MapDeclaration;
+const ModelUtil = require('@accordproject/concerto-core').ModelUtil;
 const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
 const ModelFile = require('@accordproject/concerto-core').ModelFile;
@@ -29,6 +33,8 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const Decorator = require('@accordproject/concerto-core').Decorator;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+
+let sandbox = sinon.createSandbox();
 
 describe('ODataVisitor', function () {
     let oDataVisitor;
@@ -323,6 +329,164 @@ describe('ODataVisitor', function () {
             param.fileWriter.writeLine.withArgs(2, '</EnumType>').calledOnce.should.be.ok;
 
             acceptSpy.withArgs(oDataVisitor, param).calledTwice.should.be.ok;
+        });
+    });
+
+    describe('visitMapDeclaration', () => {
+        it('should write the map <String, String>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockModelFile       = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration  = sinon.createStubInstance(MapDeclaration);
+
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
+
+            getKeyType.returns('String');
+            getValueType.returns('String');
+
+            mockModelFile.getType.returns(mockMapDeclaration);
+            mockMapDeclaration.getName.returns('MockMap');
+            mockMapDeclaration.getKey.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getKeyType});
+
+            const isPrimitiveTypeStub = sandbox.stub(ModelUtil, 'isPrimitiveType');
+
+            isPrimitiveTypeStub.onCall(0).returns(true);
+            isPrimitiveTypeStub.onCall(1).returns(true);
+
+            oDataVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(1, '<ComplexType Name="MockMap">').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, '<Property Name="Key" Type="Edm.String"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, '<Property Name="Value" Type="Edm.String"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, '</ComplexType>').calledOnce.should.be.ok;
+            isPrimitiveTypeStub.restore();
+        });
+
+        it('should write the map <Scalar, String>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockModelFile           = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            let mockScalarDeclaration   = sinon.createStubInstance(ScalarDeclaration);
+
+
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
+
+            getKeyType.returns('SSN');
+            getValueType.returns('String');
+
+            mockMapDeclaration.getName.returns('MockMap');
+            mockMapDeclaration.getKey.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getKeyType});
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.returns(mockScalarDeclaration);
+            mockScalarDeclaration.getType.returns('String');
+
+            const isPrimitiveTypeStub = sandbox.stub(ModelUtil, 'isPrimitiveType');
+            const isScalarStub        = sandbox.stub(ModelUtil, 'isScalar');
+
+            isPrimitiveTypeStub.onCall(0).returns(false);
+            isPrimitiveTypeStub.onCall(1).returns(true);
+
+            isScalarStub.onCall(0).returns(true);
+            isScalarStub.onCall(1).returns(false);
+
+            oDataVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(1, '<ComplexType Name="MockMap">').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, '<Property Name="Key" Type="Edm.String"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, '<Property Name="Value" Type="Edm.String"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, '</ComplexType>').calledOnce.should.be.ok;
+            isPrimitiveTypeStub.restore();
+            isScalarStub.restore();
+        });
+
+        it('should write the map <Scalar, Scalar>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockModelFile           = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            let mockScalarDeclaration   = sinon.createStubInstance(ScalarDeclaration);
+
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
+
+            getKeyType.returns('SSN');
+            getValueType.returns('SSN');
+
+            mockMapDeclaration.getName.returns('MockMap');
+            mockMapDeclaration.getKey.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getKeyType});
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.returns(mockScalarDeclaration);
+            mockScalarDeclaration.getType.returns('String');
+
+            const isPrimitiveTypeStub = sandbox.stub(ModelUtil, 'isPrimitiveType');
+            const isScalarStub        = sandbox.stub(ModelUtil, 'isScalar');
+
+            isPrimitiveTypeStub.onCall(0).returns(false);
+            isPrimitiveTypeStub.onCall(1).returns(false);
+
+            isScalarStub.onCall(0).returns(true);
+            isScalarStub.onCall(1).returns(true);
+
+            oDataVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(1, '<ComplexType Name="MockMap">').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, '<Property Name="Key" Type="Edm.String"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, '<Property Name="Value" Type="Edm.String"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, '</ComplexType>').calledOnce.should.be.ok;
+            isPrimitiveTypeStub.restore();
+            isScalarStub.restore();
+        });
+
+        it('should write the map <String, Concept>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockModelFile           = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            let mockConceptDeclaration  = sinon.createStubInstance(ConceptDeclaration);
+
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
+
+            getKeyType.returns('String');
+            getValueType.returns('Person');
+
+            mockMapDeclaration.getName.returns('MockMap');
+            mockMapDeclaration.getKey.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getKeyType});
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.returns(mockConceptDeclaration);
+            mockModelFile.getFullyQualifiedTypeName.returns('com.acme@1.0.0.Person');
+
+            const isPrimitiveTypeStub = sandbox.stub(ModelUtil, 'isPrimitiveType');
+            const isScalarStub        = sandbox.stub(ModelUtil, 'isScalar');
+
+            isPrimitiveTypeStub.onCall(0).returns(true);
+            isPrimitiveTypeStub.onCall(1).returns(false);
+
+            isScalarStub.onCall(0).returns(false);
+
+            oDataVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(1, '<ComplexType Name="MockMap">').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, '<Property Name="Key" Type="Edm.String"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, '<Property Name="Value" Type="com.acme.Person"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, '</ComplexType>').calledOnce.should.be.ok;
+            isPrimitiveTypeStub.restore();
+            isScalarStub.restore();
         });
     });
 
