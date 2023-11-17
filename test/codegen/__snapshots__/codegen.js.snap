@@ -4881,6 +4881,10 @@ declarations:
       - SMALL: SMALL of the TShirt Size Type
       - MEDIUM: MEDIUM of the TShirt Size Type
       - LARGE: LARGE of the TShirt Size Type
+  - EmployeeTShirtSizes: Employee TShirt Sizes
+    properties:
+      - KEY: KEY of the Employee TShirt Sizes
+      - VALUE: VALUE of the Employee TShirt Sizes
   - Address: Address
     properties:
       - street: Street of the Address
@@ -4901,6 +4905,30 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 locale: en
 namespace: org.acme.hr
 declarations:
+  - CompanyProperties: Company Properties
+    properties:
+      - KEY: KEY of the Company Properties
+      - VALUE: VALUE of the Company Properties
+  - EmployeeLoginTimes: Employee Login Times
+    properties:
+      - KEY: KEY of the Employee Login Times
+      - VALUE: VALUE of the Employee Login Times
+  - EmployeeSocialSecurityNumbers: Employee Social Security Numbers
+    properties:
+      - KEY: KEY of the Employee Social Security Numbers
+      - VALUE: VALUE of the Employee Social Security Numbers
+  - NextOfKin: Next Of Kin
+    properties:
+      - KEY: KEY of the Next Of Kin
+      - VALUE: VALUE of the Next Of Kin
+  - EmployeeProfiles: Employee Profiles
+    properties:
+      - KEY: KEY of the Employee Profiles
+      - VALUE: VALUE of the Employee Profiles
+  - EmployeeDirectory: Employee Directory
+    properties:
+      - KEY: KEY of the Employee Directory
+      - VALUE: VALUE of the Employee Directory
   - Company: Company
     properties:
       - name: Name of the Company
@@ -10463,6 +10491,10 @@ declarations:
       - SMALL: SMALL of the TShirt Size Type
       - MEDIUM: MEDIUM of the TShirt Size Type
       - LARGE: LARGE of the TShirt Size Type
+  - EmployeeTShirtSizes: Employee TShirt Sizes
+    properties:
+      - KEY: KEY of the Employee TShirt Sizes
+      - VALUE: VALUE of the Employee TShirt Sizes
   - Address: Address
     properties:
       - street: Street of the Address
@@ -10483,6 +10515,30 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 locale: en
 namespace: org.acme.hr@1.0.0
 declarations:
+  - CompanyProperties: Company Properties
+    properties:
+      - KEY: KEY of the Company Properties
+      - VALUE: VALUE of the Company Properties
+  - EmployeeLoginTimes: Employee Login Times
+    properties:
+      - KEY: KEY of the Employee Login Times
+      - VALUE: VALUE of the Employee Login Times
+  - EmployeeSocialSecurityNumbers: Employee Social Security Numbers
+    properties:
+      - KEY: KEY of the Employee Social Security Numbers
+      - VALUE: VALUE of the Employee Social Security Numbers
+  - NextOfKin: Next Of Kin
+    properties:
+      - KEY: KEY of the Next Of Kin
+      - VALUE: VALUE of the Next Of Kin
+  - EmployeeProfiles: Employee Profiles
+    properties:
+      - KEY: KEY of the Employee Profiles
+      - VALUE: VALUE of the Employee Profiles
+  - EmployeeDirectory: Employee Directory
+    properties:
+      - KEY: KEY of the Employee Directory
+      - VALUE: VALUE of the Employee Directory
   - Company: Company
     properties:
       - name: Name of the Company

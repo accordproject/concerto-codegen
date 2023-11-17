@@ -52,10 +52,34 @@ declare class VocabularyVisitor {
     private visitScalarDeclaration;
     /**
      * Visitor design pattern
+     * @param {MapDeclaration} mapDeclaration - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitMapDeclaration;
+    /**
+     * Visitor design pattern
      * @param {Property} property - the object being visited
      * @param {Object} parameters  - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */
     private visitProperty;
+    /**
+     * Visitor design pattern
+     * @param {MapKeyType} mapKey - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitMapKey;
+    /**
+     * Visitor design pattern
+     * @param {MapValueType} mapValue - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitMapValue;
 }
