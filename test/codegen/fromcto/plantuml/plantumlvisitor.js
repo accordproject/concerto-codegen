@@ -462,7 +462,7 @@ describe('PlantUMLVisitor', function () {
 
             param.fileWriter.writeLine.callCount.should.deep.equal(2);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'map "org.acme.NextOfKin: Map<String, String>" as org.acme.NextOfKin {']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '}']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '}']);
         });
     });
 

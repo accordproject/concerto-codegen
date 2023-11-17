@@ -3799,9 +3799,7 @@ class org.acme.hr.base.TShirtSizeType << (E,grey) >> {
    + LARGE
 }
 org.acme.hr.base.TShirtSizeType --|> concerto_1_0_0.Concept
-class org.acme.hr.base.EmployeeTShirtSizes << (M,pink) >> {
-   + SSN
-   + TShirtSizeType
+map "org.acme.hr.base.EmployeeTShirtSizes: Map<SSN, TShirtSizeType>" as org.acme.hr.base.EmployeeTShirtSizes {
 }
 class org.acme.hr.base.Address {
    + String street
@@ -3811,29 +3809,17 @@ class org.acme.hr.base.Address {
    + String country
 }
 org.acme.hr.base.Address --|> concerto_1_0_0.Concept
-class org.acme.hr.CompanyProperties << (M,pink) >> {
-   + String
-   + String
+map "org.acme.hr.CompanyProperties: Map<String, String>" as org.acme.hr.CompanyProperties {
 }
-class org.acme.hr.EmployeeLoginTimes << (M,pink) >> {
-   + String
-   + Time
+map "org.acme.hr.EmployeeLoginTimes: Map<String, Time>" as org.acme.hr.EmployeeLoginTimes {
 }
-class org.acme.hr.EmployeeSocialSecurityNumbers << (M,pink) >> {
-   + String
-   + SSN
+map "org.acme.hr.EmployeeSocialSecurityNumbers: Map<String, SSN>" as org.acme.hr.EmployeeSocialSecurityNumbers {
 }
-class org.acme.hr.NextOfKin << (M,pink) >> {
-   + KinName
-   + KinTelephone
+map "org.acme.hr.NextOfKin: Map<KinName, KinTelephone>" as org.acme.hr.NextOfKin {
 }
-class org.acme.hr.EmployeeProfiles << (M,pink) >> {
-   + String
-   + Concept
+map "org.acme.hr.EmployeeProfiles: Map<String, Concept>" as org.acme.hr.EmployeeProfiles {
 }
-class org.acme.hr.EmployeeDirectory << (M,pink) >> {
-   + SSN
-   + Employee
+map "org.acme.hr.EmployeeDirectory: Map<SSN, Employee>" as org.acme.hr.EmployeeDirectory {
 }
 class org.acme.hr.Company {
    + String name
@@ -5828,9 +5814,7 @@ class org.acme.hr.base_1_0_0.TShirtSizeType << (E,grey) >> {
    + MEDIUM
    + LARGE
 }
-class org.acme.hr.base_1_0_0.EmployeeTShirtSizes << (M,pink) >> {
-   + SSN
-   + TShirtSizeType
+map "org.acme.hr.base_1_0_0.EmployeeTShirtSizes: Map<SSN, TShirtSizeType>" as org.acme.hr.base_1_0_0.EmployeeTShirtSizes {
 }
 class org.acme.hr.base_1_0_0.Address {
    + String street
@@ -5840,29 +5824,17 @@ class org.acme.hr.base_1_0_0.Address {
    + String country
 }
 org.acme.hr.base_1_0_0.Address "1" *-- "1" org.acme.hr.base_1_0_0.State : state
-class org.acme.hr_1_0_0.CompanyProperties << (M,pink) >> {
-   + String
-   + String
+map "org.acme.hr_1_0_0.CompanyProperties: Map<String, String>" as org.acme.hr_1_0_0.CompanyProperties {
 }
-class org.acme.hr_1_0_0.EmployeeLoginTimes << (M,pink) >> {
-   + String
-   + Time
+map "org.acme.hr_1_0_0.EmployeeLoginTimes: Map<String, Time>" as org.acme.hr_1_0_0.EmployeeLoginTimes {
 }
-class org.acme.hr_1_0_0.EmployeeSocialSecurityNumbers << (M,pink) >> {
-   + String
-   + SSN
+map "org.acme.hr_1_0_0.EmployeeSocialSecurityNumbers: Map<String, SSN>" as org.acme.hr_1_0_0.EmployeeSocialSecurityNumbers {
 }
-class org.acme.hr_1_0_0.NextOfKin << (M,pink) >> {
-   + KinName
-   + KinTelephone
+map "org.acme.hr_1_0_0.NextOfKin: Map<KinName, KinTelephone>" as org.acme.hr_1_0_0.NextOfKin {
 }
-class org.acme.hr_1_0_0.EmployeeProfiles << (M,pink) >> {
-   + String
-   + Concept
+map "org.acme.hr_1_0_0.EmployeeProfiles: Map<String, Concept>" as org.acme.hr_1_0_0.EmployeeProfiles {
 }
-class org.acme.hr_1_0_0.EmployeeDirectory << (M,pink) >> {
-   + SSN
-   + Employee
+map "org.acme.hr_1_0_0.EmployeeDirectory: Map<SSN, Employee>" as org.acme.hr_1_0_0.EmployeeDirectory {
 }
 class org.acme.hr_1_0_0.Company {
    + String name
@@ -9773,9 +9745,7 @@ class org.acme.hr.base_1_0_0.TShirtSizeType << (E,grey) >> {
    + LARGE
 }
 org.acme.hr.base_1_0_0.TShirtSizeType --|> concerto_1_0_0.Concept
-class org.acme.hr.base_1_0_0.EmployeeTShirtSizes << (M,pink) >> {
-   + SSN
-   + TShirtSizeType
+map "org.acme.hr.base_1_0_0.EmployeeTShirtSizes: Map<SSN, TShirtSizeType>" as org.acme.hr.base_1_0_0.EmployeeTShirtSizes {
 }
 class org.acme.hr.base_1_0_0.Address {
    + String street
@@ -9786,29 +9756,17 @@ class org.acme.hr.base_1_0_0.Address {
 }
 org.acme.hr.base_1_0_0.Address "1" *-- "1" org.acme.hr.base_1_0_0.State : state
 org.acme.hr.base_1_0_0.Address --|> concerto_1_0_0.Concept
-class org.acme.hr_1_0_0.CompanyProperties << (M,pink) >> {
-   + String
-   + String
+map "org.acme.hr_1_0_0.CompanyProperties: Map<String, String>" as org.acme.hr_1_0_0.CompanyProperties {
 }
-class org.acme.hr_1_0_0.EmployeeLoginTimes << (M,pink) >> {
-   + String
-   + Time
+map "org.acme.hr_1_0_0.EmployeeLoginTimes: Map<String, Time>" as org.acme.hr_1_0_0.EmployeeLoginTimes {
 }
-class org.acme.hr_1_0_0.EmployeeSocialSecurityNumbers << (M,pink) >> {
-   + String
-   + SSN
+map "org.acme.hr_1_0_0.EmployeeSocialSecurityNumbers: Map<String, SSN>" as org.acme.hr_1_0_0.EmployeeSocialSecurityNumbers {
 }
-class org.acme.hr_1_0_0.NextOfKin << (M,pink) >> {
-   + KinName
-   + KinTelephone
+map "org.acme.hr_1_0_0.NextOfKin: Map<KinName, KinTelephone>" as org.acme.hr_1_0_0.NextOfKin {
 }
-class org.acme.hr_1_0_0.EmployeeProfiles << (M,pink) >> {
-   + String
-   + Concept
+map "org.acme.hr_1_0_0.EmployeeProfiles: Map<String, Concept>" as org.acme.hr_1_0_0.EmployeeProfiles {
 }
-class org.acme.hr_1_0_0.EmployeeDirectory << (M,pink) >> {
-   + SSN
-   + Employee
+map "org.acme.hr_1_0_0.EmployeeDirectory: Map<SSN, Employee>" as org.acme.hr_1_0_0.EmployeeDirectory {
 }
 class org.acme.hr_1_0_0.Company {
    + String name
