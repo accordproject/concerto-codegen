@@ -350,7 +350,7 @@ describe('ODataVisitor', function () {
             mockModelFile.getType.returns(mockMapDeclaration);
             mockMapDeclaration.getName.returns('MockMap');
             mockMapDeclaration.getKey.returns({getType: getKeyType});
-            mockMapDeclaration.getValue.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getValueType});
 
             const isPrimitiveTypeStub = sandbox.stub(ModelUtil, 'isPrimitiveType');
 
@@ -384,7 +384,7 @@ describe('ODataVisitor', function () {
 
             mockMapDeclaration.getName.returns('MockMap');
             mockMapDeclaration.getKey.returns({getType: getKeyType});
-            mockMapDeclaration.getValue.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getValueType});
             mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockModelFile.getType.returns(mockScalarDeclaration);
             mockScalarDeclaration.getType.returns('String');
@@ -425,7 +425,7 @@ describe('ODataVisitor', function () {
 
             mockMapDeclaration.getName.returns('MockMap');
             mockMapDeclaration.getKey.returns({getType: getKeyType});
-            mockMapDeclaration.getValue.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getValueType});
             mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockModelFile.getType.returns(mockScalarDeclaration);
             mockScalarDeclaration.getType.returns('String');
@@ -466,7 +466,7 @@ describe('ODataVisitor', function () {
 
             mockMapDeclaration.getName.returns('MockMap');
             mockMapDeclaration.getKey.returns({getType: getKeyType});
-            mockMapDeclaration.getValue.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getValueType});
             mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockModelFile.getType.returns(mockConceptDeclaration);
             mockModelFile.getFullyQualifiedTypeName.returns('com.acme@1.0.0.Person');
