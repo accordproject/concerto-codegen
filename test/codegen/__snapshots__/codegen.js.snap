@@ -2686,6 +2686,10 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          <Member Name="LARGE">
          </Member>
       </EnumType>
+   <ComplexType Name="EmployeeTShirtSizes">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="org.acme.hr.base.TShirtSizeType"/>
+   </ComplexType>
       <ComplexType Name="Address"  BaseType="concerto.Concept">
          <Property Name="street" Type="Edm.String"  >
          </Property>
@@ -2723,6 +2727,30 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 </edmx:Reference>
 <edmx:DataServices>
    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr">
+   <ComplexType Name="CompanyProperties">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="Edm.String"/>
+   </ComplexType>
+   <ComplexType Name="EmployeeLoginTimes">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="Edm.DateTimeOffset"/>
+   </ComplexType>
+   <ComplexType Name="EmployeeSocialSecurityNumbers">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="Edm.String"/>
+   </ComplexType>
+   <ComplexType Name="NextOfKin">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="Edm.String"/>
+   </ComplexType>
+   <ComplexType Name="EmployeeProfiles">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="concerto.Concept"/>
+   </ComplexType>
+   <ComplexType Name="EmployeeDirectory">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="org.acme.hr.Employee"/>
+   </ComplexType>
       <ComplexType Name="Company"  BaseType="concerto.Concept">
          <Property Name="name" Type="Edm.String"  >
          </Property>
@@ -8604,6 +8632,10 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          <Member Name="LARGE">
          </Member>
       </EnumType>
+   <ComplexType Name="EmployeeTShirtSizes">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="org.acme.hr.base.TShirtSizeType"/>
+   </ComplexType>
       <ComplexType Name="Address"  BaseType="concerto.Concept">
          <Property Name="street" Type="Edm.String"  >
          </Property>
@@ -8641,6 +8673,30 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 </edmx:Reference>
 <edmx:DataServices>
    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr">
+   <ComplexType Name="CompanyProperties">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="Edm.String"/>
+   </ComplexType>
+   <ComplexType Name="EmployeeLoginTimes">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="Edm.DateTimeOffset"/>
+   </ComplexType>
+   <ComplexType Name="EmployeeSocialSecurityNumbers">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="Edm.String"/>
+   </ComplexType>
+   <ComplexType Name="NextOfKin">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="Edm.String"/>
+   </ComplexType>
+   <ComplexType Name="EmployeeProfiles">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="concerto.Concept"/>
+   </ComplexType>
+   <ComplexType Name="EmployeeDirectory">
+      <Property Name="Key" Type="Edm.String"/>
+      <Property Name="Value" Type="org.acme.hr.Employee"/>
+   </ComplexType>
       <ComplexType Name="Company"  BaseType="concerto.Concept">
          <Property Name="name" Type="Edm.String"  >
          </Property>
