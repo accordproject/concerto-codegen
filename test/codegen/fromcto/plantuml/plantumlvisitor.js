@@ -460,10 +460,8 @@ describe('PlantUMLVisitor', function () {
 
             plantUMLvisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(4);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'class org.acme.NextOfKin << (M,pink) >> {']);
-            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '+ String']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '+ String']);
+            param.fileWriter.writeLine.callCount.should.deep.equal(2);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'map "org.acme.NextOfKin: Map<String, String>" as org.acme.NextOfKin {']);
             param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '}']);
         });
     });
