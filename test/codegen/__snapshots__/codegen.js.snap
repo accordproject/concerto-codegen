@@ -2288,6 +2288,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 ## Overview
 - 1 concepts
 - 2 enumerations
+- 1 maps
+- 2 scalars
 - 0 assets
 - 0 participants
 - 0 transactions
@@ -2321,6 +2323,8 @@ class \`org.acme.hr.base.TShirtSizeType\` {
    + \`LARGE\`
 }
 
+\`org.acme.hr.base.EmployeeTShirtSizes\` "1" o-- "*" \`org.acme.hr.base.SSN\`
+\`org.acme.hr.base.EmployeeTShirtSizes\` "1" o-- "*" \`org.acme.hr.base.TShirtSizeType\`
 class \`org.acme.hr.base.Address\` {
 << concept>>
    + \`String\` \`street\`
@@ -2338,6 +2342,8 @@ class \`org.acme.hr.base.Address\` {
 ## Overview
 - 1 concepts
 - 2 enumerations
+- 6 maps
+- 2 scalars
 - 2 assets
 - 4 participants
 - 1 transactions
@@ -2359,6 +2365,18 @@ class \`org.acme.hr.base.Address\` {
 ## Diagram
 \`\`\`mermaid
 classDiagram
+\`org.acme.hr.CompanyProperties\` "1" o-- "*" \`String\`
+\`org.acme.hr.CompanyProperties\` "1" o-- "*" \`String\`
+\`org.acme.hr.EmployeeLoginTimes\` "1" o-- "*" \`String\`
+\`org.acme.hr.EmployeeLoginTimes\` "1" o-- "*" \`org.acme.hr.base.Time\`
+\`org.acme.hr.EmployeeSocialSecurityNumbers\` "1" o-- "*" \`String\`
+\`org.acme.hr.EmployeeSocialSecurityNumbers\` "1" o-- "*" \`org.acme.hr.base.SSN\`
+\`org.acme.hr.NextOfKin\` "1" o-- "*" \`org.acme.hr.KinName\`
+\`org.acme.hr.NextOfKin\` "1" o-- "*" \`org.acme.hr.KinTelephone\`
+\`org.acme.hr.EmployeeProfiles\` "1" o-- "*" \`String\`
+\`org.acme.hr.EmployeeProfiles\` "1" o-- "*" \`concerto@1.0.0.Concept\`
+\`org.acme.hr.EmployeeDirectory\` "1" o-- "*" \`org.acme.hr.base.SSN\`
+\`org.acme.hr.EmployeeDirectory\` "1" o-- "*" \`org.acme.hr.Employee\`
 class \`org.acme.hr.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -2500,6 +2518,8 @@ class \`org.acme.hr.base.TShirtSizeType\` {
 }
 
 \`org.acme.hr.base.TShirtSizeType\` --|> \`concerto@1.0.0.Concept\`
+\`org.acme.hr.base.EmployeeTShirtSizes\` "1" o-- "*" \`org.acme.hr.base.SSN\`
+\`org.acme.hr.base.EmployeeTShirtSizes\` "1" o-- "*" \`org.acme.hr.base.TShirtSizeType\`
 class \`org.acme.hr.base.Address\` {
 << concept>>
    + \`String\` \`street\`
@@ -2510,6 +2530,18 @@ class \`org.acme.hr.base.Address\` {
 }
 
 \`org.acme.hr.base.Address\` --|> \`concerto@1.0.0.Concept\`
+\`org.acme.hr.CompanyProperties\` "1" o-- "*" \`String\`
+\`org.acme.hr.CompanyProperties\` "1" o-- "*" \`String\`
+\`org.acme.hr.EmployeeLoginTimes\` "1" o-- "*" \`String\`
+\`org.acme.hr.EmployeeLoginTimes\` "1" o-- "*" \`org.acme.hr.base.Time\`
+\`org.acme.hr.EmployeeSocialSecurityNumbers\` "1" o-- "*" \`String\`
+\`org.acme.hr.EmployeeSocialSecurityNumbers\` "1" o-- "*" \`org.acme.hr.base.SSN\`
+\`org.acme.hr.NextOfKin\` "1" o-- "*" \`org.acme.hr.KinName\`
+\`org.acme.hr.NextOfKin\` "1" o-- "*" \`org.acme.hr.KinTelephone\`
+\`org.acme.hr.EmployeeProfiles\` "1" o-- "*" \`String\`
+\`org.acme.hr.EmployeeProfiles\` "1" o-- "*" \`concerto@1.0.0.Concept\`
+\`org.acme.hr.EmployeeDirectory\` "1" o-- "*" \`org.acme.hr.base.SSN\`
+\`org.acme.hr.EmployeeDirectory\` "1" o-- "*" \`org.acme.hr.Employee\`
 class \`org.acme.hr.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -5654,6 +5686,8 @@ class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
    + \`LARGE\`
 }
 
+\`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` "1" o-- "*" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` "1" o-- "*" \`org.acme.hr.base@1.0.0.TShirtSizeType\`
 class \`org.acme.hr.base@1.0.0.Address\` {
 << concept>>
    + \`String\` \`street\`
@@ -5664,6 +5698,18 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 }
 
 \`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
+\`org.acme.hr@1.0.0.CompanyProperties\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.CompanyProperties\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeLoginTimes\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeLoginTimes\` "1" o-- "*" \`org.acme.hr.base@1.0.0.Time\`
+\`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` "1" o-- "*" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.NextOfKin\` "1" o-- "*" \`org.acme.hr@1.0.0.KinName\`
+\`org.acme.hr@1.0.0.NextOfKin\` "1" o-- "*" \`org.acme.hr@1.0.0.KinTelephone\`
+\`org.acme.hr@1.0.0.EmployeeProfiles\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeProfiles\` "1" o-- "*" \`concerto@1.0.0.Concept\`
+\`org.acme.hr@1.0.0.EmployeeDirectory\` "1" o-- "*" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.EmployeeDirectory\` "1" o-- "*" \`org.acme.hr@1.0.0.Employee\`
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -8190,6 +8236,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 ## Overview
 - 1 concepts
 - 2 enumerations
+- 1 maps
+- 2 scalars
 - 0 assets
 - 0 participants
 - 0 transactions
@@ -8223,6 +8271,8 @@ class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
    + \`LARGE\`
 }
 
+\`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` "1" o-- "*" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` "1" o-- "*" \`org.acme.hr.base@1.0.0.TShirtSizeType\`
 class \`org.acme.hr.base@1.0.0.Address\` {
 << concept>>
    + \`String\` \`street\`
@@ -8240,6 +8290,8 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 ## Overview
 - 1 concepts
 - 2 enumerations
+- 6 maps
+- 2 scalars
 - 2 assets
 - 4 participants
 - 1 transactions
@@ -8261,6 +8313,18 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 ## Diagram
 \`\`\`mermaid
 classDiagram
+\`org.acme.hr@1.0.0.CompanyProperties\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.CompanyProperties\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeLoginTimes\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeLoginTimes\` "1" o-- "*" \`org.acme.hr.base@1.0.0.Time\`
+\`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` "1" o-- "*" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.NextOfKin\` "1" o-- "*" \`org.acme.hr@1.0.0.KinName\`
+\`org.acme.hr@1.0.0.NextOfKin\` "1" o-- "*" \`org.acme.hr@1.0.0.KinTelephone\`
+\`org.acme.hr@1.0.0.EmployeeProfiles\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeProfiles\` "1" o-- "*" \`concerto@1.0.0.Concept\`
+\`org.acme.hr@1.0.0.EmployeeDirectory\` "1" o-- "*" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.EmployeeDirectory\` "1" o-- "*" \`org.acme.hr@1.0.0.Employee\`
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -8402,6 +8466,8 @@ class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
 }
 
 \`org.acme.hr.base@1.0.0.TShirtSizeType\` --|> \`concerto@1.0.0.Concept\`
+\`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` "1" o-- "*" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` "1" o-- "*" \`org.acme.hr.base@1.0.0.TShirtSizeType\`
 class \`org.acme.hr.base@1.0.0.Address\` {
 << concept>>
    + \`String\` \`street\`
@@ -8413,6 +8479,18 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 
 \`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
 \`org.acme.hr.base@1.0.0.Address\` --|> \`concerto@1.0.0.Concept\`
+\`org.acme.hr@1.0.0.CompanyProperties\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.CompanyProperties\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeLoginTimes\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeLoginTimes\` "1" o-- "*" \`org.acme.hr.base@1.0.0.Time\`
+\`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` "1" o-- "*" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.NextOfKin\` "1" o-- "*" \`org.acme.hr@1.0.0.KinName\`
+\`org.acme.hr@1.0.0.NextOfKin\` "1" o-- "*" \`org.acme.hr@1.0.0.KinTelephone\`
+\`org.acme.hr@1.0.0.EmployeeProfiles\` "1" o-- "*" \`String\`
+\`org.acme.hr@1.0.0.EmployeeProfiles\` "1" o-- "*" \`concerto@1.0.0.Concept\`
+\`org.acme.hr@1.0.0.EmployeeDirectory\` "1" o-- "*" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.EmployeeDirectory\` "1" o-- "*" \`org.acme.hr@1.0.0.Employee\`
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
