@@ -110,11 +110,11 @@ protocol MyProtocol {
    record Company {
       string name;
       Address headquarters;
-      union { null, CompanyProperties } companyProperties;
-      union { null, EmployeeDirectory } employeeDirectory;
-      union { null, EmployeeTShirtSizes } employeeTShirtSizes;
-      union { null, EmployeeProfiles } employeeProfiles;
-      union { null, EmployeeSocialSecurityNumbers } employeeSocialSecurityNumbers;
+      map<string> companyProperties;
+      map<Employee> employeeDirectory;
+      map<TShirtSizeType> employeeTShirtSizes;
+      map<Concept> employeeProfiles;
+      map<string> employeeSocialSecurityNumbers;
    }
 
    enum Department {
@@ -150,7 +150,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
-      NextOfKin nextOfKin;
+      map<string> nextOfKin;
    }
 
    record Employee {
@@ -171,7 +171,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
-      NextOfKin nextOfKin;
+      map<string> nextOfKin;
    }
 
    record Contractor {
@@ -186,7 +186,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
-      NextOfKin nextOfKin;
+      map<string> nextOfKin;
    }
 
    record Manager {
@@ -208,7 +208,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
-      NextOfKin nextOfKin;
+      map<string> nextOfKin;
    }
 
    record CompanyEvent {
@@ -6012,11 +6012,11 @@ protocol MyProtocol {
    record Company {
       string name;
       Address headquarters;
-      union { null, CompanyProperties } companyProperties;
-      union { null, EmployeeDirectory } employeeDirectory;
-      union { null, EmployeeTShirtSizes } employeeTShirtSizes;
-      union { null, EmployeeProfiles } employeeProfiles;
-      union { null, EmployeeSocialSecurityNumbers } employeeSocialSecurityNumbers;
+      map<string> companyProperties;
+      map<Employee> employeeDirectory;
+      map<TShirtSizeType> employeeTShirtSizes;
+      map<Concept> employeeProfiles;
+      map<string> employeeSocialSecurityNumbers;
    }
 
    enum Department {
@@ -6052,7 +6052,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
-      NextOfKin nextOfKin;
+      map<string> nextOfKin;
    }
 
    record Employee {
@@ -6073,7 +6073,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
-      NextOfKin nextOfKin;
+      map<string> nextOfKin;
    }
 
    record Contractor {
@@ -6088,7 +6088,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
-      NextOfKin nextOfKin;
+      map<string> nextOfKin;
    }
 
    record Manager {
@@ -6110,7 +6110,7 @@ protocol MyProtocol {
       double height;
       @logicalType("timestamp-micros")
       long dob;
-      NextOfKin nextOfKin;
+      map<string> nextOfKin;
    }
 
    record CompanyEvent {
