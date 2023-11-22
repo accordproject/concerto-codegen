@@ -25,6 +25,9 @@ const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaratio
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
 const ScalarDeclaration = require('@accordproject/concerto-core').ScalarDeclaration;
 const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
+const MapDeclaration = require('@accordproject/concerto-core').MapDeclaration;
+const MapKeyType = require('@accordproject/concerto-core').MapKeyType;
+const MapValueType = require('@accordproject/concerto-core').MapValueType;
 const Field = require('@accordproject/concerto-core').Field;
 const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
@@ -97,6 +100,39 @@ describe('VocabularyVisitor', function () {
             mockSpecialVisit.returns('Duck');
 
             vocabularyVisitor.visit(thing, param).should.deep.equal('Duck');
+
+            mockSpecialVisit.calledWith(thing, param).should.be.ok;
+        });
+
+        it('should return visitMapDeclaration for a MapDeclaration', () => {
+            let thing = sinon.createStubInstance(MapDeclaration);
+            thing.isMapDeclaration.returns(true);
+            let mockSpecialVisit = sinon.stub(vocabularyVisitor, 'visitMapDeclaration');
+            mockSpecialVisit.returns('Duck');
+
+            vocabularyVisitor.visit(thing, param).should.deep.equal('Duck');
+
+            mockSpecialVisit.calledWith(thing, param).should.be.ok;
+        });
+
+        it('should return visitMapKey for a MapKeyType', () => {
+            let thing = sinon.createStubInstance(MapKeyType);
+            thing.isKey.returns(true);
+            let mockSpecialVisit = sinon.stub(vocabularyVisitor, 'visitMapKey');
+            mockSpecialVisit.returns('Goose');
+
+            vocabularyVisitor.visit(thing, param).should.deep.equal('Goose');
+
+            mockSpecialVisit.calledWith(thing, param).should.be.ok;
+        });
+
+        it('should return visitMapValue for a MapValueType', () => {
+            let thing = sinon.createStubInstance(MapValueType);
+            thing.isValue.returns(true);
+            let mockSpecialVisit = sinon.stub(vocabularyVisitor, 'visitMapValue');
+            mockSpecialVisit.returns('Goose');
+
+            vocabularyVisitor.visit(thing, param).should.deep.equal('Goose');
 
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
@@ -285,6 +321,34 @@ describe('VocabularyVisitor', function () {
         });
     });
 
+    describe('visitMapDeclaration for MapDeclaration', () => {
+        it('should write vocabulary for map declarations', () => {
+            let acceptSpy = sinon.spy();
+
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getName.returns('Dictionary');
+            mockMapDeclaration.getKey.returns({
+                accept: acceptSpy
+            });
+            mockMapDeclaration.getValue.returns({
+                accept: acceptSpy
+            });
+
+            vocabularyVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(2);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  - Dictionary: Dictionary']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '    properties:']);
+
+            acceptSpy.withArgs(vocabularyVisitor, param).calledTwice.should.be.ok;
+        });
+    });
+
     describe('visitScalarDeclaration for ScalarDeclaration', () => {
         it('should write vocabulary for scalar declarations', () => {
             let param = {
@@ -360,6 +424,44 @@ describe('VocabularyVisitor', function () {
             mockRelationship.getName.returns('orderline');
             vocabularyVisitor.visitProperty(mockRelationship, param);
             param.fileWriter.writeLine.withArgs(0,'      - orderline: Orderline of the Order').calledOnce.should.be.ok;
+        });
+    });
+
+    describe('visitMapKey for MapKeyType', () => {
+        let param;
+        beforeEach(() => {
+            param = {
+                fileWriter: mockFileWriter
+            };
+        });
+        it('should write a line for Map Key name and its vocabulary in english', () => {
+            const mockKey = sinon.createStubInstance(MapKeyType);
+            const mockParent = {
+                getName: sinon.stub().returns('Dictionary')
+            };
+            mockKey.getParent.returns(mockParent);
+            mockKey.getType.returns('String');
+            vocabularyVisitor.visitMapKey(mockKey, param);
+            param.fileWriter.writeLine.withArgs(0,'      - KEY: KEY of the Dictionary').calledOnce.should.be.ok;
+        });
+    });
+
+    describe('visitMapValue for MapValueType', () => {
+        let param;
+        beforeEach(() => {
+            param = {
+                fileWriter: mockFileWriter
+            };
+        });
+        it('should write a line for Map Value name and its vocabulary in english', () => {
+            const mockValue = sinon.createStubInstance(MapValueType);
+            const mockParent = {
+                getName: sinon.stub().returns('Dictionary')
+            };
+            mockValue.getParent.returns(mockParent);
+            mockValue.getType.returns('String');
+            vocabularyVisitor.visitMapValue(mockValue, param);
+            param.fileWriter.writeLine.withArgs(0,'      - VALUE: VALUE of the Dictionary').calledOnce.should.be.ok;
         });
     });
 });
