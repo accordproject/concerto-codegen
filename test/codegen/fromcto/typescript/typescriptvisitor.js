@@ -624,6 +624,28 @@ describe('TypescriptVisitor', function () {
 
             param.fileWriter.writeLine.withArgs(1, 'literalTest = EnumType.MyEnumValue;').calledOnce.should.be.ok;
         });
+
+        it('should write a line for field name using a union type when the flattenSubclassesToUnion parameter is set', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.getName.returns('flattenSubclassesTest');
+            mockField.getType.returns('Animal');
+            mockField.getDecorators.returns([]);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.getDirectSubclasses.returns(['blah']); // Not valid, but sufficient for this test
+
+            mockModelManager.getType.returns(mockClassDeclaration);
+            mockClassDeclaration.isEnum.returns(false);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+            typescriptVisitor.visitField(mockField, { ...param, flattenSubclassesToUnion: true });
+
+            param.fileWriter.writeLine.withArgs(1, 'flattenSubclassesTest: AnimalUnion;').calledOnce.should.be.ok;
+        });
     });
 
     describe('visitEnumValueDeclaration', () => {
