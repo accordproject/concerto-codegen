@@ -76,6 +76,14 @@ declare class ODataVisitor {
     private visitEnumValueDeclaration;
     /**
      * Visitor design pattern
+     * @param {MapDeclaration} mapDeclaration - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitMapDeclaration;
+    /**
+     * Visitor design pattern
      * @param {Relationship} relationship - the object being visited
      * @param {Object} parameters  - the parameter
      * @return {Object} the result of visiting or null
