@@ -4114,31 +4114,31 @@ pub struct Company {
       rename = "companyProperties",
       skip_serializing_if = "Option::is_none",
    )]
-   pub company_properties: HashMap<String, String>,
+   pub company_properties: Option<HashMap<String, String>>,
    
    #[serde(
       rename = "employeeDirectory",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_directory: HashMap<String, Employee>,
+   pub employee_directory: Option<HashMap<String, Employee>>,
    
    #[serde(
       rename = "employeeTShirtSizes",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_t_shirt_sizes: HashMap<String, TShirtSizeType>,
+   pub employee_t_shirt_sizes: Option<HashMap<String, TShirtSizeType>>,
    
    #[serde(
       rename = "employeeProfiles",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_profiles: HashMap<String, Concept>,
+   pub employee_profiles: Option<HashMap<String, Concept>>,
    
    #[serde(
       rename = "employeeSocialSecurityNumbers",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_social_security_numbers: HashMap<String, String>,
+   pub employee_social_security_numbers: Option<HashMap<String, String>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -9698,31 +9698,31 @@ pub struct Company {
       rename = "companyProperties",
       skip_serializing_if = "Option::is_none",
    )]
-   pub company_properties: HashMap<String, String>,
+   pub company_properties: Option<HashMap<String, String>>,
    
    #[serde(
       rename = "employeeDirectory",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_directory: HashMap<String, Employee>,
+   pub employee_directory: Option<HashMap<String, Employee>>,
    
    #[serde(
       rename = "employeeTShirtSizes",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_t_shirt_sizes: HashMap<String, TShirtSizeType>,
+   pub employee_t_shirt_sizes: Option<HashMap<String, TShirtSizeType>>,
    
    #[serde(
       rename = "employeeProfiles",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_profiles: HashMap<String, Concept>,
+   pub employee_profiles: Option<HashMap<String, Concept>>,
    
    #[serde(
       rename = "employeeSocialSecurityNumbers",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_social_security_numbers: HashMap<String, String>,
+   pub employee_social_security_numbers: Option<HashMap<String, String>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
