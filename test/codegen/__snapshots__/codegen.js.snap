@@ -4114,31 +4114,31 @@ pub struct Company {
       rename = "companyProperties",
       skip_serializing_if = "Option::is_none",
    )]
-   pub mut company_properties: HashMap<String, String> = HashMap::new();
+   pub company_properties: HashMap<String, String>,
    
    #[serde(
       rename = "employeeDirectory",
       skip_serializing_if = "Option::is_none",
    )]
-   pub mut employee_directory: HashMap<String, Employee> = HashMap::new();
+   pub employee_directory: HashMap<String, Employee>,
    
    #[serde(
       rename = "employeeTShirtSizes",
       skip_serializing_if = "Option::is_none",
    )]
-   pub mut employee_t_shirt_sizes: HashMap<String, TShirtSizeType> = HashMap::new();
+   pub employee_t_shirt_sizes: HashMap<String, TShirtSizeType>,
    
    #[serde(
       rename = "employeeProfiles",
       skip_serializing_if = "Option::is_none",
    )]
-   pub mut employee_profiles: HashMap<String, Concept> = HashMap::new();
+   pub employee_profiles: HashMap<String, Concept>,
    
    #[serde(
       rename = "employeeSocialSecurityNumbers",
       skip_serializing_if = "Option::is_none",
    )]
-   pub mut employee_social_security_numbers: HashMap<String, String> = HashMap::new();
+   pub employee_social_security_numbers: HashMap<String, String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -4259,7 +4259,7 @@ pub struct Person {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub mut next_of_kin: HashMap<String, String> = HashMap::new();
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -4358,7 +4358,7 @@ pub struct Employee {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub mut next_of_kin: HashMap<String, String> = HashMap::new();
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -4427,7 +4427,7 @@ pub struct Contractor {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub mut next_of_kin: HashMap<String, String> = HashMap::new();
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -4529,7 +4529,7 @@ pub struct Manager {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub mut next_of_kin: HashMap<String, String> = HashMap::new();
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -9698,31 +9698,31 @@ pub struct Company {
       rename = "companyProperties",
       skip_serializing_if = "Option::is_none",
    )]
-   pub mut company_properties: HashMap<String, String> = HashMap::new();
+   pub company_properties: HashMap<String, String>,
    
    #[serde(
       rename = "employeeDirectory",
       skip_serializing_if = "Option::is_none",
    )]
-   pub mut employee_directory: HashMap<String, Employee> = HashMap::new();
+   pub employee_directory: HashMap<String, Employee>,
    
    #[serde(
       rename = "employeeTShirtSizes",
       skip_serializing_if = "Option::is_none",
    )]
-   pub mut employee_t_shirt_sizes: HashMap<String, TShirtSizeType> = HashMap::new();
+   pub employee_t_shirt_sizes: HashMap<String, TShirtSizeType>,
    
    #[serde(
       rename = "employeeProfiles",
       skip_serializing_if = "Option::is_none",
    )]
-   pub mut employee_profiles: HashMap<String, Concept> = HashMap::new();
+   pub employee_profiles: HashMap<String, Concept>,
    
    #[serde(
       rename = "employeeSocialSecurityNumbers",
       skip_serializing_if = "Option::is_none",
    )]
-   pub mut employee_social_security_numbers: HashMap<String, String> = HashMap::new();
+   pub employee_social_security_numbers: HashMap<String, String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -9843,7 +9843,7 @@ pub struct Person {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub mut next_of_kin: HashMap<String, String> = HashMap::new();
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -9942,7 +9942,7 @@ pub struct Employee {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub mut next_of_kin: HashMap<String, String> = HashMap::new();
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -10011,7 +10011,7 @@ pub struct Contractor {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub mut next_of_kin: HashMap<String, String> = HashMap::new();
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -10113,7 +10113,7 @@ pub struct Manager {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub mut next_of_kin: HashMap<String, String> = HashMap::new();
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",

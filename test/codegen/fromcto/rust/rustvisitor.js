@@ -529,7 +529,7 @@ describe('RustVisitor', function () {
 
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'pub mut mock_map_declaration: HashMap<String, String> = HashMap::new();').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, String>,').calledOnce.should.be.ok;
             isPrimitiveTypeStub.restore();
         });
 
@@ -565,7 +565,7 @@ describe('RustVisitor', function () {
 
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'pub mut mock_map_declaration: HashMap<String, String> = HashMap::new();').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, String>,').calledOnce.should.be.ok;
             isPrimitiveTypeStub.restore();
             isScalarStub.restore();
         });
@@ -605,7 +605,7 @@ describe('RustVisitor', function () {
 
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'pub mut mock_map_declaration: HashMap<String, String> = HashMap::new();').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, String>,').calledOnce.should.be.ok;
 
             isPrimitiveTypeStub.restore();
             isScalarStub.restore();
@@ -640,7 +640,7 @@ describe('RustVisitor', function () {
 
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'pub mut mock_map_declaration: HashMap<String, Person> = HashMap::new();').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, Person>,').calledOnce.should.be.ok;
             isScalarStub.restore();
             isPrimitiveTypeStub.restore();
         });
