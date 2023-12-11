@@ -2288,6 +2288,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 ## Overview
 - 1 concepts
 - 2 enumerations
+- 1 maps
+- 2 scalars
 - 0 assets
 - 0 participants
 - 0 transactions
@@ -2321,6 +2323,12 @@ class \`org.acme.hr.base.TShirtSizeType\` {
    + \`LARGE\`
 }
 
+class \`org.acme.hr.base.EmployeeTShirtSizes\` {
+<< map >>
+   + Key:\`org.acme.hr.base.SSN\`
+   + Value: \`org.acme.hr.base.TShirtSizeType\`
+}
+
 class \`org.acme.hr.base.Address\` {
 << concept>>
    + \`String\` \`street\`
@@ -2338,6 +2346,8 @@ class \`org.acme.hr.base.Address\` {
 ## Overview
 - 1 concepts
 - 2 enumerations
+- 6 maps
+- 2 scalars
 - 2 assets
 - 4 participants
 - 1 transactions
@@ -2359,6 +2369,42 @@ class \`org.acme.hr.base.Address\` {
 ## Diagram
 \`\`\`mermaid
 classDiagram
+class \`org.acme.hr.CompanyProperties\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`String\`
+}
+
+class \`org.acme.hr.EmployeeLoginTimes\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base.Time\`
+}
+
+class \`org.acme.hr.EmployeeSocialSecurityNumbers\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base.SSN\`
+}
+
+class \`org.acme.hr.NextOfKin\` {
+<< map >>
+   + Key:\`org.acme.hr.KinName\`
+   + Value: \`org.acme.hr.KinTelephone\`
+}
+
+class \`org.acme.hr.EmployeeProfiles\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`concerto@1.0.0.Concept\`
+}
+
+class \`org.acme.hr.EmployeeDirectory\` {
+<< map >>
+   + Key:\`org.acme.hr.base.SSN\`
+   + Value: \`org.acme.hr.Employee\`
+}
+
 class \`org.acme.hr.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -2500,6 +2546,12 @@ class \`org.acme.hr.base.TShirtSizeType\` {
 }
 
 \`org.acme.hr.base.TShirtSizeType\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base.EmployeeTShirtSizes\` {
+<< map >>
+   + Key:\`org.acme.hr.base.SSN\`
+   + Value: \`org.acme.hr.base.TShirtSizeType\`
+}
+
 class \`org.acme.hr.base.Address\` {
 << concept>>
    + \`String\` \`street\`
@@ -2510,6 +2562,42 @@ class \`org.acme.hr.base.Address\` {
 }
 
 \`org.acme.hr.base.Address\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.CompanyProperties\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`String\`
+}
+
+class \`org.acme.hr.EmployeeLoginTimes\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base.Time\`
+}
+
+class \`org.acme.hr.EmployeeSocialSecurityNumbers\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base.SSN\`
+}
+
+class \`org.acme.hr.NextOfKin\` {
+<< map >>
+   + Key:\`org.acme.hr.KinName\`
+   + Value: \`org.acme.hr.KinTelephone\`
+}
+
+class \`org.acme.hr.EmployeeProfiles\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`concerto@1.0.0.Concept\`
+}
+
+class \`org.acme.hr.EmployeeDirectory\` {
+<< map >>
+   + Key:\`org.acme.hr.base.SSN\`
+   + Value: \`org.acme.hr.Employee\`
+}
+
 class \`org.acme.hr.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -5724,6 +5812,12 @@ class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
    + \`LARGE\`
 }
 
+class \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` {
+<< map >>
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr.base@1.0.0.TShirtSizeType\`
+}
+
 class \`org.acme.hr.base@1.0.0.Address\` {
 << concept>>
    + \`String\` \`street\`
@@ -5734,6 +5828,42 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 }
 
 \`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
+class \`org.acme.hr@1.0.0.CompanyProperties\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`String\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeLoginTimes\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.Time\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.SSN\`
+}
+
+class \`org.acme.hr@1.0.0.NextOfKin\` {
+<< map >>
+   + Key:\`org.acme.hr@1.0.0.KinName\`
+   + Value: \`org.acme.hr@1.0.0.KinTelephone\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeProfiles\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`concerto@1.0.0.Concept\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeDirectory\` {
+<< map >>
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr@1.0.0.Employee\`
+}
+
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -8274,6 +8404,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 ## Overview
 - 1 concepts
 - 2 enumerations
+- 1 maps
+- 2 scalars
 - 0 assets
 - 0 participants
 - 0 transactions
@@ -8307,6 +8439,12 @@ class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
    + \`LARGE\`
 }
 
+class \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` {
+<< map >>
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr.base@1.0.0.TShirtSizeType\`
+}
+
 class \`org.acme.hr.base@1.0.0.Address\` {
 << concept>>
    + \`String\` \`street\`
@@ -8324,6 +8462,8 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 ## Overview
 - 1 concepts
 - 2 enumerations
+- 6 maps
+- 2 scalars
 - 2 assets
 - 4 participants
 - 1 transactions
@@ -8345,6 +8485,42 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 ## Diagram
 \`\`\`mermaid
 classDiagram
+class \`org.acme.hr@1.0.0.CompanyProperties\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`String\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeLoginTimes\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.Time\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.SSN\`
+}
+
+class \`org.acme.hr@1.0.0.NextOfKin\` {
+<< map >>
+   + Key:\`org.acme.hr@1.0.0.KinName\`
+   + Value: \`org.acme.hr@1.0.0.KinTelephone\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeProfiles\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`concerto@1.0.0.Concept\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeDirectory\` {
+<< map >>
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr@1.0.0.Employee\`
+}
+
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
@@ -8486,6 +8662,12 @@ class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
 }
 
 \`org.acme.hr.base@1.0.0.TShirtSizeType\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` {
+<< map >>
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr.base@1.0.0.TShirtSizeType\`
+}
+
 class \`org.acme.hr.base@1.0.0.Address\` {
 << concept>>
    + \`String\` \`street\`
@@ -8497,6 +8679,42 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 
 \`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
 \`org.acme.hr.base@1.0.0.Address\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr@1.0.0.CompanyProperties\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`String\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeLoginTimes\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.Time\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.SSN\`
+}
+
+class \`org.acme.hr@1.0.0.NextOfKin\` {
+<< map >>
+   + Key:\`org.acme.hr@1.0.0.KinName\`
+   + Value: \`org.acme.hr@1.0.0.KinTelephone\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeProfiles\` {
+<< map >>
+   + Key:\`String\`
+   + Value: \`concerto@1.0.0.Concept\`
+}
+
+class \`org.acme.hr@1.0.0.EmployeeDirectory\` {
+<< map >>
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr@1.0.0.Employee\`
+}
+
 class \`org.acme.hr@1.0.0.Company\` {
 << concept>>
    + \`String\` \`name\`
