@@ -383,7 +383,7 @@ public class Company : Concept {
    public Dictionary<string, Employee> employeeDirectory { get; set; }
    public Dictionary<string, TShirtSizeType> employeeTShirtSizes { get; set; }
    public Dictionary<string, Concept> employeeProfiles { get; set; }
-   public Dictionary<string, SSN> employeeSocialSecurityNumbers { get; set; }
+   public Dictionary<string, string> employeeSocialSecurityNumbers { get; set; }
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum Department {
@@ -429,7 +429,7 @@ public abstract class Person : Participant {
    public string ssn { get; set; }
    public float height { get; set; }
    public System.DateTime dob { get; set; }
-   public Dictionary<string, KinTelephone> nextOfKin { get; set; }
+   public Dictionary<string, string> nextOfKin { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = null, Name = "Employee")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -6499,7 +6499,7 @@ public class Company : Concept {
    public Dictionary<string, Employee> employeeDirectory { get; set; }
    public Dictionary<string, TShirtSizeType> employeeTShirtSizes { get; set; }
    public Dictionary<string, Concept> employeeProfiles { get; set; }
-   public Dictionary<string, SSN> employeeSocialSecurityNumbers { get; set; }
+   public Dictionary<string, string> employeeSocialSecurityNumbers { get; set; }
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum Department {
@@ -6545,7 +6545,7 @@ public abstract class Person : Participant {
    public string ssn { get; set; }
    public float height { get; set; }
    public System.DateTime dob { get; set; }
-   public Dictionary<string, KinTelephone> nextOfKin { get; set; }
+   public Dictionary<string, string> nextOfKin { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Employee")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]

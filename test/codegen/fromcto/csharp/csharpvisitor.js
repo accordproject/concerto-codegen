@@ -1445,7 +1445,7 @@ public class SampleModel : Concept {
             };
             sandbox.restore();
             sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
-                return true;
+                return false;
             });
 
         });
@@ -1509,6 +1509,11 @@ public class SampleModel : Concept {
             mockField.dummy = 'Dummy Value';
             mockField.getModelFile.returns({ getType: getType });
 
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
@@ -1533,10 +1538,21 @@ public class SampleModel : Concept {
             mockField.dummy = 'Dummy Value';
             mockField.getModelFile.returns({ getType: getType });
 
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return false;
+            });
 
             let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            let modelFile               = sinon.createStubInstance(ModelFile);
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+
+            mockField.getModelFile.returns(modelFile);
+            modelFile.getType.returns(mockMapDeclaration);
 
             getType.returns(mockMapDeclaration);
             getKeyType.returns('String');
@@ -1557,6 +1573,40 @@ public class SampleModel : Concept {
 
             mockField.dummy = 'Dummy Value';
             mockField.getModelFile.returns({ getType: getType });
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
+            getType.returns(mockMapDeclaration);
+            getKeyType.returns('String');
+            getValueType.returns('DateTime');
+            mockField.getName.returns('Map1');
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            csharpVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(1, 'public Dictionary<string, System.DateTime> Map1 { get; set; }').calledOnce.should.be.ok;
+        });
+
+        it('should write a line for field name and type thats a map of <SSN, DateTime>', () => {
+            const mockField             = sinon.createStubInstance(Field);
+            const getType               = sinon.stub();
+
+            mockField.dummy = 'Dummy Value';
+            mockField.getModelFile.returns({ getType: getType });
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
 
             let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
             const getKeyType            = sinon.stub();
