@@ -19,9 +19,11 @@ chai.should();
 const sinon = require('sinon');
 
 const RustVisitor = require('../../../../lib/codegen/fromcto/rust/rustvisitor.js');
-
+const ModelUtil = require('@accordproject/concerto-core').ModelUtil;
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
+const MapDeclaration = require('@accordproject/concerto-core').MapDeclaration;
+const ScalarDeclaration = require('@accordproject/concerto-core').ScalarDeclaration;
 const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
 const ModelFile = require('@accordproject/concerto-core').ModelFile;
@@ -29,6 +31,7 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
 
+let sandbox = sinon.createSandbox();
 
 describe('RustVisitor', function () {
     let rustVisitor;
@@ -489,6 +492,160 @@ describe('RustVisitor', function () {
             ]);
         });
     });
+
+    describe('visitField - Map Declaration', () => {
+        before(() => {
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+        });
+
+        it('should write a line for a map declaration <String, String>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockField           = sinon.createStubInstance(Field);
+            let mockModelFile       = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration  = sinon.createStubInstance(MapDeclaration);
+
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
+
+            getKeyType.returns('String');
+            getValueType.returns('String');
+
+            mockField.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.returns(mockMapDeclaration);
+            mockMapDeclaration.getKey.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getKeyType});
+            mockField.getName.returns('mockMapDeclaration');
+
+            const isPrimitiveTypeStub = sandbox.stub(ModelUtil, 'isPrimitiveType');
+
+            isPrimitiveTypeStub.onCall(0).returns(false);
+            isPrimitiveTypeStub.onCall(1).returns(true);
+            isPrimitiveTypeStub.onCall(2).returns(true);
+
+            rustVisitor.visitField(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, String>,').calledOnce.should.be.ok;
+            isPrimitiveTypeStub.restore();
+        });
+
+        it('should write a line with the name, key and value of the map <Scalar, String>', () => {
+
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockField               = sinon.createStubInstance(Field);
+            let mockModelFileA          = sinon.createStubInstance(ModelFile);
+            let mockModelFileB          = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            let mockScalarDeclaration   = sinon.createStubInstance(ScalarDeclaration);
+
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
+
+            getKeyType.returns('SSN'); // Scalar Type
+            getValueType.returns('String');
+
+            mockField.getModelFile.returns(mockModelFileA);
+            mockModelFileA.getType.returns(mockMapDeclaration);
+            mockMapDeclaration.getModelFile.returns(mockModelFileB);
+            mockModelFileB.getType.returns(mockScalarDeclaration);
+            mockMapDeclaration.getKey.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getValueType});
+            mockField.getName.returns('mockMapDeclaration');
+            mockScalarDeclaration.getType.returns('String');
+
+            const isPrimitiveTypeStub = sandbox.stub(ModelUtil, 'isPrimitiveType').returns(false);
+            const isScalarStub = sandbox.stub(ModelUtil, 'isScalar').returns(true);
+
+            rustVisitor.visitField(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, String>,').calledOnce.should.be.ok;
+            isPrimitiveTypeStub.restore();
+            isScalarStub.restore();
+        });
+
+        it('should write a line with the name, key and value of the map <Scalar, Scalar>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockField               = sinon.createStubInstance(Field);
+            let mockModelFileA          = sinon.createStubInstance(ModelFile);
+            let mockModelFileB          = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
+            let mockScalarDeclaration   = sinon.createStubInstance(ScalarDeclaration);
+
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
+
+            getKeyType.returns('SSN'); // Scalar Type
+            getValueType.returns('SSN'); // Scalar Type
+
+            mockField.getModelFile.returns(mockModelFileA);
+            mockModelFileA.getType.returns(mockMapDeclaration);
+            mockMapDeclaration.getModelFile.returns(mockModelFileB);
+            mockModelFileB.getType.returns(mockScalarDeclaration);
+            mockMapDeclaration.getKey.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getValueType});
+            mockField.getName.returns('mockMapDeclaration');
+            mockScalarDeclaration.getType.returns('String');
+
+            const isPrimitiveTypeStub   = sandbox.stub(ModelUtil, 'isPrimitiveType');
+            const isScalarStub          = sandbox.stub(ModelUtil, 'isScalar').returns(true);
+
+            isPrimitiveTypeStub.onCall(0).returns(false);
+            isPrimitiveTypeStub.onCall(1).returns(false);
+            isPrimitiveTypeStub.onCall(2).returns(false);
+
+            rustVisitor.visitField(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, String>,').calledOnce.should.be.ok;
+
+            isPrimitiveTypeStub.restore();
+            isScalarStub.restore();
+        });
+
+        it('should write a line with the name, key and value of the map <String, Person>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockField           = sinon.createStubInstance(Field);
+            let mockModelFile       = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration  = sinon.createStubInstance(MapDeclaration);
+
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
+
+            getKeyType.returns('String');
+            getValueType.returns('Person');
+
+            mockField.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.returns(mockMapDeclaration);
+            mockMapDeclaration.getKey.returns({getType: getKeyType});
+            mockMapDeclaration.getValue.returns({getType: getValueType});
+            mockField.getName.returns('mockMapDeclaration');
+
+            const isPrimitiveTypeStub   = sandbox.stub(ModelUtil, 'isPrimitiveType');
+            const isScalarStub          = sandbox.stub(ModelUtil, 'isScalar').returns(false);
+
+            isPrimitiveTypeStub.onCall(0).returns(false);
+            isPrimitiveTypeStub.onCall(1).returns(true);
+
+            rustVisitor.visitField(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, Person>,').calledOnce.should.be.ok;
+            isScalarStub.restore();
+            isPrimitiveTypeStub.restore();
+        });
+    });
+
 
     describe('visitEnumValueDeclaration', () => {
         it('should write a line with the name and value of the enum value', () => {

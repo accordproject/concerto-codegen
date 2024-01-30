@@ -4406,6 +4406,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 use chrono::{ DateTime, TimeZone, Utc };
    
 use crate::concerto_1_0_0::*;
+use std::collections::HashMap;
 use crate::utils::*;
    
 #[derive(Debug, Serialize, Deserialize)]
@@ -4480,6 +4481,7 @@ use chrono::{ DateTime, TimeZone, Utc };
    
 use crate::org_acme_hr_base::*;
 use crate::concerto_1_0_0::*;
+use std::collections::HashMap;
 use crate::utils::*;
    
 #[derive(Debug, Serialize, Deserialize)]
@@ -4503,31 +4505,31 @@ pub struct Company {
       rename = "companyProperties",
       skip_serializing_if = "Option::is_none",
    )]
-   pub company_properties: Option<CompanyProperties>,
+   pub company_properties: Option<HashMap<String, String>>,
    
    #[serde(
       rename = "employeeDirectory",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_directory: Option<EmployeeDirectory>,
+   pub employee_directory: Option<HashMap<String, Employee>>,
    
    #[serde(
       rename = "employeeTShirtSizes",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_t_shirt_sizes: Option<EmployeeTShirtSizes>,
+   pub employee_t_shirt_sizes: Option<HashMap<String, TShirtSizeType>>,
    
    #[serde(
       rename = "employeeProfiles",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_profiles: Option<EmployeeProfiles>,
+   pub employee_profiles: Option<HashMap<String, Concept>>,
    
    #[serde(
       rename = "employeeSocialSecurityNumbers",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_social_security_numbers: Option<EmployeeSocialSecurityNumbers>,
+   pub employee_social_security_numbers: Option<HashMap<String, String>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -4648,7 +4650,7 @@ pub struct Person {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub next_of_kin: NextOfKin,
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -4676,7 +4678,7 @@ pub struct Employee {
    #[serde(
       rename = "numDependents",
    )]
-   pub num_dependents: Integer,
+   pub num_dependents: f64,
    
    #[serde(
       rename = "retired",
@@ -4747,7 +4749,7 @@ pub struct Employee {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub next_of_kin: NextOfKin,
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -4816,7 +4818,7 @@ pub struct Contractor {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub next_of_kin: NextOfKin,
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -4847,7 +4849,7 @@ pub struct Manager {
    #[serde(
       rename = "numDependents",
    )]
-   pub num_dependents: Integer,
+   pub num_dependents: f64,
    
    #[serde(
       rename = "retired",
@@ -4918,7 +4920,7 @@ pub struct Manager {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub next_of_kin: NextOfKin,
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -10554,6 +10556,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 use chrono::{ DateTime, TimeZone, Utc };
    
 use crate::concerto_1_0_0::*;
+use std::collections::HashMap;
 use crate::utils::*;
    
 #[derive(Debug, Serialize, Deserialize)]
@@ -10628,6 +10631,7 @@ use chrono::{ DateTime, TimeZone, Utc };
    
 use crate::org_acme_hr_base_1_0_0::*;
 use crate::concerto_1_0_0::*;
+use std::collections::HashMap;
 use crate::utils::*;
    
 #[derive(Debug, Serialize, Deserialize)]
@@ -10651,31 +10655,31 @@ pub struct Company {
       rename = "companyProperties",
       skip_serializing_if = "Option::is_none",
    )]
-   pub company_properties: Option<CompanyProperties>,
+   pub company_properties: Option<HashMap<String, String>>,
    
    #[serde(
       rename = "employeeDirectory",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_directory: Option<EmployeeDirectory>,
+   pub employee_directory: Option<HashMap<String, Employee>>,
    
    #[serde(
       rename = "employeeTShirtSizes",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_t_shirt_sizes: Option<EmployeeTShirtSizes>,
+   pub employee_t_shirt_sizes: Option<HashMap<String, TShirtSizeType>>,
    
    #[serde(
       rename = "employeeProfiles",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_profiles: Option<EmployeeProfiles>,
+   pub employee_profiles: Option<HashMap<String, Concept>>,
    
    #[serde(
       rename = "employeeSocialSecurityNumbers",
       skip_serializing_if = "Option::is_none",
    )]
-   pub employee_social_security_numbers: Option<EmployeeSocialSecurityNumbers>,
+   pub employee_social_security_numbers: Option<HashMap<String, String>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -10796,7 +10800,7 @@ pub struct Person {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub next_of_kin: NextOfKin,
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -10824,7 +10828,7 @@ pub struct Employee {
    #[serde(
       rename = "numDependents",
    )]
-   pub num_dependents: Integer,
+   pub num_dependents: f64,
    
    #[serde(
       rename = "retired",
@@ -10895,7 +10899,7 @@ pub struct Employee {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub next_of_kin: NextOfKin,
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -10964,7 +10968,7 @@ pub struct Contractor {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub next_of_kin: NextOfKin,
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",
@@ -10995,7 +10999,7 @@ pub struct Manager {
    #[serde(
       rename = "numDependents",
    )]
-   pub num_dependents: Integer,
+   pub num_dependents: f64,
    
    #[serde(
       rename = "retired",
@@ -11066,7 +11070,7 @@ pub struct Manager {
    #[serde(
       rename = "nextOfKin",
    )]
-   pub next_of_kin: NextOfKin,
+   pub next_of_kin: HashMap<String, String>,
    
    #[serde(
       rename = "$identifier",

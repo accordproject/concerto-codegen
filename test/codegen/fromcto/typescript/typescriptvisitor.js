@@ -677,6 +677,7 @@ describe('TypescriptVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.restore();
             sandbox.stub(ModelUtil, 'isPrimitiveType').callsFake(() => {
                 return true;
             });
