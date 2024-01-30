@@ -746,11 +746,14 @@ describe('RustVisitor', function () {
         it('should return string for String', () => {
             rustVisitor.toRustType('String').should.deep.equal('String');
         });
-        it('should return number for Double', () => {
+        it('should return f64 for Double', () => {
             rustVisitor.toRustType('Double').should.deep.equal('f64');
         });
-        it('should return number for Long', () => {
-            rustVisitor.toRustType('Long').should.deep.equal('u64');
+        it('should return i64 for Long', () => {
+            rustVisitor.toRustType('Long').should.deep.equal('i64');
+        });
+        it('should return i32 for Integer', () => {
+            rustVisitor.toRustType('Integer').should.deep.equal('i32');
         });
     });
 

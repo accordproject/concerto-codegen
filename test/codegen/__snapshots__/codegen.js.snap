@@ -4673,12 +4673,12 @@ pub struct Employee {
    #[serde(
       rename = "salary",
    )]
-   pub salary: u64,
+   pub salary: i64,
    
    #[serde(
       rename = "numDependents",
    )]
-   pub num_dependents: f64,
+   pub num_dependents: i32,
    
    #[serde(
       rename = "retired",
@@ -4844,12 +4844,12 @@ pub struct Manager {
    #[serde(
       rename = "salary",
    )]
-   pub salary: u64,
+   pub salary: i64,
    
    #[serde(
       rename = "numDependents",
    )]
-   pub num_dependents: f64,
+   pub num_dependents: i32,
    
    #[serde(
       rename = "retired",
@@ -10823,12 +10823,12 @@ pub struct Employee {
    #[serde(
       rename = "salary",
    )]
-   pub salary: u64,
+   pub salary: i64,
    
    #[serde(
       rename = "numDependents",
    )]
-   pub num_dependents: f64,
+   pub num_dependents: i32,
    
    #[serde(
       rename = "retired",
@@ -10994,12 +10994,12 @@ pub struct Manager {
    #[serde(
       rename = "salary",
    )]
-   pub salary: u64,
+   pub salary: i64,
    
    #[serde(
       rename = "numDependents",
    )]
-   pub num_dependents: f64,
+   pub num_dependents: i32,
    
    #[serde(
       rename = "retired",
