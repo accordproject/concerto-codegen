@@ -56,6 +56,12 @@ declare class RustVisitor {
      */
     private visitField;
     /**
+     * @param {String} type - the type to be wrapped as option
+     * @return {String} - the wrapped type
+     * @private
+     */
+    private wrapAsOption;
+    /**
      * Visitor design pattern
      * @param {EnumDeclaration} enumDeclaration - the object being visited
      * @param {Object} parameters - the parameter
