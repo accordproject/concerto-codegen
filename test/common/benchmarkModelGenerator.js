@@ -231,5 +231,18 @@ describe('benchmarkModelGenerator', function () {
                 });
             }).should.throw('growBy can be either set to "declarations" or "properties".');
         });
+
+        it('should throw an error if the requested model size exceeds the total_heap_size', function () {
+            const benchmarkModelGenerator = new BenchmarkModelGenerator();
+            benchmarkModelGenerator.should.not.be.null;
+
+            (() => {
+                benchmarkModelGenerator.generateConcertoModels({
+                    generateUpToSize: 100000000000,
+                    growBy: 'properties',
+                    nDeclarations: 5,
+                });
+            }).should.throw('The requested model size is exceeding the total_heap_size and cannot be created.');
+        });
     });
 });
