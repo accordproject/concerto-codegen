@@ -242,7 +242,7 @@ describe('benchmarkModelGenerator', function () {
                     growBy: 'properties',
                     nDeclarations: 5,
                 });
-            }).should.throw('The requested model size exceeds the available heap size and cannot be created.');
+            }).should.throw('The requested model size exceeds the 100 MiB limit and cannot be created.');
         });
     });
 });
