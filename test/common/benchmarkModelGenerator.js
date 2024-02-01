@@ -76,7 +76,7 @@ describe('benchmarkModelGenerator', function () {
                 imports: []
             });
             expect(generated.metadata).toEqual({
-                generatedModelSizeInBytes: 3665,
+                generatedModelSizeInBytes: 3661,
                 humanReadableGeneratedModelSize: '3.58 KiB',
                 declarationsN: 5,
                 propertiesNInSmallestDeclaration: 5,
@@ -143,7 +143,7 @@ describe('benchmarkModelGenerator', function () {
             expect(generated.metadata).toEqual({
                 requestedModelSizeInBytes: 10000,
                 humanReadableRequestedModelSize: '9.77 KiB',
-                generatedModelSizeInBytes: 9984,
+                generatedModelSizeInBytes: 9980,
                 humanReadableGeneratedModelSize: '9.75 KiB',
                 declarationsN: 14,
                 propertiesNInSmallestDeclaration: 5,
@@ -211,8 +211,8 @@ describe('benchmarkModelGenerator', function () {
             expect(generated.metadata).toEqual({
                 requestedModelSizeInBytes: 10000,
                 humanReadableRequestedModelSize: '9.77 KiB',
-                generatedModelSizeInBytes: 9952,
-                humanReadableGeneratedModelSize: '9.72 KiB',
+                generatedModelSizeInBytes: 9948,
+                humanReadableGeneratedModelSize: '9.71 KiB',
                 declarationsN: 5,
                 propertiesNInSmallestDeclaration: 15,
                 propertiesNInLargestDeclaration: 16
