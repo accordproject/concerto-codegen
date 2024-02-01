@@ -17,6 +17,7 @@ import JSONSchemaToConcertoVisitor = require("./fromJsonSchema/cto/jsonSchemaVis
 import OpenApiToConcertoVisitor = require("./fromOpenApi/cto/openApiVisitor");
 import RustVisitor = require("./fromcto/rust/rustvisitor");
 import VocabularyVisitor = require("./fromcto/vocabulary/vocabularyvisitor");
+import BenchmarkModelGenerator = require("../common/benchmarkModelGenerator");
 export declare namespace formats {
     export { GoLangVisitor as golang };
     export { JSONSchemaVisitor as jsonschema };
@@ -35,4 +36,4 @@ export declare namespace formats {
     export { RustVisitor as rust };
     export { VocabularyVisitor as vocabulary };
 }
-export { AbstractPlugin, GoLangVisitor, JSONSchemaVisitor, XmlSchemaVisitor, PlantUMLVisitor, TypescriptVisitor, JavaVisitor, GraphQLVisitor, CSharpVisitor, ODataVisitor, MermaidVisitor, MarkdownVisitor, ProtobufVisitor, OpenApiVisitor, AvroVisitor, JSONSchemaToConcertoVisitor, OpenApiToConcertoVisitor, RustVisitor, VocabularyVisitor };
+export { AbstractPlugin, GoLangVisitor, JSONSchemaVisitor, XmlSchemaVisitor, PlantUMLVisitor, TypescriptVisitor, JavaVisitor, GraphQLVisitor, CSharpVisitor, ODataVisitor, MermaidVisitor, MarkdownVisitor, ProtobufVisitor, OpenApiVisitor, AvroVisitor, JSONSchemaToConcertoVisitor, OpenApiToConcertoVisitor, RustVisitor, VocabularyVisitor, BenchmarkModelGenerator };

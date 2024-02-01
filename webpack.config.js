@@ -16,6 +16,7 @@
 
 let path = require('path');
 const webpack = require('webpack');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const packageJson = require('./package.json');
 
 module.exports = {
@@ -47,6 +48,7 @@ module.exports = {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
+        new NodePolyfillPlugin(),
     ],
     module: {
         rules: [{

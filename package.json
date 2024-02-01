@@ -59,6 +59,7 @@
         "mocha-expect-snapshot": "6.2.0",
         "mockery": "2.1.0",
         "moxios": "0.4.0",
+        "node-polyfill-webpack-plugin": "3.0.0",
         "nunjucks": "3.2.4",
         "nyc": "15.1.0",
         "sinon": "12.0.0",
