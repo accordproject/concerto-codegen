@@ -33,36 +33,36 @@ describe('benchmarkModelGenerator', function () {
             expect(generated.models[0].declarations[0].properties.length).toEqual(5);
             expect(generated.models[0].declarations[0]).toEqual({
                 '$class': 'concerto.metamodel@1.0.0.ConceptDeclaration',
-                name: 'TotalTealDolphin',
+                name: 'Model0Declaration0',
                 isAbstract: false,
                 properties: [
                     {
                         '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                        name: 'PrimaryIndigoOrangutan',
+                        name: 'Model0Declaration0Property0',
                         isArray: false,
                         isOptional: false
                     },
                     {
                         '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                        name: 'TiredTealBear',
+                        name: 'Model0Declaration0Property1',
                         isArray: false,
                         isOptional: false
                     },
                     {
                         '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                        name: 'ChronicCrimsonOtter',
+                        name: 'Model0Declaration0Property2',
                         isArray: false,
                         isOptional: false
                     },
                     {
                         '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                        name: 'InternationalSilverQuelea',
+                        name: 'Model0Declaration0Property3',
                         isArray: false,
                         isOptional: false
                     },
                     {
                         '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                        name: 'ConsistentBlueEarthworm',
+                        name: 'Model0Declaration0Property4',
                         isArray: false,
                         isOptional: false
                     }
@@ -76,8 +76,8 @@ describe('benchmarkModelGenerator', function () {
                 imports: []
             });
             expect(generated.metadata).toEqual({
-                generatedModelSizeInBytes: 3661,
-                humanReadableGeneratedModelSize: '3.58 KiB',
+                generatedModelSizeInBytes: 3845,
+                humanReadableGeneratedModelSize: '3.75 KiB',
                 declarationsN: 5,
                 propertiesNInSmallestDeclaration: 5,
                 propertiesNInLargestDeclaration: 5
@@ -94,40 +94,40 @@ describe('benchmarkModelGenerator', function () {
                 nProperties: 5,
             });
 
-            expect(generated.models[0].declarations.length).toEqual(14);
+            expect(generated.models[0].declarations.length).toEqual(13);
             expect(generated.models[0].declarations[0].properties.length).toEqual(5);
             expect(generated.models[0].declarations[0]).toEqual({
                 '$class': 'concerto.metamodel@1.0.0.ConceptDeclaration',
-                name: 'TotalTealDolphin',
+                name: 'Model0Declaration0',
                 isAbstract: false,
                 properties: [
                     {
                         '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                        name: 'PrimaryIndigoOrangutan',
+                        name: 'Model0Declaration0Property0',
                         isArray: false,
                         isOptional: false
                     },
                     {
                         '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                        name: 'TiredTealBear',
+                        name: 'Model0Declaration0Property1',
                         isArray: false,
                         isOptional: false
                     },
                     {
                         '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                        name: 'ChronicCrimsonOtter',
+                        name: 'Model0Declaration0Property2',
                         isArray: false,
                         isOptional: false
                     },
                     {
                         '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                        name: 'InternationalSilverQuelea',
+                        name: 'Model0Declaration0Property3',
                         isArray: false,
                         isOptional: false
                     },
                     {
                         '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                        name: 'ConsistentBlueEarthworm',
+                        name: 'Model0Declaration0Property4',
                         isArray: false,
                         isOptional: false
                     }
@@ -143,9 +143,9 @@ describe('benchmarkModelGenerator', function () {
             expect(generated.metadata).toEqual({
                 requestedModelSizeInBytes: 10000,
                 humanReadableRequestedModelSize: '9.77 KiB',
-                generatedModelSizeInBytes: 9980,
-                humanReadableGeneratedModelSize: '9.75 KiB',
-                declarationsN: 14,
+                generatedModelSizeInBytes: 9815,
+                humanReadableGeneratedModelSize: '9.58 KiB',
+                declarationsN: 13,
                 propertiesNInSmallestDeclaration: 5,
                 propertiesNInLargestDeclaration: 5
             });
@@ -162,35 +162,35 @@ describe('benchmarkModelGenerator', function () {
             });
 
             expect(generated.models[0].declarations.length).toEqual(5);
-            expect(generated.models[0].declarations[0].properties.length).toEqual(15);
+            expect(generated.models[0].declarations[0].properties.length).toEqual(14);
             expect(generated.models[0].declarations[0].properties.slice(0, 5)).toEqual([
                 {
                     '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                    name: 'PrimaryIndigoOrangutan',
+                    name: 'Model0Declaration0Property0',
                     isArray: false,
                     isOptional: false
                 },
                 {
                     '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                    name: 'TiredTealBear',
+                    name: 'Model0Declaration0Property1',
                     isArray: false,
                     isOptional: false
                 },
                 {
                     '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                    name: 'ChronicCrimsonOtter',
+                    name: 'Model0Declaration0Property2',
                     isArray: false,
                     isOptional: false
                 },
                 {
                     '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                    name: 'InternationalSilverQuelea',
+                    name: 'Model0Declaration0Property3',
                     isArray: false,
                     isOptional: false
                 },
                 {
                     '$class': 'concerto.metamodel@1.0.0.StringProperty',
-                    name: 'ConsistentBlueEarthworm',
+                    name: 'Model0Declaration0Property4',
                     isArray: false,
                     isOptional: false
                 }
@@ -198,7 +198,7 @@ describe('benchmarkModelGenerator', function () {
             delete generated.models[0].declarations[0].properties;
             expect(generated.models[0].declarations[0]).toEqual({
                 '$class': 'concerto.metamodel@1.0.0.ConceptDeclaration',
-                name: 'TotalTealDolphin',
+                name: 'Model0Declaration0',
                 isAbstract: false,
             });
             delete generated.models[0].declarations;
@@ -211,11 +211,11 @@ describe('benchmarkModelGenerator', function () {
             expect(generated.metadata).toEqual({
                 requestedModelSizeInBytes: 10000,
                 humanReadableRequestedModelSize: '9.77 KiB',
-                generatedModelSizeInBytes: 9948,
-                humanReadableGeneratedModelSize: '9.71 KiB',
+                generatedModelSizeInBytes: 9994,
+                humanReadableGeneratedModelSize: '9.76 KiB',
                 declarationsN: 5,
-                propertiesNInSmallestDeclaration: 15,
-                propertiesNInLargestDeclaration: 16
+                propertiesNInSmallestDeclaration: 14,
+                propertiesNInLargestDeclaration: 15
             });
         });
 
