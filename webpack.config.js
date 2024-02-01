@@ -16,6 +16,7 @@
 
 let path = require('path');
 const webpack = require('webpack');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const packageJson = require('./package.json');
 
 module.exports = {
@@ -47,6 +48,7 @@ module.exports = {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
+        new NodePolyfillPlugin(),
     ],
     module: {
         rules: [{
@@ -62,7 +64,6 @@ module.exports = {
     },
     resolve: {
         fallback: {
-            'buffer': require.resolve('buffer/'),
             'fs': false,
             'tls': false,
             'net': false,
@@ -70,7 +71,6 @@ module.exports = {
             'os': false,
             'util': false,
             'url': false,
-            'node:v8': require.resolve('node:v8/'),
         }
     }
 };
