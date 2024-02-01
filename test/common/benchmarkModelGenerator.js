@@ -232,7 +232,7 @@ describe('benchmarkModelGenerator', function () {
             }).should.throw('growBy can be either set to "declarations" or "properties".');
         });
 
-        it('should throw an error if the requested model size exceeds the total_heap_size', function () {
+        it('should throw an error if the requested model size exceeds the available heap size and cannot be created', function () {
             const benchmarkModelGenerator = new BenchmarkModelGenerator();
             benchmarkModelGenerator.should.not.be.null;
 
@@ -242,7 +242,7 @@ describe('benchmarkModelGenerator', function () {
                     growBy: 'properties',
                     nDeclarations: 5,
                 });
-            }).should.throw('The requested model size is exceeding the total_heap_size and cannot be created.');
+            }).should.throw('The requested model size exceeds the available heap size and cannot be created.');
         });
     });
 });
