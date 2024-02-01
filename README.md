@@ -63,7 +63,7 @@ The expected response will include an array of generated `models` (currently con
     {
       '$class': 'concerto.metamodel@1.0.0.Model',
       decorators: [],
-      namespace: 'big.benchmark.model@1.0.0',
+      namespace: 'generated.model@1.0.0',
       imports: [],
       declarations: [
         ...

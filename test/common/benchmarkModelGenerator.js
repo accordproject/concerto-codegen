@@ -72,7 +72,7 @@ describe('benchmarkModelGenerator', function () {
             expect(generated.models[0]).toEqual({
                 '$class': 'concerto.metamodel@1.0.0.Model',
                 decorators: [],
-                namespace: 'big.benchmark.model@1.0.0',
+                namespace: 'generated.model@1.0.0',
                 imports: []
             });
             expect(generated.metadata).toEqual({
@@ -137,7 +137,7 @@ describe('benchmarkModelGenerator', function () {
             expect(generated.models[0]).toEqual({
                 '$class': 'concerto.metamodel@1.0.0.Model',
                 decorators: [],
-                namespace: 'big.benchmark.model@1.0.0',
+                namespace: 'generated.model@1.0.0',
                 imports: []
             });
             expect(generated.metadata).toEqual({
@@ -205,7 +205,7 @@ describe('benchmarkModelGenerator', function () {
             expect(generated.models[0]).toEqual({
                 '$class': 'concerto.metamodel@1.0.0.Model',
                 decorators: [],
-                namespace: 'big.benchmark.model@1.0.0',
+                namespace: 'generated.model@1.0.0',
                 imports: []
             });
             expect(generated.metadata).toEqual({
