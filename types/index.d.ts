@@ -18,6 +18,7 @@ export var CodeGen: {
     OpenApiToConcertoVisitor: typeof import("./lib/codegen/fromOpenApi/cto/openApiVisitor");
     RustVisitor: typeof import("./lib/codegen/fromcto/rust/rustvisitor");
     VocabularyVisitor: typeof import("./lib/codegen/fromcto/vocabulary/vocabularyvisitor");
+    BenchmarkModelGenerator: typeof import("./lib/common/benchmarkModelGenerator");
     formats: {
         golang: typeof import("./lib/codegen/fromcto/golang/golangvisitor");
         jsonschema: typeof import("./lib/codegen/fromcto/jsonschema/jsonschemavisitor");
