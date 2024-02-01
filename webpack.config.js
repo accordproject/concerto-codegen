@@ -62,6 +62,7 @@ module.exports = {
     },
     resolve: {
         fallback: {
+            'buffer': require.resolve('buffer/'),
             'fs': false,
             'tls': false,
             'net': false,
