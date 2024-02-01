@@ -70,6 +70,7 @@ module.exports = {
             'os': false,
             'util': false,
             'url': false,
+            'v8': require.resolve('v8/'),
         }
     }
 };
