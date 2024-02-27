@@ -2500,7 +2500,7 @@ class \`org.acme.hr.Manager\` {
 \`org.acme.hr.Manager\` "1" o-- "*" \`org.acme.hr.Person\` : reports
 \`org.acme.hr.Manager\` --|> \`org.acme.hr.Employee\`
 class \`org.acme.hr.CompanyEvent\`
-<< event>> \`org.acme.hr.CompanyEvent\`
+<< event>> org.acme.hr.CompanyEvent
 
 class \`org.acme.hr.Onboarded\` {
 << event>>
@@ -2684,7 +2684,7 @@ class \`org.acme.hr.Manager\` {
 \`org.acme.hr.Manager\` "1" o-- "*" \`org.acme.hr.Person\` : reports
 \`org.acme.hr.Manager\` --|> \`org.acme.hr.Employee\`
 class \`org.acme.hr.CompanyEvent\`
-<< event>> \`org.acme.hr.CompanyEvent\`
+<< event>> org.acme.hr.CompanyEvent
 
 \`org.acme.hr.CompanyEvent\` --|> \`concerto@1.0.0.Event\`
 class \`org.acme.hr.Onboarded\` {
@@ -5961,7 +5961,7 @@ class \`org.acme.hr@1.0.0.Manager\` {
 \`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
 \`org.acme.hr@1.0.0.Manager\` --|> \`org.acme.hr@1.0.0.Employee\`
 class \`org.acme.hr@1.0.0.CompanyEvent\`
-<< event>> \`org.acme.hr@1.0.0.CompanyEvent\`
+<< event>> org.acme.hr@1.0.0.CompanyEvent
 
 class \`org.acme.hr@1.0.0.Onboarded\` {
 << event>>
@@ -8618,7 +8618,7 @@ class \`org.acme.hr@1.0.0.Manager\` {
 \`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
 \`org.acme.hr@1.0.0.Manager\` --|> \`org.acme.hr@1.0.0.Employee\`
 class \`org.acme.hr@1.0.0.CompanyEvent\`
-<< event>> \`org.acme.hr@1.0.0.CompanyEvent\`
+<< event>> org.acme.hr@1.0.0.CompanyEvent
 
 class \`org.acme.hr@1.0.0.Onboarded\` {
 << event>>
@@ -8817,7 +8817,7 @@ class \`org.acme.hr@1.0.0.Manager\` {
 \`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
 \`org.acme.hr@1.0.0.Manager\` --|> \`org.acme.hr@1.0.0.Employee\`
 class \`org.acme.hr@1.0.0.CompanyEvent\`
-<< event>> \`org.acme.hr@1.0.0.CompanyEvent\`
+<< event>> org.acme.hr@1.0.0.CompanyEvent
 
 \`org.acme.hr@1.0.0.CompanyEvent\` --|> \`concerto@1.0.0.Event\`
 class \`org.acme.hr@1.0.0.Onboarded\` {
