@@ -2308,25 +2308,25 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 classDiagram
 class \`org.acme.hr.base.State\` {
 << enumeration>>
-   + MA
-   + NY
-   + CO
-   + WA
-   + IL
-   + CA
+   + \`MA\`
+   + \`NY\`
+   + \`CO\`
+   + \`WA\`
+   + \`IL\`
+   + \`CA\`
 }
 
 class \`org.acme.hr.base.TShirtSizeType\` {
 << enumeration>>
-   + SMALL
-   + MEDIUM
-   + LARGE
+   + \`SMALL\`
+   + \`MEDIUM\`
+   + \`LARGE\`
 }
 
-class org.acme.hr.base.EmployeeTShirtSizes {
+class \`org.acme.hr.base.EmployeeTShirtSizes\` {
 << map >>
-   + Key:org.acme.hr.base.SSN
-   + Value: org.acme.hr.base.TShirtSizeType
+   + Key:\`org.acme.hr.base.SSN\`
+   + Value: \`org.acme.hr.base.TShirtSizeType\`
 }
 
 class \`org.acme.hr.base.Address\` {
@@ -2338,7 +2338,7 @@ class \`org.acme.hr.base.Address\` {
    + String country
 }
 
-org.acme.hr.base.Address "1" *-- "1" org.acme.hr.base.State
+\`org.acme.hr.base.Address\` "1" *-- "1" \`org.acme.hr.base.State\`
 \`\`\`
 
 # Namespace org.acme.hr
@@ -2369,40 +2369,40 @@ org.acme.hr.base.Address "1" *-- "1" org.acme.hr.base.State
 ## Diagram
 \`\`\`mermaid
 classDiagram
-class org.acme.hr.CompanyProperties {
+class \`org.acme.hr.CompanyProperties\` {
 << map >>
-   + Key:String
-   + Value: String
+   + Key:\`String\`
+   + Value: \`String\`
 }
 
-class org.acme.hr.EmployeeLoginTimes {
+class \`org.acme.hr.EmployeeLoginTimes\` {
 << map >>
-   + Key:String
-   + Value: org.acme.hr.base.Time
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base.Time\`
 }
 
-class org.acme.hr.EmployeeSocialSecurityNumbers {
+class \`org.acme.hr.EmployeeSocialSecurityNumbers\` {
 << map >>
-   + Key:String
-   + Value: org.acme.hr.base.SSN
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base.SSN\`
 }
 
-class org.acme.hr.NextOfKin {
+class \`org.acme.hr.NextOfKin\` {
 << map >>
-   + Key:org.acme.hr.KinName
-   + Value: org.acme.hr.KinTelephone
+   + Key:\`org.acme.hr.KinName\`
+   + Value: \`org.acme.hr.KinTelephone\`
 }
 
-class org.acme.hr.EmployeeProfiles {
+class \`org.acme.hr.EmployeeProfiles\` {
 << map >>
-   + Key:String
-   + Value: concerto@1.0.0.Concept
+   + Key:\`String\`
+   + Value: \`concerto@1.0.0.Concept\`
 }
 
-class org.acme.hr.EmployeeDirectory {
+class \`org.acme.hr.EmployeeDirectory\` {
 << map >>
-   + Key:org.acme.hr.base.SSN
-   + Value: org.acme.hr.Employee
+   + Key:\`org.acme.hr.base.SSN\`
+   + Value: \`org.acme.hr.Employee\`
 }
 
 class \`org.acme.hr.Company\` {
@@ -2416,20 +2416,20 @@ class \`org.acme.hr.Company\` {
    + EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers
 }
 
-org.acme.hr.Company "1" *-- "1" org.acme.hr.base.Address
-org.acme.hr.Company "1" *-- "1" org.acme.hr.CompanyProperties
-org.acme.hr.Company "1" *-- "1" org.acme.hr.EmployeeDirectory
-org.acme.hr.Company "1" *-- "1" org.acme.hr.base.EmployeeTShirtSizes
-org.acme.hr.Company "1" *-- "1" org.acme.hr.EmployeeProfiles
-org.acme.hr.Company "1" *-- "1" org.acme.hr.EmployeeSocialSecurityNumbers
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.base.Address\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.CompanyProperties\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.EmployeeDirectory\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.base.EmployeeTShirtSizes\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.EmployeeProfiles\`
+\`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.EmployeeSocialSecurityNumbers\`
 class \`org.acme.hr.Department\` {
 << enumeration>>
-   + Sales
-   + Marketing
-   + Finance
-   + HR
-   + Engineering
-   + Design
+   + \`Sales\`
+   + \`Marketing\`
+   + \`Finance\`
+   + \`HR\`
+   + \`Engineering\`
+   + \`Design\`
 }
 
 class \`org.acme.hr.Equipment\` {
@@ -2439,8 +2439,8 @@ class \`org.acme.hr.Equipment\` {
 
 class \`org.acme.hr.LaptopMake\` {
 << enumeration>>
-   + Apple
-   + Microsoft
+   + \`Apple\`
+   + \`Microsoft\`
 }
 
 class \`org.acme.hr.Laptop\` {
@@ -2448,8 +2448,8 @@ class \`org.acme.hr.Laptop\` {
    + LaptopMake make
 }
 
-org.acme.hr.Laptop "1" *-- "1" org.acme.hr.LaptopMake
-org.acme.hr.Laptop --|> org.acme.hr.Equipment
+\`org.acme.hr.Laptop\` "1" *-- "1" \`org.acme.hr.LaptopMake\`
+\`org.acme.hr.Laptop\` --|> \`org.acme.hr.Equipment\`
 class \`org.acme.hr.Person\` {
 << participant>>
    + String email
@@ -2463,9 +2463,9 @@ class \`org.acme.hr.Person\` {
    + NextOfKin nextOfKin
 }
 
-org.acme.hr.Person "1" *-- "1" org.acme.hr.base.Address
-org.acme.hr.Person "1" *-- "1" org.acme.hr.base.SSN
-org.acme.hr.Person "1" *-- "1" org.acme.hr.NextOfKin
+\`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.base.Address\`
+\`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.base.SSN\`
+\`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.NextOfKin\`
 class \`org.acme.hr.Employee\` {
 << participant>>
    + String employeeId
@@ -2478,27 +2478,27 @@ class \`org.acme.hr.Employee\` {
    + Manager manager
 }
 
-org.acme.hr.Employee "1" *-- "1" org.acme.hr.Department
-org.acme.hr.Employee "1" *-- "1" org.acme.hr.base.Address
-org.acme.hr.Employee "1" *-- "*" org.acme.hr.Equipment
-org.acme.hr.Employee "1" o-- "1" org.acme.hr.Manager : manager
-org.acme.hr.Employee --|> org.acme.hr.Person
+\`org.acme.hr.Employee\` "1" *-- "1" \`org.acme.hr.Department\`
+\`org.acme.hr.Employee\` "1" *-- "1" \`org.acme.hr.base.Address\`
+\`org.acme.hr.Employee\` "1" *-- "*" \`org.acme.hr.Equipment\`
+\`org.acme.hr.Employee\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
+\`org.acme.hr.Employee\` --|> \`org.acme.hr.Person\`
 class \`org.acme.hr.Contractor\` {
 << participant>>
    + Company company
    + Manager manager
 }
 
-org.acme.hr.Contractor "1" *-- "1" org.acme.hr.Company
-org.acme.hr.Contractor "1" o-- "1" org.acme.hr.Manager : manager
-org.acme.hr.Contractor --|> org.acme.hr.Person
+\`org.acme.hr.Contractor\` "1" *-- "1" \`org.acme.hr.Company\`
+\`org.acme.hr.Contractor\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
+\`org.acme.hr.Contractor\` --|> \`org.acme.hr.Person\`
 class \`org.acme.hr.Manager\` {
 << participant>>
    + Person[] reports
 }
 
-org.acme.hr.Manager "1" o-- "*" org.acme.hr.Person : reports
-org.acme.hr.Manager --|> org.acme.hr.Employee
+\`org.acme.hr.Manager\` "1" o-- "*" \`org.acme.hr.Person\` : reports
+\`org.acme.hr.Manager\` --|> \`org.acme.hr.Employee\`
 class \`org.acme.hr.CompanyEvent\`
 << event>> \`org.acme.hr.CompanyEvent\`
 
@@ -2507,16 +2507,16 @@ class \`org.acme.hr.Onboarded\` {
    + Employee employee
 }
 
-org.acme.hr.Onboarded "1" o-- "1" org.acme.hr.Employee : employee
-org.acme.hr.Onboarded --|> org.acme.hr.CompanyEvent
+\`org.acme.hr.Onboarded\` "1" o-- "1" \`org.acme.hr.Employee\` : employee
+\`org.acme.hr.Onboarded\` --|> \`org.acme.hr.CompanyEvent\`
 class \`org.acme.hr.ChangeOfAddress\` {
 << transaction>>
    + Person Person
    + Address newAddress
 }
 
-org.acme.hr.ChangeOfAddress "1" o-- "1" org.acme.hr.Person : Person
-org.acme.hr.ChangeOfAddress "1" *-- "1" org.acme.hr.base.Address
+\`org.acme.hr.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr.Person\` : Person
+\`org.acme.hr.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base.Address\`
 \`\`\`
 
 ",
@@ -2529,27 +2529,27 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "classDiagram
 class \`org.acme.hr.base.State\` {
 << enumeration>>
-   + MA
-   + NY
-   + CO
-   + WA
-   + IL
-   + CA
+   + \`MA\`
+   + \`NY\`
+   + \`CO\`
+   + \`WA\`
+   + \`IL\`
+   + \`CA\`
 }
 
-org.acme.hr.base.State --|> concerto@1.0.0.Concept
+\`org.acme.hr.base.State\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr.base.TShirtSizeType\` {
 << enumeration>>
-   + SMALL
-   + MEDIUM
-   + LARGE
+   + \`SMALL\`
+   + \`MEDIUM\`
+   + \`LARGE\`
 }
 
-org.acme.hr.base.TShirtSizeType --|> concerto@1.0.0.Concept
-class org.acme.hr.base.EmployeeTShirtSizes {
+\`org.acme.hr.base.TShirtSizeType\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base.EmployeeTShirtSizes\` {
 << map >>
-   + Key:org.acme.hr.base.SSN
-   + Value: org.acme.hr.base.TShirtSizeType
+   + Key:\`org.acme.hr.base.SSN\`
+   + Value: \`org.acme.hr.base.TShirtSizeType\`
 }
 
 class \`org.acme.hr.base.Address\` {
@@ -2561,41 +2561,41 @@ class \`org.acme.hr.base.Address\` {
    + String country
 }
 
-org.acme.hr.base.Address --|> concerto@1.0.0.Concept
-class org.acme.hr.CompanyProperties {
+\`org.acme.hr.base.Address\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.CompanyProperties\` {
 << map >>
-   + Key:String
-   + Value: String
+   + Key:\`String\`
+   + Value: \`String\`
 }
 
-class org.acme.hr.EmployeeLoginTimes {
+class \`org.acme.hr.EmployeeLoginTimes\` {
 << map >>
-   + Key:String
-   + Value: org.acme.hr.base.Time
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base.Time\`
 }
 
-class org.acme.hr.EmployeeSocialSecurityNumbers {
+class \`org.acme.hr.EmployeeSocialSecurityNumbers\` {
 << map >>
-   + Key:String
-   + Value: org.acme.hr.base.SSN
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base.SSN\`
 }
 
-class org.acme.hr.NextOfKin {
+class \`org.acme.hr.NextOfKin\` {
 << map >>
-   + Key:org.acme.hr.KinName
-   + Value: org.acme.hr.KinTelephone
+   + Key:\`org.acme.hr.KinName\`
+   + Value: \`org.acme.hr.KinTelephone\`
 }
 
-class org.acme.hr.EmployeeProfiles {
+class \`org.acme.hr.EmployeeProfiles\` {
 << map >>
-   + Key:String
-   + Value: concerto@1.0.0.Concept
+   + Key:\`String\`
+   + Value: \`concerto@1.0.0.Concept\`
 }
 
-class org.acme.hr.EmployeeDirectory {
+class \`org.acme.hr.EmployeeDirectory\` {
 << map >>
-   + Key:org.acme.hr.base.SSN
-   + Value: org.acme.hr.Employee
+   + Key:\`org.acme.hr.base.SSN\`
+   + Value: \`org.acme.hr.Employee\`
 }
 
 class \`org.acme.hr.Company\` {
@@ -2609,37 +2609,37 @@ class \`org.acme.hr.Company\` {
    + EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers
 }
 
-org.acme.hr.Company --|> concerto@1.0.0.Concept
+\`org.acme.hr.Company\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr.Department\` {
 << enumeration>>
-   + Sales
-   + Marketing
-   + Finance
-   + HR
-   + Engineering
-   + Design
+   + \`Sales\`
+   + \`Marketing\`
+   + \`Finance\`
+   + \`HR\`
+   + \`Engineering\`
+   + \`Design\`
 }
 
-org.acme.hr.Department --|> concerto@1.0.0.Concept
+\`org.acme.hr.Department\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr.Equipment\` {
 << asset>>
    + String serialNumber
 }
 
-org.acme.hr.Equipment --|> concerto@1.0.0.Asset
+\`org.acme.hr.Equipment\` --|> \`concerto@1.0.0.Asset\`
 class \`org.acme.hr.LaptopMake\` {
 << enumeration>>
-   + Apple
-   + Microsoft
+   + \`Apple\`
+   + \`Microsoft\`
 }
 
-org.acme.hr.LaptopMake --|> concerto@1.0.0.Concept
+\`org.acme.hr.LaptopMake\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr.Laptop\` {
 << asset>>
    + LaptopMake make
 }
 
-org.acme.hr.Laptop --|> org.acme.hr.Equipment
+\`org.acme.hr.Laptop\` --|> \`org.acme.hr.Equipment\`
 class \`org.acme.hr.Person\` {
 << participant>>
    + String email
@@ -2653,7 +2653,7 @@ class \`org.acme.hr.Person\` {
    + NextOfKin nextOfKin
 }
 
-org.acme.hr.Person --|> concerto@1.0.0.Participant
+\`org.acme.hr.Person\` --|> \`concerto@1.0.0.Participant\`
 class \`org.acme.hr.Employee\` {
 << participant>>
    + String employeeId
@@ -2666,42 +2666,42 @@ class \`org.acme.hr.Employee\` {
    + Manager manager
 }
 
-org.acme.hr.Employee "1" o-- "1" org.acme.hr.Manager : manager
-org.acme.hr.Employee --|> org.acme.hr.Person
+\`org.acme.hr.Employee\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
+\`org.acme.hr.Employee\` --|> \`org.acme.hr.Person\`
 class \`org.acme.hr.Contractor\` {
 << participant>>
    + Company company
    + Manager manager
 }
 
-org.acme.hr.Contractor "1" o-- "1" org.acme.hr.Manager : manager
-org.acme.hr.Contractor --|> org.acme.hr.Person
+\`org.acme.hr.Contractor\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
+\`org.acme.hr.Contractor\` --|> \`org.acme.hr.Person\`
 class \`org.acme.hr.Manager\` {
 << participant>>
    + Person[] reports
 }
 
-org.acme.hr.Manager "1" o-- "*" org.acme.hr.Person : reports
-org.acme.hr.Manager --|> org.acme.hr.Employee
+\`org.acme.hr.Manager\` "1" o-- "*" \`org.acme.hr.Person\` : reports
+\`org.acme.hr.Manager\` --|> \`org.acme.hr.Employee\`
 class \`org.acme.hr.CompanyEvent\`
 << event>> \`org.acme.hr.CompanyEvent\`
 
-org.acme.hr.CompanyEvent --|> concerto@1.0.0.Event
+\`org.acme.hr.CompanyEvent\` --|> \`concerto@1.0.0.Event\`
 class \`org.acme.hr.Onboarded\` {
 << event>>
    + Employee employee
 }
 
-org.acme.hr.Onboarded "1" o-- "1" org.acme.hr.Employee : employee
-org.acme.hr.Onboarded --|> org.acme.hr.CompanyEvent
+\`org.acme.hr.Onboarded\` "1" o-- "1" \`org.acme.hr.Employee\` : employee
+\`org.acme.hr.Onboarded\` --|> \`org.acme.hr.CompanyEvent\`
 class \`org.acme.hr.ChangeOfAddress\` {
 << transaction>>
    + Person Person
    + Address newAddress
 }
 
-org.acme.hr.ChangeOfAddress "1" o-- "1" org.acme.hr.Person : Person
-org.acme.hr.ChangeOfAddress --|> concerto@1.0.0.Transaction
+\`org.acme.hr.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr.Person\` : Person
+\`org.acme.hr.ChangeOfAddress\` --|> \`concerto@1.0.0.Transaction\`
 ",
 }
 `;
@@ -5799,25 +5799,25 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "classDiagram
 class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
-   + MA
-   + NY
-   + CO
-   + WA
-   + IL
-   + CA
+   + \`MA\`
+   + \`NY\`
+   + \`CO\`
+   + \`WA\`
+   + \`IL\`
+   + \`CA\`
 }
 
 class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
 << enumeration>>
-   + SMALL
-   + MEDIUM
-   + LARGE
+   + \`SMALL\`
+   + \`MEDIUM\`
+   + \`LARGE\`
 }
 
-class org.acme.hr.base@1.0.0.EmployeeTShirtSizes {
+class \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` {
 << map >>
-   + Key:org.acme.hr.base@1.0.0.SSN
-   + Value: org.acme.hr.base@1.0.0.TShirtSizeType
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr.base@1.0.0.TShirtSizeType\`
 }
 
 class \`org.acme.hr.base@1.0.0.Address\` {
@@ -5829,41 +5829,41 @@ class \`org.acme.hr.base@1.0.0.Address\` {
    + String country
 }
 
-org.acme.hr.base@1.0.0.Address "1" *-- "1" org.acme.hr.base@1.0.0.State
-class org.acme.hr@1.0.0.CompanyProperties {
+\`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
+class \`org.acme.hr@1.0.0.CompanyProperties\` {
 << map >>
-   + Key:String
-   + Value: String
+   + Key:\`String\`
+   + Value: \`String\`
 }
 
-class org.acme.hr@1.0.0.EmployeeLoginTimes {
+class \`org.acme.hr@1.0.0.EmployeeLoginTimes\` {
 << map >>
-   + Key:String
-   + Value: org.acme.hr.base@1.0.0.Time
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.Time\`
 }
 
-class org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers {
+class \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` {
 << map >>
-   + Key:String
-   + Value: org.acme.hr.base@1.0.0.SSN
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.SSN\`
 }
 
-class org.acme.hr@1.0.0.NextOfKin {
+class \`org.acme.hr@1.0.0.NextOfKin\` {
 << map >>
-   + Key:org.acme.hr@1.0.0.KinName
-   + Value: org.acme.hr@1.0.0.KinTelephone
+   + Key:\`org.acme.hr@1.0.0.KinName\`
+   + Value: \`org.acme.hr@1.0.0.KinTelephone\`
 }
 
-class org.acme.hr@1.0.0.EmployeeProfiles {
+class \`org.acme.hr@1.0.0.EmployeeProfiles\` {
 << map >>
-   + Key:String
-   + Value: concerto@1.0.0.Concept
+   + Key:\`String\`
+   + Value: \`concerto@1.0.0.Concept\`
 }
 
-class org.acme.hr@1.0.0.EmployeeDirectory {
+class \`org.acme.hr@1.0.0.EmployeeDirectory\` {
 << map >>
-   + Key:org.acme.hr.base@1.0.0.SSN
-   + Value: org.acme.hr@1.0.0.Employee
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr@1.0.0.Employee\`
 }
 
 class \`org.acme.hr@1.0.0.Company\` {
@@ -5877,20 +5877,20 @@ class \`org.acme.hr@1.0.0.Company\` {
    + EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers
 }
 
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr.base@1.0.0.Address
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.CompanyProperties
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.EmployeeDirectory
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr.base@1.0.0.EmployeeTShirtSizes
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.EmployeeProfiles
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.CompanyProperties\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeDirectory\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeProfiles\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
 class \`org.acme.hr@1.0.0.Department\` {
 << enumeration>>
-   + Sales
-   + Marketing
-   + Finance
-   + HR
-   + Engineering
-   + Design
+   + \`Sales\`
+   + \`Marketing\`
+   + \`Finance\`
+   + \`HR\`
+   + \`Engineering\`
+   + \`Design\`
 }
 
 class \`org.acme.hr@1.0.0.Equipment\` {
@@ -5900,8 +5900,8 @@ class \`org.acme.hr@1.0.0.Equipment\` {
 
 class \`org.acme.hr@1.0.0.LaptopMake\` {
 << enumeration>>
-   + Apple
-   + Microsoft
+   + \`Apple\`
+   + \`Microsoft\`
 }
 
 class \`org.acme.hr@1.0.0.Laptop\` {
@@ -5909,8 +5909,8 @@ class \`org.acme.hr@1.0.0.Laptop\` {
    + LaptopMake make
 }
 
-org.acme.hr@1.0.0.Laptop "1" *-- "1" org.acme.hr@1.0.0.LaptopMake
-org.acme.hr@1.0.0.Laptop --|> org.acme.hr@1.0.0.Equipment
+\`org.acme.hr@1.0.0.Laptop\` "1" *-- "1" \`org.acme.hr@1.0.0.LaptopMake\`
+\`org.acme.hr@1.0.0.Laptop\` --|> \`org.acme.hr@1.0.0.Equipment\`
 class \`org.acme.hr@1.0.0.Person\` {
 << participant>>
    + String email
@@ -5924,9 +5924,9 @@ class \`org.acme.hr@1.0.0.Person\` {
    + NextOfKin nextOfKin
 }
 
-org.acme.hr@1.0.0.Person "1" *-- "1" org.acme.hr.base@1.0.0.Address
-org.acme.hr@1.0.0.Person "1" *-- "1" org.acme.hr.base@1.0.0.SSN
-org.acme.hr@1.0.0.Person "1" *-- "1" org.acme.hr@1.0.0.NextOfKin
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.NextOfKin\`
 class \`org.acme.hr@1.0.0.Employee\` {
 << participant>>
    + String employeeId
@@ -5939,27 +5939,27 @@ class \`org.acme.hr@1.0.0.Employee\` {
    + Manager manager
 }
 
-org.acme.hr@1.0.0.Employee "1" *-- "1" org.acme.hr@1.0.0.Department
-org.acme.hr@1.0.0.Employee "1" *-- "1" org.acme.hr.base@1.0.0.Address
-org.acme.hr@1.0.0.Employee "1" *-- "*" org.acme.hr@1.0.0.Equipment
-org.acme.hr@1.0.0.Employee "1" o-- "1" org.acme.hr@1.0.0.Manager : manager
-org.acme.hr@1.0.0.Employee --|> org.acme.hr@1.0.0.Person
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Department\`
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "*" \`org.acme.hr@1.0.0.Equipment\`
+\`org.acme.hr@1.0.0.Employee\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+\`org.acme.hr@1.0.0.Employee\` --|> \`org.acme.hr@1.0.0.Person\`
 class \`org.acme.hr@1.0.0.Contractor\` {
 << participant>>
    + Company company
    + Manager manager
 }
 
-org.acme.hr@1.0.0.Contractor "1" *-- "1" org.acme.hr@1.0.0.Company
-org.acme.hr@1.0.0.Contractor "1" o-- "1" org.acme.hr@1.0.0.Manager : manager
-org.acme.hr@1.0.0.Contractor --|> org.acme.hr@1.0.0.Person
+\`org.acme.hr@1.0.0.Contractor\` "1" *-- "1" \`org.acme.hr@1.0.0.Company\`
+\`org.acme.hr@1.0.0.Contractor\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+\`org.acme.hr@1.0.0.Contractor\` --|> \`org.acme.hr@1.0.0.Person\`
 class \`org.acme.hr@1.0.0.Manager\` {
 << participant>>
    + Person[] reports
 }
 
-org.acme.hr@1.0.0.Manager "1" o-- "*" org.acme.hr@1.0.0.Person : reports
-org.acme.hr@1.0.0.Manager --|> org.acme.hr@1.0.0.Employee
+\`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
+\`org.acme.hr@1.0.0.Manager\` --|> \`org.acme.hr@1.0.0.Employee\`
 class \`org.acme.hr@1.0.0.CompanyEvent\`
 << event>> \`org.acme.hr@1.0.0.CompanyEvent\`
 
@@ -5968,16 +5968,16 @@ class \`org.acme.hr@1.0.0.Onboarded\` {
    + Employee employee
 }
 
-org.acme.hr@1.0.0.Onboarded "1" o-- "1" org.acme.hr@1.0.0.Employee : employee
-org.acme.hr@1.0.0.Onboarded --|> org.acme.hr@1.0.0.CompanyEvent
+\`org.acme.hr@1.0.0.Onboarded\` "1" o-- "1" \`org.acme.hr@1.0.0.Employee\` : employee
+\`org.acme.hr@1.0.0.Onboarded\` --|> \`org.acme.hr@1.0.0.CompanyEvent\`
 class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 << transaction>>
    + Person Person
    + Address newAddress
 }
 
-org.acme.hr@1.0.0.ChangeOfAddress "1" o-- "1" org.acme.hr@1.0.0.Person : Person
-org.acme.hr@1.0.0.ChangeOfAddress "1" *-- "1" org.acme.hr.base@1.0.0.Address
+\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
+\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 ",
 }
 `;
@@ -8426,25 +8426,25 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 classDiagram
 class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
-   + MA
-   + NY
-   + CO
-   + WA
-   + IL
-   + CA
+   + \`MA\`
+   + \`NY\`
+   + \`CO\`
+   + \`WA\`
+   + \`IL\`
+   + \`CA\`
 }
 
 class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
 << enumeration>>
-   + SMALL
-   + MEDIUM
-   + LARGE
+   + \`SMALL\`
+   + \`MEDIUM\`
+   + \`LARGE\`
 }
 
-class org.acme.hr.base@1.0.0.EmployeeTShirtSizes {
+class \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` {
 << map >>
-   + Key:org.acme.hr.base@1.0.0.SSN
-   + Value: org.acme.hr.base@1.0.0.TShirtSizeType
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr.base@1.0.0.TShirtSizeType\`
 }
 
 class \`org.acme.hr.base@1.0.0.Address\` {
@@ -8456,7 +8456,7 @@ class \`org.acme.hr.base@1.0.0.Address\` {
    + String country
 }
 
-org.acme.hr.base@1.0.0.Address "1" *-- "1" org.acme.hr.base@1.0.0.State
+\`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
 \`\`\`
 
 # Namespace org.acme.hr@1.0.0
@@ -8487,40 +8487,40 @@ org.acme.hr.base@1.0.0.Address "1" *-- "1" org.acme.hr.base@1.0.0.State
 ## Diagram
 \`\`\`mermaid
 classDiagram
-class org.acme.hr@1.0.0.CompanyProperties {
+class \`org.acme.hr@1.0.0.CompanyProperties\` {
 << map >>
-   + Key:String
-   + Value: String
+   + Key:\`String\`
+   + Value: \`String\`
 }
 
-class org.acme.hr@1.0.0.EmployeeLoginTimes {
+class \`org.acme.hr@1.0.0.EmployeeLoginTimes\` {
 << map >>
-   + Key:String
-   + Value: org.acme.hr.base@1.0.0.Time
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.Time\`
 }
 
-class org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers {
+class \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` {
 << map >>
-   + Key:String
-   + Value: org.acme.hr.base@1.0.0.SSN
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.SSN\`
 }
 
-class org.acme.hr@1.0.0.NextOfKin {
+class \`org.acme.hr@1.0.0.NextOfKin\` {
 << map >>
-   + Key:org.acme.hr@1.0.0.KinName
-   + Value: org.acme.hr@1.0.0.KinTelephone
+   + Key:\`org.acme.hr@1.0.0.KinName\`
+   + Value: \`org.acme.hr@1.0.0.KinTelephone\`
 }
 
-class org.acme.hr@1.0.0.EmployeeProfiles {
+class \`org.acme.hr@1.0.0.EmployeeProfiles\` {
 << map >>
-   + Key:String
-   + Value: concerto@1.0.0.Concept
+   + Key:\`String\`
+   + Value: \`concerto@1.0.0.Concept\`
 }
 
-class org.acme.hr@1.0.0.EmployeeDirectory {
+class \`org.acme.hr@1.0.0.EmployeeDirectory\` {
 << map >>
-   + Key:org.acme.hr.base@1.0.0.SSN
-   + Value: org.acme.hr@1.0.0.Employee
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr@1.0.0.Employee\`
 }
 
 class \`org.acme.hr@1.0.0.Company\` {
@@ -8534,20 +8534,20 @@ class \`org.acme.hr@1.0.0.Company\` {
    + EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers
 }
 
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr.base@1.0.0.Address
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.CompanyProperties
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.EmployeeDirectory
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr.base@1.0.0.EmployeeTShirtSizes
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.EmployeeProfiles
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.CompanyProperties\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeDirectory\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeProfiles\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
 class \`org.acme.hr@1.0.0.Department\` {
 << enumeration>>
-   + Sales
-   + Marketing
-   + Finance
-   + HR
-   + Engineering
-   + Design
+   + \`Sales\`
+   + \`Marketing\`
+   + \`Finance\`
+   + \`HR\`
+   + \`Engineering\`
+   + \`Design\`
 }
 
 class \`org.acme.hr@1.0.0.Equipment\` {
@@ -8557,8 +8557,8 @@ class \`org.acme.hr@1.0.0.Equipment\` {
 
 class \`org.acme.hr@1.0.0.LaptopMake\` {
 << enumeration>>
-   + Apple
-   + Microsoft
+   + \`Apple\`
+   + \`Microsoft\`
 }
 
 class \`org.acme.hr@1.0.0.Laptop\` {
@@ -8566,8 +8566,8 @@ class \`org.acme.hr@1.0.0.Laptop\` {
    + LaptopMake make
 }
 
-org.acme.hr@1.0.0.Laptop "1" *-- "1" org.acme.hr@1.0.0.LaptopMake
-org.acme.hr@1.0.0.Laptop --|> org.acme.hr@1.0.0.Equipment
+\`org.acme.hr@1.0.0.Laptop\` "1" *-- "1" \`org.acme.hr@1.0.0.LaptopMake\`
+\`org.acme.hr@1.0.0.Laptop\` --|> \`org.acme.hr@1.0.0.Equipment\`
 class \`org.acme.hr@1.0.0.Person\` {
 << participant>>
    + String email
@@ -8581,9 +8581,9 @@ class \`org.acme.hr@1.0.0.Person\` {
    + NextOfKin nextOfKin
 }
 
-org.acme.hr@1.0.0.Person "1" *-- "1" org.acme.hr.base@1.0.0.Address
-org.acme.hr@1.0.0.Person "1" *-- "1" org.acme.hr.base@1.0.0.SSN
-org.acme.hr@1.0.0.Person "1" *-- "1" org.acme.hr@1.0.0.NextOfKin
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.NextOfKin\`
 class \`org.acme.hr@1.0.0.Employee\` {
 << participant>>
    + String employeeId
@@ -8596,27 +8596,27 @@ class \`org.acme.hr@1.0.0.Employee\` {
    + Manager manager
 }
 
-org.acme.hr@1.0.0.Employee "1" *-- "1" org.acme.hr@1.0.0.Department
-org.acme.hr@1.0.0.Employee "1" *-- "1" org.acme.hr.base@1.0.0.Address
-org.acme.hr@1.0.0.Employee "1" *-- "*" org.acme.hr@1.0.0.Equipment
-org.acme.hr@1.0.0.Employee "1" o-- "1" org.acme.hr@1.0.0.Manager : manager
-org.acme.hr@1.0.0.Employee --|> org.acme.hr@1.0.0.Person
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Department\`
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "*" \`org.acme.hr@1.0.0.Equipment\`
+\`org.acme.hr@1.0.0.Employee\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+\`org.acme.hr@1.0.0.Employee\` --|> \`org.acme.hr@1.0.0.Person\`
 class \`org.acme.hr@1.0.0.Contractor\` {
 << participant>>
    + Company company
    + Manager manager
 }
 
-org.acme.hr@1.0.0.Contractor "1" *-- "1" org.acme.hr@1.0.0.Company
-org.acme.hr@1.0.0.Contractor "1" o-- "1" org.acme.hr@1.0.0.Manager : manager
-org.acme.hr@1.0.0.Contractor --|> org.acme.hr@1.0.0.Person
+\`org.acme.hr@1.0.0.Contractor\` "1" *-- "1" \`org.acme.hr@1.0.0.Company\`
+\`org.acme.hr@1.0.0.Contractor\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+\`org.acme.hr@1.0.0.Contractor\` --|> \`org.acme.hr@1.0.0.Person\`
 class \`org.acme.hr@1.0.0.Manager\` {
 << participant>>
    + Person[] reports
 }
 
-org.acme.hr@1.0.0.Manager "1" o-- "*" org.acme.hr@1.0.0.Person : reports
-org.acme.hr@1.0.0.Manager --|> org.acme.hr@1.0.0.Employee
+\`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
+\`org.acme.hr@1.0.0.Manager\` --|> \`org.acme.hr@1.0.0.Employee\`
 class \`org.acme.hr@1.0.0.CompanyEvent\`
 << event>> \`org.acme.hr@1.0.0.CompanyEvent\`
 
@@ -8625,16 +8625,16 @@ class \`org.acme.hr@1.0.0.Onboarded\` {
    + Employee employee
 }
 
-org.acme.hr@1.0.0.Onboarded "1" o-- "1" org.acme.hr@1.0.0.Employee : employee
-org.acme.hr@1.0.0.Onboarded --|> org.acme.hr@1.0.0.CompanyEvent
+\`org.acme.hr@1.0.0.Onboarded\` "1" o-- "1" \`org.acme.hr@1.0.0.Employee\` : employee
+\`org.acme.hr@1.0.0.Onboarded\` --|> \`org.acme.hr@1.0.0.CompanyEvent\`
 class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 << transaction>>
    + Person Person
    + Address newAddress
 }
 
-org.acme.hr@1.0.0.ChangeOfAddress "1" o-- "1" org.acme.hr@1.0.0.Person : Person
-org.acme.hr@1.0.0.ChangeOfAddress "1" *-- "1" org.acme.hr.base@1.0.0.Address
+\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
+\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 \`\`\`
 
 ",
@@ -8647,27 +8647,27 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "classDiagram
 class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
-   + MA
-   + NY
-   + CO
-   + WA
-   + IL
-   + CA
+   + \`MA\`
+   + \`NY\`
+   + \`CO\`
+   + \`WA\`
+   + \`IL\`
+   + \`CA\`
 }
 
-org.acme.hr.base@1.0.0.State --|> concerto@1.0.0.Concept
+\`org.acme.hr.base@1.0.0.State\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
 << enumeration>>
-   + SMALL
-   + MEDIUM
-   + LARGE
+   + \`SMALL\`
+   + \`MEDIUM\`
+   + \`LARGE\`
 }
 
-org.acme.hr.base@1.0.0.TShirtSizeType --|> concerto@1.0.0.Concept
-class org.acme.hr.base@1.0.0.EmployeeTShirtSizes {
+\`org.acme.hr.base@1.0.0.TShirtSizeType\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` {
 << map >>
-   + Key:org.acme.hr.base@1.0.0.SSN
-   + Value: org.acme.hr.base@1.0.0.TShirtSizeType
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr.base@1.0.0.TShirtSizeType\`
 }
 
 class \`org.acme.hr.base@1.0.0.Address\` {
@@ -8679,42 +8679,42 @@ class \`org.acme.hr.base@1.0.0.Address\` {
    + String country
 }
 
-org.acme.hr.base@1.0.0.Address "1" *-- "1" org.acme.hr.base@1.0.0.State
-org.acme.hr.base@1.0.0.Address --|> concerto@1.0.0.Concept
-class org.acme.hr@1.0.0.CompanyProperties {
+\`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
+\`org.acme.hr.base@1.0.0.Address\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr@1.0.0.CompanyProperties\` {
 << map >>
-   + Key:String
-   + Value: String
+   + Key:\`String\`
+   + Value: \`String\`
 }
 
-class org.acme.hr@1.0.0.EmployeeLoginTimes {
+class \`org.acme.hr@1.0.0.EmployeeLoginTimes\` {
 << map >>
-   + Key:String
-   + Value: org.acme.hr.base@1.0.0.Time
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.Time\`
 }
 
-class org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers {
+class \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` {
 << map >>
-   + Key:String
-   + Value: org.acme.hr.base@1.0.0.SSN
+   + Key:\`String\`
+   + Value: \`org.acme.hr.base@1.0.0.SSN\`
 }
 
-class org.acme.hr@1.0.0.NextOfKin {
+class \`org.acme.hr@1.0.0.NextOfKin\` {
 << map >>
-   + Key:org.acme.hr@1.0.0.KinName
-   + Value: org.acme.hr@1.0.0.KinTelephone
+   + Key:\`org.acme.hr@1.0.0.KinName\`
+   + Value: \`org.acme.hr@1.0.0.KinTelephone\`
 }
 
-class org.acme.hr@1.0.0.EmployeeProfiles {
+class \`org.acme.hr@1.0.0.EmployeeProfiles\` {
 << map >>
-   + Key:String
-   + Value: concerto@1.0.0.Concept
+   + Key:\`String\`
+   + Value: \`concerto@1.0.0.Concept\`
 }
 
-class org.acme.hr@1.0.0.EmployeeDirectory {
+class \`org.acme.hr@1.0.0.EmployeeDirectory\` {
 << map >>
-   + Key:org.acme.hr.base@1.0.0.SSN
-   + Value: org.acme.hr@1.0.0.Employee
+   + Key:\`org.acme.hr.base@1.0.0.SSN\`
+   + Value: \`org.acme.hr@1.0.0.Employee\`
 }
 
 class \`org.acme.hr@1.0.0.Company\` {
@@ -8728,44 +8728,44 @@ class \`org.acme.hr@1.0.0.Company\` {
    + EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers
 }
 
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr.base@1.0.0.Address
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.CompanyProperties
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.EmployeeDirectory
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr.base@1.0.0.EmployeeTShirtSizes
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.EmployeeProfiles
-org.acme.hr@1.0.0.Company "1" *-- "1" org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers
-org.acme.hr@1.0.0.Company --|> concerto@1.0.0.Concept
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.CompanyProperties\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeDirectory\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeProfiles\`
+\`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
+\`org.acme.hr@1.0.0.Company\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr@1.0.0.Department\` {
 << enumeration>>
-   + Sales
-   + Marketing
-   + Finance
-   + HR
-   + Engineering
-   + Design
+   + \`Sales\`
+   + \`Marketing\`
+   + \`Finance\`
+   + \`HR\`
+   + \`Engineering\`
+   + \`Design\`
 }
 
-org.acme.hr@1.0.0.Department --|> concerto@1.0.0.Concept
+\`org.acme.hr@1.0.0.Department\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr@1.0.0.Equipment\` {
 << asset>>
    + String serialNumber
 }
 
-org.acme.hr@1.0.0.Equipment --|> concerto@1.0.0.Asset
+\`org.acme.hr@1.0.0.Equipment\` --|> \`concerto@1.0.0.Asset\`
 class \`org.acme.hr@1.0.0.LaptopMake\` {
 << enumeration>>
-   + Apple
-   + Microsoft
+   + \`Apple\`
+   + \`Microsoft\`
 }
 
-org.acme.hr@1.0.0.LaptopMake --|> concerto@1.0.0.Concept
+\`org.acme.hr@1.0.0.LaptopMake\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr@1.0.0.Laptop\` {
 << asset>>
    + LaptopMake make
 }
 
-org.acme.hr@1.0.0.Laptop "1" *-- "1" org.acme.hr@1.0.0.LaptopMake
-org.acme.hr@1.0.0.Laptop --|> org.acme.hr@1.0.0.Equipment
+\`org.acme.hr@1.0.0.Laptop\` "1" *-- "1" \`org.acme.hr@1.0.0.LaptopMake\`
+\`org.acme.hr@1.0.0.Laptop\` --|> \`org.acme.hr@1.0.0.Equipment\`
 class \`org.acme.hr@1.0.0.Person\` {
 << participant>>
    + String email
@@ -8779,10 +8779,10 @@ class \`org.acme.hr@1.0.0.Person\` {
    + NextOfKin nextOfKin
 }
 
-org.acme.hr@1.0.0.Person "1" *-- "1" org.acme.hr.base@1.0.0.Address
-org.acme.hr@1.0.0.Person "1" *-- "1" org.acme.hr.base@1.0.0.SSN
-org.acme.hr@1.0.0.Person "1" *-- "1" org.acme.hr@1.0.0.NextOfKin
-org.acme.hr@1.0.0.Person --|> concerto@1.0.0.Participant
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.SSN\`
+\`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr@1.0.0.NextOfKin\`
+\`org.acme.hr@1.0.0.Person\` --|> \`concerto@1.0.0.Participant\`
 class \`org.acme.hr@1.0.0.Employee\` {
 << participant>>
    + String employeeId
@@ -8795,47 +8795,47 @@ class \`org.acme.hr@1.0.0.Employee\` {
    + Manager manager
 }
 
-org.acme.hr@1.0.0.Employee "1" *-- "1" org.acme.hr@1.0.0.Department
-org.acme.hr@1.0.0.Employee "1" *-- "1" org.acme.hr.base@1.0.0.Address
-org.acme.hr@1.0.0.Employee "1" *-- "*" org.acme.hr@1.0.0.Equipment
-org.acme.hr@1.0.0.Employee "1" o-- "1" org.acme.hr@1.0.0.Manager : manager
-org.acme.hr@1.0.0.Employee --|> org.acme.hr@1.0.0.Person
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr@1.0.0.Department\`
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.Employee\` "1" *-- "*" \`org.acme.hr@1.0.0.Equipment\`
+\`org.acme.hr@1.0.0.Employee\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+\`org.acme.hr@1.0.0.Employee\` --|> \`org.acme.hr@1.0.0.Person\`
 class \`org.acme.hr@1.0.0.Contractor\` {
 << participant>>
    + Company company
    + Manager manager
 }
 
-org.acme.hr@1.0.0.Contractor "1" *-- "1" org.acme.hr@1.0.0.Company
-org.acme.hr@1.0.0.Contractor "1" o-- "1" org.acme.hr@1.0.0.Manager : manager
-org.acme.hr@1.0.0.Contractor --|> org.acme.hr@1.0.0.Person
+\`org.acme.hr@1.0.0.Contractor\` "1" *-- "1" \`org.acme.hr@1.0.0.Company\`
+\`org.acme.hr@1.0.0.Contractor\` "1" o-- "1" \`org.acme.hr@1.0.0.Manager\` : manager
+\`org.acme.hr@1.0.0.Contractor\` --|> \`org.acme.hr@1.0.0.Person\`
 class \`org.acme.hr@1.0.0.Manager\` {
 << participant>>
    + Person[] reports
 }
 
-org.acme.hr@1.0.0.Manager "1" o-- "*" org.acme.hr@1.0.0.Person : reports
-org.acme.hr@1.0.0.Manager --|> org.acme.hr@1.0.0.Employee
+\`org.acme.hr@1.0.0.Manager\` "1" o-- "*" \`org.acme.hr@1.0.0.Person\` : reports
+\`org.acme.hr@1.0.0.Manager\` --|> \`org.acme.hr@1.0.0.Employee\`
 class \`org.acme.hr@1.0.0.CompanyEvent\`
 << event>> \`org.acme.hr@1.0.0.CompanyEvent\`
 
-org.acme.hr@1.0.0.CompanyEvent --|> concerto@1.0.0.Event
+\`org.acme.hr@1.0.0.CompanyEvent\` --|> \`concerto@1.0.0.Event\`
 class \`org.acme.hr@1.0.0.Onboarded\` {
 << event>>
    + Employee employee
 }
 
-org.acme.hr@1.0.0.Onboarded "1" o-- "1" org.acme.hr@1.0.0.Employee : employee
-org.acme.hr@1.0.0.Onboarded --|> org.acme.hr@1.0.0.CompanyEvent
+\`org.acme.hr@1.0.0.Onboarded\` "1" o-- "1" \`org.acme.hr@1.0.0.Employee\` : employee
+\`org.acme.hr@1.0.0.Onboarded\` --|> \`org.acme.hr@1.0.0.CompanyEvent\`
 class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 << transaction>>
    + Person Person
    + Address newAddress
 }
 
-org.acme.hr@1.0.0.ChangeOfAddress "1" o-- "1" org.acme.hr@1.0.0.Person : Person
-org.acme.hr@1.0.0.ChangeOfAddress "1" *-- "1" org.acme.hr.base@1.0.0.Address
-org.acme.hr@1.0.0.ChangeOfAddress --|> concerto@1.0.0.Transaction
+\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
+\`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+\`org.acme.hr@1.0.0.ChangeOfAddress\` --|> \`concerto@1.0.0.Transaction\`
 ",
 }
 `;
