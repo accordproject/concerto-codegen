@@ -2308,19 +2308,19 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 classDiagram
 class \`org.acme.hr.base.State\` {
 << enumeration>>
-   + \`MA\`
-   + \`NY\`
-   + \`CO\`
-   + \`WA\`
-   + \`IL\`
-   + \`CA\`
+   + MA
+   + NY
+   + CO
+   + WA
+   + IL
+   + CA
 }
 
 class \`org.acme.hr.base.TShirtSizeType\` {
 << enumeration>>
-   + \`SMALL\`
-   + \`MEDIUM\`
-   + \`LARGE\`
+   + SMALL
+   + MEDIUM
+   + LARGE
 }
 
 class \`org.acme.hr.base.EmployeeTShirtSizes\` {
@@ -2424,12 +2424,12 @@ class \`org.acme.hr.Company\` {
 \`org.acme.hr.Company\` "1" *-- "1" \`org.acme.hr.EmployeeSocialSecurityNumbers\`
 class \`org.acme.hr.Department\` {
 << enumeration>>
-   + \`Sales\`
-   + \`Marketing\`
-   + \`Finance\`
-   + \`HR\`
-   + \`Engineering\`
-   + \`Design\`
+   + Sales
+   + Marketing
+   + Finance
+   + HR
+   + Engineering
+   + Design
 }
 
 class \`org.acme.hr.Equipment\` {
@@ -2439,8 +2439,8 @@ class \`org.acme.hr.Equipment\` {
 
 class \`org.acme.hr.LaptopMake\` {
 << enumeration>>
-   + \`Apple\`
-   + \`Microsoft\`
+   + Apple
+   + Microsoft
 }
 
 class \`org.acme.hr.Laptop\` {
@@ -2529,20 +2529,20 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "classDiagram
 class \`org.acme.hr.base.State\` {
 << enumeration>>
-   + \`MA\`
-   + \`NY\`
-   + \`CO\`
-   + \`WA\`
-   + \`IL\`
-   + \`CA\`
+   + MA
+   + NY
+   + CO
+   + WA
+   + IL
+   + CA
 }
 
 \`org.acme.hr.base.State\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr.base.TShirtSizeType\` {
 << enumeration>>
-   + \`SMALL\`
-   + \`MEDIUM\`
-   + \`LARGE\`
+   + SMALL
+   + MEDIUM
+   + LARGE
 }
 
 \`org.acme.hr.base.TShirtSizeType\` --|> \`concerto@1.0.0.Concept\`
@@ -2612,12 +2612,12 @@ class \`org.acme.hr.Company\` {
 \`org.acme.hr.Company\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr.Department\` {
 << enumeration>>
-   + \`Sales\`
-   + \`Marketing\`
-   + \`Finance\`
-   + \`HR\`
-   + \`Engineering\`
-   + \`Design\`
+   + Sales
+   + Marketing
+   + Finance
+   + HR
+   + Engineering
+   + Design
 }
 
 \`org.acme.hr.Department\` --|> \`concerto@1.0.0.Concept\`
@@ -2629,8 +2629,8 @@ class \`org.acme.hr.Equipment\` {
 \`org.acme.hr.Equipment\` --|> \`concerto@1.0.0.Asset\`
 class \`org.acme.hr.LaptopMake\` {
 << enumeration>>
-   + \`Apple\`
-   + \`Microsoft\`
+   + Apple
+   + Microsoft
 }
 
 \`org.acme.hr.LaptopMake\` --|> \`concerto@1.0.0.Concept\`
@@ -5799,19 +5799,19 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "classDiagram
 class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
-   + \`MA\`
-   + \`NY\`
-   + \`CO\`
-   + \`WA\`
-   + \`IL\`
-   + \`CA\`
+   + MA
+   + NY
+   + CO
+   + WA
+   + IL
+   + CA
 }
 
 class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
 << enumeration>>
-   + \`SMALL\`
-   + \`MEDIUM\`
-   + \`LARGE\`
+   + SMALL
+   + MEDIUM
+   + LARGE
 }
 
 class \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` {
@@ -5885,12 +5885,12 @@ class \`org.acme.hr@1.0.0.Company\` {
 \`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
 class \`org.acme.hr@1.0.0.Department\` {
 << enumeration>>
-   + \`Sales\`
-   + \`Marketing\`
-   + \`Finance\`
-   + \`HR\`
-   + \`Engineering\`
-   + \`Design\`
+   + Sales
+   + Marketing
+   + Finance
+   + HR
+   + Engineering
+   + Design
 }
 
 class \`org.acme.hr@1.0.0.Equipment\` {
@@ -5900,8 +5900,8 @@ class \`org.acme.hr@1.0.0.Equipment\` {
 
 class \`org.acme.hr@1.0.0.LaptopMake\` {
 << enumeration>>
-   + \`Apple\`
-   + \`Microsoft\`
+   + Apple
+   + Microsoft
 }
 
 class \`org.acme.hr@1.0.0.Laptop\` {
@@ -8426,19 +8426,19 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 classDiagram
 class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
-   + \`MA\`
-   + \`NY\`
-   + \`CO\`
-   + \`WA\`
-   + \`IL\`
-   + \`CA\`
+   + MA
+   + NY
+   + CO
+   + WA
+   + IL
+   + CA
 }
 
 class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
 << enumeration>>
-   + \`SMALL\`
-   + \`MEDIUM\`
-   + \`LARGE\`
+   + SMALL
+   + MEDIUM
+   + LARGE
 }
 
 class \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` {
@@ -8542,12 +8542,12 @@ class \`org.acme.hr@1.0.0.Company\` {
 \`org.acme.hr@1.0.0.Company\` "1" *-- "1" \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
 class \`org.acme.hr@1.0.0.Department\` {
 << enumeration>>
-   + \`Sales\`
-   + \`Marketing\`
-   + \`Finance\`
-   + \`HR\`
-   + \`Engineering\`
-   + \`Design\`
+   + Sales
+   + Marketing
+   + Finance
+   + HR
+   + Engineering
+   + Design
 }
 
 class \`org.acme.hr@1.0.0.Equipment\` {
@@ -8557,8 +8557,8 @@ class \`org.acme.hr@1.0.0.Equipment\` {
 
 class \`org.acme.hr@1.0.0.LaptopMake\` {
 << enumeration>>
-   + \`Apple\`
-   + \`Microsoft\`
+   + Apple
+   + Microsoft
 }
 
 class \`org.acme.hr@1.0.0.Laptop\` {
@@ -8647,20 +8647,20 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "classDiagram
 class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
-   + \`MA\`
-   + \`NY\`
-   + \`CO\`
-   + \`WA\`
-   + \`IL\`
-   + \`CA\`
+   + MA
+   + NY
+   + CO
+   + WA
+   + IL
+   + CA
 }
 
 \`org.acme.hr.base@1.0.0.State\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr.base@1.0.0.TShirtSizeType\` {
 << enumeration>>
-   + \`SMALL\`
-   + \`MEDIUM\`
-   + \`LARGE\`
+   + SMALL
+   + MEDIUM
+   + LARGE
 }
 
 \`org.acme.hr.base@1.0.0.TShirtSizeType\` --|> \`concerto@1.0.0.Concept\`
@@ -8737,12 +8737,12 @@ class \`org.acme.hr@1.0.0.Company\` {
 \`org.acme.hr@1.0.0.Company\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr@1.0.0.Department\` {
 << enumeration>>
-   + \`Sales\`
-   + \`Marketing\`
-   + \`Finance\`
-   + \`HR\`
-   + \`Engineering\`
-   + \`Design\`
+   + Sales
+   + Marketing
+   + Finance
+   + HR
+   + Engineering
+   + Design
 }
 
 \`org.acme.hr@1.0.0.Department\` --|> \`concerto@1.0.0.Concept\`
@@ -8754,8 +8754,8 @@ class \`org.acme.hr@1.0.0.Equipment\` {
 \`org.acme.hr@1.0.0.Equipment\` --|> \`concerto@1.0.0.Asset\`
 class \`org.acme.hr@1.0.0.LaptopMake\` {
 << enumeration>>
-   + \`Apple\`
-   + \`Microsoft\`
+   + Apple
+   + Microsoft
 }
 
 \`org.acme.hr@1.0.0.LaptopMake\` --|> \`concerto@1.0.0.Concept\`
