@@ -464,4 +464,29 @@ describe('VocabularyVisitor', function () {
             param.fileWriter.writeLine.withArgs(0,'      - VALUE: VALUE of the Dictionary').calledOnce.should.be.ok;
         });
     });
+
+    describe('visitProperty for Field', () => {
+        let param;
+        beforeEach(() => {
+            param = {
+                fileWriter: mockFileWriter
+            };
+        });
+        
+        it('should skip vocabulary generation for system property', () => {
+            const mockField = sinon.createStubInstance(Field);
+            const mockParent = {
+                getName: sinon.stub().returns('Person')
+            };
+            mockField.getParent.returns(mockParent);
+            mockField.isPrimitive.returns(false);
+            mockField.getName.returns('$identifier');
+            mockField.isPrimitive.returns(true);
+            const writeLineStub = sinon.stub(mockFileWriter, 'writeLine');
+            vocabularyVisitor.visitProperty(mockField, param);
+            writeLineStub.called.should.be.false;
+            writeLineStub.restore();
+        });
+    });
+    
 });
