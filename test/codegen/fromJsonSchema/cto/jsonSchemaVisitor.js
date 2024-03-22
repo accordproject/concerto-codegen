@@ -92,6 +92,21 @@ describe('JsonSchemaVisitor', () => {
             );
         }).should.throw('schema is invalid: data/properties/Foo/type must be equal to one of the allowed values, data/properties/Foo/type must be array, data/properties/Foo/type must match a schema in anyOf');
     });
+    it('should not generate when reserved keywords are used', async () => {
+        (function () {
+            const jsonSchemaModelClass = new JsonSchemaModel({
+                $schema: 'http://json-schema.org/draft-07/schema#',
+                type: 'object',
+                properties: {
+                    '$namespace': { type: 'integer' }
+                }
+            });
+
+            jsonSchemaModelClass.accept(
+                jsonSchemaVisitor, jsonSchemaVisitorParameters
+            );
+        }).should.throw('$namespace is a reserved keyword and cannot be used as a property');
+    });
 
     it('should generate for a simple definition', async () => {
         const inferredConcertoJsonModel = JsonSchemaVisitor
