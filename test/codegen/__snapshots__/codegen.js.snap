@@ -975,7 +975,7 @@ public enum State {
    CA,
    @Override
    public String toString() {
-   return name();
+      return name();
    }
 }
 ",
@@ -996,7 +996,7 @@ public enum TShirtSizeType {
    LARGE,
    @Override
    public String toString() {
-   return name();
+      return name();
    }
 }
 ",
@@ -1151,7 +1151,7 @@ public enum Department {
    Design,
    @Override
    public String toString() {
-   return name();
+      return name();
    }
 }
 ",
@@ -1210,7 +1210,7 @@ public enum LaptopMake {
    Microsoft,
    @Override
    public String toString() {
-   return name();
+      return name();
    }
 }
 ",
@@ -7109,7 +7109,7 @@ public enum State {
    CA,
    @Override
    public String toString() {
-   return name();
+      return name();
    }
 }
 ",
@@ -7130,7 +7130,7 @@ public enum TShirtSizeType {
    LARGE,
    @Override
    public String toString() {
-   return name();
+      return name();
    }
 }
 ",
@@ -7285,7 +7285,7 @@ public enum Department {
    Design,
    @Override
    public String toString() {
-   return name();
+      return name();
    }
 }
 ",
@@ -7344,7 +7344,7 @@ public enum LaptopMake {
    Microsoft,
    @Override
    public String toString() {
-   return name();
+      return name();
    }
 }
 ",
