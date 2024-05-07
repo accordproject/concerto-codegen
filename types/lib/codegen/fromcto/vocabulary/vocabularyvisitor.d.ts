@@ -13,7 +13,7 @@ declare class VocabularyVisitor {
     /**
      * Visitor design pattern
      * @param {Object} thing - the object being visited
-     * @param {Object} parameters  - the parameter
+     * @param {Object} parameters - the parameter
      * @return {Object} the result of visiting or null
      * @public
      */
@@ -21,7 +21,7 @@ declare class VocabularyVisitor {
     /**
      * Visitor design pattern
      * @param {ModelManager} modelManager - the object being visited
-     * @param {Object} parameters  - the parameter
+     * @param {Object} parameters - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */
@@ -29,7 +29,7 @@ declare class VocabularyVisitor {
     /**
      * Visitor design pattern
      * @param {ModelFile} modelFile - the object being visited
-     * @param {Object} parameters  - the parameter
+     * @param {Object} parameters - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */
@@ -37,7 +37,7 @@ declare class VocabularyVisitor {
     /**
      * Visitor design pattern
      * @param {Declaration} declaration - the object being visited
-     * @param {Object} parameters  - the parameter
+     * @param {Object} parameters - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */
@@ -45,7 +45,7 @@ declare class VocabularyVisitor {
     /**
      * Visitor design pattern
      * @param {ScalarDeclaration} scalarDeclaration - the object being visited
-     * @param {Object} parameters  - the parameter
+     * @param {Object} parameters - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */
@@ -53,7 +53,7 @@ declare class VocabularyVisitor {
     /**
      * Visitor design pattern
      * @param {MapDeclaration} mapDeclaration - the object being visited
-     * @param {Object} parameters  - the parameter
+     * @param {Object} parameters - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */
@@ -61,7 +61,7 @@ declare class VocabularyVisitor {
     /**
      * Visitor design pattern
      * @param {Property} property - the object being visited
-     * @param {Object} parameters  - the parameter
+     * @param {Object} parameters - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */
@@ -69,7 +69,7 @@ declare class VocabularyVisitor {
     /**
      * Visitor design pattern
      * @param {MapKeyType} mapKey - the object being visited
-     * @param {Object} parameters  - the parameter
+     * @param {Object} parameters - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */
@@ -77,7 +77,7 @@ declare class VocabularyVisitor {
     /**
      * Visitor design pattern
      * @param {MapValueType} mapValue - the object being visited
-     * @param {Object} parameters  - the parameter
+     * @param {Object} parameters - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */

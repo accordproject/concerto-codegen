@@ -1,10 +1,10 @@
 {
     "name": "@accordproject/concerto-codegen",
-    "version": "3.22.1",
-    "description": "CodeGen for the Concerto Modeling Language",
+    "version": "3.23.0",
+    "description": "Code Generationg for the Concerto Modeling Language",
     "homepage": "https://github.com/accordproject/concerto",
     "engines": {
-        "node": ">=14",
+        "node": ">=18",
         "npm": ">=6"
     },
     "main": "index.js",
@@ -45,7 +45,7 @@
     "author": "accordproject.org",
     "license": "Apache-2.0",
     "devDependencies": {
-        "@accordproject/concerto-cto": "3.16.4",
+        "@accordproject/concerto-cto": "3.16.8",
         "@babel/preset-env": "7.16.11",
         "babel-loader": "8.2.3",
         "chai": "4.3.6",
@@ -53,7 +53,7 @@
         "chai-things": "0.2.0",
         "eslint": "8.2.0",
         "expect": "29.1.0",
-        "jsdoc": "^3.6.7",
+        "jsdoc": "^4.0.3",
         "license-check-and-add": "2.3.6",
         "mocha": "10.0.0",
         "mocha-expect-snapshot": "6.2.0",
@@ -70,14 +70,14 @@
         "webpack-cli": "4.9.1"
     },
     "dependencies": {
-        "@accordproject/concerto-core": "3.16.5",
-        "@accordproject/concerto-util": "3.16.5",
-        "@accordproject/concerto-vocabulary": "3.16.5",
-        "@openapi-contrib/openapi-schema-to-json-schema": "3.2.0",
-        "ajv": "8.10.0",
-        "ajv-formats": "2.1.1",
+        "@accordproject/concerto-core": "3.16.8",
+        "@accordproject/concerto-util": "3.16.8",
+        "@accordproject/concerto-vocabulary": "3.16.8",
+        "@openapi-contrib/openapi-schema-to-json-schema": "5.1.0",
+        "ajv": "8.13.0",
+        "ajv-formats": "3.0.1",
         "camelcase": "6.3.0",
-        "debug": "4.3.1",
+        "debug": "4.3.4",
         "get-value": "3.0.1",
         "json-schema-migrate": "2.0.0",
         "pluralize": "8.0.0"
