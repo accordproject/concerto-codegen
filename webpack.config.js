@@ -20,6 +20,7 @@ const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const packageJson = require('./package.json');
 
 module.exports = {
+    devtool: 'source-map',
     entry: {
         client: [
             './index.js'
