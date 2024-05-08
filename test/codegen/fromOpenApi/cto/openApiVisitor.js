@@ -17,6 +17,8 @@
 const chai = require('chai');
 chai.should();
 const { assert } = chai;
+const { expect } = require('expect');
+
 const fs = require('fs');
 const path = require('path');
 const Printer = require('@accordproject/concerto-cto').Printer;
@@ -161,6 +163,31 @@ describe('OpenApiVisitor', function () {
                 inferredConcertoModel,
                 desiredConcertoModel
             );
+        }
+    );
+
+    it(
+        'should generate a Concerto JSON and CTO from a Workday OpenAPI definition',
+        async () => {
+            const openApiDefinition = JSON.parse(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname, '../cto/data/workday_recruiting_v3.json'
+                    ), 'utf8'
+                )
+            );
+            const inferredConcertoJsonModel = OpenApiVisitor
+                .parse(openApiDefinition)
+                .accept(
+                    openApiVisitor, openApiVisitorParameters
+                );
+
+            expect(inferredConcertoJsonModel).toMatchSnapshot();
+
+            const inferredConcertoModel = Printer.toCTO(
+                inferredConcertoJsonModel.models[0]
+            );
+            expect(inferredConcertoModel).toMatchSnapshot();
         }
     );
 });

@@ -1,0 +1,1949 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OpenApiVisitor should generate a Concerto JSON and CTO from a Workday OpenAPI definition 1`] = `
+{
+  "$class": "concerto.metamodel@1.0.0.Models",
+  "models": [
+    {
+      "$class": "concerto.metamodel@1.0.0.Model",
+      "declarations": [
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "INSTANCE_MODEL_REFERENCE",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": false,
+              "name": "id",
+              "validator": {
+                "$class": "concerto.metamodel@1.0.0.StringRegexValidator",
+                "flags": "",
+                "pattern": "^(?:(?:[0-9a-f]{32})|(?:[0-9]+\\$[0-9]+)|(\\S+=\\S+))$",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "href",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "ERROR_MODEL_REFERENCE",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": false,
+              "name": "error",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "code",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "field",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "path",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "VALIDATION_ERROR_MODEL_REFERENCE",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": false,
+              "name": "error",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "errors",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "ERROR_MODEL_REFERENCE",
+              },
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "MULTIPLE_INSTANCE_MODEL_REFERENCE",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.IntegerProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "total",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "data",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "candidateSummary_263b3523259410001f3119d56cda126c",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "email",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "phone",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "candidatePhoneDetails_6f9c04282952100023a80fa49bde173d",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "name",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "name_59514ca580dc100021a2a27ee1880689",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "prospectSummary_7657284bd7781000178a3bf6e17f001a",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "candidateTags",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "candidateTag_7b4e2f108d3b1000162f47403b7d0037",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "candidatePools",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "candidatePool_7c49be35aa7210001012f723bc6012ca",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "candidate",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "candidateSummary_263b3523259410001f3119d56cda126c",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.BooleanProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "contactConsent",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "status",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "type",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "source",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "level",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "referredBy",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "href",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "candidateEducationDetails_9727f970aa231000052ae7db3fc0000b",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "schoolName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "degree",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.DateTimeProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "firstYearAttended",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "fieldOfStudy",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.DateTimeProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "lastYearAttended",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "gradeAverage",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "candidateLanguageSkillDetails_ecf7ccfb11c11000285d4727e4270017",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "language",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "abilities",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "languageAbilityDetails_ecf7ccfb11c110002a0cd3b3ff8b0022",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.BooleanProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "native",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "candidateSkillItemDetails_2705750e957f10002beca80792940019",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "name",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "prospectExperienceDetails_b4dba3cbddc710001bebf80c43270014",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "companyName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "location",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "description",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.DateTimeProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "startYear",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.BooleanProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "currentlyWorkHere",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "title",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.IntegerProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "startMonth",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.DateTimeProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "endYear",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.IntegerProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "endMonth",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "resumeAttachmentDetailsView_134c3544d220100007f0f9b541a400a5",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "fileName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "fileExtension",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.IntegerProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "fileLength",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "jobPostingSiteDetail_8b241418d7ce10000818455b78e40057",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "locationSummary_8b241418d7ce100007a5c9eea7de004c",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "country",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "countryDetail_8b241418d7ce10000797fe76c17a0046",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "region",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "countryRegionDetail_8b241418d7ce100007a4d8749d270049",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "positionTimeTypeDetail_8b241418d7ce100007fe51d00f630053",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "positionWorkerTypeDetail_8b241418d7ce1000089e70503c92005a",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "organizationDetail_8b241418d7ce100008b027833f33005d",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "remoteTypeDefinition_8bdd07e7084f1000151e15ccc3dd0000",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "name",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "jobPostingAnchorSummary_5597c990f22e10000fc34f022dce0020",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "categories",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "jobFamilyGroupDetail_8b241418d7ce1000081068ca51810055",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "jobSite",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "jobPostingSiteDetail_8b241418d7ce10000818455b78e40057",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "jobDescription",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "primaryLocation",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "locationSummary_8b241418d7ce100007a5c9eea7de004c",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "timeType",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "positionTimeTypeDetail_8b241418d7ce100007fe51d00f630053",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "jobType",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "positionWorkerTypeDetail_8b241418d7ce1000089e70503c92005a",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.BooleanProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "spotlightJob",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "additionalLocations",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "locationSummary_8b241418d7ce100007a5c9eea7de004c",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "company",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "organizationDetail_8b241418d7ce100008b027833f33005d",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "remoteType",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "remoteTypeDefinition_8bdd07e7084f1000151e15ccc3dd0000",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.DateTimeProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "endDate",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "url",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.DateTimeProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "startDate",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "title",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "questionnaireDetails_58cd464577ad1000ee76d171eea90000",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "referenceIdValue",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "questionnaireInstructions",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "questions",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "questionItemDetails_35124aec314610000f15a3222d1800f9",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "name",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "questionnaireDisplayName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "href",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "jobRequisitionPublic_df78b8e577c91000162ee14015b600a4",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "primaryRecruiters",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "recruiters",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "hiringManager",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "jobApplicationPublic_b36c621f46fd10001cc501100a4e03c7",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.IntegerProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "yearsInCurrentJob",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.IntegerProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "totalYearsExperience",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.IntegerProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "numberOfJobs",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "interviewEventWithJobApplicationJobRequisitionInterviewerDetails_def69f12d55410000f7ec8da36ae005a",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "interviewStatuses",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "interviewStatusRepresentation_782d6c28615f10000371c7f006740172",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.BooleanProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "hasCompetenciesQuestionnaires",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "giveInterviewFeedbackLink",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "jobRequisition",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "jobRequisitionPublic_df78b8e577c91000162ee14015b600a4",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "workersPendingFeedback",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "jobApplication",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "jobApplicationPublic_b36c621f46fd10001cc501100a4e03c7",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "overallRating",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "overallComment",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "interviewers",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "interviewFeedbackRatingSummary_def69f12d554100013fe5747ffa50092",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "interviewDetailSummary_def69f12d5541000139a7815aae9008f",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "comment",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "overallRating",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "interviewFeedbackRatingSummary_def69f12d554100013fe5747ffa50092",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.DateTimeProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "dateSubmitted",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "candidatePhoneDetails_6f9c04282952100023a80fa49bde173d",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "countryPhoneCode",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "deviceType",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "extension",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "phoneNumber",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "name_59514ca580dc100021a2a27ee1880689",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "secondaryLocal",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "firstNameLocal",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "firstNameLocal2",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "social",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "countryPredefinedNameComponent_e16f06ca954910001a110a8851cd013d",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "salutation",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "countryPredefinedNameComponent_e16f06ca954910001a110a8851cd013d",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "fullName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "lastNameLocal2",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "lastName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "secondaryLastName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "middleNameLocal",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "country",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "country_1089da0ab90910000f6d7bd30bb20881",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "firstName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "lastNameLocal",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "middleName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "tertiaryLastName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "hereditary",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "countryPredefinedNameComponent_e16f06ca954910001a110a8851cd013d",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "title",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "countryPredefinedNameComponent_e16f06ca954910001a110a8851cd013d",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "country_1089da0ab90910000f6d7bd30bb20881",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "jobFamilyGroupDetail_8b241418d7ce1000081068ca51810055",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "questionItemDetails_35124aec314610000f15a3222d1800f9",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "type",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "displayOption",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "body",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "order",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.IntegerProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "numberOfSelections",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": true,
+              "isOptional": true,
+              "name": "possibleAnswers",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "questionMultipleChoiceAnswerDetails_35124aec314610000f355986c6490104",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.BooleanProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "required",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "href",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "questionMultipleChoiceAnswerDetails_35124aec314610000f355986c6490104",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "branchingQuestion",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "questionItemDetails_35124aec314610000f15a3222d1800f9",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.IntegerProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "score",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "order",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "countryPredefinedNameComponent_e16f06ca954910001a110a8851cd013d",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "candidateTag_7b4e2f108d3b1000162f47403b7d0037",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "resumeAttachmentDetailsCreate_ee22ee09075410000346b5ebfa2303e4",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.IntegerProperty",
+              "isArray": false,
+              "isOptional": false,
+              "name": "fileLength",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "contentType",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "fileName",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "countryDetail_8b241418d7ce10000797fe76c17a0046",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "alpha3Code",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "languageAbilityDetails_ecf7ccfb11c110002a0cd3b3ff8b0022",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "proficiency",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.ObjectProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "abilityType",
+              "type": {
+                "$class": "concerto.metamodel@1.0.0.TypeIdentifier",
+                "name": "INSTANCE_MODEL_REFERENCE",
+              },
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "resumeAttachmentFileView_ee7318fbf39e10001e321c67d42300c0",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "interviewStatusRepresentation_782d6c28615f10000371c7f006740172",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "href",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "countryRegionDetail_8b241418d7ce100007a4d8749d270049",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "code",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+        {
+          "$class": "concerto.metamodel@1.0.0.ConceptDeclaration",
+          "isAbstract": false,
+          "name": "candidatePool_7c49be35aa7210001012f723bc6012ca",
+          "properties": [
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "id",
+            },
+            {
+              "$class": "concerto.metamodel@1.0.0.StringProperty",
+              "isArray": false,
+              "isOptional": true,
+              "name": "descriptor",
+            },
+          ],
+        },
+      ],
+      "decorators": [],
+      "imports": [],
+      "namespace": "com.test@1.0.0",
+    },
+  ],
+}
+`;
+
+exports[`OpenApiVisitor should generate a Concerto JSON and CTO from a Workday OpenAPI definition 2`] = `
+"namespace com.test@1.0.0
+
+concept INSTANCE_MODEL_REFERENCE {
+  o String id regex=/^(?:(?:[0-9a-f]{32})|(?:[0-9]+\\$[0-9]+)|(\\S+=\\S+))$/
+  o String descriptor optional
+  o String href optional
+}
+
+concept ERROR_MODEL_REFERENCE {
+  o String error
+  o String code optional
+  o String field optional
+  o String path optional
+}
+
+concept VALIDATION_ERROR_MODEL_REFERENCE {
+  o String error
+  o ERROR_MODEL_REFERENCE[] errors optional
+}
+
+concept MULTIPLE_INSTANCE_MODEL_REFERENCE {
+  o Integer total optional
+  o INSTANCE_MODEL_REFERENCE[] data optional
+}
+
+concept candidateSummary_263b3523259410001f3119d56cda126c {
+  o String email optional
+  o candidatePhoneDetails_6f9c04282952100023a80fa49bde173d phone optional
+  o name_59514ca580dc100021a2a27ee1880689 name optional
+  o String id optional
+  o String descriptor optional
+}
+
+concept prospectSummary_7657284bd7781000178a3bf6e17f001a {
+  o candidateTag_7b4e2f108d3b1000162f47403b7d0037[] candidateTags optional
+  o candidatePool_7c49be35aa7210001012f723bc6012ca[] candidatePools optional
+  o candidateSummary_263b3523259410001f3119d56cda126c candidate optional
+  o Boolean contactConsent optional
+  o INSTANCE_MODEL_REFERENCE status optional
+  o INSTANCE_MODEL_REFERENCE type optional
+  o INSTANCE_MODEL_REFERENCE source optional
+  o INSTANCE_MODEL_REFERENCE level optional
+  o INSTANCE_MODEL_REFERENCE referredBy optional
+  o String id optional
+  o String descriptor optional
+  o String href optional
+}
+
+concept candidateEducationDetails_9727f970aa231000052ae7db3fc0000b {
+  o String schoolName optional
+  o INSTANCE_MODEL_REFERENCE degree optional
+  o DateTime firstYearAttended optional
+  o INSTANCE_MODEL_REFERENCE fieldOfStudy optional
+  o DateTime lastYearAttended optional
+  o String gradeAverage optional
+  o String id optional
+}
+
+concept candidateLanguageSkillDetails_ecf7ccfb11c11000285d4727e4270017 {
+  o INSTANCE_MODEL_REFERENCE language optional
+  o languageAbilityDetails_ecf7ccfb11c110002a0cd3b3ff8b0022[] abilities optional
+  o Boolean native optional
+  o String id optional
+}
+
+concept candidateSkillItemDetails_2705750e957f10002beca80792940019 {
+  o String name optional
+  o String id optional
+}
+
+concept prospectExperienceDetails_b4dba3cbddc710001bebf80c43270014 {
+  o String companyName optional
+  o String location optional
+  o String description optional
+  o DateTime startYear optional
+  o Boolean currentlyWorkHere optional
+  o String title optional
+  o Integer startMonth optional
+  o DateTime endYear optional
+  o Integer endMonth optional
+  o String id optional
+}
+
+concept resumeAttachmentDetailsView_134c3544d220100007f0f9b541a400a5 {
+  o String fileName optional
+  o String fileExtension optional
+  o Integer fileLength optional
+  o String id optional
+}
+
+concept jobPostingSiteDetail_8b241418d7ce10000818455b78e40057 {
+  o String id optional
+  o String descriptor optional
+}
+
+concept locationSummary_8b241418d7ce100007a5c9eea7de004c {
+  o countryDetail_8b241418d7ce10000797fe76c17a0046 country optional
+  o countryRegionDetail_8b241418d7ce100007a4d8749d270049 region optional
+  o String id optional
+  o String descriptor optional
+}
+
+concept positionTimeTypeDetail_8b241418d7ce100007fe51d00f630053 {
+  o String id optional
+  o String descriptor optional
+}
+
+concept positionWorkerTypeDetail_8b241418d7ce1000089e70503c92005a {
+  o String id optional
+  o String descriptor optional
+}
+
+concept organizationDetail_8b241418d7ce100008b027833f33005d {
+  o String id optional
+  o String descriptor optional
+}
+
+concept remoteTypeDefinition_8bdd07e7084f1000151e15ccc3dd0000 {
+  o String name optional
+  o String id optional
+}
+
+concept jobPostingAnchorSummary_5597c990f22e10000fc34f022dce0020 {
+  o jobFamilyGroupDetail_8b241418d7ce1000081068ca51810055[] categories optional
+  o jobPostingSiteDetail_8b241418d7ce10000818455b78e40057 jobSite optional
+  o String jobDescription optional
+  o locationSummary_8b241418d7ce100007a5c9eea7de004c primaryLocation optional
+  o positionTimeTypeDetail_8b241418d7ce100007fe51d00f630053 timeType optional
+  o positionWorkerTypeDetail_8b241418d7ce1000089e70503c92005a jobType optional
+  o Boolean spotlightJob optional
+  o locationSummary_8b241418d7ce100007a5c9eea7de004c[] additionalLocations optional
+  o organizationDetail_8b241418d7ce100008b027833f33005d company optional
+  o remoteTypeDefinition_8bdd07e7084f1000151e15ccc3dd0000 remoteType optional
+  o DateTime endDate optional
+  o String url optional
+  o DateTime startDate optional
+  o String title optional
+  o String id optional
+}
+
+concept questionnaireDetails_58cd464577ad1000ee76d171eea90000 {
+  o String referenceIdValue optional
+  o String questionnaireInstructions optional
+  o questionItemDetails_35124aec314610000f15a3222d1800f9[] questions optional
+  o String name optional
+  o String questionnaireDisplayName optional
+  o String id optional
+  o String href optional
+  o String descriptor optional
+}
+
+concept jobRequisitionPublic_df78b8e577c91000162ee14015b600a4 {
+  o workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016[] primaryRecruiters optional
+  o workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016[] recruiters optional
+  o workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016 hiringManager optional
+  o String id optional
+  o String descriptor optional
+}
+
+concept jobApplicationPublic_b36c621f46fd10001cc501100a4e03c7 {
+  o Integer yearsInCurrentJob optional
+  o Integer totalYearsExperience optional
+  o Integer numberOfJobs optional
+  o String id optional
+  o String descriptor optional
+}
+
+concept interviewEventWithJobApplicationJobRequisitionInterviewerDetails_def69f12d55410000f7ec8da36ae005a {
+  o interviewStatusRepresentation_782d6c28615f10000371c7f006740172[] interviewStatuses optional
+  o Boolean hasCompetenciesQuestionnaires optional
+  o String giveInterviewFeedbackLink optional
+  o jobRequisitionPublic_df78b8e577c91000162ee14015b600a4 jobRequisition optional
+  o workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016[] workersPendingFeedback optional
+  o jobApplicationPublic_b36c621f46fd10001cc501100a4e03c7 jobApplication optional
+  o String overallRating optional
+  o String overallComment optional
+  o workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016[] interviewers optional
+  o String id optional
+  o String descriptor optional
+}
+
+concept interviewFeedbackRatingSummary_def69f12d554100013fe5747ffa50092 {
+  o String id optional
+  o String descriptor optional
+}
+
+concept interviewDetailSummary_def69f12d5541000139a7815aae9008f {
+  o String comment optional
+  o interviewFeedbackRatingSummary_def69f12d554100013fe5747ffa50092 overallRating optional
+  o DateTime dateSubmitted optional
+  o String id optional
+  o String descriptor optional
+}
+
+concept candidatePhoneDetails_6f9c04282952100023a80fa49bde173d {
+  o INSTANCE_MODEL_REFERENCE countryPhoneCode optional
+  o INSTANCE_MODEL_REFERENCE deviceType optional
+  o String extension optional
+  o String phoneNumber optional
+  o String id optional
+  o String descriptor optional
+}
+
+concept name_59514ca580dc100021a2a27ee1880689 {
+  o String secondaryLocal optional
+  o String firstNameLocal optional
+  o String firstNameLocal2 optional
+  o countryPredefinedNameComponent_e16f06ca954910001a110a8851cd013d social optional
+  o countryPredefinedNameComponent_e16f06ca954910001a110a8851cd013d salutation optional
+  o String fullName optional
+  o String lastNameLocal2 optional
+  o String lastName optional
+  o String secondaryLastName optional
+  o String middleNameLocal optional
+  o country_1089da0ab90910000f6d7bd30bb20881 country optional
+  o String firstName optional
+  o String lastNameLocal optional
+  o String middleName optional
+  o String tertiaryLastName optional
+  o countryPredefinedNameComponent_e16f06ca954910001a110a8851cd013d hereditary optional
+  o countryPredefinedNameComponent_e16f06ca954910001a110a8851cd013d title optional
+  o String id optional
+  o String descriptor optional
+}
+
+concept country_1089da0ab90910000f6d7bd30bb20881 {
+  o String id optional
+  o String descriptor optional
+}
+
+concept jobFamilyGroupDetail_8b241418d7ce1000081068ca51810055 {
+  o String id optional
+  o String descriptor optional
+}
+
+concept questionItemDetails_35124aec314610000f15a3222d1800f9 {
+  o INSTANCE_MODEL_REFERENCE type optional
+  o INSTANCE_MODEL_REFERENCE displayOption optional
+  o String body optional
+  o String order optional
+  o Integer numberOfSelections optional
+  o questionMultipleChoiceAnswerDetails_35124aec314610000f355986c6490104[] possibleAnswers optional
+  o Boolean required optional
+  o String id optional
+  o String href optional
+  o String descriptor optional
+}
+
+concept questionMultipleChoiceAnswerDetails_35124aec314610000f355986c6490104 {
+  o questionItemDetails_35124aec314610000f15a3222d1800f9 branchingQuestion optional
+  o String id optional
+  o Integer score optional
+  o String descriptor optional
+  o String order optional
+}
+
+concept countryPredefinedNameComponent_e16f06ca954910001a110a8851cd013d {
+  o String id optional
+  o String descriptor optional
+}
+
+concept candidateTag_7b4e2f108d3b1000162f47403b7d0037 {
+  o String id optional
+  o String descriptor optional
+}
+
+concept resumeAttachmentDetailsCreate_ee22ee09075410000346b5ebfa2303e4 {
+  o Integer fileLength
+  o INSTANCE_MODEL_REFERENCE contentType optional
+  o String fileName optional
+  o String id optional
+  o String descriptor optional
+}
+
+concept countryDetail_8b241418d7ce10000797fe76c17a0046 {
+  o String alpha3Code optional
+  o String descriptor optional
+}
+
+concept languageAbilityDetails_ecf7ccfb11c110002a0cd3b3ff8b0022 {
+  o INSTANCE_MODEL_REFERENCE proficiency optional
+  o INSTANCE_MODEL_REFERENCE abilityType optional
+  o String id optional
+}
+
+concept resumeAttachmentFileView_ee7318fbf39e10001e321c67d42300c0 {
+  o String id optional
+  o String descriptor optional
+}
+
+concept workerForInterviewRepresentation_0e1101ea4ec4100008fdfd8289ed0016 {
+  o String id optional
+  o String descriptor optional
+}
+
+concept interviewStatusRepresentation_782d6c28615f10000371c7f006740172 {
+  o String id optional
+  o String descriptor optional
+  o String href optional
+}
+
+concept countryRegionDetail_8b241418d7ce100007a4d8749d270049 {
+  o String code optional
+  o String descriptor optional
+}
+
+concept candidatePool_7c49be35aa7210001012f723bc6012ca {
+  o String id optional
+  o String descriptor optional
+}"
+`;
