@@ -141,7 +141,7 @@ describe('GraphQLVisitor', function () {
 
             (() => {
                 graphQLVisitor.visit(thing, param);
-            }).should.throw('Unrecognised \'Something of unrecognised type\'');
+            }).should.throw('Unrecognised type: string, value: \'Something of unrecognised type\'');
         });
     });
 
