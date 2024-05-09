@@ -70,7 +70,6 @@ module.exports = {
             'net': false,
             'path': false,
             'os': false,
-            'util': false,
             'url': false,
         }
     }
