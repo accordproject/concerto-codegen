@@ -29,4 +29,6 @@ const packageJson = path.resolve(rootDir, 'package.json');
 const meta = require(packageJson);
 meta.version.replace(/-.*/, '');
 const targetVersion = semver.inc(meta.version, 'patch') + '-' + timestamp;
+
+// eslint-disable-next-line no-console
 console.log(`::set-output name=stamp::${targetVersion}`);
