@@ -785,6 +785,65 @@ public class SampleModel : Concept {
             file1.should.match(/public System.Guid otherThingId/);
             file1.should.match(/public string someOtherThingId/);
         });
+
+        it('should handle imported field which is aliased in a concept', () => {
+            const modelManager = new ModelManager({ enableAliasedType: true });
+            modelManager.addCTOModel(`
+            namespace org.example.basic
+            concept file{
+                o String name
+            }
+            `);
+            modelManager.addCTOModel(`
+            namespace org.example.complex
+            import org.example.basic.{file as f}
+
+            concept folder {
+                o String name
+                o f[] files
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.example.basic.cs');
+            file1.should.match(/namespace org.example.basic;/);
+            file1.should.match(/class file : Concept/);
+            file1.should.match(/public string name { get; set; }/);
+
+            const file2 = files.get('org.example.complex.cs');
+            file2.should.match(/namespace org.example.complex;/);
+            file2.should.match(/using org.example.basic;/);
+            file2.should.match(/class folder : Concept/);
+            file2.should.match(/org.example.basic.file\[\] files/);
+        });
+
+        it('should handle imported field which extended in concept', () => {
+            const modelManager = new ModelManager({ enableAliasedType: true });
+            modelManager.addCTOModel(`
+            namespace org.example.basic
+            concept file{
+                o String name
+            }
+            `);
+            modelManager.addCTOModel(`
+            namespace org.example.complex
+            import org.example.basic.{file as f}
+
+            concept bigFile extends f{
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.example.basic.cs');
+            file1.should.match(/namespace org.example.basic;/);
+            file1.should.match(/class file : Concept/);
+            file1.should.match(/public string name { get; set; }/);
+
+            const file2 = files.get('org.example.complex.cs');
+            file2.should.match(/namespace org.example.complex;/);
+            file2.should.match(/using org.example.basic;/);
+            file2.should.match(/public class bigFile : org.example.basic.file/);
+        });
     });
 
     describe('visit', () => {
