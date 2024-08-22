@@ -246,7 +246,7 @@ describe('graph', function() {
 `);
         });
 
-        it('should visit a model manager and create a dependencyGraph', function() {
+        it('should visit a model manager and create a dependency graph', function() {
             const visitor = new ConcertoGraphVisitor();
             visitor.should.not.be.null;
             const writer = new InMemoryWriter();
