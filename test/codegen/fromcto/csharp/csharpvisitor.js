@@ -787,7 +787,7 @@ public class SampleModel : Concept {
         });
 
         it('should handle imported field which is aliased in a concept', () => {
-            const modelManager = new ModelManager({ enableAliasedType: true });
+            const modelManager = new ModelManager({ importAliasing: true });
             modelManager.addCTOModel(`
             namespace org.example.basic
             concept file{
@@ -818,7 +818,7 @@ public class SampleModel : Concept {
         });
 
         it('should handle imported field which extended in concept', () => {
-            const modelManager = new ModelManager({ enableAliasedType: true });
+            const modelManager = new ModelManager({ importAliasing: true });
             modelManager.addCTOModel(`
             namespace org.example.basic
             concept file{
