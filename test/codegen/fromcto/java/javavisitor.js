@@ -467,9 +467,10 @@ describe('JavaVisitor', function () {
 
             const mockField             = sinon.createStubInstance(Field);
             const getType               = sinon.stub();
+            const isImportedType        = sinon.stub();
 
             mockField.ast = { type: { name: 'Dummy Value'} };
-            mockField.getModelFile.returns({ getType: getType });
+            mockField.getModelFile.returns({ getType: getType, isImportedType: isImportedType });
 
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const getKeyType            = sinon.stub();
@@ -481,6 +482,7 @@ describe('JavaVisitor', function () {
             getType.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('String');
+            isImportedType.returns(false);
             mockField.getName.returns('Map1');
             mockMapDeclaration.getName.returns('Map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
