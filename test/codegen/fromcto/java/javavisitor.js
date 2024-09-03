@@ -582,6 +582,26 @@ describe('JavaVisitor', function () {
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'return this.Bob;']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
         });
+
+        it('should write a line getting a field of type aliased import', ()=> {
+            // Document aliased as Doc
+            let mockField = sinon.createStubInstance(Field);
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+
+            mockField.isField.returns(true);
+            mockField.isArray.returns(false);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('Doc');
+            mockField.getModelFile.returns(mockModelFile);
+            mockModelFile.isImportedType.returns(true);
+            mockModelFile.getImportedType.returns('Document');
+
+            javaVisit.visitField(mockField , Object.assign({},param,{mode:'getter'}));
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public Document getBob() {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'return this.Bob;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
+        });
     });
 
     describe('visitEnumValueDeclaration', () => {
