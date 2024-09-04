@@ -232,6 +232,7 @@ describe('TypescriptVisitor', function () {
                 'super.Property3',
                 'super.Parent'
             ]);
+            mockModelFile.imports= [];
 
             typescriptVisitor.visitModelFile(mockModelFile, param);
 
@@ -302,7 +303,7 @@ describe('TypescriptVisitor', function () {
                 'org.org2.Import1'
             ]);
             mockModelFile.getModelManager.returns(mockModelManager);
-
+            mockModelFile.imports= [];
             typescriptVisitor.visitModelFile(mockModelFile, param);
 
             param.fileWriter.openFile.withArgs('org.acme.ts').calledOnce.should.be.ok;
@@ -358,7 +359,7 @@ describe('TypescriptVisitor', function () {
             ]);
             mockModelFile.getImports.returns([]);
             mockModelFile.getModelManager.returns(mockModelManager);
-
+            mockModelFile.imports = [];
             typescriptVisitor.visitModelFile(mockModelFile, param);
 
             param.fileWriter.openFile.withArgs('org.acme.ts').calledOnce.should.be.ok;
@@ -372,6 +373,54 @@ describe('TypescriptVisitor', function () {
             param.fileWriter.closeFile.calledOnce.should.be.ok;
 
             acceptSpy.withArgs(typescriptVisitor, param).calledOnce.should.be.ok;
+        });
+
+        it('should write lines for the aliased imports from other namespace ', () => {
+
+            let property1 = {
+                isPrimitive: () => {
+                    return false;
+                },
+                getFullyQualifiedTypeName: () => {
+                    return 'org.test.basic.file';
+                }
+            };
+
+            let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([property1]);
+            mockClassDeclaration.getNamespace.returns('org.test.collection');
+            mockClassDeclaration.getName.returns('folder');
+            mockClassDeclaration.getDirectSubclasses.returns([]);
+
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile.getNamespace.returns('org.test.collection');
+            mockModelFile.imports = [
+                {
+                    '$class': 'concerto.metamodel@1.0.0.ImportTypes',
+                    types: ['document', 'file'],
+                    aliasedTypes: [
+                        {
+                            name: 'file',
+                            aliasedName: 'f'
+                        }
+                    ]
+                }
+            ];
+
+            mockModelFile.getAllDeclarations.returns([mockClassDeclaration]);
+            mockModelFile.getImports.returns(['org.test.basic.file','org.test.basic.document']);
+            typescriptVisitor.visitModelFile(mockModelFile,param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(5);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '/* eslint-disable @typescript-eslint/no-empty-interface */']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '// Generated code for namespace: org.test.collection']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '\n// imports']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, 'import type {\nIfile as If} from \'./org.test.collection\';']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '// interfaces']);
+            param.fileWriter.closeFile.calledOnce.should.be.ok;
+
         });
     });
 
@@ -444,7 +493,7 @@ describe('TypescriptVisitor', function () {
             mockClassDeclaration.getName.returns('Bob');
             mockClassDeclaration.isAbstract.returns(true);
             mockClassDeclaration.getSuperType.returns('org.acme.Person');
-
+            param.aliasedTypesMap=new Map();
             typescriptVisitor.visitClassDeclaration(mockClassDeclaration, param);
 
             param.fileWriter.writeLine.callCount.should.deep.equal(2);
