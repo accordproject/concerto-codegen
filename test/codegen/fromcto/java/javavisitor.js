@@ -467,9 +467,10 @@ describe('JavaVisitor', function () {
 
             const mockField             = sinon.createStubInstance(Field);
             const getType               = sinon.stub();
+            const isImportedType        = sinon.stub();
 
             mockField.ast = { type: { name: 'Dummy Value'} };
-            mockField.getModelFile.returns({ getType: getType });
+            mockField.getModelFile.returns({ getType: getType, isImportedType: isImportedType });
 
             const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
             const getKeyType            = sinon.stub();
@@ -481,6 +482,7 @@ describe('JavaVisitor', function () {
             getType.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('String');
+            isImportedType.returns(false);
             mockField.getName.returns('Map1');
             mockMapDeclaration.getName.returns('Map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
@@ -579,6 +581,26 @@ describe('JavaVisitor', function () {
             javaVisit.visitField(mockField, Object.assign({},param,{mode:'getter'}));
             param.fileWriter.writeLine.callCount.should.deep.equal(3);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public JavaType[] getBob() {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'return this.Bob;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
+        });
+
+        it('should write a line getting a field of type aliased import', () => {
+            // Document aliased as Doc
+            let mockField = sinon.createStubInstance(Field);
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+
+            mockField.isField.returns(true);
+            mockField.isArray.returns(false);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('Doc');
+            mockField.getModelFile.returns(mockModelFile);
+            mockModelFile.isImportedType.returns(true);
+            mockModelFile.getImportedType.returns('Document');
+
+            javaVisit.visitField(mockField, Object.assign({}, param, { mode: 'getter' }));
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([1, 'public Document getBob() {']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([2, 'return this.Bob;']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '}']);
         });

@@ -31,6 +31,7 @@ describe('codegen', function () {
 
     before(function() {
         process.env.ENABLE_MAP_TYPE = 'true'; // TODO Remove on release of MapType
+        process.env.IMPORT_ALIASING = 'true';
     });
 
     beforeEach(function() {
