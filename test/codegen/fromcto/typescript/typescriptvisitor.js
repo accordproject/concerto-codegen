@@ -386,10 +386,19 @@ describe('TypescriptVisitor', function () {
                 }
             };
 
+            let property2 = {
+                isPrimitive: () => {
+                    return false;
+                },
+                getFullyQualifiedTypeName: () => {
+                    return 'org.test.complex.file';
+                }
+            };
+
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
 
             mockClassDeclaration.isClassDeclaration.returns(true);
-            mockClassDeclaration.getProperties.returns([property1]);
+            mockClassDeclaration.getProperties.returns([property1, property2]);
             mockClassDeclaration.getNamespace.returns('org.test.collection');
             mockClassDeclaration.getName.returns('folder');
 
@@ -401,26 +410,32 @@ describe('TypescriptVisitor', function () {
                 {
                     '$class': 'concerto.metamodel@1.0.0.ImportTypes',
                     types: ['document', 'file'],
-                    namespace:'org.test.basic',
+                    namespace: 'org.test.basic',
                     aliasedTypes: [
                         {
                             name: 'file',
                             aliasedName: 'f'
                         }
                     ]
+                },
+                {
+                    '$class': 'concerto.metamodel@1.0.0.ImportTypes',
+                    types: ['file'],
+                    namespace: 'org.test.complex',
                 }
             ];
 
             mockModelFile.getAllDeclarations.returns([mockClassDeclaration]);
-            mockModelFile.getImports.returns(['org.test.basic.file','org.test.basic.document']);
+            mockModelFile.getImports.returns(['org.test.basic.file', 'org.test.basic.document', 'org.test.complex.file']);
             typescriptVisitor.visitModelFile(mockModelFile,param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(5);
+            param.fileWriter.writeLine.callCount.should.deep.equal(6);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '/* eslint-disable @typescript-eslint/no-empty-interface */']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '// Generated code for namespace: org.test.collection']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '\n// imports']);
             param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, 'import {Ifile as If} from \'./org.test.basic\';']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '\n// interfaces']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, 'import {Ifile} from \'./org.test.complex\';']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '\n// interfaces']);
             param.fileWriter.closeFile.calledOnce.should.be.ok;
 
         });
