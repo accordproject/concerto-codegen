@@ -392,6 +392,7 @@ describe('TypescriptVisitor', function () {
             mockClassDeclaration.getProperties.returns([property1]);
             mockClassDeclaration.getNamespace.returns('org.test.collection');
             mockClassDeclaration.getName.returns('folder');
+
             mockClassDeclaration.getDirectSubclasses.returns([]);
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
@@ -400,6 +401,7 @@ describe('TypescriptVisitor', function () {
                 {
                     '$class': 'concerto.metamodel@1.0.0.ImportTypes',
                     types: ['document', 'file'],
+                    namespace:'org.test.basic',
                     aliasedTypes: [
                         {
                             name: 'file',
@@ -417,8 +419,8 @@ describe('TypescriptVisitor', function () {
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '/* eslint-disable @typescript-eslint/no-empty-interface */']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '// Generated code for namespace: org.test.collection']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '\n// imports']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, 'import type {\nIfile as If} from \'./org.test.collection\';']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '// interfaces']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, 'import {Ifile as If} from \'./org.test.basic\';']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '\n// interfaces']);
             param.fileWriter.closeFile.calledOnce.should.be.ok;
 
         });
