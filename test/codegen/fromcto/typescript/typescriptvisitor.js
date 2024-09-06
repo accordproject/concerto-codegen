@@ -578,6 +578,34 @@ describe('TypescriptVisitor', function () {
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '$class: string;']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '}\n']);
         });
+
+        it('should write lines for the extending class declaration using aliased types ', () => {
+
+            let property = {
+                isPrimitive: () => {
+                    return false;
+                },
+                getFullyQualifiedTypeName: () => {
+                    return 'org.test.basic.file';
+                }
+            };
+
+            let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([property]);
+            mockClassDeclaration.getNamespace.returns('org.test.collection');
+            mockClassDeclaration.getName.returns('bigFile');
+            mockClassDeclaration.getSuperType.returns('org.basic.file');
+            mockClassDeclaration.isScalarDeclaration.returns(false);
+            mockClassDeclaration.getDirectSubclasses.returns([]);
+            mockClassDeclaration.getOwnProperties.returns([]);
+            param.aliasedTypesMap = new Map([['org.basic.Ifile', 'If']]);
+            typescriptVisitor.visitClassDeclaration(mockClassDeclaration,param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(2);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'export interface IbigFile extends If {']);
+        });
     });
 
     describe('visitField', () => {
