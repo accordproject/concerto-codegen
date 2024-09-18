@@ -1,6 +1,6 @@
 namespace org.acme.hr@1.0.0
 
-import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes}
+import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes, Level}
 
 map CompanyProperties {
     o String
@@ -91,6 +91,7 @@ participant Employee extends Person {
 
 participant Contractor extends Person {
     o Company company
+    @level(Level)
     --> Manager manager optional
 }
 

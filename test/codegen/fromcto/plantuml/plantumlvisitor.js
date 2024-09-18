@@ -44,14 +44,16 @@ describe('PlantUMLVisitor', function () {
         getFullyQualifiedTypeName: () => 'String',
         getName: () => 'name',
         isArray: () => true,
-        isTypeEnum: () => false
+        isTypeEnum: () => false,
+        getDecorators: () => []
     };
 
     const property2 = {
         getFullyQualifiedTypeName: () => 'Boolean',
         getName: () => 'isValue',
         isArray: () => false,
-        isTypeEnum: () => false
+        isTypeEnum: () => false,
+        getDecorators: () => []
     };
 
     describe('visit', () => {
@@ -227,6 +229,7 @@ describe('PlantUMLVisitor', function () {
 
             let mockAssetDeclaration = sinon.createStubInstance(AssetDeclaration);
             mockAssetDeclaration.isAsset.returns(true);
+            mockAssetDeclaration.getDecorators.returns([]);
             mockAssetDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockAssetDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy, ...property1
@@ -253,6 +256,7 @@ describe('PlantUMLVisitor', function () {
 
             let mockAssetDeclaration = sinon.createStubInstance(AssetDeclaration);
             mockAssetDeclaration.isAsset.returns(true);
+            mockAssetDeclaration.getDecorators.returns([]);
             mockAssetDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockAssetDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy, ...property1
@@ -283,6 +287,7 @@ describe('PlantUMLVisitor', function () {
 
             let mockEnumDeclaration = sinon.createStubInstance(EnumDeclaration);
             mockEnumDeclaration.isEnum.returns(true);
+            mockEnumDeclaration.getDecorators.returns([]);
             mockEnumDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockEnumDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy, ...property1
@@ -309,6 +314,7 @@ describe('PlantUMLVisitor', function () {
 
             let mockEnumDeclaration = sinon.createStubInstance(EnumDeclaration);
             mockEnumDeclaration.isEnum.returns(true);
+            mockEnumDeclaration.getDecorators.returns([]);
             mockEnumDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockEnumDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy, ...property1
@@ -339,6 +345,7 @@ describe('PlantUMLVisitor', function () {
 
             let mockParticipantDeclaration = sinon.createStubInstance(ParticipantDeclaration);
             mockParticipantDeclaration.isParticipant.returns(true);
+            mockParticipantDeclaration.getDecorators.returns([]);
             mockParticipantDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockParticipantDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy, ...property1
@@ -365,6 +372,7 @@ describe('PlantUMLVisitor', function () {
 
             let mockParticipantDeclaration = sinon.createStubInstance(ParticipantDeclaration);
             mockParticipantDeclaration.isParticipant.returns(true);
+            mockParticipantDeclaration.getDecorators.returns([]);
             mockParticipantDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockParticipantDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy, ...property1
@@ -395,6 +403,7 @@ describe('PlantUMLVisitor', function () {
 
             let mockTransDeclaration = sinon.createStubInstance(TransactionDeclaration);
             mockTransDeclaration.isTransaction.returns(true);
+            mockTransDeclaration.getDecorators.returns([]);
             mockTransDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockTransDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy, ...property1
@@ -421,6 +430,7 @@ describe('PlantUMLVisitor', function () {
 
             let mockTransDeclaration = sinon.createStubInstance(TransactionDeclaration);
             mockTransDeclaration.isTransaction.returns(true);
+            mockTransDeclaration.getDecorators.returns([]);
             mockTransDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockTransDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy, ...property1
@@ -476,6 +486,7 @@ describe('PlantUMLVisitor', function () {
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
             mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getDecorators.returns([]);
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy, ...property1
@@ -502,6 +513,7 @@ describe('PlantUMLVisitor', function () {
 
             let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
             mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getDecorators.returns([]);
             mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Person');
             mockClassDeclaration.getOwnProperties.returns([{
                 accept: acceptSpy, ...property1

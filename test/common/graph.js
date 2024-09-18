@@ -73,6 +73,9 @@ describe('graph', function() {
    \`org.acme.hr.base@1.0.0.Address\`
    \`org.acme.hr.base@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr.base@1.0.0.State\`
+   \`org.acme.hr.base@1.0.0.Level\`
+   \`org.acme.hr.base@1.0.0.Level\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr.base@1.0.0.Level\` --> \`org.acme.hr@1.0.0.Contractor.manager\`
    \`org.acme.hr.base@1.0.0.Time\`
    \`org.acme.hr.base@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.CompanyProperties\`
@@ -271,6 +274,9 @@ describe('graph', function() {
    \`org.acme.hr.base@1.0.0.Address\`
    \`org.acme.hr.base@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr.base@1.0.0.State\`
+   \`org.acme.hr.base@1.0.0.Level\`
+   \`org.acme.hr.base@1.0.0.Level\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr.base@1.0.0.Level\` --> \`org.acme.hr@1.0.0.Contractor.manager\`
    \`org.acme.hr.base@1.0.0.Time\`
    \`org.acme.hr.base@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.CompanyProperties\`
