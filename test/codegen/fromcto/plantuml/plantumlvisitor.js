@@ -25,7 +25,7 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const AssetDeclaration = require('@accordproject/concerto-core').AssetDeclaration;
 const ParticipantDeclaration = require('@accordproject/concerto-core').ParticipantDeclaration;
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
-const {MapDeclaration, MapKeyType, MapValueType } = require('@accordproject/concerto-core');
+const {MapDeclaration, MapKeyType, MapValueType, Decorator } = require('@accordproject/concerto-core');
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
 const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
@@ -44,16 +44,14 @@ describe('PlantUMLVisitor', function () {
         getFullyQualifiedTypeName: () => 'String',
         getName: () => 'name',
         isArray: () => true,
-        isTypeEnum: () => false,
-        getDecorators: () => []
+        isTypeEnum: () => false
     };
 
     const property2 = {
         getFullyQualifiedTypeName: () => 'Boolean',
         getName: () => 'isValue',
         isArray: () => false,
-        isTypeEnum: () => false,
-        getDecorators: () => []
+        isTypeEnum: () => false
     };
 
     describe('visit', () => {
@@ -205,7 +203,9 @@ describe('PlantUMLVisitor', function () {
         it('should visit all declaration in a model file', () => {
             let acceptSpy = sinon.spy();
             let mockModelFileDefinition = sinon.createStubInstance(ModelFile);
+            const mockDecorator = sinon.createStubInstance(Decorator);
             mockModelFileDefinition.isModelFile.returns(true);
+            mockModelFileDefinition.getDecorators.returns([mockDecorator]);
             mockModelFileDefinition.getNamespace.returns;
             mockModelFileDefinition.getAllDeclarations.returns([{
                 accept: acceptSpy, ...property1
@@ -543,6 +543,7 @@ describe('PlantUMLVisitor', function () {
             let mockField = sinon.createStubInstance(Field);
             mockField.isField.returns(true);
             mockField.getType.returns('string');
+            mockField.getDecorators.returns([]);
             mockField.getName.returns('Bob');
             mockField.getParent.returns({
                 getFullyQualifiedName: () => { return 'org.acme.Human'; },
@@ -561,6 +562,7 @@ describe('PlantUMLVisitor', function () {
             let mockField = sinon.createStubInstance(Field);
             mockField.isField.returns(true);
             mockField.getType.returns('string');
+            mockField.getDecorators.returns([]);
             mockField.getName.returns('Bob');
             mockField.isArray.returns(true);
             mockField.getParent.returns({
@@ -581,11 +583,28 @@ describe('PlantUMLVisitor', function () {
 
             let mockEnumValueDecl = sinon.createStubInstance(EnumValueDeclaration);
             mockEnumValueDecl.isEnumValue.returns(true);
+            mockEnumValueDecl.getDecorators.returns([]);
             mockEnumValueDecl.getName.returns('Bob');
 
             plantUMLvisitor.visitEnumValueDeclaration(mockEnumValueDecl, param);
 
             param.fileWriter.writeLine.withArgs(1, '+ Bob').calledOnce.should.be.ok;
+        });
+    });
+
+    describe('visitDecorator', () => {
+        it('should not write a line for a decorator value', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockDecoratorValueDecl = sinon.createStubInstance(Decorator);
+            mockDecoratorValueDecl.isDecorator.returns(true);
+            mockDecoratorValueDecl.getName.returns('Dec');
+
+            plantUMLvisitor.visitDecorator(mockDecoratorValueDecl, param);
+
+            param.fileWriter.writeLine.never;
         });
     });
 });

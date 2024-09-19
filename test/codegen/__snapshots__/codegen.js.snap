@@ -2489,7 +2489,6 @@ class \`org.acme.hr.Department\` {
 class \`org.acme.hr.Equipment\` {
 << asset>>
    + String serialNumber
-   + resource
 }
 
 class \`org.acme.hr.LaptopMake\` {
@@ -2516,7 +2515,6 @@ class \`org.acme.hr.Person\` {
    + Double height
    + DateTime dob
    + NextOfKin nextOfKin
-   + resource
 }
 
 \`org.acme.hr.Person\` "1" *-- "1" \`org.acme.hr.base.Address\`
@@ -2543,7 +2541,6 @@ class \`org.acme.hr.Contractor\` {
 << participant>>
    + Company company
    + Manager manager
-   + level
 }
 
 \`org.acme.hr.Contractor\` "1" *-- "1" \`org.acme.hr.Company\`
@@ -2685,7 +2682,6 @@ class \`org.acme.hr.Department\` {
 class \`org.acme.hr.Equipment\` {
 << asset>>
    + String serialNumber
-   + resource
 }
 
 \`org.acme.hr.Equipment\` --|> \`concerto@1.0.0.Asset\`
@@ -2713,7 +2709,6 @@ class \`org.acme.hr.Person\` {
    + Double height
    + DateTime dob
    + NextOfKin nextOfKin
-   + resource
 }
 
 \`org.acme.hr.Person\` --|> \`concerto@1.0.0.Participant\`
@@ -2735,7 +2730,6 @@ class \`org.acme.hr.Contractor\` {
 << participant>>
    + Company company
    + Manager manager
-   + level
 }
 
 \`org.acme.hr.Contractor\` "1" o-- "1" \`org.acme.hr.Manager\` : manager
@@ -4043,7 +4037,6 @@ class org.acme.hr.Department << (E,grey) >> {
 org.acme.hr.Department --|> concerto_1_0_0.Concept
 class org.acme.hr.Equipment << (A,green) >> {
    + String serialNumber
-   + resource
 }
 org.acme.hr.Equipment --|> concerto_1_0_0.Asset
 class org.acme.hr.LaptopMake << (E,grey) >> {
@@ -4065,7 +4058,6 @@ class org.acme.hr.Person << (P,lightblue) >> {
    + Double height
    + DateTime dob
    + NextOfKin nextOfKin
-   + resource
 }
 org.acme.hr.Person --|> concerto_1_0_0.Participant
 class org.acme.hr.Employee << (P,lightblue) >> {
@@ -4083,7 +4075,6 @@ org.acme.hr.Employee --|> org.acme.hr.Person
 class org.acme.hr.Contractor << (P,lightblue) >> {
    + Company company
    + Manager manager
-   + level
 }
 org.acme.hr.Contractor "1" o-- "1" org.acme.hr.Manager : manager
 org.acme.hr.Contractor --|> org.acme.hr.Person
@@ -6003,7 +5994,6 @@ class \`org.acme.hr@1.0.0.Department\` {
 class \`org.acme.hr@1.0.0.Equipment\` {
 << asset>>
    + String serialNumber
-   + resource
 }
 
 class \`org.acme.hr@1.0.0.LaptopMake\` {
@@ -6030,7 +6020,6 @@ class \`org.acme.hr@1.0.0.Person\` {
    + Double height
    + DateTime dob
    + NextOfKin nextOfKin
-   + resource
 }
 
 \`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
@@ -6057,7 +6046,6 @@ class \`org.acme.hr@1.0.0.Contractor\` {
 << participant>>
    + Company company
    + Manager manager
-   + level
 }
 
 \`org.acme.hr@1.0.0.Contractor\` "1" *-- "1" \`org.acme.hr@1.0.0.Company\`
@@ -6161,7 +6149,6 @@ class org.acme.hr_1_0_0.Department << (E,grey) >> {
 }
 class org.acme.hr_1_0_0.Equipment << (A,green) >> {
    + String serialNumber
-   + resource
 }
 class org.acme.hr_1_0_0.LaptopMake << (E,grey) >> {
    + Apple
@@ -6182,7 +6169,6 @@ class org.acme.hr_1_0_0.Person << (P,lightblue) >> {
    + Double height
    + DateTime dob
    + NextOfKin nextOfKin
-   + resource
 }
 org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.Address : homeAddress
 org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.SSN : ssn
@@ -6205,7 +6191,6 @@ org.acme.hr_1_0_0.Employee --|> org.acme.hr_1_0_0.Person
 class org.acme.hr_1_0_0.Contractor << (P,lightblue) >> {
    + Company company
    + Manager manager
-   + level
 }
 org.acme.hr_1_0_0.Contractor "1" *-- "1" org.acme.hr_1_0_0.Company : company
 org.acme.hr_1_0_0.Contractor "1" o-- "1" org.acme.hr_1_0_0.Manager : manager
@@ -8722,7 +8707,6 @@ class \`org.acme.hr@1.0.0.Department\` {
 class \`org.acme.hr@1.0.0.Equipment\` {
 << asset>>
    + String serialNumber
-   + resource
 }
 
 class \`org.acme.hr@1.0.0.LaptopMake\` {
@@ -8749,7 +8733,6 @@ class \`org.acme.hr@1.0.0.Person\` {
    + Double height
    + DateTime dob
    + NextOfKin nextOfKin
-   + resource
 }
 
 \`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
@@ -8776,7 +8759,6 @@ class \`org.acme.hr@1.0.0.Contractor\` {
 << participant>>
    + Company company
    + Manager manager
-   + level
 }
 
 \`org.acme.hr@1.0.0.Contractor\` "1" *-- "1" \`org.acme.hr@1.0.0.Company\`
@@ -8925,7 +8907,6 @@ class \`org.acme.hr@1.0.0.Department\` {
 class \`org.acme.hr@1.0.0.Equipment\` {
 << asset>>
    + String serialNumber
-   + resource
 }
 
 \`org.acme.hr@1.0.0.Equipment\` --|> \`concerto@1.0.0.Asset\`
@@ -8954,7 +8935,6 @@ class \`org.acme.hr@1.0.0.Person\` {
    + Double height
    + DateTime dob
    + NextOfKin nextOfKin
-   + resource
 }
 
 \`org.acme.hr@1.0.0.Person\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
@@ -8982,7 +8962,6 @@ class \`org.acme.hr@1.0.0.Contractor\` {
 << participant>>
    + Company company
    + Manager manager
-   + level
 }
 
 \`org.acme.hr@1.0.0.Contractor\` "1" *-- "1" \`org.acme.hr@1.0.0.Company\`
@@ -10299,7 +10278,6 @@ class org.acme.hr_1_0_0.Department << (E,grey) >> {
 org.acme.hr_1_0_0.Department --|> concerto_1_0_0.Concept
 class org.acme.hr_1_0_0.Equipment << (A,green) >> {
    + String serialNumber
-   + resource
 }
 org.acme.hr_1_0_0.Equipment --|> concerto_1_0_0.Asset
 class org.acme.hr_1_0_0.LaptopMake << (E,grey) >> {
@@ -10322,7 +10300,6 @@ class org.acme.hr_1_0_0.Person << (P,lightblue) >> {
    + Double height
    + DateTime dob
    + NextOfKin nextOfKin
-   + resource
 }
 org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.Address : homeAddress
 org.acme.hr_1_0_0.Person "1" *-- "1" org.acme.hr.base_1_0_0.SSN : ssn
@@ -10346,7 +10323,6 @@ org.acme.hr_1_0_0.Employee --|> org.acme.hr_1_0_0.Person
 class org.acme.hr_1_0_0.Contractor << (P,lightblue) >> {
    + Company company
    + Manager manager
-   + level
 }
 org.acme.hr_1_0_0.Contractor "1" *-- "1" org.acme.hr_1_0_0.Company : company
 org.acme.hr_1_0_0.Contractor "1" o-- "1" org.acme.hr_1_0_0.Manager : manager
