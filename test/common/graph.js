@@ -22,6 +22,7 @@ const {
 const { ModelManager } = require('@accordproject/concerto-core');
 const fs = require('fs');
 const { expect } = require('expect');
+const sinon = require('sinon');
 
 const chai = require('chai');
 const { InMemoryWriter } = require('@accordproject/concerto-util');
@@ -31,6 +32,7 @@ chai.use(require('chai-things'));
 
 describe('graph', function() {
     let modelManager = null;
+    let mockFileWriter;
 
     before(function() {
         process.env.ENABLE_MAP_TYPE = 'true'; // TODO Remove on release of MapType
@@ -48,6 +50,7 @@ describe('graph', function() {
             'utf-8'
         );
         modelManager.addCTOModel(hr, 'hr.cto');
+        mockFileWriter = sinon.createStubInstance(InMemoryWriter);
     });
 
     describe('#visitor', function() {
@@ -57,7 +60,7 @@ describe('graph', function() {
             const writer = new InMemoryWriter();
 
             const graph = new DirectedGraph();
-            modelManager.accept(visitor, { graph });
+            modelManager.accept(visitor, { graph, fileWriter: mockFileWriter });
 
             writer.openFile('graph.mmd');
             graph.print(writer);
@@ -73,6 +76,8 @@ describe('graph', function() {
    \`org.acme.hr.base@1.0.0.Address\`
    \`org.acme.hr.base@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr.base@1.0.0.State\`
+   \`org.acme.hr.base@1.0.0.Level\`
+   \`org.acme.hr.base@1.0.0.Level\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr.base@1.0.0.Time\`
    \`org.acme.hr.base@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.CompanyProperties\`
@@ -125,6 +130,8 @@ describe('graph', function() {
    \`org.acme.hr@1.0.0.Contractor\` <--> \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Company\`
    \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Manager\`
+   \`org.acme.hr@1.0.0.Contractor.manager\`
+   \`org.acme.hr@1.0.0.Contractor.manager\` --> \`org.acme.hr.base@1.0.0.Level\`
    \`org.acme.hr@1.0.0.Manager\`
    \`org.acme.hr@1.0.0.Manager\` <--> \`org.acme.hr@1.0.0.Employee\`
    \`org.acme.hr@1.0.0.Manager\` --> \`org.acme.hr@1.0.0.Person\`
@@ -150,7 +157,7 @@ describe('graph', function() {
             const writer = new InMemoryWriter();
 
             const graph = new DirectedGraph();
-            modelManager.accept(visitor, { graph });
+            modelManager.accept(visitor, { graph, fileWriter: mockFileWriter });
 
             const connectedGraph = graph.findConnectedGraph(
                 'org.acme.hr@1.0.0.ChangeOfAddress'
@@ -255,6 +262,7 @@ describe('graph', function() {
             modelManager.accept(visitor, {
                 graph,
                 createDependencyGraph: true,
+                fileWriter: mockFileWriter
             });
 
             writer.openFile('graph.mmd');
@@ -271,6 +279,8 @@ describe('graph', function() {
    \`org.acme.hr.base@1.0.0.Address\`
    \`org.acme.hr.base@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr.base@1.0.0.State\`
+   \`org.acme.hr.base@1.0.0.Level\`
+   \`org.acme.hr.base@1.0.0.Level\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr.base@1.0.0.Time\`
    \`org.acme.hr.base@1.0.0.SSN\`
    \`org.acme.hr@1.0.0.CompanyProperties\`
@@ -321,6 +331,8 @@ describe('graph', function() {
    \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Company\`
    \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Manager\`
+   \`org.acme.hr@1.0.0.Contractor.manager\`
+   \`org.acme.hr@1.0.0.Contractor.manager\` --> \`org.acme.hr.base@1.0.0.Level\`
    \`org.acme.hr@1.0.0.Manager\`
    \`org.acme.hr@1.0.0.Manager\` <--> \`org.acme.hr@1.0.0.Employee\`
    \`org.acme.hr@1.0.0.Manager\` --> \`org.acme.hr@1.0.0.Person\`
