@@ -1,6 +1,6 @@
 {
     "name": "@accordproject/concerto-codegen",
-    "version": "3.23.4",
+    "version": "3.23.5",
     "description": "Code Generation for the Concerto Modeling Language",
     "homepage": "https://github.com/accordproject/concerto",
     "engines": {
@@ -70,7 +70,6 @@
         "webpack-cli": "4.9.1"
     },
     "dependencies": {
-
         "@accordproject/concerto-core": "3.19.0",
         "@accordproject/concerto-util": "3.18.1",
         "@accordproject/concerto-vocabulary": "3.18.1",

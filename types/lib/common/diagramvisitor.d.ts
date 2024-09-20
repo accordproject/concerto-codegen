@@ -117,6 +117,13 @@ declare class DiagramVisitor {
     protected visitEnumValueDeclaration(enumValueDeclaration: EnumValueDeclaration, parameters: any): void;
     /**
      * Visitor design pattern
+     * @param {Decorator} decorator - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @protected
+     */
+    protected visitDecorator(decorator: Decorator, parameters: any): void;
+    /**
+     * Visitor design pattern
      * @param {ClassDeclaration} classDeclaration - the object being visited
      * @param {Object} parameters  - the parameter
      * @protected
@@ -135,3 +142,4 @@ import { ScalarDeclaration } from "@accordproject/concerto-core";
 import { Field } from "@accordproject/concerto-core";
 import { RelationshipDeclaration } from "@accordproject/concerto-core";
 import { EnumValueDeclaration } from "@accordproject/concerto-core";
+import { Decorator } from "@accordproject/concerto-core";
