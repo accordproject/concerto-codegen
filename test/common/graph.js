@@ -22,7 +22,6 @@ const {
 const { ModelManager } = require('@accordproject/concerto-core');
 const fs = require('fs');
 const { expect } = require('expect');
-const sinon = require('sinon');
 
 const chai = require('chai');
 const { InMemoryWriter } = require('@accordproject/concerto-util');
@@ -32,7 +31,6 @@ chai.use(require('chai-things'));
 
 describe('graph', function() {
     let modelManager = null;
-    let mockFileWriter;
 
     before(function() {
         process.env.ENABLE_MAP_TYPE = 'true'; // TODO Remove on release of MapType
@@ -50,7 +48,6 @@ describe('graph', function() {
             'utf-8'
         );
         modelManager.addCTOModel(hr, 'hr.cto');
-        mockFileWriter = sinon.createStubInstance(InMemoryWriter);
     });
 
     describe('#visitor', function() {
@@ -60,7 +57,7 @@ describe('graph', function() {
             const writer = new InMemoryWriter();
 
             const graph = new DirectedGraph();
-            modelManager.accept(visitor, { graph, fileWriter: mockFileWriter });
+            modelManager.accept(visitor, { graph });
 
             writer.openFile('graph.mmd');
             graph.print(writer);
@@ -157,7 +154,7 @@ describe('graph', function() {
             const writer = new InMemoryWriter();
 
             const graph = new DirectedGraph();
-            modelManager.accept(visitor, { graph, fileWriter: mockFileWriter });
+            modelManager.accept(visitor, { graph });
 
             const connectedGraph = graph.findConnectedGraph(
                 'org.acme.hr@1.0.0.ChangeOfAddress'
@@ -261,8 +258,7 @@ describe('graph', function() {
             const graph = new DirectedGraph();
             modelManager.accept(visitor, {
                 graph,
-                createDependencyGraph: true,
-                fileWriter: mockFileWriter
+                createDependencyGraph: true
             });
 
             writer.openFile('graph.mmd');
