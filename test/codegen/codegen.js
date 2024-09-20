@@ -45,7 +45,8 @@ describe('codegen', function () {
         versionedModelManager.addCTOModel(cto, 'hr.cto');
 
         const unversionedBaseCto = base_cto.replace('namespace org.acme.hr.base@1.0.0', 'namespace org.acme.hr.base');
-        const unversionedCto = cto.replace('namespace org.acme.hr@1.0.0', 'namespace org.acme.hr').replace('import org.acme.hr.base@1.0.0', 'import org.acme.hr.base');
+        const unversionedCto = cto.replace('namespace org.acme.hr@1.0.0', 'namespace org.acme.hr').
+            replace('import org.acme.hr.base@1.0.0', 'import org.acme.hr.base');
         unversionedModelManager.addCTOModel(unversionedBaseCto, 'hr_base.cto');
         unversionedModelManager.addCTOModel(unversionedCto, 'hr.cto');
     });

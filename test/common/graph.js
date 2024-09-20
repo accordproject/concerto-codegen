@@ -62,90 +62,7 @@ describe('graph', function() {
             writer.openFile('graph.mmd');
             graph.print(writer);
             writer.closeFile();
-            expect(writer.data.get('graph.mmd')).toEqual(`flowchart LR
-   \`org.acme.hr.base@1.0.0.State\`
-   \`org.acme.hr.base@1.0.0.State\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.TShirtSizeType\`
-   \`org.acme.hr.base@1.0.0.TShirtSizeType\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
-   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` --> \`org.acme.hr.base@1.0.0.TShirtSizeType\`
-   \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr.base@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr.base@1.0.0.State\`
-   \`org.acme.hr.base@1.0.0.Level\`
-   \`org.acme.hr.base@1.0.0.Level\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.Time\`
-   \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.CompanyProperties\`
-   \`org.acme.hr@1.0.0.CompanyProperties\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeLoginTimes\`
-   \`org.acme.hr@1.0.0.EmployeeLoginTimes\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeLoginTimes\` --> \`org.acme.hr.base@1.0.0.Time\`
-   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
-   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.NextOfKin\`
-   \`org.acme.hr@1.0.0.NextOfKin\` --> \`org.acme.hr@1.0.0.KinName\`
-   \`org.acme.hr@1.0.0.NextOfKin\` --> \`org.acme.hr@1.0.0.KinTelephone\`
-   \`org.acme.hr@1.0.0.EmployeeProfiles\`
-   \`org.acme.hr@1.0.0.EmployeeProfiles\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeProfiles\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.EmployeeDirectory\`
-   \`org.acme.hr@1.0.0.EmployeeDirectory\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.EmployeeDirectory\` --> \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.Company\`
-   \`org.acme.hr@1.0.0.Company\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.CompanyProperties\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeDirectory\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeProfiles\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
-   \`org.acme.hr@1.0.0.Department\`
-   \`org.acme.hr@1.0.0.Department\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Equipment\`
-   \`concerto@1.0.0.Asset\`
-   \`concerto@1.0.0.Asset\` <--> \`org.acme.hr@1.0.0.Equipment\`
-   \`org.acme.hr@1.0.0.LaptopMake\`
-   \`org.acme.hr@1.0.0.LaptopMake\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Laptop\`
-   \`org.acme.hr@1.0.0.Laptop\` <--> \`org.acme.hr@1.0.0.Equipment\`
-   \`org.acme.hr@1.0.0.Laptop\` --> \`org.acme.hr@1.0.0.LaptopMake\`
-   \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr@1.0.0.NextOfKin\`
-   \`concerto@1.0.0.Participant\`
-   \`concerto@1.0.0.Participant\` <--> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.Employee\` <--> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Department\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Equipment\`
-   \`org.acme.hr@1.0.0.Contractor\`
-   \`org.acme.hr@1.0.0.Contractor\` <--> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Company\`
-   \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Manager\`
-   \`org.acme.hr@1.0.0.Contractor.manager\`
-   \`org.acme.hr@1.0.0.Contractor.manager\` --> \`org.acme.hr.base@1.0.0.Level\`
-   \`org.acme.hr@1.0.0.Manager\`
-   \`org.acme.hr@1.0.0.Manager\` <--> \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.Manager\` --> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.CompanyEvent\`
-   \`concerto@1.0.0.Event\`
-   \`concerto@1.0.0.Event\` <--> \`org.acme.hr@1.0.0.CompanyEvent\`
-   \`org.acme.hr@1.0.0.Onboarded\`
-   \`org.acme.hr@1.0.0.Onboarded\` <--> \`org.acme.hr@1.0.0.CompanyEvent\`
-   \`org.acme.hr@1.0.0.Onboarded\` --> \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`concerto@1.0.0.Transaction\`
-   \`concerto@1.0.0.Transaction\` <--> \`org.acme.hr@1.0.0.ChangeOfAddress\`
-   \`org.acme.hr@1.0.0.KinName\`
-   \`org.acme.hr@1.0.0.KinTelephone\`
-`);
+            expect(writer.data.get('graph.mmd')).toMatchSnapshot();
         });
 
         it('should visit find a connected subgraph', function() {
@@ -173,81 +90,12 @@ describe('graph', function() {
             expect(filteredModelManager.getModelFiles()).toHaveLength(2);
             expect(
                 filteredModelManager.getModelFiles()[0].getAllDeclarations()
-            ).toHaveLength(5);
+            ).toHaveLength(7);
 
             writer.openFile('graph.mmd');
             connectedGraph.print(writer);
             writer.closeFile();
-            expect(writer.data.get('graph.mmd')).toEqual(`flowchart LR
-   \`org.acme.hr.base@1.0.0.State\`
-   \`org.acme.hr.base@1.0.0.State\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.TShirtSizeType\`
-   \`org.acme.hr.base@1.0.0.TShirtSizeType\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
-   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` --> \`org.acme.hr.base@1.0.0.TShirtSizeType\`
-   \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr.base@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr.base@1.0.0.State\`
-   \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.CompanyProperties\`
-   \`org.acme.hr@1.0.0.CompanyProperties\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
-   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.NextOfKin\`
-   \`org.acme.hr@1.0.0.NextOfKin\` --> \`org.acme.hr@1.0.0.KinName\`
-   \`org.acme.hr@1.0.0.NextOfKin\` --> \`org.acme.hr@1.0.0.KinTelephone\`
-   \`org.acme.hr@1.0.0.EmployeeProfiles\`
-   \`org.acme.hr@1.0.0.EmployeeProfiles\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeProfiles\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.EmployeeDirectory\`
-   \`org.acme.hr@1.0.0.EmployeeDirectory\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.EmployeeDirectory\` --> \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.Company\`
-   \`org.acme.hr@1.0.0.Company\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.CompanyProperties\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeDirectory\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeProfiles\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
-   \`org.acme.hr@1.0.0.Department\`
-   \`org.acme.hr@1.0.0.Department\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Equipment\`
-   \`concerto@1.0.0.Asset\`
-   \`concerto@1.0.0.Asset\` <--> \`org.acme.hr@1.0.0.Equipment\`
-   \`org.acme.hr@1.0.0.LaptopMake\`
-   \`org.acme.hr@1.0.0.LaptopMake\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Laptop\`
-   \`org.acme.hr@1.0.0.Laptop\` <--> \`org.acme.hr@1.0.0.Equipment\`
-   \`org.acme.hr@1.0.0.Laptop\` --> \`org.acme.hr@1.0.0.LaptopMake\`
-   \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr@1.0.0.NextOfKin\`
-   \`concerto@1.0.0.Participant\`
-   \`concerto@1.0.0.Participant\` <--> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.Employee\` <--> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Department\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Equipment\`
-   \`org.acme.hr@1.0.0.Contractor\`
-   \`org.acme.hr@1.0.0.Contractor\` <--> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Company\`
-   \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Manager\`
-   \`org.acme.hr@1.0.0.Manager\`
-   \`org.acme.hr@1.0.0.Manager\` <--> \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.Manager\` --> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`concerto@1.0.0.Transaction\`
-   \`concerto@1.0.0.Transaction\` <--> \`org.acme.hr@1.0.0.ChangeOfAddress\`
-   \`org.acme.hr@1.0.0.KinName\`
-   \`org.acme.hr@1.0.0.KinTelephone\`
-`);
+            expect(writer.data.get('graph.mmd')).toMatchSnapshot();
         });
 
         it('should visit a model manager and create a dependency graph', function() {
@@ -264,86 +112,7 @@ describe('graph', function() {
             writer.openFile('graph.mmd');
             graph.print(writer);
             writer.closeFile();
-            expect(writer.data.get('graph.mmd')).toEqual(`flowchart LR
-   \`org.acme.hr.base@1.0.0.State\`
-   \`org.acme.hr.base@1.0.0.State\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.TShirtSizeType\`
-   \`org.acme.hr.base@1.0.0.TShirtSizeType\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
-   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\` --> \`org.acme.hr.base@1.0.0.TShirtSizeType\`
-   \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr.base@1.0.0.Address\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.Address\` --> \`org.acme.hr.base@1.0.0.State\`
-   \`org.acme.hr.base@1.0.0.Level\`
-   \`org.acme.hr.base@1.0.0.Level\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr.base@1.0.0.Time\`
-   \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.CompanyProperties\`
-   \`org.acme.hr@1.0.0.CompanyProperties\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeLoginTimes\`
-   \`org.acme.hr@1.0.0.EmployeeLoginTimes\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeLoginTimes\` --> \`org.acme.hr.base@1.0.0.Time\`
-   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
-   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.NextOfKin\`
-   \`org.acme.hr@1.0.0.NextOfKin\` --> \`org.acme.hr@1.0.0.KinName\`
-   \`org.acme.hr@1.0.0.NextOfKin\` --> \`org.acme.hr@1.0.0.KinTelephone\`
-   \`org.acme.hr@1.0.0.EmployeeProfiles\`
-   \`org.acme.hr@1.0.0.EmployeeProfiles\` --> \`String\`
-   \`org.acme.hr@1.0.0.EmployeeProfiles\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.EmployeeDirectory\`
-   \`org.acme.hr@1.0.0.EmployeeDirectory\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.EmployeeDirectory\` --> \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.Company\`
-   \`org.acme.hr@1.0.0.Company\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.CompanyProperties\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeDirectory\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr.base@1.0.0.EmployeeTShirtSizes\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeProfiles\`
-   \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
-   \`org.acme.hr@1.0.0.Department\`
-   \`org.acme.hr@1.0.0.Department\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Equipment\`
-   \`org.acme.hr@1.0.0.Equipment\` --> \`concerto@1.0.0.Asset\`
-   \`org.acme.hr@1.0.0.LaptopMake\`
-   \`org.acme.hr@1.0.0.LaptopMake\` --> \`concerto@1.0.0.Concept\`
-   \`org.acme.hr@1.0.0.Laptop\`
-   \`org.acme.hr@1.0.0.Laptop\` --> \`org.acme.hr@1.0.0.Equipment\`
-   \`org.acme.hr@1.0.0.Laptop\` --> \`org.acme.hr@1.0.0.LaptopMake\`
-   \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Person\` --> \`concerto@1.0.0.Participant\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr.base@1.0.0.SSN\`
-   \`org.acme.hr@1.0.0.Person\` --> \`org.acme.hr@1.0.0.NextOfKin\`
-   \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Department\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.Employee\` --> \`org.acme.hr@1.0.0.Equipment\`
-   \`org.acme.hr@1.0.0.Contractor\`
-   \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Company\`
-   \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Manager\`
-   \`org.acme.hr@1.0.0.Contractor.manager\`
-   \`org.acme.hr@1.0.0.Contractor.manager\` --> \`org.acme.hr.base@1.0.0.Level\`
-   \`org.acme.hr@1.0.0.Manager\`
-   \`org.acme.hr@1.0.0.Manager\` <--> \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.Manager\` --> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.CompanyEvent\`
-   \`org.acme.hr@1.0.0.CompanyEvent\` --> \`concerto@1.0.0.Event\`
-   \`org.acme.hr@1.0.0.Onboarded\`
-   \`org.acme.hr@1.0.0.Onboarded\` --> \`org.acme.hr@1.0.0.CompanyEvent\`
-   \`org.acme.hr@1.0.0.Onboarded\` --> \`org.acme.hr@1.0.0.Employee\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`concerto@1.0.0.Transaction\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr@1.0.0.Person\`
-   \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr.base@1.0.0.Address\`
-   \`org.acme.hr@1.0.0.KinName\`
-   \`org.acme.hr@1.0.0.KinTelephone\`
-`);
+            expect(writer.data.get('graph.mmd')).toMatchSnapshot();
         });
     });
 });

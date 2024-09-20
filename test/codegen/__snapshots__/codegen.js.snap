@@ -70,6 +70,12 @@ protocol MyProtocol {
 
    import idl "concerto@1.0.0.avdl";
    
+   record Category {
+   }
+
+   record GeneralCategory {
+   }
+
    enum State {
       MA,
       NY,
@@ -334,6 +340,18 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "key": "org.acme.hr.base.cs",
   "value": "namespace org.acme.hr.base;
 using AccordProject.Concerto;
+[AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = null, Name = "Category")]
+[System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
+public abstract class Category : Concept {
+   [System.Text.Json.Serialization.JsonPropertyName("$class")]
+   public override string _class { get; } = "org.acme.hr.base.Category";
+}
+[AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = null, Name = "GeneralCategory")]
+[System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
+public abstract class GeneralCategory : Category {
+   [System.Text.Json.Serialization.JsonPropertyName("$class")]
+   public override string _class { get; } = "org.acme.hr.base.GeneralCategory";
+}
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum State {
       MA,
@@ -557,6 +575,12 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 package org_acme_hr_base
 import "concerto_1_0_0";
    
+type Category struct {
+   concerto_1_0_0.Concept
+}
+type GeneralCategory struct {
+   Category
+}
 type State int
 const (
    MA State = 1 + iota
@@ -680,8 +704,15 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "model.gql",
   "value": "directive @resource on OBJECT | FIELD_DEFINITION
+directive @category on OBJECT | FIELD_DEFINITION
 scalar DateTime
 # namespace org.acme.hr.base
+type Category {
+   _: Boolean
+}
+type GeneralCategory {
+   _: Boolean
+}
 enum State {
    MA
    NY
@@ -776,7 +807,7 @@ type Person @resource {
    nextOfKin: NextOfKin!
    _identifier: String!
 }
-type Employee {
+type Employee @category {
    employeeId: String!
    salary: Int!
    numDependents: Int!
@@ -972,6 +1003,46 @@ public abstract class Event extends Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 6`] = `
 {
+  "key": "org/acme/hr/base/Category.java",
+  "value": "// this code is generated and should not be modified
+package org.acme.hr.base;
+
+import concerto.Concept;
+import concerto.Asset;
+import concerto.Transaction;
+import concerto.Participant;
+import concerto.Event;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class Category extends Concept {
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 7`] = `
+{
+  "key": "org/acme/hr/base/GeneralCategory.java",
+  "value": "// this code is generated and should not be modified
+package org.acme.hr.base;
+
+import concerto.Concept;
+import concerto.Asset;
+import concerto.Transaction;
+import concerto.Participant;
+import concerto.Event;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class GeneralCategory extends Category {
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 8`] = `
+{
   "key": "org/acme/hr/base/State.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr.base;
@@ -990,7 +1061,7 @@ public enum State {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 7`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 9`] = `
 {
   "key": "org/acme/hr/base/TShirtSizeType.java",
   "value": "// this code is generated and should not be modified
@@ -1007,7 +1078,7 @@ public enum TShirtSizeType {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 8`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 10`] = `
 {
   "key": "org/acme/hr/base/Address.java",
   "value": "// this code is generated and should not be modified
@@ -1062,7 +1133,7 @@ public class Address extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 9`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 11`] = `
 {
   "key": "org/acme/hr/base/Level.java",
   "value": "// this code is generated and should not be modified
@@ -1076,7 +1147,7 @@ public enum Level {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 10`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 12`] = `
 {
   "key": "org/acme/hr/Company.java",
   "value": "// this code is generated and should not be modified
@@ -1088,6 +1159,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1153,7 +1225,7 @@ public class Company extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 11`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 13`] = `
 {
   "key": "org/acme/hr/Department.java",
   "value": "// this code is generated and should not be modified
@@ -1173,7 +1245,7 @@ public enum Department {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 12`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 14`] = `
 {
   "key": "org/acme/hr/Equipment.java",
   "value": "// this code is generated and should not be modified
@@ -1185,6 +1257,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1213,7 +1286,7 @@ public abstract class Equipment extends Asset {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 13`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 15`] = `
 {
   "key": "org/acme/hr/LaptopMake.java",
   "value": "// this code is generated and should not be modified
@@ -1229,7 +1302,7 @@ public enum LaptopMake {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 14`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 16`] = `
 {
   "key": "org/acme/hr/Laptop.java",
   "value": "// this code is generated and should not be modified
@@ -1241,6 +1314,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1269,7 +1343,7 @@ public class Laptop extends Equipment {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 15`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 17`] = `
 {
   "key": "org/acme/hr/Person.java",
   "value": "// this code is generated and should not be modified
@@ -1281,6 +1355,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1367,7 +1442,7 @@ public abstract class Person extends Participant {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 16`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 18`] = `
 {
   "key": "org/acme/hr/Employee.java",
   "value": "// this code is generated and should not be modified
@@ -1379,6 +1454,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1456,7 +1532,7 @@ public class Employee extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 17`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 19`] = `
 {
   "key": "org/acme/hr/Contractor.java",
   "value": "// this code is generated and should not be modified
@@ -1468,6 +1544,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1503,7 +1580,7 @@ public class Contractor extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 18`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 20`] = `
 {
   "key": "org/acme/hr/Manager.java",
   "value": "// this code is generated and should not be modified
@@ -1515,6 +1592,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1543,7 +1621,7 @@ public class Manager extends Employee {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 19`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 21`] = `
 {
   "key": "org/acme/hr/CompanyEvent.java",
   "value": "// this code is generated and should not be modified
@@ -1555,6 +1633,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1568,7 +1647,7 @@ public class CompanyEvent extends Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 20`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 22`] = `
 {
   "key": "org/acme/hr/Onboarded.java",
   "value": "// this code is generated and should not be modified
@@ -1580,6 +1659,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1600,7 +1680,7 @@ public class Onboarded extends CompanyEvent {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 21`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 23`] = `
 {
   "key": "org/acme/hr/ChangeOfAddress.java",
   "value": "// this code is generated and should not be modified
@@ -1612,6 +1692,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -1645,6 +1726,38 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
+    "org.acme.hr.base.Category": {
+      "title": "Category",
+      "description": "An instance of org.acme.hr.base.Category",
+      "type": "object",
+      "properties": {
+        "$class": {
+          "type": "string",
+          "default": "org.acme.hr.base.Category",
+          "pattern": "^org\\\\.acme\\\\.hr\\\\.base\\\\.Category$",
+          "description": "The class identifier for org.acme.hr.base.Category"
+        }
+      },
+      "required": [
+        "$class"
+      ]
+    },
+    "org.acme.hr.base.GeneralCategory": {
+      "title": "GeneralCategory",
+      "description": "An instance of org.acme.hr.base.GeneralCategory",
+      "type": "object",
+      "properties": {
+        "$class": {
+          "type": "string",
+          "default": "org.acme.hr.base.GeneralCategory",
+          "pattern": "^org\\\\.acme\\\\.hr\\\\.base\\\\.GeneralCategory$",
+          "description": "The class identifier for org.acme.hr.base.GeneralCategory"
+        }
+      },
+      "required": [
+        "$class"
+      ]
+    },
     "org.acme.hr.base.State": {
       "title": "State",
       "description": "An instance of org.acme.hr.base.State",
@@ -2056,7 +2169,16 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "height",
         "dob",
         "nextOfKin"
-      ]
+      ],
+      "$decorators": {
+        "category": [
+          {
+            "type": "Identifier",
+            "name": "GeneralCategory",
+            "array": false
+          }
+        ]
+      }
     },
     "org.acme.hr.Contractor": {
       "title": "Contractor",
@@ -2336,7 +2458,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   "value": "# Namespace org.acme.hr.base
 
 ## Overview
-- 1 concepts
+- 3 concepts
 - 3 enumerations
 - 1 maps
 - 2 scalars
@@ -2344,7 +2466,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 - 0 participants
 - 0 transactions
 - 0 events
-- 7 total declarations
+- 9 total declarations
 
 ## Imports
 - concerto@1.0.0.Concept
@@ -2356,6 +2478,13 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 ## Diagram
 \`\`\`mermaid
 classDiagram
+class \`org.acme.hr.base.Category\`
+<< concept>> \`org.acme.hr.base.Category\`
+
+class \`org.acme.hr.base.GeneralCategory\`
+<< concept>> \`org.acme.hr.base.GeneralCategory\`
+
+\`org.acme.hr.base.GeneralCategory\` --|> \`org.acme.hr.base.Category\`
 class \`org.acme.hr.base.State\` {
 << enumeration>>
    + MA
@@ -2414,6 +2543,7 @@ class \`org.acme.hr.base.Level\`
 - org.acme.hr.base.Time
 - org.acme.hr.base.EmployeeTShirtSizes
 - org.acme.hr.base.Level
+- org.acme.hr.base.GeneralCategory
 - concerto@1.0.0.Concept
 - concerto@1.0.0.Asset
 - concerto@1.0.0.Transaction
@@ -2581,6 +2711,14 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "model.mmd",
   "value": "classDiagram
+class \`org.acme.hr.base.Category\`
+<< concept>> \`org.acme.hr.base.Category\`
+
+\`org.acme.hr.base.Category\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base.GeneralCategory\`
+<< concept>> \`org.acme.hr.base.GeneralCategory\`
+
+\`org.acme.hr.base.GeneralCategory\` --|> \`org.acme.hr.base.Category\`
 class \`org.acme.hr.base.State\` {
 << enumeration>>
    + MA
@@ -2810,6 +2948,10 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 </edmx:Reference>
 <edmx:DataServices>
    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr.base">
+      <ComplexType Name="Category" Abstract="true" BaseType="concerto.Concept">
+      </ComplexType>
+      <ComplexType Name="GeneralCategory" Abstract="true" BaseType="org.acme.hr.base.Category">
+      </ComplexType>
       <EnumType Name="State">
          <Member Name="MA">
          </Member>
@@ -2968,6 +3110,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          </Property>
       </EntityType>
       <EntityType Name="Employee"  BaseType="org.acme.hr.Person">
+            <Annotation Term="category" Bool="true"/>
+            <Annotation Term="category0" String="[object Object]" />
          <Property Name="employeeId" Type="Edm.String"  >
          </Property>
          <Property Name="salary" Type="Edm.Int64"  >
@@ -3035,6 +3179,38 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
   },
   "components": {
     "schemas": {
+      "org.acme.hr.base.Category": {
+        "title": "Category",
+        "description": "An instance of org.acme.hr.base.Category",
+        "type": "object",
+        "properties": {
+          "$class": {
+            "type": "string",
+            "default": "org.acme.hr.base.Category",
+            "pattern": "^org\\\\.acme\\\\.hr\\\\.base\\\\.Category$",
+            "description": "The class identifier for org.acme.hr.base.Category"
+          }
+        },
+        "required": [
+          "$class"
+        ]
+      },
+      "org.acme.hr.base.GeneralCategory": {
+        "title": "GeneralCategory",
+        "description": "An instance of org.acme.hr.base.GeneralCategory",
+        "type": "object",
+        "properties": {
+          "$class": {
+            "type": "string",
+            "default": "org.acme.hr.base.GeneralCategory",
+            "pattern": "^org\\\\.acme\\\\.hr\\\\.base\\\\.GeneralCategory$",
+            "description": "The class identifier for org.acme.hr.base.GeneralCategory"
+          }
+        },
+        "required": [
+          "$class"
+        ]
+      },
       "org.acme.hr.base.State": {
         "title": "State",
         "description": "An instance of org.acme.hr.base.State",
@@ -3446,7 +3622,16 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "height",
           "dob",
           "nextOfKin"
-        ]
+        ],
+        "$decorators": {
+          "category": [
+            {
+              "type": "Identifier",
+              "name": "GeneralCategory",
+              "array": false
+            }
+          ]
+        }
       },
       "org.acme.hr.Contractor": {
         "title": "Contractor",
@@ -3976,6 +4161,12 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 title
 Model
 endtitle
+class org.acme.hr.base.Category {
+}
+org.acme.hr.base.Category --|> concerto_1_0_0.Concept
+class org.acme.hr.base.GeneralCategory {
+}
+org.acme.hr.base.GeneralCategory --|> org.acme.hr.base.Category
 class org.acme.hr.base.State << (E,grey) >> {
    + MA
    + NY
@@ -4490,6 +4681,22 @@ use crate::concerto_1_0_0::*;
 use std::collections::HashMap;
 use crate::utils::*;
    
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Category {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GeneralCategory {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub enum State {
    #[allow(non_camel_case_types)]
@@ -5083,6 +5290,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 
 // Warning: Beware of circular dependencies when modifying these imports
 import type {
+	ICategory,
 	State,
 	TShirtSizeType,
 	IAddress,
@@ -5119,7 +5327,8 @@ export interface IConcept {
    $class: string;
 }
 
-export type ConceptUnion = IAddress | 
+export type ConceptUnion = ICategory | 
+IAddress | 
 ICompany;
 
 export interface IAsset extends IConcept {
@@ -5188,9 +5397,19 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 // Generated code for namespace: org.acme.hr.base
 
 // imports
+
+// Warning: Beware of circular dependencies when modifying these imports
 import {IConcept} from './concerto@1.0.0';
 
 // interfaces
+export interface ICategory extends IConcept {
+}
+
+export type CategoryUnion = IGeneralCategory;
+
+export interface IGeneralCategory extends ICategory {
+}
+
 export enum State {
    MA = 'MA',
    NY = 'NY',
@@ -5350,6 +5569,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 locale: en
 namespace: org.acme.hr.base
 declarations:
+  - Category: Category
+  - GeneralCategory: General Category
   - State: State
     properties:
       - MA: MA of the State
@@ -5599,6 +5820,24 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 xmlns:concerto="concerto"
 >
 <xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
+<xs:complexType name="Category">
+   <xs:complexContent>
+   <xs:extension base="concerto:Concept">
+   <xs:sequence>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="Category" type="org.acme.hr.base:Category"/>
+<xs:complexType name="GeneralCategory">
+   <xs:complexContent>
+   <xs:extension base="org.acme.hr.base:Category">
+   <xs:sequence>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="GeneralCategory" type="org.acme.hr.base:GeneralCategory"/>
 <xs:simpleType name="State">
    <xs:restriction base="xs:string">
       <xs:enumeration value="MA"/>
@@ -5892,6 +6131,13 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "model.mmd",
   "value": "classDiagram
+class \`org.acme.hr.base@1.0.0.Category\`
+<< concept>> \`org.acme.hr.base@1.0.0.Category\`
+
+class \`org.acme.hr.base@1.0.0.GeneralCategory\`
+<< concept>> \`org.acme.hr.base@1.0.0.GeneralCategory\`
+
+\`org.acme.hr.base@1.0.0.GeneralCategory\` --|> \`org.acme.hr.base@1.0.0.Category\`
 class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
    + MA
@@ -6087,6 +6333,11 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 title
 Model
 endtitle
+class org.acme.hr.base_1_0_0.Category {
+}
+class org.acme.hr.base_1_0_0.GeneralCategory {
+}
+org.acme.hr.base_1_0_0.GeneralCategory --|> org.acme.hr.base_1_0_0.Category
 class org.acme.hr.base_1_0_0.State << (E,grey) >> {
    + MA
    + NY
@@ -6288,6 +6539,12 @@ protocol MyProtocol {
 
    import idl "concerto@1.0.0.avdl";
    
+   record Category {
+   }
+
+   record GeneralCategory {
+   }
+
    enum State {
       MA,
       NY,
@@ -6552,6 +6809,18 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "org.acme.hr.base@1.0.0.cs",
   "value": "namespace org.acme.hr.base;
 using AccordProject.Concerto;
+[AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = "1.0.0", Name = "Category")]
+[System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
+public abstract class Category : Concept {
+   [System.Text.Json.Serialization.JsonPropertyName("$class")]
+   public override string _class { get; } = "org.acme.hr.base@1.0.0.Category";
+}
+[AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = "1.0.0", Name = "GeneralCategory")]
+[System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
+public abstract class GeneralCategory : Category {
+   [System.Text.Json.Serialization.JsonPropertyName("$class")]
+   public override string _class { get; } = "org.acme.hr.base@1.0.0.GeneralCategory";
+}
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum State {
       MA,
@@ -6775,6 +7044,12 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 package org_acme_hr_base_1_0_0
 import "concerto_1_0_0";
    
+type Category struct {
+   concerto_1_0_0.Concept
+}
+type GeneralCategory struct {
+   Category
+}
 type State int
 const (
    MA State = 1 + iota
@@ -6898,8 +7173,15 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "model.gql",
   "value": "directive @resource on OBJECT | FIELD_DEFINITION
+directive @category on OBJECT | FIELD_DEFINITION
 scalar DateTime
 # namespace org.acme.hr.base@1.0.0
+type Category {
+   _: Boolean
+}
+type GeneralCategory {
+   _: Boolean
+}
 enum State {
    MA
    NY
@@ -6994,7 +7276,7 @@ type Person @resource {
    nextOfKin: NextOfKin!
    _identifier: String!
 }
-type Employee {
+type Employee @category {
    employeeId: String!
    salary: Int!
    numDependents: Int!
@@ -7190,6 +7472,46 @@ public abstract class Event extends Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 6`] = `
 {
+  "key": "org/acme/hr/base/Category.java",
+  "value": "// this code is generated and should not be modified
+package org.acme.hr.base;
+
+import concerto.Concept;
+import concerto.Asset;
+import concerto.Transaction;
+import concerto.Participant;
+import concerto.Event;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class Category extends Concept {
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 7`] = `
+{
+  "key": "org/acme/hr/base/GeneralCategory.java",
+  "value": "// this code is generated and should not be modified
+package org.acme.hr.base;
+
+import concerto.Concept;
+import concerto.Asset;
+import concerto.Transaction;
+import concerto.Participant;
+import concerto.Event;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class GeneralCategory extends Category {
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 8`] = `
+{
   "key": "org/acme/hr/base/State.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr.base;
@@ -7208,7 +7530,7 @@ public enum State {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 7`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 9`] = `
 {
   "key": "org/acme/hr/base/TShirtSizeType.java",
   "value": "// this code is generated and should not be modified
@@ -7225,7 +7547,7 @@ public enum TShirtSizeType {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 8`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 10`] = `
 {
   "key": "org/acme/hr/base/Address.java",
   "value": "// this code is generated and should not be modified
@@ -7280,7 +7602,7 @@ public class Address extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 9`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 11`] = `
 {
   "key": "org/acme/hr/base/Level.java",
   "value": "// this code is generated and should not be modified
@@ -7294,7 +7616,7 @@ public enum Level {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 10`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 12`] = `
 {
   "key": "org/acme/hr/Company.java",
   "value": "// this code is generated and should not be modified
@@ -7306,6 +7628,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -7371,7 +7694,7 @@ public class Company extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 11`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 13`] = `
 {
   "key": "org/acme/hr/Department.java",
   "value": "// this code is generated and should not be modified
@@ -7391,7 +7714,7 @@ public enum Department {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 12`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 14`] = `
 {
   "key": "org/acme/hr/Equipment.java",
   "value": "// this code is generated and should not be modified
@@ -7403,6 +7726,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -7431,7 +7755,7 @@ public abstract class Equipment extends Asset {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 13`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 15`] = `
 {
   "key": "org/acme/hr/LaptopMake.java",
   "value": "// this code is generated and should not be modified
@@ -7447,7 +7771,7 @@ public enum LaptopMake {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 14`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 16`] = `
 {
   "key": "org/acme/hr/Laptop.java",
   "value": "// this code is generated and should not be modified
@@ -7459,6 +7783,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -7487,7 +7812,7 @@ public class Laptop extends Equipment {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 15`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 17`] = `
 {
   "key": "org/acme/hr/Person.java",
   "value": "// this code is generated and should not be modified
@@ -7499,6 +7824,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -7585,7 +7911,7 @@ public abstract class Person extends Participant {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 16`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 18`] = `
 {
   "key": "org/acme/hr/Employee.java",
   "value": "// this code is generated and should not be modified
@@ -7597,6 +7923,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -7674,7 +8001,7 @@ public class Employee extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 17`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 19`] = `
 {
   "key": "org/acme/hr/Contractor.java",
   "value": "// this code is generated and should not be modified
@@ -7686,6 +8013,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -7721,7 +8049,7 @@ public class Contractor extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 18`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 20`] = `
 {
   "key": "org/acme/hr/Manager.java",
   "value": "// this code is generated and should not be modified
@@ -7733,6 +8061,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -7761,7 +8090,7 @@ public class Manager extends Employee {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 19`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 21`] = `
 {
   "key": "org/acme/hr/CompanyEvent.java",
   "value": "// this code is generated and should not be modified
@@ -7773,6 +8102,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -7786,7 +8116,7 @@ public class CompanyEvent extends Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 20`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 22`] = `
 {
   "key": "org/acme/hr/Onboarded.java",
   "value": "// this code is generated and should not be modified
@@ -7798,6 +8128,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -7818,7 +8149,7 @@ public class Onboarded extends CompanyEvent {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 21`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 23`] = `
 {
   "key": "org/acme/hr/ChangeOfAddress.java",
   "value": "// this code is generated and should not be modified
@@ -7830,6 +8161,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
 import concerto.Transaction;
@@ -7863,6 +8195,38 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
+    "org.acme.hr.base@1.0.0.Category": {
+      "title": "Category",
+      "description": "An instance of org.acme.hr.base@1.0.0.Category",
+      "type": "object",
+      "properties": {
+        "$class": {
+          "type": "string",
+          "default": "org.acme.hr.base@1.0.0.Category",
+          "pattern": "^org\\\\.acme\\\\.hr\\\\.base@1\\\\.0\\\\.0\\\\.Category$",
+          "description": "The class identifier for org.acme.hr.base@1.0.0.Category"
+        }
+      },
+      "required": [
+        "$class"
+      ]
+    },
+    "org.acme.hr.base@1.0.0.GeneralCategory": {
+      "title": "GeneralCategory",
+      "description": "An instance of org.acme.hr.base@1.0.0.GeneralCategory",
+      "type": "object",
+      "properties": {
+        "$class": {
+          "type": "string",
+          "default": "org.acme.hr.base@1.0.0.GeneralCategory",
+          "pattern": "^org\\\\.acme\\\\.hr\\\\.base@1\\\\.0\\\\.0\\\\.GeneralCategory$",
+          "description": "The class identifier for org.acme.hr.base@1.0.0.GeneralCategory"
+        }
+      },
+      "required": [
+        "$class"
+      ]
+    },
     "org.acme.hr.base@1.0.0.State": {
       "title": "State",
       "description": "An instance of org.acme.hr.base@1.0.0.State",
@@ -8274,7 +8638,16 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "height",
         "dob",
         "nextOfKin"
-      ]
+      ],
+      "$decorators": {
+        "category": [
+          {
+            "type": "Identifier",
+            "name": "GeneralCategory",
+            "array": false
+          }
+        ]
+      }
     },
     "org.acme.hr@1.0.0.Contractor": {
       "title": "Contractor",
@@ -8554,7 +8927,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "# Namespace org.acme.hr.base@1.0.0
 
 ## Overview
-- 1 concepts
+- 3 concepts
 - 3 enumerations
 - 1 maps
 - 2 scalars
@@ -8562,7 +8935,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 - 0 participants
 - 0 transactions
 - 0 events
-- 7 total declarations
+- 9 total declarations
 
 ## Imports
 - concerto@1.0.0.Concept
@@ -8574,6 +8947,13 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 ## Diagram
 \`\`\`mermaid
 classDiagram
+class \`org.acme.hr.base@1.0.0.Category\`
+<< concept>> \`org.acme.hr.base@1.0.0.Category\`
+
+class \`org.acme.hr.base@1.0.0.GeneralCategory\`
+<< concept>> \`org.acme.hr.base@1.0.0.GeneralCategory\`
+
+\`org.acme.hr.base@1.0.0.GeneralCategory\` --|> \`org.acme.hr.base@1.0.0.Category\`
 class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
    + MA
@@ -8632,6 +9012,7 @@ class \`org.acme.hr.base@1.0.0.Level\`
 - org.acme.hr.base@1.0.0.Time
 - org.acme.hr.base@1.0.0.EmployeeTShirtSizes
 - org.acme.hr.base@1.0.0.Level
+- org.acme.hr.base@1.0.0.GeneralCategory
 - concerto@1.0.0.Concept
 - concerto@1.0.0.Asset
 - concerto@1.0.0.Transaction
@@ -8799,6 +9180,14 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "model.mmd",
   "value": "classDiagram
+class \`org.acme.hr.base@1.0.0.Category\`
+<< concept>> \`org.acme.hr.base@1.0.0.Category\`
+
+\`org.acme.hr.base@1.0.0.Category\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base@1.0.0.GeneralCategory\`
+<< concept>> \`org.acme.hr.base@1.0.0.GeneralCategory\`
+
+\`org.acme.hr.base@1.0.0.GeneralCategory\` --|> \`org.acme.hr.base@1.0.0.Category\`
 class \`org.acme.hr.base@1.0.0.State\` {
 << enumeration>>
    + MA
@@ -9044,6 +9433,10 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 </edmx:Reference>
 <edmx:DataServices>
    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr.base">
+      <ComplexType Name="Category" Abstract="true" BaseType="concerto.Concept">
+      </ComplexType>
+      <ComplexType Name="GeneralCategory" Abstract="true" BaseType="org.acme.hr.base.Category">
+      </ComplexType>
       <EnumType Name="State">
          <Member Name="MA">
          </Member>
@@ -9202,6 +9595,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          </Property>
       </EntityType>
       <EntityType Name="Employee"  BaseType="org.acme.hr.Person">
+            <Annotation Term="category" Bool="true"/>
+            <Annotation Term="category0" String="[object Object]" />
          <Property Name="employeeId" Type="Edm.String"  >
          </Property>
          <Property Name="salary" Type="Edm.Int64"  >
@@ -9269,6 +9664,38 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   },
   "components": {
     "schemas": {
+      "org.acme.hr.base@1.0.0.Category": {
+        "title": "Category",
+        "description": "An instance of org.acme.hr.base@1.0.0.Category",
+        "type": "object",
+        "properties": {
+          "$class": {
+            "type": "string",
+            "default": "org.acme.hr.base@1.0.0.Category",
+            "pattern": "^org\\\\.acme\\\\.hr\\\\.base@1\\\\.0\\\\.0\\\\.Category$",
+            "description": "The class identifier for org.acme.hr.base@1.0.0.Category"
+          }
+        },
+        "required": [
+          "$class"
+        ]
+      },
+      "org.acme.hr.base@1.0.0.GeneralCategory": {
+        "title": "GeneralCategory",
+        "description": "An instance of org.acme.hr.base@1.0.0.GeneralCategory",
+        "type": "object",
+        "properties": {
+          "$class": {
+            "type": "string",
+            "default": "org.acme.hr.base@1.0.0.GeneralCategory",
+            "pattern": "^org\\\\.acme\\\\.hr\\\\.base@1\\\\.0\\\\.0\\\\.GeneralCategory$",
+            "description": "The class identifier for org.acme.hr.base@1.0.0.GeneralCategory"
+          }
+        },
+        "required": [
+          "$class"
+        ]
+      },
       "org.acme.hr.base@1.0.0.State": {
         "title": "State",
         "description": "An instance of org.acme.hr.base@1.0.0.State",
@@ -9680,7 +10107,16 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "height",
           "dob",
           "nextOfKin"
-        ]
+        ],
+        "$decorators": {
+          "category": [
+            {
+              "type": "Identifier",
+              "name": "GeneralCategory",
+              "array": false
+            }
+          ]
+        }
       },
       "org.acme.hr@1.0.0.Contractor": {
         "title": "Contractor",
@@ -10210,6 +10646,12 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 title
 Model
 endtitle
+class org.acme.hr.base_1_0_0.Category {
+}
+org.acme.hr.base_1_0_0.Category --|> concerto_1_0_0.Concept
+class org.acme.hr.base_1_0_0.GeneralCategory {
+}
+org.acme.hr.base_1_0_0.GeneralCategory --|> org.acme.hr.base_1_0_0.Category
 class org.acme.hr.base_1_0_0.State << (E,grey) >> {
    + MA
    + NY
@@ -10740,6 +11182,22 @@ use crate::concerto_1_0_0::*;
 use std::collections::HashMap;
 use crate::utils::*;
    
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Category {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GeneralCategory {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub enum State {
    #[allow(non_camel_case_types)]
@@ -11333,6 +11791,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 
 // Warning: Beware of circular dependencies when modifying these imports
 import type {
+	ICategory,
 	State,
 	TShirtSizeType,
 	IAddress,
@@ -11369,7 +11828,8 @@ export interface IConcept {
    $class: string;
 }
 
-export type ConceptUnion = IAddress | 
+export type ConceptUnion = ICategory | 
+IAddress | 
 ICompany;
 
 export interface IAsset extends IConcept {
@@ -11438,9 +11898,19 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 // Generated code for namespace: org.acme.hr.base@1.0.0
 
 // imports
+
+// Warning: Beware of circular dependencies when modifying these imports
 import {IConcept} from './concerto@1.0.0';
 
 // interfaces
+export interface ICategory extends IConcept {
+}
+
+export type CategoryUnion = IGeneralCategory;
+
+export interface IGeneralCategory extends ICategory {
+}
+
 export enum State {
    MA = 'MA',
    NY = 'NY',
@@ -11600,6 +12070,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 locale: en
 namespace: org.acme.hr.base@1.0.0
 declarations:
+  - Category: Category
+  - GeneralCategory: General Category
   - State: State
     properties:
       - MA: MA of the State
@@ -11849,6 +12321,24 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 xmlns:concerto="concerto"
 >
 <xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
+<xs:complexType name="Category">
+   <xs:complexContent>
+   <xs:extension base="concerto:Concept">
+   <xs:sequence>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="Category" type="org.acme.hr.base:Category"/>
+<xs:complexType name="GeneralCategory">
+   <xs:complexContent>
+   <xs:extension base="org.acme.hr.base:Category">
+   <xs:sequence>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="GeneralCategory" type="org.acme.hr.base:GeneralCategory"/>
 <xs:simpleType name="State">
    <xs:restriction base="xs:string">
       <xs:enumeration value="MA"/>

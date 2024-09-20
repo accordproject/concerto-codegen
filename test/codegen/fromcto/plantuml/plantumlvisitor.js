@@ -544,6 +544,7 @@ describe('PlantUMLVisitor', function () {
             mockField.isField.returns(true);
             mockField.getType.returns('string');
             mockField.getName.returns('Bob');
+            mockField.getDecorators.returns([]);
             mockField.getParent.returns({
                 getFullyQualifiedName: () => { return 'org.acme.Human'; },
             });
@@ -563,6 +564,7 @@ describe('PlantUMLVisitor', function () {
             mockField.getType.returns('string');
             mockField.getName.returns('Bob');
             mockField.isArray.returns(true);
+            mockField.getDecorators.returns([]);
             mockField.getParent.returns({
                 getFullyQualifiedName: () => { return 'org.acme.Human'; },
             });
@@ -582,6 +584,7 @@ describe('PlantUMLVisitor', function () {
             let mockEnumValueDecl = sinon.createStubInstance(EnumValueDeclaration);
             mockEnumValueDecl.isEnumValue.returns(true);
             mockEnumValueDecl.getName.returns('Bob');
+            mockEnumValueDecl.getDecorators.returns([]);
 
             plantUMLvisitor.visitEnumValueDeclaration(mockEnumValueDecl, param);
 

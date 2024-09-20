@@ -1,6 +1,6 @@
 namespace org.acme.hr@1.0.0
 
-import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes, Level}
+import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes, Level, GeneralCategory}
 
 map CompanyProperties {
     o String
@@ -79,6 +79,7 @@ abstract participant Person identified by email {
     o NextOfKin nextOfKin
 }
 
+@category(GeneralCategory)
 participant Employee extends Person {
     o String employeeId
     o Long salary
