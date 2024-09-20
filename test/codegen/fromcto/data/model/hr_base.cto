@@ -1,3 +1,4 @@
+@description("hr base namespace")
 namespace org.acme.hr.base@1.0.0
 
 abstract concept Category {}
