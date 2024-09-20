@@ -1,4 +1,8 @@
+@description("hr base namespace")
 namespace org.acme.hr.base@1.0.0
+
+abstract concept Category {}
+abstract concept GeneralCategory extends Category {}
 
 enum State {
     o MA
