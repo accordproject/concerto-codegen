@@ -703,8 +703,9 @@ type ChangeOfAddress struct {
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'graphql' 1`] = `
 {
   "key": "model.gql",
-  "value": "directive @resource on OBJECT | FIELD_DEFINITION
-directive @category on OBJECT | FIELD_DEFINITION
+  "value": "directive @category on OBJECT | FIELD_DEFINITION
+directive @resource on OBJECT | FIELD_DEFINITION
+directive @test on OBJECT | FIELD_DEFINITION
 scalar DateTime
 # namespace org.acme.hr.base
 type Category {
@@ -774,7 +775,7 @@ type Company {
    employeeProfiles: EmployeeProfiles
    employeeSocialSecurityNumbers: EmployeeSocialSecurityNumbers
 }
-enum Department {
+enum Department @category {
    Sales
    Marketing
    Finance
@@ -786,7 +787,7 @@ type Equipment @resource {
    serialNumber: String!
    _identifier: String!
 }
-enum LaptopMake {
+enum LaptopMake @test {
    Apple
    Microsoft
 }
@@ -1935,7 +1936,16 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "HR",
         "Engineering",
         "Design"
-      ]
+      ],
+      "$decorators": {
+        "category": [
+          {
+            "type": "Identifier",
+            "name": "GeneralCategory",
+            "array": false
+          }
+        ]
+      }
     },
     "org.acme.hr.Equipment": {
       "title": "Equipment",
@@ -1967,7 +1977,12 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
       "enum": [
         "Apple",
         "Microsoft"
-      ]
+      ],
+      "$decorators": {
+        "test": [
+          "one"
+        ]
+      }
     },
     "org.acme.hr.Laptop": {
       "title": "Laptop",
@@ -3059,6 +3074,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
       </ComplexType>
       <EnumType Name="Department">
          <Member Name="Sales">
+            <Annotation Term="category" Bool="true"/>
+            <Annotation Term="category0" String="GeneralCategory" />
          </Member>
          <Member Name="Marketing">
          </Member>
@@ -3111,7 +3128,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
       </EntityType>
       <EntityType Name="Employee"  BaseType="org.acme.hr.Person">
             <Annotation Term="category" Bool="true"/>
-            <Annotation Term="category0" String="[object Object]" />
+            <Annotation Term="category0" String="GeneralCategory" />
          <Property Name="employeeId" Type="Edm.String"  >
          </Property>
          <Property Name="salary" Type="Edm.Int64"  >
@@ -3134,7 +3151,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          </Property>
          <NavigationProperty Name="manager" Type="org.acme.hr.Manager" Nullable="true">
             <Annotation Term="level" Bool="true"/>
-            <Annotation Term="level0" String="[object Object]" />
+            <Annotation Term="level0" String="Level" />
          </NavigationProperty>
       </EntityType>
       <EntityType Name="Manager"  BaseType="org.acme.hr.Employee">
@@ -3388,7 +3405,16 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "HR",
           "Engineering",
           "Design"
-        ]
+        ],
+        "$decorators": {
+          "category": [
+            {
+              "type": "Identifier",
+              "name": "GeneralCategory",
+              "array": false
+            }
+          ]
+        }
       },
       "org.acme.hr.Equipment": {
         "title": "Equipment",
@@ -3420,7 +3446,12 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "enum": [
           "Apple",
           "Microsoft"
-        ]
+        ],
+        "$decorators": {
+          "test": [
+            "one"
+          ]
+        }
       },
       "org.acme.hr.Laptop": {
         "title": "Laptop",
@@ -7172,8 +7203,9 @@ type ChangeOfAddress struct {
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'graphql' 1`] = `
 {
   "key": "model.gql",
-  "value": "directive @resource on OBJECT | FIELD_DEFINITION
-directive @category on OBJECT | FIELD_DEFINITION
+  "value": "directive @category on OBJECT | FIELD_DEFINITION
+directive @resource on OBJECT | FIELD_DEFINITION
+directive @test on OBJECT | FIELD_DEFINITION
 scalar DateTime
 # namespace org.acme.hr.base@1.0.0
 type Category {
@@ -7243,7 +7275,7 @@ type Company {
    employeeProfiles: EmployeeProfiles
    employeeSocialSecurityNumbers: EmployeeSocialSecurityNumbers
 }
-enum Department {
+enum Department @category {
    Sales
    Marketing
    Finance
@@ -7255,7 +7287,7 @@ type Equipment @resource {
    serialNumber: String!
    _identifier: String!
 }
-enum LaptopMake {
+enum LaptopMake @test {
    Apple
    Microsoft
 }
@@ -8404,7 +8436,16 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "HR",
         "Engineering",
         "Design"
-      ]
+      ],
+      "$decorators": {
+        "category": [
+          {
+            "type": "Identifier",
+            "name": "GeneralCategory",
+            "array": false
+          }
+        ]
+      }
     },
     "org.acme.hr@1.0.0.Equipment": {
       "title": "Equipment",
@@ -8436,7 +8477,12 @@ exports[`codegen #formats check we can convert all formats from namespace versio
       "enum": [
         "Apple",
         "Microsoft"
-      ]
+      ],
+      "$decorators": {
+        "test": [
+          "one"
+        ]
+      }
     },
     "org.acme.hr@1.0.0.Laptop": {
       "title": "Laptop",
@@ -9544,6 +9590,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
       </ComplexType>
       <EnumType Name="Department">
          <Member Name="Sales">
+            <Annotation Term="category" Bool="true"/>
+            <Annotation Term="category0" String="GeneralCategory" />
          </Member>
          <Member Name="Marketing">
          </Member>
@@ -9596,7 +9644,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
       </EntityType>
       <EntityType Name="Employee"  BaseType="org.acme.hr.Person">
             <Annotation Term="category" Bool="true"/>
-            <Annotation Term="category0" String="[object Object]" />
+            <Annotation Term="category0" String="GeneralCategory" />
          <Property Name="employeeId" Type="Edm.String"  >
          </Property>
          <Property Name="salary" Type="Edm.Int64"  >
@@ -9619,7 +9667,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          </Property>
          <NavigationProperty Name="manager" Type="org.acme.hr.Manager" Nullable="true">
             <Annotation Term="level" Bool="true"/>
-            <Annotation Term="level0" String="[object Object]" />
+            <Annotation Term="level0" String="Level" />
          </NavigationProperty>
       </EntityType>
       <EntityType Name="Manager"  BaseType="org.acme.hr.Employee">
@@ -9873,7 +9921,16 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "HR",
           "Engineering",
           "Design"
-        ]
+        ],
+        "$decorators": {
+          "category": [
+            {
+              "type": "Identifier",
+              "name": "GeneralCategory",
+              "array": false
+            }
+          ]
+        }
       },
       "org.acme.hr@1.0.0.Equipment": {
         "title": "Equipment",
@@ -9905,7 +9962,12 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "enum": [
           "Apple",
           "Microsoft"
-        ]
+        ],
+        "$decorators": {
+          "test": [
+            "one"
+          ]
+        }
       },
       "org.acme.hr@1.0.0.Laptop": {
         "title": "Laptop",

@@ -47,6 +47,9 @@ exports[`graph #visitor should visit a model manager 1`] = `
    \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
    \`org.acme.hr@1.0.0.Department\`
    \`org.acme.hr@1.0.0.Department\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.Department\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
+   \`org.acme.hr@1.0.0.Department.Sales\`
+   \`org.acme.hr@1.0.0.Department.Sales\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
    \`org.acme.hr@1.0.0.Equipment\`
    \`concerto@1.0.0.Asset\`
    \`concerto@1.0.0.Asset\` <--> \`org.acme.hr@1.0.0.Equipment\`
@@ -88,7 +91,10 @@ exports[`graph #visitor should visit a model manager 1`] = `
    \`concerto@1.0.0.Transaction\`
    \`concerto@1.0.0.Transaction\` <--> \`org.acme.hr@1.0.0.ChangeOfAddress\`
    \`org.acme.hr@1.0.0.KinName\`
+   \`org.acme.hr@1.0.0.KinName\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
    \`org.acme.hr@1.0.0.KinTelephone\`
+   \`org.acme.hr@1.0.0\`
+   \`org.acme.hr@1.0.0\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
 "
 `;
 
@@ -139,6 +145,9 @@ exports[`graph #visitor should visit a model manager and create a dependency gra
    \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
    \`org.acme.hr@1.0.0.Department\`
    \`org.acme.hr@1.0.0.Department\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.Department\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
+   \`org.acme.hr@1.0.0.Department.Sales\`
+   \`org.acme.hr@1.0.0.Department.Sales\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
    \`org.acme.hr@1.0.0.Equipment\`
    \`org.acme.hr@1.0.0.Equipment\` --> \`concerto@1.0.0.Asset\`
    \`org.acme.hr@1.0.0.LaptopMake\`
@@ -176,7 +185,10 @@ exports[`graph #visitor should visit a model manager and create a dependency gra
    \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.ChangeOfAddress\` --> \`org.acme.hr.base@1.0.0.Address\`
    \`org.acme.hr@1.0.0.KinName\`
+   \`org.acme.hr@1.0.0.KinName\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
    \`org.acme.hr@1.0.0.KinTelephone\`
+   \`org.acme.hr@1.0.0\`
+   \`org.acme.hr@1.0.0\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
 "
 `;
 
@@ -221,6 +233,7 @@ exports[`graph #visitor should visit find a connected subgraph 1`] = `
    \`org.acme.hr@1.0.0.Company\` --> \`org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers\`
    \`org.acme.hr@1.0.0.Department\`
    \`org.acme.hr@1.0.0.Department\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.Department\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
    \`org.acme.hr@1.0.0.Equipment\`
    \`concerto@1.0.0.Asset\`
    \`concerto@1.0.0.Asset\` <--> \`org.acme.hr@1.0.0.Equipment\`
@@ -254,6 +267,7 @@ exports[`graph #visitor should visit find a connected subgraph 1`] = `
    \`concerto@1.0.0.Transaction\`
    \`concerto@1.0.0.Transaction\` <--> \`org.acme.hr@1.0.0.ChangeOfAddress\`
    \`org.acme.hr@1.0.0.KinName\`
+   \`org.acme.hr@1.0.0.KinName\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
    \`org.acme.hr@1.0.0.KinTelephone\`
 "
 `;
