@@ -28,6 +28,7 @@
         "postbuild": "npm run webpack",
         "webpack": "webpack --config webpack.config.js --mode production",
         "build:types": "tsc index.js --declaration --allowJs --emitDeclarationOnly --outDir types"
+        
     },
     "mocha": {
         "require": "mocha-expect-snapshot"
