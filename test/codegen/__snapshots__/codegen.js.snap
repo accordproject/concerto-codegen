@@ -1159,7 +1159,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1257,7 +1256,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1314,7 +1312,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1355,7 +1352,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1454,7 +1450,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1544,7 +1539,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1592,7 +1586,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1633,7 +1626,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1659,7 +1651,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1692,7 +1683,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -2211,16 +2201,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         },
         "manager": {
           "type": "string",
-          "description": "The identifier of an instance of org.acme.hr.Manager",
-          "$decorators": {
-            "level": [
-              {
-                "type": "Identifier",
-                "name": "Level",
-                "array": false
-              }
-            ]
-          }
+          "description": "The identifier of an instance of org.acme.hr.Manager"
         },
         "email": {
           "type": "string",
@@ -2557,7 +2538,6 @@ class \`org.acme.hr.base.Level\`
 - org.acme.hr.base.SSN
 - org.acme.hr.base.Time
 - org.acme.hr.base.EmployeeTShirtSizes
-- org.acme.hr.base.Level
 - org.acme.hr.base.GeneralCategory
 - concerto@1.0.0.Concept
 - concerto@1.0.0.Asset
@@ -3150,8 +3130,6 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          <Property Name="company" Type="org.acme.hr.Company"  >
          </Property>
          <NavigationProperty Name="manager" Type="org.acme.hr.Manager" Nullable="true">
-            <Annotation Term="level" Bool="true"/>
-            <Annotation Term="level0" String="Level" />
          </NavigationProperty>
       </EntityType>
       <EntityType Name="Manager"  BaseType="org.acme.hr.Employee">
@@ -3680,16 +3658,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           },
           "manager": {
             "type": "string",
-            "description": "The identifier of an instance of org.acme.hr.Manager",
-            "$decorators": {
-              "level": [
-                {
-                  "type": "Identifier",
-                  "name": "Level",
-                  "array": false
-                }
-              ]
-            }
+            "description": "The identifier of an instance of org.acme.hr.Manager"
           },
           "email": {
             "type": "string",
@@ -7659,7 +7628,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -7757,7 +7725,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -7814,7 +7781,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -7855,7 +7821,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -7954,7 +7919,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8044,7 +8008,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8092,7 +8055,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8133,7 +8095,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8159,7 +8120,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8192,7 +8152,6 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8711,16 +8670,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         },
         "manager": {
           "type": "string",
-          "description": "The identifier of an instance of org.acme.hr@1.0.0.Manager",
-          "$decorators": {
-            "level": [
-              {
-                "type": "Identifier",
-                "name": "Level",
-                "array": false
-              }
-            ]
-          }
+          "description": "The identifier of an instance of org.acme.hr@1.0.0.Manager"
         },
         "email": {
           "type": "string",
@@ -9057,7 +9007,6 @@ class \`org.acme.hr.base@1.0.0.Level\`
 - org.acme.hr.base@1.0.0.SSN
 - org.acme.hr.base@1.0.0.Time
 - org.acme.hr.base@1.0.0.EmployeeTShirtSizes
-- org.acme.hr.base@1.0.0.Level
 - org.acme.hr.base@1.0.0.GeneralCategory
 - concerto@1.0.0.Concept
 - concerto@1.0.0.Asset
@@ -9666,8 +9615,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          <Property Name="company" Type="org.acme.hr.Company"  >
          </Property>
          <NavigationProperty Name="manager" Type="org.acme.hr.Manager" Nullable="true">
-            <Annotation Term="level" Bool="true"/>
-            <Annotation Term="level0" String="Level" />
          </NavigationProperty>
       </EntityType>
       <EntityType Name="Manager"  BaseType="org.acme.hr.Employee">
@@ -10196,16 +10143,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "manager": {
             "type": "string",
-            "description": "The identifier of an instance of org.acme.hr@1.0.0.Manager",
-            "$decorators": {
-              "level": [
-                {
-                  "type": "Identifier",
-                  "name": "Level",
-                  "array": false
-                }
-              ]
-            }
+            "description": "The identifier of an instance of org.acme.hr@1.0.0.Manager"
           },
           "email": {
             "type": "string",

@@ -1,7 +1,7 @@
 @category(GeneralCategory)
 namespace org.acme.hr@1.0.0
 
-import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes, Level, GeneralCategory}
+import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes, GeneralCategory}
 
 map CompanyProperties {
     o String
@@ -97,7 +97,6 @@ participant Employee extends Person {
 
 participant Contractor extends Person {
     o Company company
-    @level(Level)
     --> Manager manager optional
 }
 
