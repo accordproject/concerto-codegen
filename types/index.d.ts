@@ -1,4 +1,4 @@
-export var CodeGen: {
+export const CodeGen: {
     AbstractPlugin: typeof import("./lib/codegen/abstractplugin");
     GoLangVisitor: typeof import("./lib/codegen/fromcto/golang/golangvisitor");
     JSONSchemaVisitor: typeof import("./lib/codegen/fromcto/jsonschema/jsonschemavisitor");
@@ -38,5 +38,5 @@ export var CodeGen: {
         vocabulary: typeof import("./lib/codegen/fromcto/vocabulary/vocabularyvisitor");
     };
 };
-export var Common: typeof import("./lib/common/common");
-export var version: any;
+export const Common: typeof import("./lib/common/common");
+export const version: any;
