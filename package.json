@@ -47,6 +47,7 @@
     "devDependencies": {
         "@accordproject/concerto-cto": "3.19.2",
         "@babel/preset-env": "7.16.11",
+        "ajv": "8.17.1",
         "babel-loader": "8.2.3",
         "chai": "4.3.6",
         "chai-as-promised": "7.1.1",
@@ -65,6 +66,7 @@
         "sinon": "12.0.0",
         "sinon-chai": "3.7.0",
         "tmp-promise": "3.0.2",
+        "ts-json-schema-generator": "2.3.0",
         "typescript": "5.6.3",
         "webpack": "5.94.0",
         "webpack-cli": "4.9.1"
@@ -74,7 +76,6 @@
         "@accordproject/concerto-util": "3.19.2",
         "@accordproject/concerto-vocabulary": "3.19.2",
         "@openapi-contrib/openapi-schema-to-json-schema": "5.1.0",
-        "ajv": "8.13.0",
         "ajv-formats": "3.0.1",
         "camelcase": "6.3.0",
         "debug": "4.3.4",
