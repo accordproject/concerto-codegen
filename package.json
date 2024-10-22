@@ -45,7 +45,7 @@
     "author": "accordproject.org",
     "license": "Apache-2.0",
     "devDependencies": {
-        "@accordproject/concerto-cto": "3.19.2",
+        "@accordproject/concerto-cto": "3.19.4-20241021142358",
         "@babel/preset-env": "7.16.11",
         "ajv": "8.17.1",
         "babel-loader": "8.2.3",
@@ -72,9 +72,9 @@
         "webpack-cli": "4.9.1"
     },
     "dependencies": {
-        "@accordproject/concerto-core": "3.19.2",
-        "@accordproject/concerto-util": "3.19.2",
-        "@accordproject/concerto-vocabulary": "3.19.2",
+        "@accordproject/concerto-core": "3.19.4-20241021142358",
+        "@accordproject/concerto-util": "3.19.4-20241021142358",
+        "@accordproject/concerto-vocabulary": "3.19.4-20241021142358",
         "@openapi-contrib/openapi-schema-to-json-schema": "5.1.0",
         "ajv-formats": "3.0.1",
         "camelcase": "6.3.0",

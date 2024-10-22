@@ -45,18 +45,21 @@ describe('TypescriptVisitor', function () {
             const config = {
                 path: path.resolve(outputPath, 'concerto-metamodel@1.0.0.ts'),
                 tsconfig: path.resolve('./test/codegen/fromcto/typescript/tsconfig.json'),
-                type: 'IDecorator',
+                type: 'IConceptDeclaration',
             };
             const jsonSchema = createGenerator(config).createSchema(config.type);
 
             // Test instance
             const data = {
-                $class: 'concerto.metamodel@1.0.0.Decorator',
-                name: 'displayName',
-                arguments: [
+                $class: 'concerto.metamodel@1.0.0.ConceptDeclaration',
+                name: 'Test',
+                isAbstract: false,
+                properties: [
                     {
-                        value: 'Account ID',
-                        $class: 'concerto.metamodel@1.0.0.DecoratorString',
+                        $class: 'concerto.metamodel@1.0.0.StringProperty',
+                        name: 'accountId',
+                        isArray: false,
+                        isOptional: false
                     }
                 ],
             };

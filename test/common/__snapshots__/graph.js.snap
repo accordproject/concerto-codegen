@@ -74,6 +74,8 @@ exports[`graph #visitor should visit a model manager 1`] = `
    \`org.acme.hr@1.0.0.Contractor\` <--> \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Company\`
    \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Manager\`
+   \`org.acme.hr@1.0.0.Contractor.manager\`
+   \`org.acme.hr@1.0.0.Contractor.manager\` --> \`org.acme.hr.base@1.0.0.Level\`
    \`org.acme.hr@1.0.0.Manager\`
    \`org.acme.hr@1.0.0.Manager\` <--> \`org.acme.hr@1.0.0.Employee\`
    \`org.acme.hr@1.0.0.Manager\` --> \`org.acme.hr@1.0.0.Person\`
@@ -168,6 +170,8 @@ exports[`graph #visitor should visit a model manager and create a dependency gra
    \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Person\`
    \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Company\`
    \`org.acme.hr@1.0.0.Contractor\` --> \`org.acme.hr@1.0.0.Manager\`
+   \`org.acme.hr@1.0.0.Contractor.manager\`
+   \`org.acme.hr@1.0.0.Contractor.manager\` --> \`org.acme.hr.base@1.0.0.Level\`
    \`org.acme.hr@1.0.0.Manager\`
    \`org.acme.hr@1.0.0.Manager\` <--> \`org.acme.hr@1.0.0.Employee\`
    \`org.acme.hr@1.0.0.Manager\` --> \`org.acme.hr@1.0.0.Person\`
