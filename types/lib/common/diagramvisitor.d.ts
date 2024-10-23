@@ -131,9 +131,9 @@ declare class DiagramVisitor {
     protected writeDeclarationSupertype(classDeclaration: ClassDeclaration, parameters: any): void;
 }
 declare namespace DiagramVisitor {
-    const COMPOSITION: string;
-    const AGGREGATION: string;
-    const INHERITANCE: string;
+    let COMPOSITION: string;
+    let AGGREGATION: string;
+    let INHERITANCE: string;
 }
 import { ModelManager } from "@accordproject/concerto-core";
 import { ModelFile } from "@accordproject/concerto-core";
