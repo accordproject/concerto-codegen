@@ -2,30 +2,17 @@
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'avro' 1`] = `
 {
-  "key": "concerto@1.0.0.avdl",
-  "value": "@namespace("concerto@1.0.0")
+  "key": "concerto.decorator@1.0.0.avdl",
+  "value": "@namespace("concerto.decorator@1.0.0")
 protocol MyProtocol {
 
+   import idl "concerto@1.0.0.avdl";
    
-   record Concept {
+   record Decorator {
    }
 
-   record Asset {
-      string _identifier;
-   }
-
-   record Participant {
-      string _identifier;
-   }
-
-   record Transaction {
-      @logicalType("timestamp-micros")
-      long _timestamp;
-   }
-
-   record Event {
-      @logicalType("timestamp-micros")
-      long _timestamp;
+   record DotNetNamespace {
+      string namespace;
    }
 
 }
@@ -35,10 +22,45 @@ protocol MyProtocol {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'avro' 2`] = `
 {
+  "key": "concerto@1.0.0.avdl",
+  "value": "@namespace("concerto@1.0.0")
+protocol MyProtocol {
+
+   import idl "concerto.decorator@1.0.0.avdl";
+   
+   record Concept {
+   }
+
+   record Asset {
+      string _identifier;
+   }
+
+   record Participant {
+      string _identifier;
+   }
+
+   record Transaction {
+      @logicalType("timestamp-micros")
+      long _timestamp;
+   }
+
+   record Event {
+      @logicalType("timestamp-micros")
+      long _timestamp;
+   }
+
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'avro' 3`] = `
+{
   "key": "concerto.avdl",
   "value": "@namespace("concerto")
 protocol MyProtocol {
 
+   import idl "concerto.decorator@1.0.0.avdl";
    
    record Concept {
    }
@@ -62,7 +84,7 @@ protocol MyProtocol {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'avro' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'avro' 4`] = `
 {
   "key": "org.acme.hr.base.avdl",
   "value": "@namespace("org.acme.hr.base")
@@ -107,7 +129,7 @@ protocol MyProtocol {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'avro' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'avro' 5`] = `
 {
   "key": "org.acme.hr.avdl",
   "value": "@namespace("org.acme.hr")
@@ -245,8 +267,32 @@ protocol MyProtocol {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'csharp' 1`] = `
 {
+  "key": "concerto.decorator@1.0.0.cs",
+  "value": "namespace concerto.decorator;
+using AccordProject.Concerto;
+[AccordProject.Concerto.Type(Namespace = "concerto.decorator", Version = "1.0.0", Name = "Decorator")]
+[System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
+public abstract class Decorator : Concept {
+   [System.Text.Json.Serialization.JsonPropertyName("$class")]
+   public override string _class { get; } = "concerto.decorator@1.0.0.Decorator";
+}
+[AccordProject.Concerto.Type(Namespace = "concerto.decorator", Version = "1.0.0", Name = "DotNetNamespace")]
+[System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
+public class DotNetNamespace : Decorator {
+   [System.Text.Json.Serialization.JsonPropertyName("$class")]
+   public override string _class { get; } = "concerto.decorator@1.0.0.DotNetNamespace";
+   [System.Text.Json.Serialization.JsonPropertyName("namespace")]
+   public string _namespace { get; set; }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'csharp' 2`] = `
+{
   "key": "concerto@1.0.0.cs",
   "value": "namespace AccordProject.Concerto;
+using concerto.decorator;
 [AccordProject.Concerto.Type(Namespace = "concerto", Version = "1.0.0", Name = "Concept")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public abstract class Concept {
@@ -291,10 +337,11 @@ public abstract class Event : Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'csharp' 2`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'csharp' 3`] = `
 {
   "key": "concerto.cs",
   "value": "namespace AccordProject.Concerto;
+using concerto.decorator;
 [AccordProject.Concerto.Type(Namespace = "concerto", Version = null, Name = "Concept")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public abstract class Concept {
@@ -335,7 +382,7 @@ public abstract class Event : Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'csharp' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'csharp' 4`] = `
 {
   "key": "org.acme.hr.base.cs",
   "value": "namespace org.acme.hr.base;
@@ -389,7 +436,7 @@ class SSN_Dummy {}
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'csharp' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'csharp' 5`] = `
 {
   "key": "org.acme.hr.cs",
   "value": "namespace org.acme.hr;
@@ -515,28 +562,17 @@ class KinTelephone_Dummy {}
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'golang' 1`] = `
 {
-  "key": "concerto@1.0.0.go",
-  "value": "// Package concerto_1_0_0 contains domain objects and was generated from Concerto namespace concerto@1.0.0.
-package concerto_1_0_0
-import "time"
+  "key": "concerto.decorator@1.0.0.go",
+  "value": "// Package concerto_decorator_1_0_0 contains domain objects and was generated from Concerto namespace concerto.decorator@1.0.0.
+package concerto_decorator_1_0_0
+import "concerto_1_0_0";
    
-type Concept struct {
+type Decorator struct {
+   concerto_1_0_0.Concept
 }
-type Asset struct {
-   Concept
-   Identifier string \`json:"$identifier"\`
-}
-type Participant struct {
-   Concept
-   Identifier string \`json:"$identifier"\`
-}
-type Transaction struct {
-   Concept
-   Timestamp time.Time \`json:"$timestamp"\`
-}
-type Event struct {
-   Concept
-   Timestamp time.Time \`json:"$timestamp"\`
+type DotNetNamespace struct {
+   Decorator
+   Namespace string \`json:"namespace"\`
 }
 ",
 }
@@ -544,9 +580,40 @@ type Event struct {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'golang' 2`] = `
 {
+  "key": "concerto@1.0.0.go",
+  "value": "// Package concerto_1_0_0 contains domain objects and was generated from Concerto namespace concerto@1.0.0.
+package concerto_1_0_0
+import "time"
+import "concerto_decorator_1_0_0";
+   
+type Concept struct {
+}
+type Asset struct {
+   Concept
+   Identifier string \`json:"$identifier"\`
+}
+type Participant struct {
+   Concept
+   Identifier string \`json:"$identifier"\`
+}
+type Transaction struct {
+   Concept
+   Timestamp time.Time \`json:"$timestamp"\`
+}
+type Event struct {
+   Concept
+   Timestamp time.Time \`json:"$timestamp"\`
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'golang' 3`] = `
+{
   "key": "concerto.go",
   "value": "// Package concerto contains domain objects and was generated from Concerto namespace concerto.
 package concerto
+import "concerto_decorator_1_0_0";
    
 type Concept struct {
 }
@@ -568,7 +635,7 @@ type Event struct {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'golang' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'golang' 4`] = `
 {
   "key": "org.acme.hr.base.go",
   "value": "// Package org_acme_hr_base contains domain objects and was generated from Concerto namespace org.acme.hr.base.
@@ -611,7 +678,7 @@ const (
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'golang' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'golang' 5`] = `
 {
   "key": "org.acme.hr.go",
   "value": "// Package org_acme_hr contains domain objects and was generated from Concerto namespace org.acme.hr.
@@ -881,10 +948,58 @@ type ChangeOfAddress {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 1`] = `
 {
+  "key": "concerto/decorator/Decorator.java",
+  "value": "// this code is generated and should not be modified
+package concerto.decorator;
+
+import concerto.Concept;
+import concerto.Asset;
+import concerto.Transaction;
+import concerto.Participant;
+import concerto.Event;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class Decorator extends Concept {
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 2`] = `
+{
+  "key": "concerto/decorator/DotNetNamespace.java",
+  "value": "// this code is generated and should not be modified
+package concerto.decorator;
+
+import concerto.Concept;
+import concerto.Asset;
+import concerto.Transaction;
+import concerto.Participant;
+import concerto.Event;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public class DotNetNamespace extends Decorator {
+   private String namespace;
+   public String getNamespace() {
+      return this.namespace;
+   }
+   public void setNamespace(String namespace) {
+      this.namespace = namespace;
+   }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 3`] = `
+{
   "key": "concerto/Concept.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
+import concerto.decorator.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -894,12 +1009,13 @@ public abstract class Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 2`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 4`] = `
 {
   "key": "concerto/Asset.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
+import concerto.decorator.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -933,12 +1049,13 @@ public abstract class Asset extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 5`] = `
 {
   "key": "concerto/Participant.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
+import concerto.decorator.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -972,12 +1089,13 @@ public abstract class Participant extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 6`] = `
 {
   "key": "concerto/Transaction.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
+import concerto.decorator.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -987,12 +1105,13 @@ public abstract class Transaction extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 5`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 7`] = `
 {
   "key": "concerto/Event.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
+import concerto.decorator.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1002,7 +1121,7 @@ public abstract class Event extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 6`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 8`] = `
 {
   "key": "org/acme/hr/base/Category.java",
   "value": "// this code is generated and should not be modified
@@ -1022,7 +1141,7 @@ public abstract class Category extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 7`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 9`] = `
 {
   "key": "org/acme/hr/base/GeneralCategory.java",
   "value": "// this code is generated and should not be modified
@@ -1042,7 +1161,7 @@ public abstract class GeneralCategory extends Category {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 8`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 10`] = `
 {
   "key": "org/acme/hr/base/State.java",
   "value": "// this code is generated and should not be modified
@@ -1062,7 +1181,7 @@ public enum State {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 9`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 11`] = `
 {
   "key": "org/acme/hr/base/TShirtSizeType.java",
   "value": "// this code is generated and should not be modified
@@ -1079,7 +1198,7 @@ public enum TShirtSizeType {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 10`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 12`] = `
 {
   "key": "org/acme/hr/base/Address.java",
   "value": "// this code is generated and should not be modified
@@ -1134,7 +1253,7 @@ public class Address extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 11`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 13`] = `
 {
   "key": "org/acme/hr/base/Level.java",
   "value": "// this code is generated and should not be modified
@@ -1148,7 +1267,7 @@ public enum Level {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 12`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 14`] = `
 {
   "key": "org/acme/hr/Company.java",
   "value": "// this code is generated and should not be modified
@@ -1159,6 +1278,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1225,7 +1345,7 @@ public class Company extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 13`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 15`] = `
 {
   "key": "org/acme/hr/Department.java",
   "value": "// this code is generated and should not be modified
@@ -1245,7 +1365,7 @@ public enum Department {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 14`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 16`] = `
 {
   "key": "org/acme/hr/Equipment.java",
   "value": "// this code is generated and should not be modified
@@ -1256,6 +1376,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1285,7 +1406,7 @@ public abstract class Equipment extends Asset {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 15`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 17`] = `
 {
   "key": "org/acme/hr/LaptopMake.java",
   "value": "// this code is generated and should not be modified
@@ -1301,7 +1422,7 @@ public enum LaptopMake {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 16`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 18`] = `
 {
   "key": "org/acme/hr/Laptop.java",
   "value": "// this code is generated and should not be modified
@@ -1312,6 +1433,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1341,7 +1463,7 @@ public class Laptop extends Equipment {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 17`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 19`] = `
 {
   "key": "org/acme/hr/Person.java",
   "value": "// this code is generated and should not be modified
@@ -1352,6 +1474,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1439,7 +1562,7 @@ public abstract class Person extends Participant {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 18`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 20`] = `
 {
   "key": "org/acme/hr/Employee.java",
   "value": "// this code is generated and should not be modified
@@ -1450,6 +1573,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1528,7 +1652,7 @@ public class Employee extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 19`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 21`] = `
 {
   "key": "org/acme/hr/Contractor.java",
   "value": "// this code is generated and should not be modified
@@ -1539,6 +1663,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1575,7 +1700,7 @@ public class Contractor extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 20`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 22`] = `
 {
   "key": "org/acme/hr/Manager.java",
   "value": "// this code is generated and should not be modified
@@ -1586,6 +1711,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1615,7 +1741,7 @@ public class Manager extends Employee {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 21`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 23`] = `
 {
   "key": "org/acme/hr/CompanyEvent.java",
   "value": "// this code is generated and should not be modified
@@ -1626,6 +1752,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1640,7 +1767,7 @@ public class CompanyEvent extends Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 22`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 24`] = `
 {
   "key": "org/acme/hr/Onboarded.java",
   "value": "// this code is generated and should not be modified
@@ -1651,6 +1778,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -1672,7 +1800,7 @@ public class Onboarded extends CompanyEvent {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 23`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 25`] = `
 {
   "key": "org/acme/hr/ChangeOfAddress.java",
   "value": "// this code is generated and should not be modified
@@ -1683,6 +1811,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -2201,7 +2330,16 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         },
         "manager": {
           "type": "string",
-          "description": "The identifier of an instance of org.acme.hr.Manager"
+          "description": "The identifier of an instance of org.acme.hr.Manager",
+          "$decorators": {
+            "level": [
+              {
+                "type": "Identifier",
+                "name": "Level",
+                "array": false
+              }
+            ]
+          }
         },
         "email": {
           "type": "string",
@@ -2538,6 +2676,7 @@ class \`org.acme.hr.base.Level\`
 - org.acme.hr.base.SSN
 - org.acme.hr.base.Time
 - org.acme.hr.base.EmployeeTShirtSizes
+- org.acme.hr.base.Level
 - org.acme.hr.base.GeneralCategory
 - concerto@1.0.0.Concept
 - concerto@1.0.0.Asset
@@ -2899,11 +3038,42 @@ class \`org.acme.hr.ChangeOfAddress\` {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'odata' 1`] = `
 {
+  "key": "concerto.decorator.csdl",
+  "value": "<?xml version="1.0"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+<edmx:Reference Uri="http://docs.oasis-open.org/odata/odata/v4.0/cs01/vocabularies/Org.OData.Core.V1.xml">
+   <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core" />
+</edmx:Reference>
+<edmx:Reference Uri="./concerto.csdl">
+   <edmx:Include Namespace="concerto" />
+</edmx:Reference>
+<edmx:DataServices>
+   <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="concerto.decorator">
+      <ComplexType Name="Decorator" Abstract="true" BaseType="concerto.Concept">
+      </ComplexType>
+      <ComplexType Name="DotNetNamespace"  BaseType="concerto.decorator.Decorator">
+         <Property Name="namespace" Type="Edm.String"  >
+         </Property>
+      </ComplexType>
+   <EntityContainer Name="concerto.decoratorService">
+   </EntityContainer>
+   </Schema>
+</edmx:DataServices>
+</edmx:Edmx>
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'odata' 2`] = `
+{
   "key": "concerto.csdl",
   "value": "<?xml version="1.0"?>
 <edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
 <edmx:Reference Uri="http://docs.oasis-open.org/odata/odata/v4.0/cs01/vocabularies/Org.OData.Core.V1.xml">
    <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core" />
+</edmx:Reference>
+<edmx:Reference Uri="./concerto.decorator.csdl">
+   <edmx:Include Namespace="concerto.decorator" />
 </edmx:Reference>
 <edmx:DataServices>
    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="concerto">
@@ -2930,7 +3100,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'odata' 2`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'odata' 3`] = `
 {
   "key": "org.acme.hr.base.csdl",
   "value": "<?xml version="1.0"?>
@@ -2996,7 +3166,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'odata' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'odata' 4`] = `
 {
   "key": "org.acme.hr.csdl",
   "value": "<?xml version="1.0"?>
@@ -3130,6 +3300,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          <Property Name="company" Type="org.acme.hr.Company"  >
          </Property>
          <NavigationProperty Name="manager" Type="org.acme.hr.Manager" Nullable="true">
+            <Annotation Term="level" Bool="true"/>
+            <Annotation Term="level0" String="Level" />
          </NavigationProperty>
       </EntityType>
       <EntityType Name="Manager"  BaseType="org.acme.hr.Employee">
@@ -3658,7 +3830,16 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           },
           "manager": {
             "type": "string",
-            "description": "The identifier of an instance of org.acme.hr.Manager"
+            "description": "The identifier of an instance of org.acme.hr.Manager",
+            "$decorators": {
+              "level": [
+                {
+                  "type": "Identifier",
+                  "name": "Level",
+                  "array": false
+                }
+              ]
+            }
           },
           "email": {
             "type": "string",
@@ -4473,6 +4654,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "mod.rs",
   "value": "#[allow(unused_imports)]
+pub mod concerto_decorator_1_0_0;
+#[allow(unused_imports)]
 pub mod concerto_1_0_0;
 #[allow(unused_imports)]
 pub mod concerto;
@@ -4535,14 +4718,15 @@ where
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 3`] = `
 {
-  "key": "concerto_1_0_0.rs",
+  "key": "concerto_decorator_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
    
+use crate::concerto_1_0_0::*;
 use crate::utils::*;
    
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Concept {
+pub struct Decorator {
    #[serde(
       rename = "$class",
    )]
@@ -4550,59 +4734,16 @@ pub struct Concept {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Asset {
+pub struct DotNetNamespace {
    #[serde(
       rename = "$class",
    )]
    pub _class: String,
    
    #[serde(
-      rename = "$identifier",
+      rename = "namespace",
    )]
-   pub _identifier: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Participant {
-   #[serde(
-      rename = "$class",
-   )]
-   pub _class: String,
-   
-   #[serde(
-      rename = "$identifier",
-   )]
-   pub _identifier: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Transaction {
-   #[serde(
-      rename = "$class",
-   )]
-   pub _class: String,
-   
-   #[serde(
-      rename = "$timestamp",
-      serialize_with = "serialize_datetime",
-      deserialize_with = "deserialize_datetime",
-   )]
-   pub _timestamp: DateTime<Utc>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Event {
-   #[serde(
-      rename = "$class",
-   )]
-   pub _class: String,
-   
-   #[serde(
-      rename = "$timestamp",
-      serialize_with = "serialize_datetime",
-      deserialize_with = "deserialize_datetime",
-   )]
-   pub _timestamp: DateTime<Utc>,
+   pub namespace: String,
 }
 
 ",
@@ -4611,10 +4752,88 @@ pub struct Event {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 4`] = `
 {
+  "key": "concerto_1_0_0.rs",
+  "value": "use serde::{ Deserialize, Serialize };
+use chrono::{ DateTime, TimeZone, Utc };
+   
+use crate::concerto_decorator_1_0_0::*;
+use crate::utils::*;
+   
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Concept {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Asset {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Participant {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Transaction {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Event {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 5`] = `
+{
   "key": "concerto.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
    
+use crate::concerto_decorator_1_0_0::*;
 use crate::utils::*;
    
 #[derive(Debug, Serialize, Deserialize)]
@@ -4671,7 +4890,7 @@ pub struct Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 5`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 6`] = `
 {
   "key": "org_acme_hr_base.rs",
   "value": "use serde::{ Deserialize, Serialize };
@@ -4765,7 +4984,7 @@ pub enum Level {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 6`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 7`] = `
 {
   "key": "org_acme_hr.rs",
   "value": "use serde::{ Deserialize, Serialize };
@@ -5282,6 +5501,27 @@ pub struct ChangeOfAddress {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 1`] = `
 {
+  "key": "concerto.decorator@1.0.0.ts",
+  "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
+// Generated code for namespace: concerto.decorator@1.0.0
+
+// imports
+import {IConcept} from './concerto@1.0.0';
+
+// interfaces
+export interface IDecorator extends IConcept {
+}
+
+export interface IDotNetNamespace extends IDecorator {
+   namespace: string;
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 2`] = `
+{
   "key": "concerto@1.0.0.ts",
   "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
 // Generated code for namespace: concerto@1.0.0
@@ -5359,7 +5599,7 @@ export type EventUnion = ICompanyEvent;
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 2`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 3`] = `
 {
   "key": "concerto.ts",
   "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
@@ -5390,7 +5630,7 @@ export interface IEvent extends IConcept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 4`] = `
 {
   "key": "org.acme.hr.base.ts",
   "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
@@ -5442,7 +5682,7 @@ export enum Level {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'typescript' 5`] = `
 {
   "key": "org.acme.hr.ts",
   "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
@@ -5704,55 +5944,31 @@ declarations:
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'xmlschema' 1`] = `
 {
-  "key": "concerto@1.0.0.xsd",
+  "key": "concerto.decorator@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:concerto.decorator="concerto.decorator" targetNamespace="concerto.decorator" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:concerto="concerto"
 >
-<xs:complexType name="Concept">
-   <xs:sequence>
-   </xs:sequence>
-</xs:complexType>
-<xs:element name="Concept" type="concerto:Concept"/>
-<xs:complexType name="Asset">
+<xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
+<xs:complexType name="Decorator">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
    <xs:sequence>
-      <xs:element name="_identifier" type="xs:string"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
 </xs:complexType>
-<xs:element name="Asset" type="concerto:Asset"/>
-<xs:complexType name="Participant">
+<xs:element name="Decorator" type="concerto.decorator:Decorator"/>
+<xs:complexType name="DotNetNamespace">
    <xs:complexContent>
-   <xs:extension base="concerto:Concept">
+   <xs:extension base="concerto.decorator:Decorator">
    <xs:sequence>
-      <xs:element name="_identifier" type="xs:string"/>
+      <xs:element name="namespace" type="xs:string"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
 </xs:complexType>
-<xs:element name="Participant" type="concerto:Participant"/>
-<xs:complexType name="Transaction">
-   <xs:complexContent>
-   <xs:extension base="concerto:Concept">
-   <xs:sequence>
-      <xs:element name="_timestamp" type="xs:dateTime"/>
-   </xs:sequence>
-   </xs:extension>
-   </xs:complexContent>
-</xs:complexType>
-<xs:element name="Transaction" type="concerto:Transaction"/>
-<xs:complexType name="Event">
-   <xs:complexContent>
-   <xs:extension base="concerto:Concept">
-   <xs:sequence>
-      <xs:element name="_timestamp" type="xs:dateTime"/>
-   </xs:sequence>
-   </xs:extension>
-   </xs:complexContent>
-</xs:complexType>
-<xs:element name="Event" type="concerto:Event"/>
+<xs:element name="DotNetNamespace" type="concerto.decorator:DotNetNamespace"/>
 </xs:schema>
 ",
 }
@@ -5760,10 +5976,12 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'xmlschema' 2`] = `
 {
-  "key": "concerto.xsd",
+  "key": "concerto@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
 <xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:concerto.decorator="concerto.decorator"
 >
+<xs:import namespace="concerto.decorator" schemaLocation="concerto.decorator@1.0.0.xsd"/>
 <xs:complexType name="Concept">
    <xs:sequence>
    </xs:sequence>
@@ -5793,6 +6011,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
    <xs:sequence>
+      <xs:element name="_timestamp" type="xs:dateTime"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -5802,6 +6021,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
    <xs:sequence>
+      <xs:element name="_timestamp" type="xs:dateTime"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -5813,6 +6033,62 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 `;
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'xmlschema' 3`] = `
+{
+  "key": "concerto.xsd",
+  "value": "<?xml version="1.0"?>
+<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:concerto.decorator="concerto.decorator"
+>
+<xs:import namespace="concerto.decorator" schemaLocation="concerto.decorator@1.0.0.xsd"/>
+<xs:complexType name="Concept">
+   <xs:sequence>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="Concept" type="concerto:Concept"/>
+<xs:complexType name="Asset">
+   <xs:complexContent>
+   <xs:extension base="concerto:Concept">
+   <xs:sequence>
+      <xs:element name="_identifier" type="xs:string"/>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="Asset" type="concerto:Asset"/>
+<xs:complexType name="Participant">
+   <xs:complexContent>
+   <xs:extension base="concerto:Concept">
+   <xs:sequence>
+      <xs:element name="_identifier" type="xs:string"/>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="Participant" type="concerto:Participant"/>
+<xs:complexType name="Transaction">
+   <xs:complexContent>
+   <xs:extension base="concerto:Concept">
+   <xs:sequence>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="Transaction" type="concerto:Transaction"/>
+<xs:complexType name="Event">
+   <xs:complexContent>
+   <xs:extension base="concerto:Concept">
+   <xs:sequence>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="Event" type="concerto:Event"/>
+</xs:schema>
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'xmlschema' 4`] = `
 {
   "key": "org.acme.hr.base.xsd",
   "value": "<?xml version="1.0"?>
@@ -5894,7 +6170,7 @@ xmlns:concerto="concerto"
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'xmlschema' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'xmlschema' 5`] = `
 {
   "key": "org.acme.hr.xsd",
   "value": "<?xml version="1.0"?>
@@ -6471,30 +6747,17 @@ org.acme.hr_1_0_0.ChangeOfAddress "1" *-- "1" org.acme.hr.base_1_0_0.Address : n
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 1`] = `
 {
-  "key": "concerto@1.0.0.avdl",
-  "value": "@namespace("concerto@1.0.0")
+  "key": "concerto.decorator@1.0.0.avdl",
+  "value": "@namespace("concerto.decorator@1.0.0")
 protocol MyProtocol {
 
+   import idl "concerto@1.0.0.avdl";
    
-   record Concept {
+   record Decorator {
    }
 
-   record Asset {
-      string _identifier;
-   }
-
-   record Participant {
-      string _identifier;
-   }
-
-   record Transaction {
-      @logicalType("timestamp-micros")
-      long _timestamp;
-   }
-
-   record Event {
-      @logicalType("timestamp-micros")
-      long _timestamp;
+   record DotNetNamespace {
+      string namespace;
    }
 
 }
@@ -6504,10 +6767,45 @@ protocol MyProtocol {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 2`] = `
 {
+  "key": "concerto@1.0.0.avdl",
+  "value": "@namespace("concerto@1.0.0")
+protocol MyProtocol {
+
+   import idl "concerto.decorator@1.0.0.avdl";
+   
+   record Concept {
+   }
+
+   record Asset {
+      string _identifier;
+   }
+
+   record Participant {
+      string _identifier;
+   }
+
+   record Transaction {
+      @logicalType("timestamp-micros")
+      long _timestamp;
+   }
+
+   record Event {
+      @logicalType("timestamp-micros")
+      long _timestamp;
+   }
+
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 3`] = `
+{
   "key": "concerto.avdl",
   "value": "@namespace("concerto")
 protocol MyProtocol {
 
+   import idl "concerto.decorator@1.0.0.avdl";
    
    record Concept {
    }
@@ -6531,7 +6829,7 @@ protocol MyProtocol {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 4`] = `
 {
   "key": "org.acme.hr.base@1.0.0.avdl",
   "value": "@namespace("org.acme.hr.base@1.0.0")
@@ -6576,7 +6874,7 @@ protocol MyProtocol {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 5`] = `
 {
   "key": "org.acme.hr@1.0.0.avdl",
   "value": "@namespace("org.acme.hr@1.0.0")
@@ -6714,8 +7012,32 @@ protocol MyProtocol {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 1`] = `
 {
+  "key": "concerto.decorator@1.0.0.cs",
+  "value": "namespace concerto.decorator;
+using AccordProject.Concerto;
+[AccordProject.Concerto.Type(Namespace = "concerto.decorator", Version = "1.0.0", Name = "Decorator")]
+[System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
+public abstract class Decorator : Concept {
+   [System.Text.Json.Serialization.JsonPropertyName("$class")]
+   public override string _class { get; } = "concerto.decorator@1.0.0.Decorator";
+}
+[AccordProject.Concerto.Type(Namespace = "concerto.decorator", Version = "1.0.0", Name = "DotNetNamespace")]
+[System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
+public class DotNetNamespace : Decorator {
+   [System.Text.Json.Serialization.JsonPropertyName("$class")]
+   public override string _class { get; } = "concerto.decorator@1.0.0.DotNetNamespace";
+   [System.Text.Json.Serialization.JsonPropertyName("namespace")]
+   public string _namespace { get; set; }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 2`] = `
+{
   "key": "concerto@1.0.0.cs",
   "value": "namespace AccordProject.Concerto;
+using concerto.decorator;
 [AccordProject.Concerto.Type(Namespace = "concerto", Version = "1.0.0", Name = "Concept")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public abstract class Concept {
@@ -6760,10 +7082,11 @@ public abstract class Event : Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 2`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 3`] = `
 {
   "key": "concerto.cs",
   "value": "namespace AccordProject.Concerto;
+using concerto.decorator;
 [AccordProject.Concerto.Type(Namespace = "concerto", Version = null, Name = "Concept")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public abstract class Concept {
@@ -6804,7 +7127,7 @@ public abstract class Event : Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 4`] = `
 {
   "key": "org.acme.hr.base@1.0.0.cs",
   "value": "namespace org.acme.hr.base;
@@ -6858,7 +7181,7 @@ class SSN_Dummy {}
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 5`] = `
 {
   "key": "org.acme.hr@1.0.0.cs",
   "value": "namespace org.acme.hr;
@@ -6984,28 +7307,17 @@ class KinTelephone_Dummy {}
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'golang' 1`] = `
 {
-  "key": "concerto@1.0.0.go",
-  "value": "// Package concerto_1_0_0 contains domain objects and was generated from Concerto namespace concerto@1.0.0.
-package concerto_1_0_0
-import "time"
+  "key": "concerto.decorator@1.0.0.go",
+  "value": "// Package concerto_decorator_1_0_0 contains domain objects and was generated from Concerto namespace concerto.decorator@1.0.0.
+package concerto_decorator_1_0_0
+import "concerto_1_0_0";
    
-type Concept struct {
+type Decorator struct {
+   concerto_1_0_0.Concept
 }
-type Asset struct {
-   Concept
-   Identifier string \`json:"$identifier"\`
-}
-type Participant struct {
-   Concept
-   Identifier string \`json:"$identifier"\`
-}
-type Transaction struct {
-   Concept
-   Timestamp time.Time \`json:"$timestamp"\`
-}
-type Event struct {
-   Concept
-   Timestamp time.Time \`json:"$timestamp"\`
+type DotNetNamespace struct {
+   Decorator
+   Namespace string \`json:"namespace"\`
 }
 ",
 }
@@ -7013,9 +7325,40 @@ type Event struct {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'golang' 2`] = `
 {
+  "key": "concerto@1.0.0.go",
+  "value": "// Package concerto_1_0_0 contains domain objects and was generated from Concerto namespace concerto@1.0.0.
+package concerto_1_0_0
+import "time"
+import "concerto_decorator_1_0_0";
+   
+type Concept struct {
+}
+type Asset struct {
+   Concept
+   Identifier string \`json:"$identifier"\`
+}
+type Participant struct {
+   Concept
+   Identifier string \`json:"$identifier"\`
+}
+type Transaction struct {
+   Concept
+   Timestamp time.Time \`json:"$timestamp"\`
+}
+type Event struct {
+   Concept
+   Timestamp time.Time \`json:"$timestamp"\`
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'golang' 3`] = `
+{
   "key": "concerto.go",
   "value": "// Package concerto contains domain objects and was generated from Concerto namespace concerto.
 package concerto
+import "concerto_decorator_1_0_0";
    
 type Concept struct {
 }
@@ -7037,7 +7380,7 @@ type Event struct {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'golang' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'golang' 4`] = `
 {
   "key": "org.acme.hr.base@1.0.0.go",
   "value": "// Package org_acme_hr_base_1_0_0 contains domain objects and was generated from Concerto namespace org.acme.hr.base@1.0.0.
@@ -7080,7 +7423,7 @@ const (
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'golang' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'golang' 5`] = `
 {
   "key": "org.acme.hr@1.0.0.go",
   "value": "// Package org_acme_hr_1_0_0 contains domain objects and was generated from Concerto namespace org.acme.hr@1.0.0.
@@ -7350,10 +7693,58 @@ type ChangeOfAddress {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 1`] = `
 {
+  "key": "concerto/decorator/Decorator.java",
+  "value": "// this code is generated and should not be modified
+package concerto.decorator;
+
+import concerto.Concept;
+import concerto.Asset;
+import concerto.Transaction;
+import concerto.Participant;
+import concerto.Event;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class Decorator extends Concept {
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 2`] = `
+{
+  "key": "concerto/decorator/DotNetNamespace.java",
+  "value": "// this code is generated and should not be modified
+package concerto.decorator;
+
+import concerto.Concept;
+import concerto.Asset;
+import concerto.Transaction;
+import concerto.Participant;
+import concerto.Event;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public class DotNetNamespace extends Decorator {
+   private String namespace;
+   public String getNamespace() {
+      return this.namespace;
+   }
+   public void setNamespace(String namespace) {
+      this.namespace = namespace;
+   }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 3`] = `
+{
   "key": "concerto/Concept.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
+import concerto.decorator.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -7363,12 +7754,13 @@ public abstract class Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 2`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 4`] = `
 {
   "key": "concerto/Asset.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
+import concerto.decorator.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -7402,12 +7794,13 @@ public abstract class Asset extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 5`] = `
 {
   "key": "concerto/Participant.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
+import concerto.decorator.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -7441,12 +7834,13 @@ public abstract class Participant extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 6`] = `
 {
   "key": "concerto/Transaction.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
+import concerto.decorator.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -7456,12 +7850,13 @@ public abstract class Transaction extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 5`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 7`] = `
 {
   "key": "concerto/Event.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
+import concerto.decorator.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -7471,7 +7866,7 @@ public abstract class Event extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 6`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 8`] = `
 {
   "key": "org/acme/hr/base/Category.java",
   "value": "// this code is generated and should not be modified
@@ -7491,7 +7886,7 @@ public abstract class Category extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 7`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 9`] = `
 {
   "key": "org/acme/hr/base/GeneralCategory.java",
   "value": "// this code is generated and should not be modified
@@ -7511,7 +7906,7 @@ public abstract class GeneralCategory extends Category {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 8`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 10`] = `
 {
   "key": "org/acme/hr/base/State.java",
   "value": "// this code is generated and should not be modified
@@ -7531,7 +7926,7 @@ public enum State {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 9`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 11`] = `
 {
   "key": "org/acme/hr/base/TShirtSizeType.java",
   "value": "// this code is generated and should not be modified
@@ -7548,7 +7943,7 @@ public enum TShirtSizeType {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 10`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 12`] = `
 {
   "key": "org/acme/hr/base/Address.java",
   "value": "// this code is generated and should not be modified
@@ -7603,7 +7998,7 @@ public class Address extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 11`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 13`] = `
 {
   "key": "org/acme/hr/base/Level.java",
   "value": "// this code is generated and should not be modified
@@ -7617,7 +8012,7 @@ public enum Level {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 12`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 14`] = `
 {
   "key": "org/acme/hr/Company.java",
   "value": "// this code is generated and should not be modified
@@ -7628,6 +8023,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -7694,7 +8090,7 @@ public class Company extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 13`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 15`] = `
 {
   "key": "org/acme/hr/Department.java",
   "value": "// this code is generated and should not be modified
@@ -7714,7 +8110,7 @@ public enum Department {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 14`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 16`] = `
 {
   "key": "org/acme/hr/Equipment.java",
   "value": "// this code is generated and should not be modified
@@ -7725,6 +8121,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -7754,7 +8151,7 @@ public abstract class Equipment extends Asset {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 15`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 17`] = `
 {
   "key": "org/acme/hr/LaptopMake.java",
   "value": "// this code is generated and should not be modified
@@ -7770,7 +8167,7 @@ public enum LaptopMake {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 16`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 18`] = `
 {
   "key": "org/acme/hr/Laptop.java",
   "value": "// this code is generated and should not be modified
@@ -7781,6 +8178,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -7810,7 +8208,7 @@ public class Laptop extends Equipment {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 17`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 19`] = `
 {
   "key": "org/acme/hr/Person.java",
   "value": "// this code is generated and should not be modified
@@ -7821,6 +8219,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -7908,7 +8307,7 @@ public abstract class Person extends Participant {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 18`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 20`] = `
 {
   "key": "org/acme/hr/Employee.java",
   "value": "// this code is generated and should not be modified
@@ -7919,6 +8318,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -7997,7 +8397,7 @@ public class Employee extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 19`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 21`] = `
 {
   "key": "org/acme/hr/Contractor.java",
   "value": "// this code is generated and should not be modified
@@ -8008,6 +8408,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8044,7 +8445,7 @@ public class Contractor extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 20`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 22`] = `
 {
   "key": "org/acme/hr/Manager.java",
   "value": "// this code is generated and should not be modified
@@ -8055,6 +8456,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8084,7 +8486,7 @@ public class Manager extends Employee {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 21`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 23`] = `
 {
   "key": "org/acme/hr/CompanyEvent.java",
   "value": "// this code is generated and should not be modified
@@ -8095,6 +8497,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8109,7 +8512,7 @@ public class CompanyEvent extends Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 22`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 24`] = `
 {
   "key": "org/acme/hr/Onboarded.java",
   "value": "// this code is generated and should not be modified
@@ -8120,6 +8523,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8141,7 +8545,7 @@ public class Onboarded extends CompanyEvent {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 23`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 25`] = `
 {
   "key": "org/acme/hr/ChangeOfAddress.java",
   "value": "// this code is generated and should not be modified
@@ -8152,6 +8556,7 @@ import org.acme.hr.base.State;
 import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
+import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
 import concerto.Concept;
 import concerto.Asset;
@@ -8670,7 +9075,16 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         },
         "manager": {
           "type": "string",
-          "description": "The identifier of an instance of org.acme.hr@1.0.0.Manager"
+          "description": "The identifier of an instance of org.acme.hr@1.0.0.Manager",
+          "$decorators": {
+            "level": [
+              {
+                "type": "Identifier",
+                "name": "Level",
+                "array": false
+              }
+            ]
+          }
         },
         "email": {
           "type": "string",
@@ -9007,6 +9421,7 @@ class \`org.acme.hr.base@1.0.0.Level\`
 - org.acme.hr.base@1.0.0.SSN
 - org.acme.hr.base@1.0.0.Time
 - org.acme.hr.base@1.0.0.EmployeeTShirtSizes
+- org.acme.hr.base@1.0.0.Level
 - org.acme.hr.base@1.0.0.GeneralCategory
 - concerto@1.0.0.Concept
 - concerto@1.0.0.Asset
@@ -9384,11 +9799,42 @@ class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'odata' 1`] = `
 {
+  "key": "concerto.decorator.csdl",
+  "value": "<?xml version="1.0"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+<edmx:Reference Uri="http://docs.oasis-open.org/odata/odata/v4.0/cs01/vocabularies/Org.OData.Core.V1.xml">
+   <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core" />
+</edmx:Reference>
+<edmx:Reference Uri="./concerto.csdl">
+   <edmx:Include Namespace="concerto" />
+</edmx:Reference>
+<edmx:DataServices>
+   <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="concerto.decorator">
+      <ComplexType Name="Decorator" Abstract="true" BaseType="concerto.Concept">
+      </ComplexType>
+      <ComplexType Name="DotNetNamespace"  BaseType="concerto.decorator.Decorator">
+         <Property Name="namespace" Type="Edm.String"  >
+         </Property>
+      </ComplexType>
+   <EntityContainer Name="concerto.decoratorService">
+   </EntityContainer>
+   </Schema>
+</edmx:DataServices>
+</edmx:Edmx>
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'odata' 2`] = `
+{
   "key": "concerto.csdl",
   "value": "<?xml version="1.0"?>
 <edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
 <edmx:Reference Uri="http://docs.oasis-open.org/odata/odata/v4.0/cs01/vocabularies/Org.OData.Core.V1.xml">
    <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core" />
+</edmx:Reference>
+<edmx:Reference Uri="./concerto.decorator.csdl">
+   <edmx:Include Namespace="concerto.decorator" />
 </edmx:Reference>
 <edmx:DataServices>
    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="concerto">
@@ -9415,7 +9861,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'odata' 2`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'odata' 3`] = `
 {
   "key": "org.acme.hr.base.csdl",
   "value": "<?xml version="1.0"?>
@@ -9481,7 +9927,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'odata' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'odata' 4`] = `
 {
   "key": "org.acme.hr.csdl",
   "value": "<?xml version="1.0"?>
@@ -9615,6 +10061,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          <Property Name="company" Type="org.acme.hr.Company"  >
          </Property>
          <NavigationProperty Name="manager" Type="org.acme.hr.Manager" Nullable="true">
+            <Annotation Term="level" Bool="true"/>
+            <Annotation Term="level0" String="Level" />
          </NavigationProperty>
       </EntityType>
       <EntityType Name="Manager"  BaseType="org.acme.hr.Employee">
@@ -10143,7 +10591,16 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "manager": {
             "type": "string",
-            "description": "The identifier of an instance of org.acme.hr@1.0.0.Manager"
+            "description": "The identifier of an instance of org.acme.hr@1.0.0.Manager",
+            "$decorators": {
+              "level": [
+                {
+                  "type": "Identifier",
+                  "name": "Level",
+                  "array": false
+                }
+              ]
+            }
           },
           "email": {
             "type": "string",
@@ -10974,6 +11431,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "mod.rs",
   "value": "#[allow(unused_imports)]
+pub mod concerto_decorator_1_0_0;
+#[allow(unused_imports)]
 pub mod concerto_1_0_0;
 #[allow(unused_imports)]
 pub mod concerto;
@@ -11036,14 +11495,15 @@ where
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 3`] = `
 {
-  "key": "concerto_1_0_0.rs",
+  "key": "concerto_decorator_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
    
+use crate::concerto_1_0_0::*;
 use crate::utils::*;
    
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Concept {
+pub struct Decorator {
    #[serde(
       rename = "$class",
    )]
@@ -11051,59 +11511,16 @@ pub struct Concept {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Asset {
+pub struct DotNetNamespace {
    #[serde(
       rename = "$class",
    )]
    pub _class: String,
    
    #[serde(
-      rename = "$identifier",
+      rename = "namespace",
    )]
-   pub _identifier: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Participant {
-   #[serde(
-      rename = "$class",
-   )]
-   pub _class: String,
-   
-   #[serde(
-      rename = "$identifier",
-   )]
-   pub _identifier: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Transaction {
-   #[serde(
-      rename = "$class",
-   )]
-   pub _class: String,
-   
-   #[serde(
-      rename = "$timestamp",
-      serialize_with = "serialize_datetime",
-      deserialize_with = "deserialize_datetime",
-   )]
-   pub _timestamp: DateTime<Utc>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Event {
-   #[serde(
-      rename = "$class",
-   )]
-   pub _class: String,
-   
-   #[serde(
-      rename = "$timestamp",
-      serialize_with = "serialize_datetime",
-      deserialize_with = "deserialize_datetime",
-   )]
-   pub _timestamp: DateTime<Utc>,
+   pub namespace: String,
 }
 
 ",
@@ -11112,10 +11529,88 @@ pub struct Event {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 4`] = `
 {
+  "key": "concerto_1_0_0.rs",
+  "value": "use serde::{ Deserialize, Serialize };
+use chrono::{ DateTime, TimeZone, Utc };
+   
+use crate::concerto_decorator_1_0_0::*;
+use crate::utils::*;
+   
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Concept {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Asset {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Participant {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$identifier",
+   )]
+   pub _identifier: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Transaction {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Event {
+   #[serde(
+      rename = "$class",
+   )]
+   pub _class: String,
+   
+   #[serde(
+      rename = "$timestamp",
+      serialize_with = "serialize_datetime",
+      deserialize_with = "deserialize_datetime",
+   )]
+   pub _timestamp: DateTime<Utc>,
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 5`] = `
+{
   "key": "concerto.rs",
   "value": "use serde::{ Deserialize, Serialize };
 use chrono::{ DateTime, TimeZone, Utc };
    
+use crate::concerto_decorator_1_0_0::*;
 use crate::utils::*;
    
 #[derive(Debug, Serialize, Deserialize)]
@@ -11172,7 +11667,7 @@ pub struct Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 5`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 6`] = `
 {
   "key": "org_acme_hr_base_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
@@ -11266,7 +11761,7 @@ pub enum Level {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 6`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 7`] = `
 {
   "key": "org_acme_hr_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
@@ -11783,6 +12278,27 @@ pub struct ChangeOfAddress {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'typescript' 1`] = `
 {
+  "key": "concerto.decorator@1.0.0.ts",
+  "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
+// Generated code for namespace: concerto.decorator@1.0.0
+
+// imports
+import {IConcept} from './concerto@1.0.0';
+
+// interfaces
+export interface IDecorator extends IConcept {
+}
+
+export interface IDotNetNamespace extends IDecorator {
+   namespace: string;
+}
+
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'typescript' 2`] = `
+{
   "key": "concerto@1.0.0.ts",
   "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
 // Generated code for namespace: concerto@1.0.0
@@ -11860,7 +12376,7 @@ export type EventUnion = ICompanyEvent;
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'typescript' 2`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'typescript' 3`] = `
 {
   "key": "concerto.ts",
   "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
@@ -11891,7 +12407,7 @@ export interface IEvent extends IConcept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'typescript' 3`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'typescript' 4`] = `
 {
   "key": "org.acme.hr.base@1.0.0.ts",
   "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
@@ -11943,7 +12459,7 @@ export enum Level {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'typescript' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'typescript' 5`] = `
 {
   "key": "org.acme.hr@1.0.0.ts",
   "value": "/* eslint-disable @typescript-eslint/no-empty-interface */
@@ -12205,55 +12721,31 @@ declarations:
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'xmlschema' 1`] = `
 {
-  "key": "concerto@1.0.0.xsd",
+  "key": "concerto.decorator@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
-<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema xmlns:concerto.decorator="concerto.decorator" targetNamespace="concerto.decorator" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:concerto="concerto"
 >
-<xs:complexType name="Concept">
-   <xs:sequence>
-   </xs:sequence>
-</xs:complexType>
-<xs:element name="Concept" type="concerto:Concept"/>
-<xs:complexType name="Asset">
+<xs:import namespace="concerto" schemaLocation="concerto@1.0.0.xsd"/>
+<xs:complexType name="Decorator">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
    <xs:sequence>
-      <xs:element name="_identifier" type="xs:string"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
 </xs:complexType>
-<xs:element name="Asset" type="concerto:Asset"/>
-<xs:complexType name="Participant">
+<xs:element name="Decorator" type="concerto.decorator:Decorator"/>
+<xs:complexType name="DotNetNamespace">
    <xs:complexContent>
-   <xs:extension base="concerto:Concept">
+   <xs:extension base="concerto.decorator:Decorator">
    <xs:sequence>
-      <xs:element name="_identifier" type="xs:string"/>
+      <xs:element name="namespace" type="xs:string"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
 </xs:complexType>
-<xs:element name="Participant" type="concerto:Participant"/>
-<xs:complexType name="Transaction">
-   <xs:complexContent>
-   <xs:extension base="concerto:Concept">
-   <xs:sequence>
-      <xs:element name="_timestamp" type="xs:dateTime"/>
-   </xs:sequence>
-   </xs:extension>
-   </xs:complexContent>
-</xs:complexType>
-<xs:element name="Transaction" type="concerto:Transaction"/>
-<xs:complexType name="Event">
-   <xs:complexContent>
-   <xs:extension base="concerto:Concept">
-   <xs:sequence>
-      <xs:element name="_timestamp" type="xs:dateTime"/>
-   </xs:sequence>
-   </xs:extension>
-   </xs:complexContent>
-</xs:complexType>
-<xs:element name="Event" type="concerto:Event"/>
+<xs:element name="DotNetNamespace" type="concerto.decorator:DotNetNamespace"/>
 </xs:schema>
 ",
 }
@@ -12261,10 +12753,12 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'xmlschema' 2`] = `
 {
-  "key": "concerto.xsd",
+  "key": "concerto@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
 <xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:concerto.decorator="concerto.decorator"
 >
+<xs:import namespace="concerto.decorator" schemaLocation="concerto.decorator@1.0.0.xsd"/>
 <xs:complexType name="Concept">
    <xs:sequence>
    </xs:sequence>
@@ -12294,6 +12788,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
    <xs:sequence>
+      <xs:element name="_timestamp" type="xs:dateTime"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -12303,6 +12798,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
    <xs:sequence>
+      <xs:element name="_timestamp" type="xs:dateTime"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -12314,6 +12810,62 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 `;
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'xmlschema' 3`] = `
+{
+  "key": "concerto.xsd",
+  "value": "<?xml version="1.0"?>
+<xs:schema xmlns:concerto="concerto" targetNamespace="concerto" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:concerto.decorator="concerto.decorator"
+>
+<xs:import namespace="concerto.decorator" schemaLocation="concerto.decorator@1.0.0.xsd"/>
+<xs:complexType name="Concept">
+   <xs:sequence>
+   </xs:sequence>
+</xs:complexType>
+<xs:element name="Concept" type="concerto:Concept"/>
+<xs:complexType name="Asset">
+   <xs:complexContent>
+   <xs:extension base="concerto:Concept">
+   <xs:sequence>
+      <xs:element name="_identifier" type="xs:string"/>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="Asset" type="concerto:Asset"/>
+<xs:complexType name="Participant">
+   <xs:complexContent>
+   <xs:extension base="concerto:Concept">
+   <xs:sequence>
+      <xs:element name="_identifier" type="xs:string"/>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="Participant" type="concerto:Participant"/>
+<xs:complexType name="Transaction">
+   <xs:complexContent>
+   <xs:extension base="concerto:Concept">
+   <xs:sequence>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="Transaction" type="concerto:Transaction"/>
+<xs:complexType name="Event">
+   <xs:complexContent>
+   <xs:extension base="concerto:Concept">
+   <xs:sequence>
+   </xs:sequence>
+   </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+<xs:element name="Event" type="concerto:Event"/>
+</xs:schema>
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'xmlschema' 4`] = `
 {
   "key": "org.acme.hr.base@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
@@ -12395,7 +12947,7 @@ xmlns:concerto="concerto"
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'xmlschema' 4`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'xmlschema' 5`] = `
 {
   "key": "org.acme.hr@1.0.0.xsd",
   "value": "<?xml version="1.0"?>
