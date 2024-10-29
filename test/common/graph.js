@@ -82,6 +82,12 @@ describe('graph', function() {
                     'org.acme.hr@1.0.0.Person'
                 )
             );
+            expect(
+                connectedGraph.hasEdge(
+                    'org.acme.hr@1.0.0.Contractor',
+                    'org.acme.hr.base@1.0.0.Level'
+                )
+            );
 
             const filteredModelManager = modelManager.filter((declaration) =>
                 connectedGraph.hasVertex(declaration.getFullyQualifiedName())
@@ -90,7 +96,7 @@ describe('graph', function() {
             expect(filteredModelManager.getModelFiles()).toHaveLength(2);
             expect(
                 filteredModelManager.getModelFiles()[0].getAllDeclarations()
-            ).toHaveLength(7);
+            ).toHaveLength(8);
 
             writer.openFile('graph.mmd');
             connectedGraph.print(writer);
