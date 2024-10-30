@@ -91,6 +91,8 @@ exports[`graph #visitor should visit a model manager 1`] = `
    \`\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
    \`org.acme.hr@1.0.0.KinName\`
    \`org.acme.hr@1.0.0.KinTelephone\`
+   \`org.acme.hr@1.0.0\`
+   \`org.acme.hr@1.0.0\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
 "
 `;
 
@@ -181,6 +183,8 @@ exports[`graph #visitor should visit a model manager and create a dependency gra
    \`\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
    \`org.acme.hr@1.0.0.KinName\`
    \`org.acme.hr@1.0.0.KinTelephone\`
+   \`org.acme.hr@1.0.0\`
+   \`org.acme.hr@1.0.0\` --> \`org.acme.hr.base@1.0.0.GeneralCategory\`
 "
 `;
 
