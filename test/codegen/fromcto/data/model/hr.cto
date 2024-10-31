@@ -2,6 +2,19 @@
 namespace org.acme.hr@1.0.0
 
 import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes, Level, GeneralCategory}
+import concerto.decorator@1.0.0.{Decorator}
+
+concept pii extends Decorator {
+   o Boolean isPii
+   o Category category
+}
+
+concept Category {}
+
+concept Info {
+   @pii(false, Category)
+   o String name
+}
 
 map CompanyProperties {
     o String

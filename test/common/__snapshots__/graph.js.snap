@@ -20,6 +20,16 @@ exports[`graph #visitor should visit a model manager 1`] = `
    \`org.acme.hr.base@1.0.0.Level\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr.base@1.0.0.Time\`
    \`org.acme.hr.base@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.pii\`
+   \`org.acme.hr@1.0.0.pii\` --> \`org.acme.hr@1.0.0.Category\`
+   \`concerto.decorator@1.0.0.Decorator\`
+   \`concerto.decorator@1.0.0.Decorator\` <--> \`org.acme.hr@1.0.0.pii\`
+   \`org.acme.hr@1.0.0.Category\`
+   \`org.acme.hr@1.0.0.Category\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.Info\`
+   \`org.acme.hr@1.0.0.Info\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.Info\` --> \`org.acme.hr@1.0.0.pii\`
+   \`org.acme.hr@1.0.0.Info\` --> \`org.acme.hr@1.0.0.Category\`
    \`org.acme.hr@1.0.0.CompanyProperties\`
    \`org.acme.hr@1.0.0.CompanyProperties\` --> \`String\`
    \`org.acme.hr@1.0.0.EmployeeLoginTimes\`
@@ -119,6 +129,15 @@ exports[`graph #visitor should visit a model manager and create a dependency gra
    \`org.acme.hr.base@1.0.0.Level\` --> \`concerto@1.0.0.Concept\`
    \`org.acme.hr.base@1.0.0.Time\`
    \`org.acme.hr.base@1.0.0.SSN\`
+   \`org.acme.hr@1.0.0.pii\`
+   \`org.acme.hr@1.0.0.pii\` --> \`concerto.decorator@1.0.0.Decorator\`
+   \`org.acme.hr@1.0.0.pii\` --> \`org.acme.hr@1.0.0.Category\`
+   \`org.acme.hr@1.0.0.Category\`
+   \`org.acme.hr@1.0.0.Category\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.Info\`
+   \`org.acme.hr@1.0.0.Info\` --> \`concerto@1.0.0.Concept\`
+   \`org.acme.hr@1.0.0.Info\` --> \`org.acme.hr@1.0.0.pii\`
+   \`org.acme.hr@1.0.0.Info\` --> \`org.acme.hr@1.0.0.Category\`
    \`org.acme.hr@1.0.0.CompanyProperties\`
    \`org.acme.hr@1.0.0.CompanyProperties\` --> \`String\`
    \`org.acme.hr@1.0.0.EmployeeLoginTimes\`
