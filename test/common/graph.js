@@ -82,12 +82,6 @@ describe('graph', function() {
                     'org.acme.hr@1.0.0.Person'
                 )
             );
-            expect(
-                connectedGraph.hasEdge(
-                    'org.acme.hr@1.0.0.Contractor',
-                    'org.acme.hr.base@1.0.0.Level'
-                )
-            );
 
             const filteredModelManager = modelManager.filter((declaration) =>
                 connectedGraph.hasVertex(declaration.getFullyQualifiedName())
@@ -96,7 +90,7 @@ describe('graph', function() {
             expect(filteredModelManager.getModelFiles()).toHaveLength(2);
             expect(
                 filteredModelManager.getModelFiles()[0].getAllDeclarations()
-            ).toHaveLength(8);
+            ).toHaveLength(5);
 
             writer.openFile('graph.mmd');
             connectedGraph.print(writer);
@@ -114,6 +108,13 @@ describe('graph', function() {
                 graph,
                 createDependencyGraph: true
             });
+
+            expect(
+                graph.hasEdge(
+                    'org.acme.hr@1.0.0.Contractor',
+                    'org.acme.hr.base@1.0.0.Level'
+                )
+            );
 
             writer.openFile('graph.mmd');
             graph.print(writer);
