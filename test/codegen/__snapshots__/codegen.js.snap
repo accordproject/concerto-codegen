@@ -837,7 +837,7 @@ type Company {
    name: String!
    headquarters: Address!
    companyProperties: CompanyProperties
-   employeeDirectory: EmployeeDirectory
+   employeeDirectory: EmployeeDirectory @category
    employeeTShirtSizes: EmployeeTShirtSizes
    employeeProfiles: EmployeeProfiles
    employeeSocialSecurityNumbers: EmployeeSocialSecurityNumbers
@@ -3214,6 +3214,8 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
          <Property Name="companyProperties" Type="org.acme.hr.CompanyProperties" Nullable="true" >
          </Property>
          <Property Name="employeeDirectory" Type="org.acme.hr.EmployeeDirectory" Nullable="true" >
+            <Annotation Term="category" Bool="true"/>
+            <Annotation Term="category0" String="GeneralCategory" />
          </Property>
          <Property Name="employeeTShirtSizes" Type="org.acme.hr.base.EmployeeTShirtSizes" Nullable="true" >
          </Property>
@@ -7582,7 +7584,7 @@ type Company {
    name: String!
    headquarters: Address!
    companyProperties: CompanyProperties
-   employeeDirectory: EmployeeDirectory
+   employeeDirectory: EmployeeDirectory @category
    employeeTShirtSizes: EmployeeTShirtSizes
    employeeProfiles: EmployeeProfiles
    employeeSocialSecurityNumbers: EmployeeSocialSecurityNumbers
@@ -9975,6 +9977,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          <Property Name="companyProperties" Type="org.acme.hr.CompanyProperties" Nullable="true" >
          </Property>
          <Property Name="employeeDirectory" Type="org.acme.hr.EmployeeDirectory" Nullable="true" >
+            <Annotation Term="category" Bool="true"/>
+            <Annotation Term="category0" String="GeneralCategory" />
          </Property>
          <Property Name="employeeTShirtSizes" Type="org.acme.hr.base.EmployeeTShirtSizes" Nullable="true" >
          </Property>
