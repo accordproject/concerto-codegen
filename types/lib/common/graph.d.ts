@@ -11,6 +11,8 @@ export class ConcertoGraphVisitor extends BaseVisitor {
      * Visitor design pattern
      * @param {ClassDeclaration} classDeclaration - the object being visited
      * @param {Object} parameters  - the parameter
+     * @property {boolean} parameters.includeDerivedTypes - If this option is enabled, edges will be created from super types to their derived types.
+     * This guarantees that if type X exists in the model manager, all types that inherit from X will be represented in the graph.
      * @protected
      */
     protected visitClassDeclaration(classDeclaration: ClassDeclaration, parameters: any): void;

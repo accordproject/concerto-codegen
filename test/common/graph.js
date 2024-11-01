@@ -57,7 +57,7 @@ describe('graph', function() {
             const writer = new InMemoryWriter();
 
             const graph = new DirectedGraph();
-            modelManager.accept(visitor, { graph });
+            modelManager.accept(visitor, { graph, includeDerivedTypes: true });
 
             writer.openFile('graph.mmd');
             graph.print(writer);
@@ -71,7 +71,7 @@ describe('graph', function() {
             const writer = new InMemoryWriter();
 
             const graph = new DirectedGraph();
-            modelManager.accept(visitor, { graph });
+            modelManager.accept(visitor, { graph, includeDerivedTypes: true });
 
             const connectedGraph = graph.findConnectedGraph(
                 'org.acme.hr@1.0.0.ChangeOfAddress'
@@ -106,7 +106,7 @@ describe('graph', function() {
             const graph = new DirectedGraph();
             modelManager.accept(visitor, {
                 graph,
-                createDependencyGraph: true
+                includeDerivedTypes: false
             });
 
             expect(
