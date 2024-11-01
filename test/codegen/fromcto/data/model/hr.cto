@@ -2,6 +2,19 @@
 namespace org.acme.hr@1.0.0
 
 import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes, Level, GeneralCategory}
+import concerto.decorator@1.0.0.{Decorator}
+
+concept pii extends Decorator {
+   o Boolean isPii
+   o Category category
+}
+
+concept Category {}
+
+concept Info {
+   @pii(false, Category)
+   o String name
+}
 
 map CompanyProperties {
     o String
@@ -14,6 +27,7 @@ map EmployeeLoginTimes {
     o Time
 }
 
+@category(GeneralCategory)
 map EmployeeSocialSecurityNumbers {
     o String
     o SSN
@@ -26,10 +40,12 @@ map NextOfKin {
 
 map EmployeeProfiles {
     o String
+    @category(GeneralCategory)
     o Concept
 }
 
 map EmployeeDirectory {
+    @category(GeneralCategory)
     o SSN
     o Employee
 }
@@ -38,6 +54,7 @@ concept Company {
     o String name regex=/abc.*/
     o Address headquarters
     o CompanyProperties companyProperties optional
+    @category(GeneralCategory)
     o EmployeeDirectory employeeDirectory optional
     o EmployeeTShirtSizes employeeTShirtSizes optional
     o EmployeeProfiles employeeProfiles optional

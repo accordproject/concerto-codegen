@@ -590,6 +590,19 @@ describe('PlantUMLVisitor', function () {
 
             param.fileWriter.writeLine.withArgs(1, '+ Bob').calledOnce.should.be.ok;
         });
+
+        it('should not write a line for enum value if writer is undefined', () => {
+            let param = {};
+
+
+            let mockEnumValueDecl = sinon.createStubInstance(EnumValueDeclaration);
+            mockEnumValueDecl.isEnumValue.returns(true);
+            mockEnumValueDecl.getName.returns('Bob');
+            mockEnumValueDecl.getDecorators.returns([]);
+
+            plantUMLvisitor.visitField(mockEnumValueDecl, param);
+            mockEnumValueDecl.getName().never;
+        });
     });
 
     describe('visitDecorator', () => {

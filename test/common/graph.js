@@ -57,7 +57,7 @@ describe('graph', function() {
             const writer = new InMemoryWriter();
 
             const graph = new DirectedGraph();
-            modelManager.accept(visitor, { graph });
+            modelManager.accept(visitor, { graph, includeDerivedTypes: true });
 
             writer.openFile('graph.mmd');
             graph.print(writer);
@@ -71,7 +71,7 @@ describe('graph', function() {
             const writer = new InMemoryWriter();
 
             const graph = new DirectedGraph();
-            modelManager.accept(visitor, { graph });
+            modelManager.accept(visitor, { graph, includeDerivedTypes: true });
 
             const connectedGraph = graph.findConnectedGraph(
                 'org.acme.hr@1.0.0.ChangeOfAddress'
@@ -90,7 +90,7 @@ describe('graph', function() {
             expect(filteredModelManager.getModelFiles()).toHaveLength(2);
             expect(
                 filteredModelManager.getModelFiles()[0].getAllDeclarations()
-            ).toHaveLength(7);
+            ).toHaveLength(8);
 
             writer.openFile('graph.mmd');
             connectedGraph.print(writer);
@@ -106,8 +106,15 @@ describe('graph', function() {
             const graph = new DirectedGraph();
             modelManager.accept(visitor, {
                 graph,
-                createDependencyGraph: true
+                includeDerivedTypes: false
             });
+
+            expect(
+                graph.hasEdge(
+                    'org.acme.hr@1.0.0.Contractor',
+                    'org.acme.hr.base@1.0.0.Level'
+                )
+            );
 
             writer.openFile('graph.mmd');
             graph.print(writer);
