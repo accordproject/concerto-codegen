@@ -16,6 +16,7 @@ export class ConcertoGraphVisitor extends BaseVisitor {
      * @protected
      */
     protected visitClassDeclaration(classDeclaration: ClassDeclaration, parameters: any): void;
+    addEdgeForDecorator(name: any, parent: any, modelFile: any, parameters: any): void;
     /**
      * Visitor design pattern
      * @param {MapDeclaration} mapDeclaration - the object being visited
