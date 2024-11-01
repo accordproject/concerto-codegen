@@ -90,7 +90,7 @@ describe('graph', function() {
             expect(filteredModelManager.getModelFiles()).toHaveLength(2);
             expect(
                 filteredModelManager.getModelFiles()[0].getAllDeclarations()
-            ).toHaveLength(5);
+            ).toHaveLength(8);
 
             writer.openFile('graph.mmd');
             connectedGraph.print(writer);
