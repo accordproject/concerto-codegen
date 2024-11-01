@@ -6,7 +6,7 @@
  * @class
  * @memberof module:concerto-util
  */
-export class ConcertoGraphVisitor extends DiagramVisitor {
+export class ConcertoGraphVisitor extends BaseVisitor {
     /**
      * Visitor design pattern
      * @param {ClassDeclaration} classDeclaration - the object being visited
@@ -85,7 +85,7 @@ export class DirectedGraph {
      */
     print(writer: Writer): void;
 }
-import DiagramVisitor = require("./diagramvisitor");
+import BaseVisitor = require("./basevisitor");
 import { ClassDeclaration } from "@accordproject/concerto-core";
 import { MapDeclaration } from "@accordproject/concerto-core";
 import { Writer } from "@accordproject/concerto-util";
