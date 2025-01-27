@@ -748,7 +748,7 @@ describe('JavaVisitor', function () {
 
     describe('toJavaType', () => {
         it('should return java.util.Date for DateTime', () => {
-            javaVisit.toJavaType('DateTime').should.deep.equal('java.util.Date');
+            javaVisit.toJavaType('DateTime').should.deep.equal('java.util.Instant');
         });
 
         it('should return boolean for Boolean', () => {
