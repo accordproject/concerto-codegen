@@ -1235,6 +1235,10 @@ public enum State {
    WA,
    IL,
    CA,
+   @Override
+   public String toString() {
+      return name();
+   }
 }
 ",
 }
@@ -1252,6 +1256,10 @@ public enum TShirtSizeType {
    SMALL,
    MEDIUM,
    LARGE,
+   @Override
+   public String toString() {
+      return name();
+   }
 }
 ",
 }
@@ -1525,6 +1533,10 @@ public enum Department {
    HR,
    Engineering,
    Design,
+   @Override
+   public String toString() {
+      return name();
+   }
 }
 ",
 }
@@ -1583,6 +1595,10 @@ import com.fasterxml.jackson.annotation.*;
 public enum LaptopMake {
    Apple,
    Microsoft,
+   @Override
+   public String toString() {
+      return name();
+   }
 }
 ",
 }
@@ -8503,6 +8519,10 @@ public enum State {
    WA,
    IL,
    CA,
+   @Override
+   public String toString() {
+      return name();
+   }
 }
 ",
 }
@@ -8520,6 +8540,10 @@ public enum TShirtSizeType {
    SMALL,
    MEDIUM,
    LARGE,
+   @Override
+   public String toString() {
+      return name();
+   }
 }
 ",
 }
@@ -8793,6 +8817,10 @@ public enum Department {
    HR,
    Engineering,
    Design,
+   @Override
+   public String toString() {
+      return name();
+   }
 }
 ",
 }
@@ -8851,6 +8879,10 @@ import com.fasterxml.jackson.annotation.*;
 public enum LaptopMake {
    Apple,
    Microsoft,
+   @Override
+   public String toString() {
+      return name();
+   }
 }
 ",
 }
