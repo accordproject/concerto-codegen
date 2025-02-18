@@ -57,7 +57,7 @@
         "expect": "29.1.0",
         "jsdoc": "^4.0.3",
         "license-check-and-add": "2.3.6",
-        "mocha": "10.0.0",
+        "mocha": "10.8.2",
         "mocha-expect-snapshot": "6.2.0",
         "moxios": "0.4.0",
         "node-polyfill-webpack-plugin": "3.0.0",
