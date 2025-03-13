@@ -3057,10 +3057,7 @@ A company
 
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
-| name | <code>String</code> | ✔️ |  |   |The name of the company | Minimum Length: null 
-Maximum Length: null 
-Matches Regular Expression: \`/abc.*/\` 
- |
+| name | <code>String</code> | ✔️ |  |   |The name of the company | Matches Regular Expression: \`/abc.*/\` |
 | headquarters | <code>org.acme.hr.base.Address</code> | ✔️ |  |   | |  |
 | companyProperties | <code>org.acme.hr.CompanyProperties</code> |  |  |   | |  |
 | employeeDirectory | <code>org.acme.hr.EmployeeDirectory</code> |  |  |   | |  |
@@ -3114,9 +3111,7 @@ A department
 
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
-| email | <code>String</code> | ✔️ | ✔️ |   | | Minimum Length: 0 
-Maximum Length: 254 
- |
+| email | <code>String</code> | ✔️ | ✔️ |   | | Minimum Length: 0<br>Maximum Length: 254 |
 | firstName | <code>String</code> | ✔️ |  |   | |  |
 | lastName | <code>String</code> | ✔️ |  |   | |  |
 | middleNames | <code>String</code> |  |  |   | |  |
@@ -3134,9 +3129,7 @@ Maximum Length: 254
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
 | employeeId | <code>String</code> | ✔️ |  |   | |  |
-| salary | <code>Long</code> | ✔️ |  |   | | Minimum Value: 1 
-Maximum Value: 10 
- |
+| salary | <code>Long</code> | ✔️ |  |   | | Minimum Value: 1<br>Maximum Value: 10 |
 | numDependents | <code>Integer</code> | ✔️ |  |   | |  |
 | retired | <code>Boolean</code> | ✔️ |  |   | |  |
 | department | <code>org.acme.hr.Department</code> | ✔️ |  |   | |  |
@@ -10622,10 +10615,7 @@ A company
 
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
-| name | <code>String</code> | ✔️ |  |   |The name of the company | Minimum Length: null 
-Maximum Length: null 
-Matches Regular Expression: \`/abc.*/\` 
- |
+| name | <code>String</code> | ✔️ |  |   |The name of the company | Matches Regular Expression: \`/abc.*/\` |
 | headquarters | <code>org.acme.hr.base@1.0.0.Address</code> | ✔️ |  |   | |  |
 | companyProperties | <code>org.acme.hr@1.0.0.CompanyProperties</code> |  |  |   | |  |
 | employeeDirectory | <code>org.acme.hr@1.0.0.EmployeeDirectory</code> |  |  |   | |  |
@@ -10679,9 +10669,7 @@ A department
 
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
-| email | <code>String</code> | ✔️ | ✔️ |   | | Minimum Length: 0 
-Maximum Length: 254 
- |
+| email | <code>String</code> | ✔️ | ✔️ |   | | Minimum Length: 0<br>Maximum Length: 254 |
 | firstName | <code>String</code> | ✔️ |  |   | |  |
 | lastName | <code>String</code> | ✔️ |  |   | |  |
 | middleNames | <code>String</code> |  |  |   | |  |
@@ -10699,9 +10687,7 @@ Maximum Length: 254
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
 | employeeId | <code>String</code> | ✔️ |  |   | |  |
-| salary | <code>Long</code> | ✔️ |  |   | | Minimum Value: 1 
-Maximum Value: 10 
- |
+| salary | <code>Long</code> | ✔️ |  |   | | Minimum Value: 1<br>Maximum Value: 10 |
 | numDependents | <code>Integer</code> | ✔️ |  |   | |  |
 | retired | <code>Boolean</code> | ✔️ |  |   | |  |
 | department | <code>org.acme.hr@1.0.0.Department</code> | ✔️ |  |   | |  |
