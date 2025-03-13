@@ -3013,7 +3013,7 @@ No properties.
 
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
-| name | <code>String</code> | ✔️ |  |   | | Matches Regular Expression: '/abc.*/' 
+| name | <code>String</code> | ✔️ |  |   | | Matches Regular Expression: \`/abc.*/\` 
  |
 | headquarters | <code>org.acme.hr.base.Address</code> | ✔️ |  |   | |  |
 | companyProperties | <code>org.acme.hr.CompanyProperties</code> |  |  |   | |  |
@@ -10490,7 +10490,7 @@ No properties.
 
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
-| name | <code>String</code> | ✔️ |  |   | | Matches Regular Expression: '/abc.*/' 
+| name | <code>String</code> | ✔️ |  |   | | Matches Regular Expression: \`/abc.*/\` 
  |
 | headquarters | <code>org.acme.hr.base@1.0.0.Address</code> | ✔️ |  |   | |  |
 | companyProperties | <code>org.acme.hr@1.0.0.CompanyProperties</code> |  |  |   | |  |
