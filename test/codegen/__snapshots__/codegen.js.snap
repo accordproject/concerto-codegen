@@ -2852,6 +2852,60 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 - concerto@1.0.0.Transaction
 - concerto@1.0.0.Participant
 - concerto@1.0.0.Event
+## Classes
+
+### Category (Concept)
+
+ - Is abstract and cannot be instantiated
+
+No properties.
+
+
+### GeneralCategory (Concept)
+
+ - Is abstract and cannot be instantiated
+ - Inherits properties from <code>org.acme.hr.base.Category</code>
+
+No properties.
+
+
+### State (Enumeration)
+
+| Value | Description | 
+| ------ | ------------------- |
+| MA | |
+| NY | |
+| CO | |
+| WA | |
+| IL | |
+| CA | |
+
+
+### TShirtSizeType (Enumeration)
+
+| Value | Description | 
+| ------ | ------------------- |
+| SMALL | |
+| MEDIUM | |
+| LARGE | |
+
+
+### Address (Concept)
+
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| street | <code>String</code> | ✔️ |  |   | |  |
+| city | <code>String</code> | ✔️ |  |   | |  |
+| state | <code>org.acme.hr.base.State</code> |  |  |   | |  |
+| zipCode | <code>String</code> | ✔️ |  |   | |  |
+| country | <code>String</code> | ✔️ |  |   | |  |
+
+
+### Level (Enumeration)
+
+No values.
+
 
 ## Diagram
 \`\`\`mermaid
@@ -2928,6 +2982,161 @@ class \`org.acme.hr.base.Level\`
 - concerto@1.0.0.Transaction
 - concerto@1.0.0.Participant
 - concerto@1.0.0.Event
+## Classes
+
+### pii (Concept)
+
+ - Inherits properties from <code>concerto.decorator@1.0.0.Decorator</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| isPii | <code>Boolean</code> | ✔️ |  |   | |  |
+| category | <code>org.acme.hr.Category</code> | ✔️ |  |   | |  |
+
+
+### Category (Concept)
+
+
+No properties.
+
+
+### Info (Concept)
+
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| name | <code>String</code> | ✔️ |  |   | |  |
+
+
+### Company (Concept)
+
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| name | <code>String</code> | ✔️ |  |   | | Matches Regular Expression: '/abc.*/' 
+ |
+| headquarters | <code>org.acme.hr.base.Address</code> | ✔️ |  |   | |  |
+| companyProperties | <code>org.acme.hr.CompanyProperties</code> |  |  |   | |  |
+| employeeDirectory | <code>org.acme.hr.EmployeeDirectory</code> |  |  |   | |  |
+| employeeTShirtSizes | <code>org.acme.hr.base.EmployeeTShirtSizes</code> |  |  |   | |  |
+| employeeProfiles | <code>org.acme.hr.EmployeeProfiles</code> |  |  |   | |  |
+| employeeSocialSecurityNumbers | <code>org.acme.hr.EmployeeSocialSecurityNumbers</code> |  |  |   | |  |
+
+
+### Department (Enumeration)
+
+| Value | Description | 
+| ------ | ------------------- |
+| Sales | |
+| Marketing | |
+| Finance | |
+| HR | |
+| Engineering | |
+| Design | |
+
+
+### Equipment (Concept)
+
+ - Is abstract and cannot be instantiated
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| serialNumber | <code>String</code> | ✔️ | ✔️ |   | |  |
+
+
+### LaptopMake (Enumeration)
+
+| Value | Description | 
+| ------ | ------------------- |
+| Apple | |
+| Microsoft | |
+
+
+### Laptop (Concept)
+
+ - Inherits properties from <code>org.acme.hr.Equipment</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| make | <code>org.acme.hr.LaptopMake</code> | ✔️ |  |   | |  |
+
+
+### Person (Concept)
+
+ - Is abstract and cannot be instantiated
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| email | <code>String</code> | ✔️ | ✔️ |   | |  |
+| firstName | <code>String</code> | ✔️ |  |   | |  |
+| lastName | <code>String</code> | ✔️ |  |   | |  |
+| middleNames | <code>String</code> |  |  |   | |  |
+| homeAddress | <code>org.acme.hr.base.Address</code> | ✔️ |  |   | |  |
+| ssn | <code>org.acme.hr.base.SSN</code> | ✔️ |  |   | |  |
+| height | <code>Double</code> | ✔️ |  |   | |  |
+| dob | <code>DateTime</code> | ✔️ |  |   | |  |
+| nextOfKin | <code>org.acme.hr.NextOfKin</code> | ✔️ |  |   | |  |
+
+
+### Employee (Concept)
+
+ - Inherits properties from <code>org.acme.hr.Person</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| employeeId | <code>String</code> | ✔️ |  |   | |  |
+| salary | <code>Long</code> | ✔️ |  |   | |  |
+| numDependents | <code>Integer</code> | ✔️ |  |   | |  |
+| retired | <code>Boolean</code> | ✔️ |  |   | |  |
+| department | <code>org.acme.hr.Department</code> | ✔️ |  |   | |  |
+| officeAddress | <code>org.acme.hr.base.Address</code> | ✔️ |  |   | |  |
+| companyAssets | <code>org.acme.hr.Equipment[]</code> | ✔️ |  |   | |  |
+| manager | <code>org.acme.hr.Manager</code> |  |  | ✔️  | |  |
+
+
+### Contractor (Concept)
+
+ - Inherits properties from <code>org.acme.hr.Person</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| company | <code>org.acme.hr.Company</code> | ✔️ |  |   | |  |
+| manager | <code>org.acme.hr.Manager</code> |  |  | ✔️  | |  |
+
+
+### Manager (Concept)
+
+ - Inherits properties from <code>org.acme.hr.Employee</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| reports | <code>org.acme.hr.Person[]</code> |  |  | ✔️  | |  |
+
+
+### CompanyEvent (Concept)
+
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+
+
+### Onboarded (Concept)
+
+ - Inherits properties from <code>org.acme.hr.CompanyEvent</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| employee | <code>org.acme.hr.Employee</code> | ✔️ |  | ✔️  | |  |
+
+
+### ChangeOfAddress (Concept)
+
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| Person | <code>org.acme.hr.Person</code> | ✔️ |  | ✔️  | |  |
+| newAddress | <code>org.acme.hr.base.Address</code> | ✔️ |  |   | |  |
+
 
 ## Diagram
 \`\`\`mermaid
@@ -10120,6 +10329,60 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 - concerto@1.0.0.Transaction
 - concerto@1.0.0.Participant
 - concerto@1.0.0.Event
+## Classes
+
+### Category (Concept)
+
+ - Is abstract and cannot be instantiated
+
+No properties.
+
+
+### GeneralCategory (Concept)
+
+ - Is abstract and cannot be instantiated
+ - Inherits properties from <code>org.acme.hr.base@1.0.0.Category</code>
+
+No properties.
+
+
+### State (Enumeration)
+
+| Value | Description | 
+| ------ | ------------------- |
+| MA | |
+| NY | |
+| CO | |
+| WA | |
+| IL | |
+| CA | |
+
+
+### TShirtSizeType (Enumeration)
+
+| Value | Description | 
+| ------ | ------------------- |
+| SMALL | |
+| MEDIUM | |
+| LARGE | |
+
+
+### Address (Concept)
+
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| street | <code>String</code> | ✔️ |  |   | |  |
+| city | <code>String</code> | ✔️ |  |   | |  |
+| state | <code>org.acme.hr.base@1.0.0.State</code> |  |  |   | |  |
+| zipCode | <code>String</code> | ✔️ |  |   | |  |
+| country | <code>String</code> | ✔️ |  |   | |  |
+
+
+### Level (Enumeration)
+
+No values.
+
 
 ## Diagram
 \`\`\`mermaid
@@ -10196,6 +10459,161 @@ class \`org.acme.hr.base@1.0.0.Level\`
 - concerto@1.0.0.Transaction
 - concerto@1.0.0.Participant
 - concerto@1.0.0.Event
+## Classes
+
+### pii (Concept)
+
+ - Inherits properties from <code>concerto.decorator@1.0.0.Decorator</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| isPii | <code>Boolean</code> | ✔️ |  |   | |  |
+| category | <code>org.acme.hr@1.0.0.Category</code> | ✔️ |  |   | |  |
+
+
+### Category (Concept)
+
+
+No properties.
+
+
+### Info (Concept)
+
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| name | <code>String</code> | ✔️ |  |   | |  |
+
+
+### Company (Concept)
+
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| name | <code>String</code> | ✔️ |  |   | | Matches Regular Expression: '/abc.*/' 
+ |
+| headquarters | <code>org.acme.hr.base@1.0.0.Address</code> | ✔️ |  |   | |  |
+| companyProperties | <code>org.acme.hr@1.0.0.CompanyProperties</code> |  |  |   | |  |
+| employeeDirectory | <code>org.acme.hr@1.0.0.EmployeeDirectory</code> |  |  |   | |  |
+| employeeTShirtSizes | <code>org.acme.hr.base@1.0.0.EmployeeTShirtSizes</code> |  |  |   | |  |
+| employeeProfiles | <code>org.acme.hr@1.0.0.EmployeeProfiles</code> |  |  |   | |  |
+| employeeSocialSecurityNumbers | <code>org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers</code> |  |  |   | |  |
+
+
+### Department (Enumeration)
+
+| Value | Description | 
+| ------ | ------------------- |
+| Sales | |
+| Marketing | |
+| Finance | |
+| HR | |
+| Engineering | |
+| Design | |
+
+
+### Equipment (Concept)
+
+ - Is abstract and cannot be instantiated
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| serialNumber | <code>String</code> | ✔️ | ✔️ |   | |  |
+
+
+### LaptopMake (Enumeration)
+
+| Value | Description | 
+| ------ | ------------------- |
+| Apple | |
+| Microsoft | |
+
+
+### Laptop (Concept)
+
+ - Inherits properties from <code>org.acme.hr@1.0.0.Equipment</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| make | <code>org.acme.hr@1.0.0.LaptopMake</code> | ✔️ |  |   | |  |
+
+
+### Person (Concept)
+
+ - Is abstract and cannot be instantiated
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| email | <code>String</code> | ✔️ | ✔️ |   | |  |
+| firstName | <code>String</code> | ✔️ |  |   | |  |
+| lastName | <code>String</code> | ✔️ |  |   | |  |
+| middleNames | <code>String</code> |  |  |   | |  |
+| homeAddress | <code>org.acme.hr.base@1.0.0.Address</code> | ✔️ |  |   | |  |
+| ssn | <code>org.acme.hr.base@1.0.0.SSN</code> | ✔️ |  |   | |  |
+| height | <code>Double</code> | ✔️ |  |   | |  |
+| dob | <code>DateTime</code> | ✔️ |  |   | |  |
+| nextOfKin | <code>org.acme.hr@1.0.0.NextOfKin</code> | ✔️ |  |   | |  |
+
+
+### Employee (Concept)
+
+ - Inherits properties from <code>org.acme.hr@1.0.0.Person</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| employeeId | <code>String</code> | ✔️ |  |   | |  |
+| salary | <code>Long</code> | ✔️ |  |   | |  |
+| numDependents | <code>Integer</code> | ✔️ |  |   | |  |
+| retired | <code>Boolean</code> | ✔️ |  |   | |  |
+| department | <code>org.acme.hr@1.0.0.Department</code> | ✔️ |  |   | |  |
+| officeAddress | <code>org.acme.hr.base@1.0.0.Address</code> | ✔️ |  |   | |  |
+| companyAssets | <code>org.acme.hr@1.0.0.Equipment[]</code> | ✔️ |  |   | |  |
+| manager | <code>org.acme.hr@1.0.0.Manager</code> |  |  | ✔️  | |  |
+
+
+### Contractor (Concept)
+
+ - Inherits properties from <code>org.acme.hr@1.0.0.Person</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| company | <code>org.acme.hr@1.0.0.Company</code> | ✔️ |  |   | |  |
+| manager | <code>org.acme.hr@1.0.0.Manager</code> |  |  | ✔️  | |  |
+
+
+### Manager (Concept)
+
+ - Inherits properties from <code>org.acme.hr@1.0.0.Employee</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| reports | <code>org.acme.hr@1.0.0.Person[]</code> |  |  | ✔️  | |  |
+
+
+### CompanyEvent (Concept)
+
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+
+
+### Onboarded (Concept)
+
+ - Inherits properties from <code>org.acme.hr@1.0.0.CompanyEvent</code>
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| employee | <code>org.acme.hr@1.0.0.Employee</code> | ✔️ |  | ✔️  | |  |
+
+
+### ChangeOfAddress (Concept)
+
+
+| Field | Type | Required | Identifier | Reference | Description | Contraints | 
+| ------ | ------------------- | --- | --- | --- | ------------ | --------- |
+| Person | <code>org.acme.hr@1.0.0.Person</code> | ✔️ |  | ✔️  | |  |
+| newAddress | <code>org.acme.hr.base@1.0.0.Address</code> | ✔️ |  |   | |  |
+
 
 ## Diagram
 \`\`\`mermaid
