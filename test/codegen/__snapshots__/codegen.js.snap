@@ -526,6 +526,7 @@ public abstract class Person : Participant {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr.Person";
    [AccordProject.Concerto.Identifier()]
+   [System.ComponentModel.DataAnnotations.MaxLength(254)]
    public string email { get; set; }
    public string firstName { get; set; }
    public string lastName { get; set; }
@@ -818,7 +819,10 @@ type ChangeOfAddress struct {
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'graphql' 1`] = `
 {
   "key": "model.gql",
-  "value": "directive @pii(false: String) on OBJECT | FIELD_DEFINITION
+  "value": "directive @example on OBJECT | FIELD_DEFINITION
+directive @usedBy on OBJECT | FIELD_DEFINITION
+directive @pii(false: String) on OBJECT | FIELD_DEFINITION
+directive @description on OBJECT | FIELD_DEFINITION
 directive @category on OBJECT | FIELD_DEFINITION
 directive @resource on OBJECT | FIELD_DEFINITION
 directive @test on OBJECT | FIELD_DEFINITION
@@ -858,7 +862,7 @@ enum Level {
    _: Boolean
 }
 # namespace org.acme.hr
-type pii {
+type pii @example @usedBy {
    isPii: Boolean!
    category: Category!
 }
@@ -892,8 +896,8 @@ type EmployeeDirectory {
    key: SSN
    value: Employee
 }
-type Company {
-   name: String!
+type Company @description {
+   name: String! @description
    headquarters: Address!
    companyProperties: CompanyProperties
    employeeDirectory: EmployeeDirectory @category
@@ -901,7 +905,7 @@ type Company {
    employeeProfiles: EmployeeProfiles
    employeeSocialSecurityNumbers: EmployeeSocialSecurityNumbers
 }
-enum Department @category {
+enum Department @category @description {
    Sales
    Marketing
    Finance
@@ -2143,7 +2147,15 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "$class",
         "isPii",
         "category"
-      ]
+      ],
+      "$decorators": {
+        "example": [
+          "@pii(true, GeneralCategory)"
+        ],
+        "usedBy": [
+          "Everyone"
+        ]
+      }
     },
     "org.acme.hr.Category": {
       "title": "Category",
@@ -2204,7 +2216,12 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         },
         "name": {
           "type": "string",
-          "pattern": "abc.*"
+          "pattern": "abc.*",
+          "$decorators": {
+            "description": [
+              "The name of the company"
+            ]
+          }
         },
         "headquarters": {
           "$ref": "#/definitions/org.acme.hr.base.Address"
@@ -2287,7 +2304,12 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "$class",
         "name",
         "headquarters"
-      ]
+      ],
+      "$decorators": {
+        "description": [
+          "A company"
+        ]
+      }
     },
     "org.acme.hr.Department": {
       "title": "Department",
@@ -2307,6 +2329,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "name": "GeneralCategory",
             "array": false
           }
+        ],
+        "description": [
+          "A department"
         ]
       }
     },
@@ -2385,6 +2410,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         },
         "email": {
           "type": "string",
+          "maxLength": 254,
           "description": "The instance identifier for this type"
         },
         "firstName": {
@@ -2456,7 +2482,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "type": "string"
         },
         "salary": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
         },
         "numDependents": {
           "type": "integer"
@@ -2489,6 +2517,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         },
         "email": {
           "type": "string",
+          "maxLength": 254,
           "description": "The instance identifier for this type"
         },
         "firstName": {
@@ -2587,6 +2616,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         },
         "email": {
           "type": "string",
+          "maxLength": 254,
           "description": "The instance identifier for this type"
         },
         "firstName": {
@@ -2663,7 +2693,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "type": "string"
         },
         "salary": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
         },
         "numDependents": {
           "type": "integer"
@@ -2696,6 +2728,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         },
         "email": {
           "type": "string",
+          "maxLength": 254,
           "description": "The instance identifier for this type"
         },
         "firstName": {
@@ -2993,6 +3026,16 @@ class \`org.acme.hr.base.Level\`
 | isPii | <code>Boolean</code> | ✔️ |  |   | |  |
 | category | <code>org.acme.hr.Category</code> | ✔️ |  |   | |  |
 
+#### Example Usage
+\`\`\`cs
+@pii(true, GeneralCategory)
+\`\`\`
+
+#### Used By
+| |
+| - |
+|Everyone|
+
 
 ### Category (Concept)
 
@@ -3010,10 +3053,13 @@ No properties.
 
 ### Company (Concept)
 
+A company
 
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
-| name | <code>String</code> | ✔️ |  |   | | Matches Regular Expression: \`/abc.*/\` 
+| name | <code>String</code> | ✔️ |  |   |The name of the company | Minimum Length: null 
+Maximum Length: null 
+Matches Regular Expression: \`/abc.*/\` 
  |
 | headquarters | <code>org.acme.hr.base.Address</code> | ✔️ |  |   | |  |
 | companyProperties | <code>org.acme.hr.CompanyProperties</code> |  |  |   | |  |
@@ -3025,6 +3071,7 @@ No properties.
 
 ### Department (Enumeration)
 
+A department
 | Value | Description | 
 | ------ | ------------------- |
 | Sales | |
@@ -3067,7 +3114,9 @@ No properties.
 
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
-| email | <code>String</code> | ✔️ | ✔️ |   | |  |
+| email | <code>String</code> | ✔️ | ✔️ |   | | Minimum Length: 0 
+Maximum Length: 254 
+ |
 | firstName | <code>String</code> | ✔️ |  |   | |  |
 | lastName | <code>String</code> | ✔️ |  |   | |  |
 | middleNames | <code>String</code> |  |  |   | |  |
@@ -3085,7 +3134,9 @@ No properties.
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
 | employeeId | <code>String</code> | ✔️ |  |   | |  |
-| salary | <code>Long</code> | ✔️ |  |   | |  |
+| salary | <code>Long</code> | ✔️ |  |   | | Minimum Value: 1 
+Maximum Value: 10 
+ |
 | numDependents | <code>Integer</code> | ✔️ |  |   | |  |
 | retired | <code>Boolean</code> | ✔️ |  |   | |  |
 | department | <code>org.acme.hr.Department</code> | ✔️ |  |   | |  |
@@ -3673,6 +3724,10 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 <edmx:DataServices>
    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr">
       <ComplexType Name="pii"  BaseType="concerto.decorator.Decorator">
+            <Annotation Term="example" Bool="true"/>
+            <Annotation Term="example0" String="@pii(true, GeneralCategory)" />
+            <Annotation Term="usedBy" Bool="true"/>
+            <Annotation Term="usedBy0" String="Everyone" />
          <Property Name="isPii" Type="Edm.Boolean"  >
          </Property>
          <Property Name="category" Type="org.acme.hr.Category"  >
@@ -3712,7 +3767,11 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
       <Property Name="Value" Type="org.acme.hr.Employee"/>
    </ComplexType>
       <ComplexType Name="Company"  BaseType="concerto.Concept">
+            <Annotation Term="description" Bool="true"/>
+            <Annotation Term="description0" String="A company" />
          <Property Name="name" Type="Edm.String"  >
+            <Annotation Term="description" Bool="true"/>
+            <Annotation Term="description0" String="The name of the company" />
          </Property>
          <Property Name="headquarters" Type="org.acme.hr.base.Address"  >
          </Property>
@@ -3976,7 +4035,15 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "$class",
           "isPii",
           "category"
-        ]
+        ],
+        "$decorators": {
+          "example": [
+            "@pii(true, GeneralCategory)"
+          ],
+          "usedBy": [
+            "Everyone"
+          ]
+        }
       },
       "org.acme.hr.Category": {
         "title": "Category",
@@ -4037,7 +4104,12 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           },
           "name": {
             "type": "string",
-            "pattern": "abc.*"
+            "pattern": "abc.*",
+            "$decorators": {
+              "description": [
+                "The name of the company"
+              ]
+            }
           },
           "headquarters": {
             "$ref": "#/components/schemas/org.acme.hr.base.Address"
@@ -4120,7 +4192,12 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "$class",
           "name",
           "headquarters"
-        ]
+        ],
+        "$decorators": {
+          "description": [
+            "A company"
+          ]
+        }
       },
       "org.acme.hr.Department": {
         "title": "Department",
@@ -4140,6 +4217,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
               "name": "GeneralCategory",
               "array": false
             }
+          ],
+          "description": [
+            "A department"
           ]
         }
       },
@@ -4218,6 +4298,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           },
           "email": {
             "type": "string",
+            "maxLength": 254,
             "description": "The instance identifier for this type"
           },
           "firstName": {
@@ -4289,7 +4370,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "type": "string"
           },
           "salary": {
-            "type": "integer"
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
           },
           "numDependents": {
             "type": "integer"
@@ -4322,6 +4405,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           },
           "email": {
             "type": "string",
+            "maxLength": 254,
             "description": "The instance identifier for this type"
           },
           "firstName": {
@@ -4420,6 +4504,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           },
           "email": {
             "type": "string",
+            "maxLength": 254,
             "description": "The instance identifier for this type"
           },
           "firstName": {
@@ -4496,7 +4581,9 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "type": "string"
           },
           "salary": {
-            "type": "integer"
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
           },
           "numDependents": {
             "type": "integer"
@@ -4529,6 +4616,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           },
           "email": {
             "type": "string",
+            "maxLength": 254,
             "description": "The instance identifier for this type"
           },
           "firstName": {
@@ -8003,6 +8091,7 @@ public abstract class Person : Participant {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.Person";
    [AccordProject.Concerto.Identifier()]
+   [System.ComponentModel.DataAnnotations.MaxLength(254)]
    public string email { get; set; }
    public string firstName { get; set; }
    public string lastName { get; set; }
@@ -8295,7 +8384,10 @@ type ChangeOfAddress struct {
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'graphql' 1`] = `
 {
   "key": "model.gql",
-  "value": "directive @pii(false: String) on OBJECT | FIELD_DEFINITION
+  "value": "directive @example on OBJECT | FIELD_DEFINITION
+directive @usedBy on OBJECT | FIELD_DEFINITION
+directive @pii(false: String) on OBJECT | FIELD_DEFINITION
+directive @description on OBJECT | FIELD_DEFINITION
 directive @category on OBJECT | FIELD_DEFINITION
 directive @resource on OBJECT | FIELD_DEFINITION
 directive @test on OBJECT | FIELD_DEFINITION
@@ -8335,7 +8427,7 @@ enum Level {
    _: Boolean
 }
 # namespace org.acme.hr@1.0.0
-type pii {
+type pii @example @usedBy {
    isPii: Boolean!
    category: Category!
 }
@@ -8369,8 +8461,8 @@ type EmployeeDirectory {
    key: SSN
    value: Employee
 }
-type Company {
-   name: String!
+type Company @description {
+   name: String! @description
    headquarters: Address!
    companyProperties: CompanyProperties
    employeeDirectory: EmployeeDirectory @category
@@ -8378,7 +8470,7 @@ type Company {
    employeeProfiles: EmployeeProfiles
    employeeSocialSecurityNumbers: EmployeeSocialSecurityNumbers
 }
-enum Department @category {
+enum Department @category @description {
    Sales
    Marketing
    Finance
@@ -9620,7 +9712,15 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "$class",
         "isPii",
         "category"
-      ]
+      ],
+      "$decorators": {
+        "example": [
+          "@pii(true, GeneralCategory)"
+        ],
+        "usedBy": [
+          "Everyone"
+        ]
+      }
     },
     "org.acme.hr@1.0.0.Category": {
       "title": "Category",
@@ -9681,7 +9781,12 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         },
         "name": {
           "type": "string",
-          "pattern": "abc.*"
+          "pattern": "abc.*",
+          "$decorators": {
+            "description": [
+              "The name of the company"
+            ]
+          }
         },
         "headquarters": {
           "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
@@ -9764,7 +9869,12 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "$class",
         "name",
         "headquarters"
-      ]
+      ],
+      "$decorators": {
+        "description": [
+          "A company"
+        ]
+      }
     },
     "org.acme.hr@1.0.0.Department": {
       "title": "Department",
@@ -9784,6 +9894,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "name": "GeneralCategory",
             "array": false
           }
+        ],
+        "description": [
+          "A department"
         ]
       }
     },
@@ -9862,6 +9975,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         },
         "email": {
           "type": "string",
+          "maxLength": 254,
           "description": "The instance identifier for this type"
         },
         "firstName": {
@@ -9933,7 +10047,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "salary": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
         },
         "numDependents": {
           "type": "integer"
@@ -9966,6 +10082,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         },
         "email": {
           "type": "string",
+          "maxLength": 254,
           "description": "The instance identifier for this type"
         },
         "firstName": {
@@ -10064,6 +10181,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         },
         "email": {
           "type": "string",
+          "maxLength": 254,
           "description": "The instance identifier for this type"
         },
         "firstName": {
@@ -10140,7 +10258,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "salary": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
         },
         "numDependents": {
           "type": "integer"
@@ -10173,6 +10293,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         },
         "email": {
           "type": "string",
+          "maxLength": 254,
           "description": "The instance identifier for this type"
         },
         "firstName": {
@@ -10470,6 +10591,16 @@ class \`org.acme.hr.base@1.0.0.Level\`
 | isPii | <code>Boolean</code> | ✔️ |  |   | |  |
 | category | <code>org.acme.hr@1.0.0.Category</code> | ✔️ |  |   | |  |
 
+#### Example Usage
+\`\`\`cs
+@pii(true, GeneralCategory)
+\`\`\`
+
+#### Used By
+| |
+| - |
+|Everyone|
+
 
 ### Category (Concept)
 
@@ -10487,10 +10618,13 @@ No properties.
 
 ### Company (Concept)
 
+A company
 
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
-| name | <code>String</code> | ✔️ |  |   | | Matches Regular Expression: \`/abc.*/\` 
+| name | <code>String</code> | ✔️ |  |   |The name of the company | Minimum Length: null 
+Maximum Length: null 
+Matches Regular Expression: \`/abc.*/\` 
  |
 | headquarters | <code>org.acme.hr.base@1.0.0.Address</code> | ✔️ |  |   | |  |
 | companyProperties | <code>org.acme.hr@1.0.0.CompanyProperties</code> |  |  |   | |  |
@@ -10502,6 +10636,7 @@ No properties.
 
 ### Department (Enumeration)
 
+A department
 | Value | Description | 
 | ------ | ------------------- |
 | Sales | |
@@ -10544,7 +10679,9 @@ No properties.
 
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
-| email | <code>String</code> | ✔️ | ✔️ |   | |  |
+| email | <code>String</code> | ✔️ | ✔️ |   | | Minimum Length: 0 
+Maximum Length: 254 
+ |
 | firstName | <code>String</code> | ✔️ |  |   | |  |
 | lastName | <code>String</code> | ✔️ |  |   | |  |
 | middleNames | <code>String</code> |  |  |   | |  |
@@ -10562,7 +10699,9 @@ No properties.
 | Field | Type | Required | Identifier | Reference | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | ------------ | --------- |
 | employeeId | <code>String</code> | ✔️ |  |   | |  |
-| salary | <code>Long</code> | ✔️ |  |   | |  |
+| salary | <code>Long</code> | ✔️ |  |   | | Minimum Value: 1 
+Maximum Value: 10 
+ |
 | numDependents | <code>Integer</code> | ✔️ |  |   | |  |
 | retired | <code>Boolean</code> | ✔️ |  |   | |  |
 | department | <code>org.acme.hr@1.0.0.Department</code> | ✔️ |  |   | |  |
@@ -11167,6 +11306,10 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 <edmx:DataServices>
    <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="org.acme.hr">
       <ComplexType Name="pii"  BaseType="concerto.decorator.Decorator">
+            <Annotation Term="example" Bool="true"/>
+            <Annotation Term="example0" String="@pii(true, GeneralCategory)" />
+            <Annotation Term="usedBy" Bool="true"/>
+            <Annotation Term="usedBy0" String="Everyone" />
          <Property Name="isPii" Type="Edm.Boolean"  >
          </Property>
          <Property Name="category" Type="org.acme.hr.Category"  >
@@ -11206,7 +11349,11 @@ exports[`codegen #formats check we can convert all formats from namespace versio
       <Property Name="Value" Type="org.acme.hr.Employee"/>
    </ComplexType>
       <ComplexType Name="Company"  BaseType="concerto.Concept">
+            <Annotation Term="description" Bool="true"/>
+            <Annotation Term="description0" String="A company" />
          <Property Name="name" Type="Edm.String"  >
+            <Annotation Term="description" Bool="true"/>
+            <Annotation Term="description0" String="The name of the company" />
          </Property>
          <Property Name="headquarters" Type="org.acme.hr.base.Address"  >
          </Property>
@@ -11470,7 +11617,15 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "$class",
           "isPii",
           "category"
-        ]
+        ],
+        "$decorators": {
+          "example": [
+            "@pii(true, GeneralCategory)"
+          ],
+          "usedBy": [
+            "Everyone"
+          ]
+        }
       },
       "org.acme.hr@1.0.0.Category": {
         "title": "Category",
@@ -11531,7 +11686,12 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "name": {
             "type": "string",
-            "pattern": "abc.*"
+            "pattern": "abc.*",
+            "$decorators": {
+              "description": [
+                "The name of the company"
+              ]
+            }
           },
           "headquarters": {
             "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
@@ -11614,7 +11774,12 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "$class",
           "name",
           "headquarters"
-        ]
+        ],
+        "$decorators": {
+          "description": [
+            "A company"
+          ]
+        }
       },
       "org.acme.hr@1.0.0.Department": {
         "title": "Department",
@@ -11634,6 +11799,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
               "name": "GeneralCategory",
               "array": false
             }
+          ],
+          "description": [
+            "A department"
           ]
         }
       },
@@ -11712,6 +11880,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "email": {
             "type": "string",
+            "maxLength": 254,
             "description": "The instance identifier for this type"
           },
           "firstName": {
@@ -11783,7 +11952,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "salary": {
-            "type": "integer"
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
           },
           "numDependents": {
             "type": "integer"
@@ -11816,6 +11987,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "email": {
             "type": "string",
+            "maxLength": 254,
             "description": "The instance identifier for this type"
           },
           "firstName": {
@@ -11914,6 +12086,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "email": {
             "type": "string",
+            "maxLength": 254,
             "description": "The instance identifier for this type"
           },
           "firstName": {
@@ -11990,7 +12163,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "salary": {
-            "type": "integer"
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
           },
           "numDependents": {
             "type": "integer"
@@ -12023,6 +12198,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "email": {
             "type": "string",
+            "maxLength": 254,
             "description": "The instance identifier for this type"
           },
           "firstName": {
