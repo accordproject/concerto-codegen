@@ -4,6 +4,8 @@ namespace org.acme.hr@1.0.0
 import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes, Level, GeneralCategory}
 import concerto.decorator@1.0.0.{Decorator}
 
+@example("@pii(true, GeneralCategory)")
+@usedBy("Everyone")
 concept pii extends Decorator {
    o Boolean isPii
    o Category category
@@ -50,7 +52,9 @@ map EmployeeDirectory {
     o Employee
 }
 
+@description('A company')
 concept Company {
+    @description('The name of the company')
     o String name regex=/abc.*/
     o Address headquarters
     o CompanyProperties companyProperties optional
@@ -62,6 +66,7 @@ concept Company {
 }
 
 @category(GeneralCategory)
+@description('A department')
 enum Department {
     @category(GeneralCategory)
     o Sales
@@ -89,7 +94,7 @@ asset Laptop extends Equipment {
 
 @resource
 abstract participant Person identified by email {
-    o String email
+    o String email length=[0,254]
     o String firstName
     o String lastName
     o String middleNames optional
@@ -103,7 +108,7 @@ abstract participant Person identified by email {
 @category(GeneralCategory)
 participant Employee extends Person {
     o String employeeId
-    o Long salary
+    o Long salary range=[1,10]
     o Integer numDependents
     o Boolean retired
     o Department department
