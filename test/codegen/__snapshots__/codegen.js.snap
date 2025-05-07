@@ -532,7 +532,7 @@ public abstract class Person : Participant {
    public string lastName { get; set; }
    public string? middleNames { get; set; }
    public org.acme.hr.base.Address homeAddress { get; set; }
-   [System.ComponentModel.DataAnnotations.RegularExpression(@"\\d{3}-\\d{2}-\\{4}+", ErrorMessage = "Invalid characters")]
+   [System.ComponentModel.DataAnnotations.RegularExpression(@"(\\d{3}-\\d{2}-\\d{4})+", ErrorMessage = "Invalid characters")]
    public string ssn { get; set; }
    public float height { get; set; }
    public System.DateTime dob { get; set; }
@@ -2123,7 +2123,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
     },
     "org.acme.hr.base.SSN": {
       "type": "string",
-      "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+      "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
     },
     "org.acme.hr.pii": {
       "title": "pii",
@@ -2248,7 +2248,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "type": "object",
             "propertyNames": {
               "type": "string",
-              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
             },
             "additionalProperties": {
               "$ref": "#/definitions/org.acme.hr.Employee"
@@ -2263,7 +2263,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             "type": "object",
             "propertyNames": {
               "type": "string",
-              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
             },
             "additionalProperties": {
               "$ref": "#/definitions/org.acme.hr.TShirtSizeType"
@@ -2295,7 +2295,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
             },
             "additionalProperties": {
               "type": "SSN",
-              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
             }
           }
         }
@@ -2428,7 +2428,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "ssn": {
           "default": "000-00-0000",
           "type": "string",
-          "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+          "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
         },
         "height": {
           "type": "number"
@@ -2535,7 +2535,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "ssn": {
           "default": "000-00-0000",
           "type": "string",
-          "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+          "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
         },
         "height": {
           "type": "number"
@@ -2634,7 +2634,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "ssn": {
           "default": "000-00-0000",
           "type": "string",
-          "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+          "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
         },
         "height": {
           "type": "number"
@@ -2746,7 +2746,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
         "ssn": {
           "default": "000-00-0000",
           "type": "string",
-          "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+          "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
         },
         "height": {
           "type": "number"
@@ -4040,7 +4040,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
       },
       "org.acme.hr.base.SSN": {
         "type": "string",
-        "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+        "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
       },
       "org.acme.hr.pii": {
         "title": "pii",
@@ -4165,7 +4165,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
               "type": "object",
               "propertyNames": {
                 "type": "string",
-                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+                "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
               },
               "additionalProperties": {
                 "$ref": "#/definitions/org.acme.hr.Employee"
@@ -4180,7 +4180,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
               "type": "object",
               "propertyNames": {
                 "type": "string",
-                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+                "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
               },
               "additionalProperties": {
                 "$ref": "#/definitions/org.acme.hr.TShirtSizeType"
@@ -4212,7 +4212,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
               },
               "additionalProperties": {
                 "type": "SSN",
-                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+                "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
               }
             }
           }
@@ -4345,7 +4345,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "ssn": {
             "default": "000-00-0000",
             "type": "string",
-            "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+            "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
           },
           "height": {
             "type": "number"
@@ -4452,7 +4452,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "ssn": {
             "default": "000-00-0000",
             "type": "string",
-            "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+            "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
           },
           "height": {
             "type": "number"
@@ -4551,7 +4551,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "ssn": {
             "default": "000-00-0000",
             "type": "string",
-            "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+            "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
           },
           "height": {
             "type": "number"
@@ -4663,7 +4663,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
           "ssn": {
             "default": "000-00-0000",
             "type": "string",
-            "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+            "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
           },
           "height": {
             "type": "number"
@@ -8126,7 +8126,7 @@ public abstract class Person : Participant {
    public string lastName { get; set; }
    public string? middleNames { get; set; }
    public org.acme.hr.base.Address homeAddress { get; set; }
-   [System.ComponentModel.DataAnnotations.RegularExpression(@"\\d{3}-\\d{2}-\\{4}+", ErrorMessage = "Invalid characters")]
+   [System.ComponentModel.DataAnnotations.RegularExpression(@"(\\d{3}-\\d{2}-\\d{4})+", ErrorMessage = "Invalid characters")]
    public string ssn { get; set; }
    public float height { get; set; }
    public System.DateTime dob { get; set; }
@@ -9717,7 +9717,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
     },
     "org.acme.hr.base@1.0.0.SSN": {
       "type": "string",
-      "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+      "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
     },
     "org.acme.hr@1.0.0.pii": {
       "title": "pii",
@@ -9842,7 +9842,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "object",
             "propertyNames": {
               "type": "string",
-              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
             },
             "additionalProperties": {
               "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
@@ -9857,7 +9857,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "object",
             "propertyNames": {
               "type": "string",
-              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
             },
             "additionalProperties": {
               "$ref": "#/definitions/org.acme.hr@1.0.0.TShirtSizeType"
@@ -9889,7 +9889,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             },
             "additionalProperties": {
               "type": "SSN",
-              "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+              "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
             }
           }
         }
@@ -10022,7 +10022,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "ssn": {
           "default": "000-00-0000",
           "type": "string",
-          "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+          "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
         },
         "height": {
           "type": "number"
@@ -10129,7 +10129,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "ssn": {
           "default": "000-00-0000",
           "type": "string",
-          "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+          "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
         },
         "height": {
           "type": "number"
@@ -10228,7 +10228,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "ssn": {
           "default": "000-00-0000",
           "type": "string",
-          "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+          "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
         },
         "height": {
           "type": "number"
@@ -10340,7 +10340,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
         "ssn": {
           "default": "000-00-0000",
           "type": "string",
-          "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+          "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
         },
         "height": {
           "type": "number"
@@ -11651,7 +11651,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
       },
       "org.acme.hr.base@1.0.0.SSN": {
         "type": "string",
-        "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+        "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
       },
       "org.acme.hr@1.0.0.pii": {
         "title": "pii",
@@ -11776,7 +11776,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
               "type": "object",
               "propertyNames": {
                 "type": "string",
-                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+                "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
               },
               "additionalProperties": {
                 "$ref": "#/definitions/org.acme.hr@1.0.0.Employee"
@@ -11791,7 +11791,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
               "type": "object",
               "propertyNames": {
                 "type": "string",
-                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+                "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
               },
               "additionalProperties": {
                 "$ref": "#/definitions/org.acme.hr@1.0.0.TShirtSizeType"
@@ -11823,7 +11823,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
               },
               "additionalProperties": {
                 "type": "SSN",
-                "pattern": "/\\\\d{3}-\\\\d{2}-\\\\{4}+/"
+                "pattern": "/(\\\\d{3}-\\\\d{2}-\\\\d{4})+/"
               }
             }
           }
@@ -11956,7 +11956,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "ssn": {
             "default": "000-00-0000",
             "type": "string",
-            "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+            "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
           },
           "height": {
             "type": "number"
@@ -12063,7 +12063,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "ssn": {
             "default": "000-00-0000",
             "type": "string",
-            "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+            "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
           },
           "height": {
             "type": "number"
@@ -12162,7 +12162,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "ssn": {
             "default": "000-00-0000",
             "type": "string",
-            "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+            "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
           },
           "height": {
             "type": "number"
@@ -12274,7 +12274,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "ssn": {
             "default": "000-00-0000",
             "type": "string",
-            "pattern": "\\\\d{3}-\\\\d{2}-\\\\{4}+"
+            "pattern": "(\\\\d{3}-\\\\d{2}-\\\\d{4})+"
           },
           "height": {
             "type": "number"
