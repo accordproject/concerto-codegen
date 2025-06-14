@@ -20,15 +20,19 @@ const sinon = require('sinon');
 
 const RustVisitor = require('../../../../lib/codegen/fromcto/rust/rustvisitor.js');
 const ModelUtil = require('@accordproject/concerto-core').ModelUtil;
-const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
+const ClassDeclaration =
+    require('@accordproject/concerto-core').ClassDeclaration;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
 const MapDeclaration = require('@accordproject/concerto-core').MapDeclaration;
-const ScalarDeclaration = require('@accordproject/concerto-core').ScalarDeclaration;
-const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
+const ScalarDeclaration =
+    require('@accordproject/concerto-core').ScalarDeclaration;
+const EnumValueDeclaration =
+    require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
 const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
-const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
+const RelationshipDeclaration =
+    require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
 
 let sandbox = sinon.createSandbox();
@@ -45,7 +49,7 @@ describe('RustVisitor', function () {
         let param;
         beforeEach(() => {
             param = {
-                property1: 'value1'
+                property1: 'value1',
             };
         });
 
@@ -59,7 +63,6 @@ describe('RustVisitor', function () {
 
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
-
 
         it('should return visitModelFile for a ModelFile', () => {
             let thing = sinon.createStubInstance(ModelFile);
@@ -75,7 +78,10 @@ describe('RustVisitor', function () {
         it('should return visitEnumDeclaration for a EnumDeclaration', () => {
             let thing = sinon.createStubInstance(EnumDeclaration);
             thing.isEnum.returns(true);
-            let mockSpecialVisit = sinon.stub(rustVisitor, 'visitEnumDeclaration');
+            let mockSpecialVisit = sinon.stub(
+                rustVisitor,
+                'visitEnumDeclaration'
+            );
             mockSpecialVisit.returns('Duck');
 
             rustVisitor.visit(thing, param).should.deep.equal('Duck');
@@ -86,7 +92,10 @@ describe('RustVisitor', function () {
         it('should return visitClassDeclaration for a ClassDeclaration', () => {
             let thing = sinon.createStubInstance(ClassDeclaration);
             thing.isClassDeclaration.returns(true);
-            let mockSpecialVisit = sinon.stub(rustVisitor, 'visitClassDeclaration');
+            let mockSpecialVisit = sinon.stub(
+                rustVisitor,
+                'visitClassDeclaration'
+            );
             mockSpecialVisit.returns('Duck');
 
             rustVisitor.visit(thing, param).should.deep.equal('Duck');
@@ -108,7 +117,10 @@ describe('RustVisitor', function () {
         it('should return visitRelationship for a RelationshipDeclaration', () => {
             let thing = sinon.createStubInstance(RelationshipDeclaration);
             thing.isRelationship.returns(true);
-            let mockSpecialVisit = sinon.stub(rustVisitor, 'visitRelationshipDeclaration');
+            let mockSpecialVisit = sinon.stub(
+                rustVisitor,
+                'visitRelationshipDeclaration'
+            );
             mockSpecialVisit.returns('Duck');
 
             rustVisitor.visit(thing, param).should.deep.equal('Duck');
@@ -116,11 +128,13 @@ describe('RustVisitor', function () {
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
 
-
         it('should return visitEnumValueDeclaration for a EnumValueDeclaration', () => {
             let thing = sinon.createStubInstance(EnumValueDeclaration);
             thing.isEnumValue.returns(true);
-            let mockSpecialVisit = sinon.stub(rustVisitor, 'visitEnumValueDeclaration');
+            let mockSpecialVisit = sinon.stub(
+                rustVisitor,
+                'visitEnumValueDeclaration'
+            );
             mockSpecialVisit.returns('Goose');
 
             rustVisitor.visit(thing, param).should.deep.equal('Goose');
@@ -134,31 +148,32 @@ describe('RustVisitor', function () {
             let acceptSpy = sinon.spy();
 
             let param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
 
             sinon.stub(rustVisitor, 'addUtilsModelFile');
 
-
             let mockModelManager = sinon.createStubInstance(ModelManager);
             mockModelManager.isModelManager.returns(true);
-            mockModelManager.getModelFiles.returns([{
-                accept: acceptSpy
-            },
-            {
-                accept: acceptSpy
-            }
+            mockModelManager.getModelFiles.returns([
+                {
+                    accept: acceptSpy,
+                },
+                {
+                    accept: acceptSpy,
+                },
             ]);
 
-            mockModelManager.getNamespaces.returns([
-                'Goose'
-            ]);
+            mockModelManager.getNamespaces.returns(['Goose']);
 
             rustVisitor.visitModelManager(mockModelManager, param);
             acceptSpy.withArgs(rustVisitor, param).calledTwice.should.be.ok;
-            param.fileWriter.openFile.withArgs('mod.rs').calledOnce.should.be.ok;
-            param.fileWriter.writeLine.withArgs(0, 'pub mod goose;').calledOnce.should.be.ok;
-            param.fileWriter.writeLine.withArgs(0, 'pub mod utils;').calledOnce.should.be.ok;
+            param.fileWriter.openFile.withArgs('mod.rs').calledOnce.should.be
+                .ok;
+            param.fileWriter.writeLine.withArgs(0, 'pub mod goose;').calledOnce
+                .should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'pub mod utils;').calledOnce
+                .should.be.ok;
             param.fileWriter.closeFile.calledOnce.should.be.ok;
         });
     });
@@ -167,7 +182,7 @@ describe('RustVisitor', function () {
         let param;
         beforeEach(() => {
             param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
         });
         it('should write lines for the imports that are not in own namespace (including super types)', () => {
@@ -183,7 +198,7 @@ describe('RustVisitor', function () {
                 getFullyQualifiedTypeName: () => {
                     return 'org.org1.Property1';
                 },
-                isRelationship: () => true
+                isRelationship: () => true,
             };
 
             let property2 = {
@@ -192,7 +207,7 @@ describe('RustVisitor', function () {
                 },
                 getFullyQualifiedTypeName: () => {
                     return 'org.acme.Property2';
-                }
+                },
             };
 
             let property3 = {
@@ -201,15 +216,21 @@ describe('RustVisitor', function () {
                 },
                 getFullyQualifiedTypeName: () => {
                     return 'super.Property3';
-                }
+                },
             };
 
-            let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
             mockClassDeclaration.isEnum.returns(false);
-            mockClassDeclaration.getProperties.returns([property1, property2, property3]);
+            mockClassDeclaration.getProperties.returns([
+                property1,
+                property2,
+                property3,
+            ]);
             mockClassDeclaration.accept = acceptSpy;
 
-            let mockClassDeclaration2 = sinon.createStubInstance(ClassDeclaration);
+            let mockClassDeclaration2 =
+                sinon.createStubInstance(ClassDeclaration);
             mockClassDeclaration2.isEnum.returns(false);
             mockClassDeclaration2.getProperties.returns([]);
             mockClassDeclaration2.accept = acceptSpy;
@@ -219,74 +240,65 @@ describe('RustVisitor', function () {
             mockModelFile.getAllDeclarations.returns([
                 mockEnum,
                 mockClassDeclaration,
-                mockClassDeclaration2
+                mockClassDeclaration2,
             ]);
             mockModelFile.getImports.returns([
                 'org.org2.Import1',
                 'super.Property3',
-                'super.Parent'
+                'super.Parent',
             ]);
 
             rustVisitor.visitModelFile(mockModelFile, param);
 
-            param.fileWriter.openFile.withArgs('org_acme.rs').calledOnce.should.be.ok;
+            param.fileWriter.openFile.withArgs('org_acme.rs').calledOnce.should
+                .be.ok;
             param.fileWriter.writeLine.callCount.should.deep.equal(8);
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    0, 'use serde::{ Deserialize, Serialize };'
-                ],
-                [
-                    0, 'use chrono::{ DateTime, TimeZone, Utc };'
-                ],
-                [
-                    1, ''
-                ],
-                [
-                    0, 'use crate::org_org2::*;'
-                ],
-                [
-                    0, 'use crate::super_::*;'
-                ],
-                [
-                    0, 'use crate::org_org1::*;'
-                ],
-                [
-                    0, 'use crate::utils::*;'
-                ],
-                [
-                    1, ''
-                ]
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [0, 'use serde::{ Deserialize, Serialize };'],
+                    [0, 'use chrono::{ DateTime, TimeZone, Utc };'],
+                    [1, ''],
+                    [0, 'use crate::org_org2::*;'],
+                    [0, 'use crate::super_::*;'],
+                    [0, 'use crate::org_org1::*;'],
+                    [0, 'use crate::utils::*;'],
+                    [1, ''],
+                ]);
             param.fileWriter.closeFile.calledOnce.should.be.ok;
 
             acceptSpy.withArgs(rustVisitor, param).calledThrice.should.be.ok;
         });
     });
 
-
     describe('visitEnumDeclaration', () => {
         it('should write the export enum and call accept on each property', () => {
             let acceptSpy = sinon.spy();
 
             let param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
 
             let mockEnumDeclaration = sinon.createStubInstance(EnumDeclaration);
             mockEnumDeclaration.isEnum.returns(true);
             mockEnumDeclaration.getName.returns('Bob');
-            mockEnumDeclaration.getOwnProperties.returns([{
-                accept: acceptSpy
-            },
-            {
-                accept: acceptSpy
-            }]);
+            mockEnumDeclaration.getOwnProperties.returns([
+                {
+                    accept: acceptSpy,
+                },
+                {
+                    accept: acceptSpy,
+                },
+            ]);
 
             rustVisitor.visitEnumDeclaration(mockEnumDeclaration, param);
 
             param.fileWriter.writeLine.callCount.should.deep.equal(3);
-            param.fileWriter.writeLine.withArgs(0, 'pub enum Bob {').calledOnce.should.be.ok;
-            param.fileWriter.writeLine.withArgs(0, '}\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'pub enum Bob {').calledOnce
+                .should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, '}\n').calledOnce.should.be
+                .ok;
 
             acceptSpy.withArgs(rustVisitor, param).calledTwice.should.be.ok;
         });
@@ -296,65 +308,50 @@ describe('RustVisitor', function () {
         let param;
         beforeEach(() => {
             param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
         });
         it('should write the struct opening and close', () => {
             let acceptSpy = sinon.spy();
 
-            let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
             mockClassDeclaration.isClassDeclaration.returns(true);
-            mockClassDeclaration.getProperties.returns([{
-                accept: acceptSpy
-            },
-            {
-                accept: acceptSpy
-            }]);
+            mockClassDeclaration.getProperties.returns([
+                {
+                    accept: acceptSpy,
+                },
+                {
+                    accept: acceptSpy,
+                },
+            ]);
             mockClassDeclaration.getName.returns('Bob');
 
             rustVisitor.visitClassDeclaration(mockClassDeclaration, param);
             param.fileWriter.writeLine.callCount.should.deep.equal(10);
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    0, '#[derive(Debug, Serialize, Deserialize)]'
-                ],
-                [
-                    0, 'pub struct Bob {'
-                ],
-                [
-                    1, '#[serde('
-                ],
-                [
-                    2, 'rename = "$class",'
-                ],
-                [
-                    1, ')]'
-                ],
-                [
-                    1, 'pub _class: String,'
-                ],
-                [
-                    1, ''
-                ],
-                [
-                    1, ''
-                ],
-                [
-                    0, '}'
-                ],
-                [
-                    0, ''
-                ]
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [0, '#[derive(Debug, Serialize, Deserialize)]'],
+                    [0, 'pub struct Bob {'],
+                    [1, '#[serde('],
+                    [2, 'rename = "$class",'],
+                    [1, ')]'],
+                    [1, 'pub _class: String,'],
+                    [1, ''],
+                    [1, ''],
+                    [0, '}'],
+                    [0, ''],
+                ]);
         });
     });
-
 
     describe('visitField', () => {
         let param;
         beforeEach(() => {
             param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
         });
         it('should write a line for primitive field name and type', () => {
@@ -364,20 +361,15 @@ describe('RustVisitor', function () {
             mockField.type = 'String';
             mockField.isPrimitive.returns(true);
             rustVisitor.visitField(mockField, param);
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    1, '#[serde('
-                ],
-                [
-                    2, 'rename = "name",'
-                ],
-                [
-                    1, ')]'
-                ],
-                [
-                    1, 'pub name: String,'
-                ]
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde('],
+                    [2, 'rename = "name",'],
+                    [1, ')]'],
+                    [1, 'pub name: String,'],
+                ]);
         });
 
         it('should write a line for field name and type thats an array', () => {
@@ -389,7 +381,8 @@ describe('RustVisitor', function () {
 
             const mockModelManager = sinon.createStubInstance(ModelManager);
             const mockModelFile = sinon.createStubInstance(ModelFile);
-            const mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
 
             mockModelManager.getType.returns(mockClassDeclaration);
             mockClassDeclaration.isEnum.returns(false);
@@ -398,21 +391,15 @@ describe('RustVisitor', function () {
             mockField.getParent.returns(mockClassDeclaration);
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    1, '#[serde('
-                ],
-                [
-                    2, 'rename = "Bob",'
-                ],
-                [
-                    1, ')]'
-                ],
-                [
-                    1, 'pub bob: Vec<Person>,'
-                ]
-
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde('],
+                    [2, 'rename = "Bob",'],
+                    [1, ')]'],
+                    [1, 'pub bob: Vec<Person>,'],
+                ]);
         });
 
         it('should write a line for optional field', () => {
@@ -424,7 +411,8 @@ describe('RustVisitor', function () {
 
             const mockModelManager = sinon.createStubInstance(ModelManager);
             const mockModelFile = sinon.createStubInstance(ModelFile);
-            const mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
 
             mockModelManager.getType.returns(mockClassDeclaration);
             mockModelFile.getModelManager.returns(mockModelManager);
@@ -432,26 +420,17 @@ describe('RustVisitor', function () {
             mockField.getParent.returns(mockClassDeclaration);
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    1, '#[serde('
-                ],
-                [
-                    2, 'rename = "Bob",'
-                ],
-                [
-                    2, 'skip_serializing_if = "Option::is_none",'
-                ],
-                [
-                    1, ')]'
-                ],
-                [
-                    1, 'pub bob: Option<String>,'
-                ]
-
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde('],
+                    [2, 'rename = "Bob",'],
+                    [2, 'skip_serializing_if = "Option::is_none",'],
+                    [1, ')]'],
+                    [1, 'pub bob: Option<String>,'],
+                ]);
         });
-
 
         it('should write a line with serializer for date field', () => {
             const mockField = sinon.createStubInstance(Field);
@@ -461,7 +440,8 @@ describe('RustVisitor', function () {
 
             const mockModelManager = sinon.createStubInstance(ModelManager);
             const mockModelFile = sinon.createStubInstance(ModelFile);
-            const mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
 
             mockModelManager.getType.returns(mockClassDeclaration);
             mockModelFile.getModelManager.returns(mockModelManager);
@@ -469,27 +449,17 @@ describe('RustVisitor', function () {
             mockField.getParent.returns(mockClassDeclaration);
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    1, '#[serde('
-                ],
-                [
-                    2, 'rename = "timestamp",'
-                ],
-                [
-                    2, 'serialize_with = "serialize_datetime",'
-                ],
-                [
-                    2, 'deserialize_with = "deserialize_datetime",'
-                ],
-                [
-                    1, ')]'
-                ],
-                [
-                    1, 'pub timestamp: DateTime<Utc>,'
-                ]
-
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde('],
+                    [2, 'rename = "timestamp",'],
+                    [2, 'serialize_with = "serialize_datetime",'],
+                    [2, 'deserialize_with = "deserialize_datetime",'],
+                    [1, ')]'],
+                    [1, 'pub timestamp: DateTime<Utc>,'],
+                ]);
         });
     });
 
@@ -502,12 +472,12 @@ describe('RustVisitor', function () {
 
         it('should write a line for a map declaration <String, String>', () => {
             let param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
 
-            let mockField           = sinon.createStubInstance(Field);
-            let mockModelFile       = sinon.createStubInstance(ModelFile);
-            let mockMapDeclaration  = sinon.createStubInstance(MapDeclaration);
+            let mockField = sinon.createStubInstance(Field);
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
 
             const getKeyType = sinon.stub();
             const getValueType = sinon.stub();
@@ -517,11 +487,14 @@ describe('RustVisitor', function () {
 
             mockField.getModelFile.returns(mockModelFile);
             mockModelFile.getType.returns(mockMapDeclaration);
-            mockMapDeclaration.getKey.returns({getType: getKeyType});
-            mockMapDeclaration.getValue.returns({getType: getKeyType});
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getKeyType });
             mockField.getName.returns('mockMapDeclaration');
 
-            const isPrimitiveTypeStub = sandbox.stub(ModelUtil, 'isPrimitiveType');
+            const isPrimitiveTypeStub = sandbox.stub(
+                ModelUtil,
+                'isPrimitiveType'
+            );
 
             isPrimitiveTypeStub.onCall(0).returns(false);
             isPrimitiveTypeStub.onCall(1).returns(true);
@@ -529,24 +502,27 @@ describe('RustVisitor', function () {
 
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, String>,').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                1,
+                'pub mock_map_declaration: HashMap<String, String>,'
+            ).calledOnce.should.be.ok;
             isPrimitiveTypeStub.restore();
         });
 
         it('should write a line with the name, key and value of the map <Scalar, String>', () => {
-
             let param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
 
-            let mockField               = sinon.createStubInstance(Field);
-            let mockModelFileA          = sinon.createStubInstance(ModelFile);
-            let mockModelFileB          = sinon.createStubInstance(ModelFile);
-            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
-            let mockScalarDeclaration   = sinon.createStubInstance(ScalarDeclaration);
+            let mockField = sinon.createStubInstance(Field);
+            let mockModelFileA = sinon.createStubInstance(ModelFile);
+            let mockModelFileB = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            let mockScalarDeclaration =
+                sinon.createStubInstance(ScalarDeclaration);
 
-            const getKeyType    = sinon.stub();
-            const getValueType  = sinon.stub();
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
 
             getKeyType.returns('SSN'); // Scalar Type
             getValueType.returns('String');
@@ -555,34 +531,42 @@ describe('RustVisitor', function () {
             mockModelFileA.getType.returns(mockMapDeclaration);
             mockMapDeclaration.getModelFile.returns(mockModelFileB);
             mockModelFileB.getType.returns(mockScalarDeclaration);
-            mockMapDeclaration.getKey.returns({getType: getKeyType});
-            mockMapDeclaration.getValue.returns({getType: getValueType});
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
             mockField.getName.returns('mockMapDeclaration');
             mockScalarDeclaration.getType.returns('String');
 
-            const isPrimitiveTypeStub = sandbox.stub(ModelUtil, 'isPrimitiveType').returns(false);
-            const isScalarStub = sandbox.stub(ModelUtil, 'isScalar').returns(true);
+            const isPrimitiveTypeStub = sandbox
+                .stub(ModelUtil, 'isPrimitiveType')
+                .returns(false);
+            const isScalarStub = sandbox
+                .stub(ModelUtil, 'isScalar')
+                .returns(true);
 
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, String>,').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                1,
+                'pub mock_map_declaration: HashMap<String, String>,'
+            ).calledOnce.should.be.ok;
             isPrimitiveTypeStub.restore();
             isScalarStub.restore();
         });
 
         it('should write a line with the name, key and value of the map <Scalar, Scalar>', () => {
             let param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
 
-            let mockField               = sinon.createStubInstance(Field);
-            let mockModelFileA          = sinon.createStubInstance(ModelFile);
-            let mockModelFileB          = sinon.createStubInstance(ModelFile);
-            let mockMapDeclaration      = sinon.createStubInstance(MapDeclaration);
-            let mockScalarDeclaration   = sinon.createStubInstance(ScalarDeclaration);
+            let mockField = sinon.createStubInstance(Field);
+            let mockModelFileA = sinon.createStubInstance(ModelFile);
+            let mockModelFileB = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            let mockScalarDeclaration =
+                sinon.createStubInstance(ScalarDeclaration);
 
-            const getKeyType    = sinon.stub();
-            const getValueType  = sinon.stub();
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
 
             getKeyType.returns('SSN'); // Scalar Type
             getValueType.returns('SSN'); // Scalar Type
@@ -591,13 +575,18 @@ describe('RustVisitor', function () {
             mockModelFileA.getType.returns(mockMapDeclaration);
             mockMapDeclaration.getModelFile.returns(mockModelFileB);
             mockModelFileB.getType.returns(mockScalarDeclaration);
-            mockMapDeclaration.getKey.returns({getType: getKeyType});
-            mockMapDeclaration.getValue.returns({getType: getValueType});
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
             mockField.getName.returns('mockMapDeclaration');
             mockScalarDeclaration.getType.returns('String');
 
-            const isPrimitiveTypeStub   = sandbox.stub(ModelUtil, 'isPrimitiveType');
-            const isScalarStub          = sandbox.stub(ModelUtil, 'isScalar').returns(true);
+            const isPrimitiveTypeStub = sandbox.stub(
+                ModelUtil,
+                'isPrimitiveType'
+            );
+            const isScalarStub = sandbox
+                .stub(ModelUtil, 'isScalar')
+                .returns(true);
 
             isPrimitiveTypeStub.onCall(0).returns(false);
             isPrimitiveTypeStub.onCall(1).returns(false);
@@ -605,7 +594,10 @@ describe('RustVisitor', function () {
 
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, String>,').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                1,
+                'pub mock_map_declaration: HashMap<String, String>,'
+            ).calledOnce.should.be.ok;
 
             isPrimitiveTypeStub.restore();
             isScalarStub.restore();
@@ -613,12 +605,12 @@ describe('RustVisitor', function () {
 
         it('should write a line with the name, key and value of the map <String, Person>', () => {
             let param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
 
-            let mockField           = sinon.createStubInstance(Field);
-            let mockModelFile       = sinon.createStubInstance(ModelFile);
-            let mockMapDeclaration  = sinon.createStubInstance(MapDeclaration);
+            let mockField = sinon.createStubInstance(Field);
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
 
             const getKeyType = sinon.stub();
             const getValueType = sinon.stub();
@@ -628,47 +620,55 @@ describe('RustVisitor', function () {
 
             mockField.getModelFile.returns(mockModelFile);
             mockModelFile.getType.returns(mockMapDeclaration);
-            mockMapDeclaration.getKey.returns({getType: getKeyType});
-            mockMapDeclaration.getValue.returns({getType: getValueType});
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
             mockField.getName.returns('mockMapDeclaration');
 
-            const isPrimitiveTypeStub   = sandbox.stub(ModelUtil, 'isPrimitiveType');
-            const isScalarStub          = sandbox.stub(ModelUtil, 'isScalar').returns(false);
+            const isPrimitiveTypeStub = sandbox.stub(
+                ModelUtil,
+                'isPrimitiveType'
+            );
+            const isScalarStub = sandbox
+                .stub(ModelUtil, 'isScalar')
+                .returns(false);
 
             isPrimitiveTypeStub.onCall(0).returns(false);
             isPrimitiveTypeStub.onCall(1).returns(true);
 
             rustVisitor.visitField(mockField, param);
 
-            param.fileWriter.writeLine.withArgs(1, 'pub mock_map_declaration: HashMap<String, Person>,').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                1,
+                'pub mock_map_declaration: HashMap<String, Person>,'
+            ).calledOnce.should.be.ok;
             isScalarStub.restore();
             isPrimitiveTypeStub.restore();
         });
     });
 
-
     describe('visitEnumValueDeclaration', () => {
         it('should write a line with the name and value of the enum value', () => {
             let param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
 
-            let mockEnumValueDeclaration = sinon.createStubInstance(EnumValueDeclaration);
+            let mockEnumValueDeclaration =
+                sinon.createStubInstance(EnumValueDeclaration);
             mockEnumValueDeclaration.isEnumValue.returns(true);
             mockEnumValueDeclaration.getName.returns('Bob');
 
-            rustVisitor.visitEnumValueDeclaration(mockEnumValueDeclaration, param);
+            rustVisitor.visitEnumValueDeclaration(
+                mockEnumValueDeclaration,
+                param
+            );
 
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    1,
-                    '#[allow(non_camel_case_types)]'
-                ],
-                [
-                    1,
-                    'Bob,'
-                ]
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[allow(non_camel_case_types)]'],
+                    [1, 'Bob,'],
+                ]);
         });
     });
 
@@ -676,28 +676,31 @@ describe('RustVisitor', function () {
         let param;
         beforeEach(() => {
             param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
         });
         it('should write a line for field name and type', () => {
-            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            let mockRelationship = sinon.createStubInstance(
+                RelationshipDeclaration
+            );
             mockRelationship.isRelationship.returns(true);
             mockRelationship.name = 'Bob';
             mockRelationship.type = 'Person';
             rustVisitor.visitRelationshipDeclaration(mockRelationship, param);
 
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    1, '#[serde(rename = "Bob")]'
-                ],
-                [
-                    1, 'pub bob: Person,'
-                ]
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde(rename = "Bob")]'],
+                    [1, 'pub bob: Person,'],
+                ]);
         });
 
         it('should write a line for field name and type thats an array', () => {
-            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            let mockRelationship = sinon.createStubInstance(
+                RelationshipDeclaration
+            );
 
             mockRelationship.isRelationship.returns(true);
             mockRelationship.name = 'Bob';
@@ -705,18 +708,19 @@ describe('RustVisitor', function () {
             mockRelationship.isArray.returns(true);
             rustVisitor.visitRelationshipDeclaration(mockRelationship, param);
 
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    1, '#[serde(rename = "Bob")]'
-                ],
-                [
-                    1, 'pub bob: Vec<Person>,'
-                ]
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde(rename = "Bob")]'],
+                    [1, 'pub bob: Vec<Person>,'],
+                ]);
         });
 
         it('should write a line for optional field name', () => {
-            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            let mockRelationship = sinon.createStubInstance(
+                RelationshipDeclaration
+            );
 
             mockRelationship.isRelationship.returns(true);
             mockRelationship.name = 'Bob';
@@ -724,21 +728,21 @@ describe('RustVisitor', function () {
             mockRelationship.isOptional.returns(true);
             rustVisitor.visitRelationshipDeclaration(mockRelationship, param);
 
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    1, '#[serde(rename = "Bob")]'
-                ],
-                [
-                    1, 'pub bob: Option<Person>,'
-                ]
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde(rename = "Bob")]'],
+                    [1, 'pub bob: Option<Person>,'],
+                ]);
         });
     });
 
-
     describe('toRustType', () => {
         it('should return Date for DateTime', () => {
-            rustVisitor.toRustType('DateTime').should.deep.equal('DateTime<Utc>');
+            rustVisitor
+                .toRustType('DateTime')
+                .should.deep.equal('DateTime<Utc>');
         });
         it('should return boolean for Boolean', () => {
             rustVisitor.toRustType('Boolean').should.deep.equal('bool');
@@ -758,177 +762,157 @@ describe('RustVisitor', function () {
     });
 
     describe('Add Utils file', () => {
-
         let param;
         beforeEach(() => {
             param = {
-                fileWriter: mockFileWriter
+                fileWriter: mockFileWriter,
             };
         });
         it('should add utils file', () => {
             rustVisitor.addUtilsModelFile(param);
-            param.fileWriter.writeLine.getCalls().map(call => call.args).should.deep.equal([
-                [
-                    0,
-                    'use chrono::{ DateTime, TimeZone, Utc };'
-                ],
-                [
-                    0,
-                    'use serde::{ Deserialize, Serialize, Deserializer, Serializer };'
-                ],
-                [
-                    1,
-                    ''
-                ],
-                [
-                    0,
-                    'pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>'
-                ],
-                [
-                    0,
-                    'where'
-                ],
-                [
-                    1,
-                    'S: Serializer,'
-                ],
-                [
-                    0,
-                    '{'
-                ],
-                [
-                    1,
-                    'match datetime {'
-                ],
-                [
-                    2,
-                    'Some(dt) => {'
-                ],
-                [
-                    3,
-                    'serialize_datetime(&dt, serializer)'
-                ],
-                [
-                    2,
-                    '},'
-                ],
-                [
-                    2,
-                    '_ => unreachable!(),'
-                ],
-                [
-                    1,
-                    '}'
-                ],
-                [
-                    0,
-                    '}'
-                ],
-                [
-                    0,
-                    ''
-                ],
-                [
-                    0,
-                    'pub fn deserialize_datetime_option<\'de, D>(deserializer: D) -> Result<Option<chrono::DateTime<Utc>>, D::Error>'
-                ],
-                [
-                    0,
-                    'where'
-                ],
-                [
-                    1,
-                    'D: Deserializer<\'de>,'
-                ],
-                [
-                    0,
-                    '{'
-                ],
-                [
-                    1,
-                    'match deserialize_datetime(deserializer) {'
-                ],
-                [
-                    2,
-                    'Ok(result)=>Ok(Some(result)),'
-                ],
-                [
-                    2,
-                    'Err(error) => Err(error),'
-                ],
-                [
-                    1,
-                    '}'
-                ],
-                [
-                    0,
-                    '}'
-                ],
-                [
-                    0,
-                    ''
-                ],
-                [
-                    0,
-                    'pub fn deserialize_datetime<\'de, D>(deserializer: D) -> Result<chrono::DateTime<Utc>, D::Error>'
-                ],
-                [
-                    0,
-                    'where'
-                ],
-                [
-                    1,
-                    'D: Deserializer<\'de>,'
-                ],
-                [
-                    0,
-                    '{'
-                ],
-                [
-                    1,
-                    'let datetime_str = String::deserialize(deserializer)?;'
-                ],
-                [
-                    1,
-                    'Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)'
-                ],
-                [
-                    0,
-                    '}'
-                ],
-                [
-                    1,
-                    ''
-                ],
-                [
-                    0,
-                    'pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>'
-                ],
-                [
-                    0,
-                    'where'
-                ],
-                [
-                    1,
-                    'S: Serializer,'
-                ],
-                [
-                    0,
-                    '{'
-                ],
-                [
-                    1,
-                    'let datetime_str = datetime.format("%+").to_string();'
-                ],
-                [
-                    1,
-                    'serializer.serialize_str(&datetime_str)'
-                ],
-                [
-                    0,
-                    '}'
-                ]
-            ]);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [0, 'use chrono::{ DateTime, TimeZone, Utc };'],
+                    [
+                        0,
+                        'use serde::{ Deserialize, Serialize, Deserializer, Serializer };',
+                    ],
+                    [1, ''],
+                    [
+                        0,
+                        'pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>',
+                    ],
+                    [0, 'where'],
+                    [1, 'S: Serializer,'],
+                    [0, '{'],
+                    [1, 'match datetime {'],
+                    [2, 'Some(dt) => {'],
+                    [3, 'serialize_datetime(&dt, serializer)'],
+                    [2, '},'],
+                    [2, '_ => unreachable!(),'],
+                    [1, '}'],
+                    [0, '}'],
+                    [0, ''],
+                    [
+                        0,
+                        'pub fn deserialize_datetime_option<\'de, D>(deserializer: D) -> Result<Option<chrono::DateTime<Utc>>, D::Error>',
+                    ],
+                    [0, 'where'],
+                    [1, 'D: Deserializer<\'de>,'],
+                    [0, '{'],
+                    [1, 'match deserialize_datetime(deserializer) {'],
+                    [2, 'Ok(result)=>Ok(Some(result)),'],
+                    [2, 'Err(error) => Err(error),'],
+                    [1, '}'],
+                    [0, '}'],
+                    [0, ''],
+                    [
+                        0,
+                        'pub fn deserialize_datetime<\'de, D>(deserializer: D) -> Result<chrono::DateTime<Utc>, D::Error>',
+                    ],
+                    [0, 'where'],
+                    [1, 'D: Deserializer<\'de>,'],
+                    [0, '{'],
+                    [
+                        1,
+                        'let datetime_str = String::deserialize(deserializer)?;',
+                    ],
+                    [
+                        1,
+                        'Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)',
+                    ],
+                    [0, '}'],
+                    [1, ''],
+                    [
+                        0,
+                        'pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>',
+                    ],
+                    [0, 'where'],
+                    [1, 'S: Serializer,'],
+                    [0, '{'],
+                    [
+                        1,
+                        'let datetime_str = datetime.format("%+").to_string();',
+                    ],
+                    [1, 'serializer.serialize_str(&datetime_str)'],
+                    [0, '}'],
+                    [0, ''],
+                    [
+                        0,
+                        'pub fn serialize_datetime_array<S>(datetime_array: &Vec<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>',
+                    ],
+                    [0, 'where'],
+                    [1, 'S: Serializer,'],
+                    [0, '{'],
+                    [1, 'let datetime_strings: Vec<String> = datetime_array'],
+                    [2, '.iter()'],
+                    [2, '.map(|dt| dt.format("%+").to_string())'],
+                    [2, '.collect();'],
+                    [1, 'datetime_strings.serialize(serializer)'],
+                    [0, '}'],
+                    [0, ''],
+                    [
+                        0,
+                        'pub fn deserialize_datetime_array<\'de, D>(deserializer: D) -> Result<Vec<chrono::DateTime<Utc>>, D::Error>',
+                    ],
+                    [0, 'where'],
+                    [1, 'D: Deserializer<\'de>,'],
+                    [0, '{'],
+                    [
+                        1,
+                        'let datetime_strings = Vec::<String>::deserialize(deserializer)?;',
+                    ],
+                    [1, 'datetime_strings'],
+                    [2, '.iter()'],
+                    [
+                        2,
+                        '.map(|s| Utc.datetime_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))',
+                    ],
+                    [2, '.collect()'],
+                    [0, '}'],
+                    [0, ''],
+                    [
+                        0,
+                        'pub fn serialize_datetime_array_option<S>(datetime_array: &Option<Vec<chrono::DateTime<Utc>>>, serializer: S) -> Result<S::Ok, S::Error>',
+                    ],
+                    [0, 'where'],
+                    [1, 'S: Serializer,'],
+                    [0, '{'],
+                    [1, 'match datetime_array {'],
+                    [2, 'Some(arr) => {'],
+                    [3, 'serialize_datetime_array(&arr, serializer)'],
+                    [2, '},'],
+                    [2, 'None => serializer.serialize_none(),'],
+                    [1, '}'],
+                    [0, '}'],
+                    [0, ''],
+                    [
+                        0,
+                        'pub fn deserialize_datetime_array_option<\'de, D>(deserializer: D) -> Result<Option<Vec<chrono::DateTime<Utc>>>, D::Error>',
+                    ],
+                    [0, 'where'],
+                    [1, 'D: Deserializer<\'de>,'],
+                    [0, '{'],
+                    [
+                        1,
+                        'match Option::<Vec<String>>::deserialize(deserializer)? {',
+                    ],
+                    [2, 'Some(datetime_strings) => {'],
+                    [3, 'let result: Result<Vec<_>, _> = datetime_strings'],
+                    [4, '.iter()'],
+                    [
+                        4,
+                        '.map(|s| Utc.datetime_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))',
+                    ],
+                    [4, '.collect();'],
+                    [3, 'result.map(Some)'],
+                    [2, '},'],
+                    [2, 'None => Ok(None),'],
+                    [1, '}'],
+                    [0, '}'],
+                ]);
         });
     });
 });
