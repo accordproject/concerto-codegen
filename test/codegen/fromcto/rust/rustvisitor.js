@@ -24,8 +24,7 @@ const ClassDeclaration =
     require('@accordproject/concerto-core').ClassDeclaration;
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
 const MapDeclaration = require('@accordproject/concerto-core').MapDeclaration;
-const ScalarDeclaration =
-    require('@accordproject/concerto-core').ScalarDeclaration;
+
 const EnumValueDeclaration =
     require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
@@ -461,10 +460,8 @@ describe('RustVisitor', function () {
                     [1, 'pub timestamp: DateTime<Utc>,'],
                 ]);
         });
-    });
 
-    describe('visitField - Map Declaration', () => {
-        it('should write a line for a map declaration <String, String>', () => {
+        it('should write a line with DateTime serialization for HashMap <DateTime, String>', () => {
             let param = {
                 fileWriter: mockFileWriter,
             };
@@ -476,7 +473,7 @@ describe('RustVisitor', function () {
             const getKeyType = sinon.stub();
             const getValueType = sinon.stub();
 
-            getKeyType.returns('String');
+            getKeyType.returns('DateTime');
             getValueType.returns('String');
 
             mockField.getModelFile.returns(mockModelFile);
@@ -499,117 +496,21 @@ describe('RustVisitor', function () {
 
             rustVisitor.visitField(mockField, param);
 
+            // Should call DateTime key serialization
             param.fileWriter.writeLine.withArgs(
-                1,
-                'pub mock_map_declaration: HashMap<String, String>,'
+                2,
+                'serialize_with = "serialize_hashmap_datetime_key",'
             ).calledOnce.should.be.ok;
-            isPrimitiveTypeStub.restore();
-            isMapStub.restore(); // Add this
-        });
-
-        it('should write a line with the name, key and value of the map <Scalar, String>', () => {
-            let param = {
-                fileWriter: mockFileWriter,
-            };
-
-            let mockField = sinon.createStubInstance(Field);
-            let mockModelFileA = sinon.createStubInstance(ModelFile);
-            let mockModelFileB = sinon.createStubInstance(ModelFile);
-            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
-            let mockScalarDeclaration =
-                sinon.createStubInstance(ScalarDeclaration);
-
-            const getKeyType = sinon.stub();
-            const getValueType = sinon.stub();
-
-            getKeyType.returns('SSN'); // Scalar Type
-            getValueType.returns('String');
-
-            mockField.getModelFile.returns(mockModelFileA);
-            mockField.getType.returns('MockMap');
-            mockField.type = 'MockMap';
-            mockField.getName.returns('mockMapDeclaration');
-            mockModelFileA.getType.returns(mockMapDeclaration);
-            mockMapDeclaration.getModelFile.returns(mockModelFileB);
-            mockModelFileB.getType.returns(mockScalarDeclaration);
-            mockMapDeclaration.getKey.returns({ getType: getKeyType });
-            mockMapDeclaration.getValue.returns({ getType: getValueType });
-            mockScalarDeclaration.getType.returns('String');
-
-            const isPrimitiveTypeStub = sandbox
-                .stub(ModelUtil, 'isPrimitiveType')
-                .returns(false);
-            const isScalarStub = sandbox
-                .stub(ModelUtil, 'isScalar')
-                .returns(true);
-            const isMapStub = sandbox.stub(ModelUtil, 'isMap').returns(true);
-
-            rustVisitor.visitField(mockField, param);
-
             param.fileWriter.writeLine.withArgs(
-                1,
-                'pub mock_map_declaration: HashMap<String, String>,'
+                2,
+                'deserialize_with = "deserialize_hashmap_datetime_key",'
             ).calledOnce.should.be.ok;
+
             isPrimitiveTypeStub.restore();
-            isScalarStub.restore();
             isMapStub.restore();
         });
 
-        it('should write a line with the name, key and value of the map <Scalar, Scalar>', () => {
-            let param = {
-                fileWriter: mockFileWriter,
-            };
-
-            let mockField = sinon.createStubInstance(Field);
-            let mockModelFileA = sinon.createStubInstance(ModelFile);
-            let mockModelFileB = sinon.createStubInstance(ModelFile);
-            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
-            let mockScalarDeclaration =
-                sinon.createStubInstance(ScalarDeclaration);
-
-            const getKeyType = sinon.stub();
-            const getValueType = sinon.stub();
-
-            getKeyType.returns('SSN'); // Scalar Type
-            getValueType.returns('SSN'); // Scalar Type
-
-            mockField.getModelFile.returns(mockModelFileA);
-            mockField.getType.returns('MockMap');
-            mockField.type = 'MockMap';
-            mockField.getName.returns('mockMapDeclaration');
-            mockModelFileA.getType.returns(mockMapDeclaration);
-            mockMapDeclaration.getModelFile.returns(mockModelFileB);
-            mockModelFileB.getType.returns(mockScalarDeclaration);
-            mockMapDeclaration.getKey.returns({ getType: getKeyType });
-            mockMapDeclaration.getValue.returns({ getType: getValueType });
-            mockScalarDeclaration.getType.returns('String');
-
-            const isPrimitiveTypeStub = sandbox.stub(
-                ModelUtil,
-                'isPrimitiveType'
-            );
-            const isScalarStub = sandbox
-                .stub(ModelUtil, 'isScalar')
-                .returns(true);
-            const isMapStub = sandbox.stub(ModelUtil, 'isMap').returns(true);
-
-            isPrimitiveTypeStub.onCall(0).returns(false);
-            isPrimitiveTypeStub.onCall(1).returns(false);
-            isPrimitiveTypeStub.onCall(2).returns(false);
-
-            rustVisitor.visitField(mockField, param);
-
-            param.fileWriter.writeLine.withArgs(
-                1,
-                'pub mock_map_declaration: HashMap<String, String>,'
-            ).calledOnce.should.be.ok;
-
-            isPrimitiveTypeStub.restore();
-            isScalarStub.restore();
-            isMapStub.restore();
-        });
-
-        it('should write a line with the name, key and value of the map <String, Person>', () => {
+        it('should write a line with DateTime serialization for HashMap <String, DateTime>', () => {
             let param = {
                 fileWriter: mockFileWriter,
             };
@@ -622,7 +523,7 @@ describe('RustVisitor', function () {
             const getValueType = sinon.stub();
 
             getKeyType.returns('String');
-            getValueType.returns('Person');
+            getValueType.returns('DateTime');
 
             mockField.getModelFile.returns(mockModelFile);
             mockField.getType.returns('MockMap');
@@ -636,22 +537,175 @@ describe('RustVisitor', function () {
                 ModelUtil,
                 'isPrimitiveType'
             );
-            const isScalarStub = sandbox
-                .stub(ModelUtil, 'isScalar')
-                .returns(false);
             const isMapStub = sandbox.stub(ModelUtil, 'isMap').returns(true);
 
             isPrimitiveTypeStub.onCall(0).returns(false);
             isPrimitiveTypeStub.onCall(1).returns(true);
+            isPrimitiveTypeStub.onCall(2).returns(true);
 
             rustVisitor.visitField(mockField, param);
 
+            // Should call DateTime value serialization
+            param.fileWriter.writeLine.withArgs(
+                2,
+                'serialize_with = "serialize_hashmap_datetime_value",'
+            ).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                2,
+                'deserialize_with = "deserialize_hashmap_datetime_value",'
+            ).calledOnce.should.be.ok;
+
+            isPrimitiveTypeStub.restore();
+            isMapStub.restore();
+        });
+
+        it('should write a line with DateTime serialization for HashMap <DateTime, DateTime>', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+
+            let mockField = sinon.createStubInstance(Field);
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
+
+            getKeyType.returns('DateTime');
+            getValueType.returns('DateTime');
+
+            mockField.getModelFile.returns(mockModelFile);
+            mockField.getType.returns('MockMap');
+            mockField.type = 'MockMap';
+            mockField.getName.returns('mockMapDeclaration');
+            mockModelFile.getType.returns(mockMapDeclaration);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            const isPrimitiveTypeStub = sandbox.stub(
+                ModelUtil,
+                'isPrimitiveType'
+            );
+            const isMapStub = sandbox.stub(ModelUtil, 'isMap').returns(true);
+
+            isPrimitiveTypeStub.onCall(0).returns(false);
+            isPrimitiveTypeStub.onCall(1).returns(true);
+            isPrimitiveTypeStub.onCall(2).returns(true);
+
+            rustVisitor.visitField(mockField, param);
+
+            // Should call DateTime both serialization
+            param.fileWriter.writeLine.withArgs(
+                2,
+                'serialize_with = "serialize_hashmap_datetime_both",'
+            ).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                2,
+                'deserialize_with = "deserialize_hashmap_datetime_both",'
+            ).calledOnce.should.be.ok;
+
+            isPrimitiveTypeStub.restore();
+            isMapStub.restore();
+        });
+
+        it('should write a line for optional HashMap with DateTime serialization', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+
+            let mockField = sinon.createStubInstance(Field);
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
+
+            getKeyType.returns('DateTime');
+            getValueType.returns('String');
+
+            mockField.getModelFile.returns(mockModelFile);
+            mockField.getType.returns('MockMap');
+            mockField.type = 'MockMap';
+            mockField.getName.returns('mockMapDeclaration');
+            mockField.isOptional.returns(true); // Make it optional
+            mockModelFile.getType.returns(mockMapDeclaration);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            const isPrimitiveTypeStub = sandbox.stub(
+                ModelUtil,
+                'isPrimitiveType'
+            );
+            const isMapStub = sandbox.stub(ModelUtil, 'isMap').returns(true);
+
+            isPrimitiveTypeStub.onCall(0).returns(false);
+            isPrimitiveTypeStub.onCall(1).returns(true);
+            isPrimitiveTypeStub.onCall(2).returns(true);
+
+            rustVisitor.visitField(mockField, param);
+
+            // Should call optional DateTime key serialization
+            param.fileWriter.writeLine.withArgs(
+                2,
+                'serialize_with = "serialize_hashmap_datetime_key_option",'
+            ).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                2,
+                'deserialize_with = "deserialize_hashmap_datetime_key_option",'
+            ).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                2,
+                'skip_serializing_if = "Option::is_none",'
+            ).calledOnce.should.be.ok;
+
+            isPrimitiveTypeStub.restore();
+            isMapStub.restore();
+        });
+
+        it('should handle HashMap with complex key and value types', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+
+            let mockField = sinon.createStubInstance(Field);
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
+
+            getKeyType.returns('Person'); // Complex type
+            getValueType.returns('Order'); // Complex type
+
+            mockField.getModelFile.returns(mockModelFile);
+            mockField.getType.returns('MockMap');
+            mockField.type = 'MockMap';
+            mockField.getName.returns('mockMapDeclaration');
+            mockModelFile.getType.returns(mockMapDeclaration);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            const isPrimitiveTypeStub = sandbox.stub(
+                ModelUtil,
+                'isPrimitiveType'
+            );
+            const isScalarStub = sandbox.stub(ModelUtil, 'isScalar');
+            const isMapStub = sandbox.stub(ModelUtil, 'isMap').returns(true);
+
+            // Both key and value are complex (non-primitive, non-scalar)
+            isPrimitiveTypeStub.returns(false);
+            isScalarStub.returns(false);
+
+            rustVisitor.visitField(mockField, param);
+
+            // Should use raw type names for complex types
             param.fileWriter.writeLine.withArgs(
                 1,
-                'pub mock_map_declaration: HashMap<String, Person>,'
+                'pub mock_map_declaration: HashMap<Person, Order>,'
             ).calledOnce.should.be.ok;
-            isScalarStub.restore();
+
             isPrimitiveTypeStub.restore();
+            isScalarStub.restore();
             isMapStub.restore();
         });
     });
