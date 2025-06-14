@@ -464,12 +464,6 @@ describe('RustVisitor', function () {
     });
 
     describe('visitField - Map Declaration', () => {
-        before(() => {
-            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
-                return true;
-            });
-        });
-
         it('should write a line for a map declaration <String, String>', () => {
             let param = {
                 fileWriter: mockFileWriter,
@@ -486,15 +480,18 @@ describe('RustVisitor', function () {
             getValueType.returns('String');
 
             mockField.getModelFile.returns(mockModelFile);
+            mockField.getType.returns('MockMap');
+            mockField.type = 'MockMap';
+            mockField.getName.returns('mockMapDeclaration');
             mockModelFile.getType.returns(mockMapDeclaration);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
-            mockField.getName.returns('mockMapDeclaration');
 
             const isPrimitiveTypeStub = sandbox.stub(
                 ModelUtil,
                 'isPrimitiveType'
             );
+            const isMapStub = sandbox.stub(ModelUtil, 'isMap').returns(true);
 
             isPrimitiveTypeStub.onCall(0).returns(false);
             isPrimitiveTypeStub.onCall(1).returns(true);
@@ -507,6 +504,7 @@ describe('RustVisitor', function () {
                 'pub mock_map_declaration: HashMap<String, String>,'
             ).calledOnce.should.be.ok;
             isPrimitiveTypeStub.restore();
+            isMapStub.restore(); // Add this
         });
 
         it('should write a line with the name, key and value of the map <Scalar, String>', () => {
@@ -528,12 +526,14 @@ describe('RustVisitor', function () {
             getValueType.returns('String');
 
             mockField.getModelFile.returns(mockModelFileA);
+            mockField.getType.returns('MockMap');
+            mockField.type = 'MockMap';
+            mockField.getName.returns('mockMapDeclaration');
             mockModelFileA.getType.returns(mockMapDeclaration);
             mockMapDeclaration.getModelFile.returns(mockModelFileB);
             mockModelFileB.getType.returns(mockScalarDeclaration);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
-            mockField.getName.returns('mockMapDeclaration');
             mockScalarDeclaration.getType.returns('String');
 
             const isPrimitiveTypeStub = sandbox
@@ -542,6 +542,7 @@ describe('RustVisitor', function () {
             const isScalarStub = sandbox
                 .stub(ModelUtil, 'isScalar')
                 .returns(true);
+            const isMapStub = sandbox.stub(ModelUtil, 'isMap').returns(true);
 
             rustVisitor.visitField(mockField, param);
 
@@ -551,6 +552,7 @@ describe('RustVisitor', function () {
             ).calledOnce.should.be.ok;
             isPrimitiveTypeStub.restore();
             isScalarStub.restore();
+            isMapStub.restore();
         });
 
         it('should write a line with the name, key and value of the map <Scalar, Scalar>', () => {
@@ -572,12 +574,14 @@ describe('RustVisitor', function () {
             getValueType.returns('SSN'); // Scalar Type
 
             mockField.getModelFile.returns(mockModelFileA);
+            mockField.getType.returns('MockMap');
+            mockField.type = 'MockMap';
+            mockField.getName.returns('mockMapDeclaration');
             mockModelFileA.getType.returns(mockMapDeclaration);
             mockMapDeclaration.getModelFile.returns(mockModelFileB);
             mockModelFileB.getType.returns(mockScalarDeclaration);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
-            mockField.getName.returns('mockMapDeclaration');
             mockScalarDeclaration.getType.returns('String');
 
             const isPrimitiveTypeStub = sandbox.stub(
@@ -587,6 +591,7 @@ describe('RustVisitor', function () {
             const isScalarStub = sandbox
                 .stub(ModelUtil, 'isScalar')
                 .returns(true);
+            const isMapStub = sandbox.stub(ModelUtil, 'isMap').returns(true);
 
             isPrimitiveTypeStub.onCall(0).returns(false);
             isPrimitiveTypeStub.onCall(1).returns(false);
@@ -601,6 +606,7 @@ describe('RustVisitor', function () {
 
             isPrimitiveTypeStub.restore();
             isScalarStub.restore();
+            isMapStub.restore();
         });
 
         it('should write a line with the name, key and value of the map <String, Person>', () => {
@@ -619,10 +625,12 @@ describe('RustVisitor', function () {
             getValueType.returns('Person');
 
             mockField.getModelFile.returns(mockModelFile);
+            mockField.getType.returns('MockMap');
+            mockField.type = 'MockMap';
+            mockField.getName.returns('mockMapDeclaration');
             mockModelFile.getType.returns(mockMapDeclaration);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
-            mockField.getName.returns('mockMapDeclaration');
 
             const isPrimitiveTypeStub = sandbox.stub(
                 ModelUtil,
@@ -631,6 +639,7 @@ describe('RustVisitor', function () {
             const isScalarStub = sandbox
                 .stub(ModelUtil, 'isScalar')
                 .returns(false);
+            const isMapStub = sandbox.stub(ModelUtil, 'isMap').returns(true);
 
             isPrimitiveTypeStub.onCall(0).returns(false);
             isPrimitiveTypeStub.onCall(1).returns(true);
@@ -643,6 +652,7 @@ describe('RustVisitor', function () {
             ).calledOnce.should.be.ok;
             isScalarStub.restore();
             isPrimitiveTypeStub.restore();
+            isMapStub.restore();
         });
     });
 
