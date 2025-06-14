@@ -743,6 +743,30 @@ describe('RustVisitor', function () {
                     [1, 'pub bob: Option<Person>,'],
                 ]);
         });
+
+        it('should write a line for array + optional field name', () => {
+            let mockRelationship = sinon.createStubInstance(
+                RelationshipDeclaration
+            );
+
+            mockRelationship.isRelationship.returns(true);
+            mockRelationship.name = 'advisors';
+            mockRelationship.type = 'Person';
+            mockRelationship.isArray.returns(true);
+            mockRelationship.isOptional.returns(true);
+            rustVisitor.visitRelationshipDeclaration(mockRelationship, param);
+
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde('],
+                    [2, 'rename = "advisors",'],
+                    [2, 'skip_serializing_if = "Option::is_none",'],
+                    [1, ')]'],
+                    [1, 'pub advisors: Option<Vec<Person>>,'],
+                ]);
+        });
     });
 
     describe('toRustType', () => {
