@@ -692,7 +692,9 @@ describe('RustVisitor', function () {
                 .getCalls()
                 .map((call) => call.args)
                 .should.deep.equal([
-                    [1, '#[serde(rename = "Bob")]'],
+                    [1, '#[serde('],
+                    [2, 'rename = "Bob",'],
+                    [1, ')]'],
                     [1, 'pub bob: Person,'],
                 ]);
         });
@@ -712,7 +714,9 @@ describe('RustVisitor', function () {
                 .getCalls()
                 .map((call) => call.args)
                 .should.deep.equal([
-                    [1, '#[serde(rename = "Bob")]'],
+                    [1, '#[serde('],
+                    [2, 'rename = "Bob",'],
+                    [1, ')]'],
                     [1, 'pub bob: Vec<Person>,'],
                 ]);
         });
@@ -732,7 +736,10 @@ describe('RustVisitor', function () {
                 .getCalls()
                 .map((call) => call.args)
                 .should.deep.equal([
-                    [1, '#[serde(rename = "Bob")]'],
+                    [1, '#[serde('],
+                    [2, 'rename = "Bob",'],
+                    [2, 'skip_serializing_if = "Option::is_none",'],
+                    [1, ')]'],
                     [1, 'pub bob: Option<Person>,'],
                 ]);
         });
