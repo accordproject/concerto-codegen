@@ -305,7 +305,9 @@ describe('RustVisitor', function () {
 
     describe('visitClassDeclaration', () => {
         let param;
+        let mockModelFile;
         beforeEach(() => {
+            mockModelFile = sinon.createStubInstance(ModelFile);
             param = {
                 fileWriter: mockFileWriter,
             };
@@ -343,6 +345,166 @@ describe('RustVisitor', function () {
                     [0, '}'],
                     [0, ''],
                 ]);
+        });
+
+        it('should generate union type when class has direct subclasses', () => {
+            let mockSubclass1 = sinon.createStubInstance(ClassDeclaration);
+            mockSubclass1.getName.returns('Dog');
+            mockSubclass1.getFullyQualifiedName.returns('org.example.Dog');
+            mockSubclass1.isEnum.returns(false);
+            mockSubclass1.getModelFile.returns(mockModelFile);
+
+            let mockSubclass2 = sinon.createStubInstance(ClassDeclaration);
+            mockSubclass2.getName.returns('Cat');
+            mockSubclass2.getFullyQualifiedName.returns('org.example.Cat');
+            mockSubclass2.isEnum.returns(false);
+            mockSubclass2.getModelFile.returns(mockModelFile);
+
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getName.returns('Animal');
+            mockClassDeclaration.getFullyQualifiedName.returns(
+                'org.example.Animal'
+            );
+            mockClassDeclaration.getDirectSubclasses.returns([
+                mockSubclass1,
+                mockSubclass2,
+            ]);
+            mockClassDeclaration.isAbstract.returns(true);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+
+            // Enable flattenSubclassesToUnion
+            param.flattenSubclassesToUnion = true;
+
+            rustVisitor.visitClassDeclaration(mockClassDeclaration, param);
+
+            // Verify union enum was generated
+            param.fileWriter.writeLine.withArgs(
+                0,
+                '#[derive(Debug, Serialize, Deserialize)]'
+            ).calledTwice.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, '#[serde(tag = "$class")]')
+                .calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'pub enum AnimalUnion {')
+                .calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                1,
+                '#[serde(rename = "org.example.Dog")]'
+            ).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'Dog(Dog),').calledOnce
+                .should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                1,
+                '#[serde(rename = "org.example.Cat")]'
+            ).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'Cat(Cat),').calledOnce
+                .should.be.ok;
+        });
+
+        it('should include non-abstract base class in union type', () => {
+            let mockSubclass = sinon.createStubInstance(ClassDeclaration);
+            mockSubclass.getName.returns('SpecialPerson');
+            mockSubclass.getFullyQualifiedName.returns(
+                'org.example.SpecialPerson'
+            );
+            mockSubclass.isEnum.returns(false);
+            mockSubclass.getModelFile.returns(mockModelFile);
+
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getName.returns('Person');
+            mockClassDeclaration.getFullyQualifiedName.returns(
+                'org.example.Person'
+            );
+            mockClassDeclaration.getDirectSubclasses.returns([mockSubclass]);
+            mockClassDeclaration.isAbstract.returns(false); // Non-abstract
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+
+            // Enable flattenSubclassesToUnion
+            param.flattenSubclassesToUnion = true;
+
+            rustVisitor.visitClassDeclaration(mockClassDeclaration, param);
+
+            // Verify base class is included in union
+            param.fileWriter.writeLine.withArgs(
+                1,
+                '#[serde(rename = "org.example.Person")]'
+            ).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'Person(Person),').calledOnce
+                .should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                1,
+                '#[serde(rename = "org.example.SpecialPerson")]'
+            ).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(
+                1,
+                'SpecialPerson(SpecialPerson),'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should filter out enum subclasses from union type', () => {
+            let mockEnumSubclass = sinon.createStubInstance(EnumDeclaration);
+            mockEnumSubclass.getName.returns('Color');
+            mockEnumSubclass.isEnum.returns(true);
+            mockEnumSubclass.getModelFile.returns(mockModelFile);
+
+            let mockClassSubclass = sinon.createStubInstance(ClassDeclaration);
+            mockClassSubclass.getName.returns('Shape');
+            mockClassSubclass.getFullyQualifiedName.returns(
+                'org.example.Shape'
+            );
+            mockClassSubclass.isEnum.returns(false);
+            mockClassSubclass.getModelFile.returns(mockModelFile);
+
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getName.returns('Thing');
+            mockClassDeclaration.getDirectSubclasses.returns([
+                mockEnumSubclass,
+                mockClassSubclass,
+            ]);
+            mockClassDeclaration.isAbstract.returns(true);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+
+            // Enable flattenSubclassesToUnion
+            param.flattenSubclassesToUnion = true;
+
+            rustVisitor.visitClassDeclaration(mockClassDeclaration, param);
+
+            // Verify only non-enum subclasses are included
+            param.fileWriter.writeLine.withArgs(1, 'Color(Color),').called
+                .should.be.false;
+            param.fileWriter.writeLine.withArgs(
+                1,
+                '#[serde(rename = "org.example.Shape")]'
+            ).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'Shape(Shape),').calledOnce
+                .should.be.ok;
+        });
+
+        it('should not generate union type when class has no subclasses', () => {
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getName.returns('SimpleClass');
+            mockClassDeclaration.getDirectSubclasses.returns([]);
+
+            rustVisitor.visitClassDeclaration(mockClassDeclaration, param);
+
+            // Verify no union was generated
+            param.fileWriter.writeLine.withArgs(0, '#[serde(tag = "$class")]')
+                .called.should.be.false;
+            param.fileWriter.writeLine.withArgs(
+                0,
+                'pub enum SimpleClassUnion {'
+            ).called.should.be.false;
         });
     });
 
@@ -708,6 +870,149 @@ describe('RustVisitor', function () {
             isScalarStub.restore();
             isMapStub.restore();
         });
+
+        it('should use union type when class has subclasses and flattenSubclassesToUnion is enabled', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.name = 'animal';
+            mockField.type = 'Animal';
+            mockField.getDecorators.returns([]);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            const mockTypeDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+
+            // Mock the type being referenced to have subclasses
+            mockTypeDeclaration.getDirectSubclasses.returns([
+                {
+                    getName: () => 'Dog',
+                    isEnum: () => false,
+                    getModelFile: () => mockModelFile,
+                },
+                {
+                    getName: () => 'Cat',
+                    isEnum: () => false,
+                    getModelFile: () => mockModelFile,
+                },
+            ]);
+            mockTypeDeclaration.isEnum.returns(false);
+            mockTypeDeclaration.getModelFile.returns(mockModelFile);
+
+            mockModelManager.getType.returns(mockTypeDeclaration);
+            mockClassDeclaration.isEnum.returns(false);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+
+            // Enable flattenSubclassesToUnion parameter
+            let paramWithUnion = {
+                fileWriter: mockFileWriter,
+                flattenSubclassesToUnion: true,
+            };
+
+            rustVisitor.visitField(mockField, paramWithUnion);
+
+            paramWithUnion.fileWriter.writeLine.withArgs(
+                1,
+                'pub animal: AnimalUnion,'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should not use union type when flattenSubclassesToUnion is disabled', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.name = 'animal';
+            mockField.type = 'Animal';
+            mockField.getDecorators.returns([]);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            const mockTypeDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+
+            // Mock the type being referenced to have subclasses
+            mockTypeDeclaration.getDirectSubclasses.returns([
+                {
+                    getName: () => 'Dog',
+                    isEnum: () => false,
+                    getModelFile: () => mockModelFile,
+                },
+                {
+                    getName: () => 'Cat',
+                    isEnum: () => false,
+                    getModelFile: () => mockModelFile,
+                },
+            ]);
+            mockTypeDeclaration.isEnum.returns(false);
+            mockTypeDeclaration.getModelFile.returns(mockModelFile);
+
+            mockModelManager.getType.returns(mockTypeDeclaration);
+            mockClassDeclaration.isEnum.returns(false);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+
+            // Default behavior - no flattenSubclassesToUnion
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+
+            rustVisitor.visitField(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'pub animal: Animal,')
+                .calledOnce.should.be.ok;
+        });
+
+        it('should use union type for array fields when appropriate', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.name = 'animals';
+            mockField.type = 'Animal';
+            mockField.isArray.returns(true);
+            mockField.getDecorators.returns([]);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            const mockTypeDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+
+            // Mock the type being referenced to have subclasses
+            mockTypeDeclaration.getDirectSubclasses.returns([
+                {
+                    getName: () => 'Dog',
+                    isEnum: () => false,
+                    getModelFile: () => mockModelFile,
+                },
+            ]);
+            mockTypeDeclaration.isEnum.returns(false);
+            mockTypeDeclaration.getModelFile.returns(mockModelFile);
+
+            mockModelManager.getType.returns(mockTypeDeclaration);
+            mockClassDeclaration.isEnum.returns(false);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+
+            // Enable flattenSubclassesToUnion parameter
+            let paramWithUnion = {
+                fileWriter: mockFileWriter,
+                flattenSubclassesToUnion: true,
+            };
+
+            rustVisitor.visitField(mockField, paramWithUnion);
+
+            paramWithUnion.fileWriter.writeLine.withArgs(
+                1,
+                'pub animals: Vec<AnimalUnion>,'
+            ).calledOnce.should.be.ok;
+        });
     });
 
     describe('visitEnumValueDeclaration', () => {
@@ -853,6 +1158,27 @@ describe('RustVisitor', function () {
         });
         it('should return i32 for Integer', () => {
             rustVisitor.toRustType('Integer').should.deep.equal('i32');
+        });
+
+        it('should return union type when useUnion is true', () => {
+            rustVisitor
+                .toRustType('Animal', true)
+                .should.deep.equal('AnimalUnion');
+        });
+
+        it('should return regular type when useUnion is false', () => {
+            rustVisitor.toRustType('Animal', false).should.deep.equal('Animal');
+        });
+
+        it('should return regular type when useUnion is not specified', () => {
+            rustVisitor.toRustType('Animal').should.deep.equal('Animal');
+        });
+
+        it('should not append Union to primitive types even when useUnion is true', () => {
+            rustVisitor.toRustType('String', true).should.deep.equal('String');
+            rustVisitor
+                .toRustType('DateTime', true)
+                .should.deep.equal('DateTime<Utc>');
         });
     });
 
