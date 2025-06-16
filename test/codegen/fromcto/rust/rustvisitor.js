@@ -1013,6 +1013,133 @@ describe('RustVisitor', function () {
                 'pub animals: Vec<AnimalUnion>,'
             ).calledOnce.should.be.ok;
         });
+
+        it('should use union type when @union decorator is present', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.name = 'unionField';
+            mockField.type = 'Person';
+            mockField.getName.returns('unionField');
+            mockField.getDecorators.returns([
+                {
+                    getName: () => 'union',
+                    getArguments: () => [],
+                },
+            ]);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+
+            mockModelManager.getType.returns(mockClassDeclaration);
+            mockClassDeclaration.isEnum.returns(false);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+
+            rustVisitor.visitField(mockField, { fileWriter: mockFileWriter });
+
+            mockFileWriter.writeLine.withArgs(
+                1,
+                'pub union_field: PersonUnion,'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should generate constant field for @literal decorator', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.getName.returns('literalTest');
+            mockField.getType.returns('MyEnum');
+            mockField.getDecorators.returns([
+                {
+                    getName: () => 'literal',
+                    getArguments: () => ['ENUM_VALUE'],
+                },
+            ]);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+
+            mockModelManager.getType.returns(mockClassDeclaration);
+            mockClassDeclaration.isEnum.returns(true);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+
+            rustVisitor.visitField(mockField, { fileWriter: mockFileWriter });
+
+            mockFileWriter.writeLine.withArgs(
+                1,
+                'pub literal_test: MyEnum = MyEnum::ENUM_VALUE,'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should handle @literal decorator with multiple arguments', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.getName.returns('literalMultiple');
+            mockField.getType.returns('StatusEnum');
+            mockField.getDecorators.returns([
+                {
+                    getName: () => 'literal',
+                    getArguments: () => ['ACTIVE'],
+                },
+            ]);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+
+            mockModelManager.getType.returns(mockClassDeclaration);
+            mockClassDeclaration.isEnum.returns(true);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+
+            rustVisitor.visitField(mockField, { fileWriter: mockFileWriter });
+
+            mockFileWriter.writeLine.withArgs(
+                1,
+                'pub literal_multiple: StatusEnum = StatusEnum::ACTIVE,'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should fall back to regular field processing when @literal decorator has no arguments', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.name = 'literalNoArgs';
+            mockField.type = 'MyEnum';
+            mockField.getName.returns('literalNoArgs');
+            mockField.getDecorators.returns([
+                {
+                    getName: () => 'literal',
+                    getArguments: () => [],
+                },
+            ]);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+
+            mockModelManager.getType.returns(mockClassDeclaration);
+            mockClassDeclaration.isEnum.returns(true);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+
+            rustVisitor.visitField(mockField, { fileWriter: mockFileWriter });
+
+            // Should not generate literal constant, should process as normal field
+            mockFileWriter.writeLine.withArgs(1, '#[serde(').calledOnce.should
+                .be.ok;
+            mockFileWriter.writeLine.withArgs(1, 'pub literal_no_args: MyEnum,')
+                .calledOnce.should.be.ok;
+        });
     });
 
     describe('visitEnumValueDeclaration', () => {
