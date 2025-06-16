@@ -5865,6 +5865,8 @@ pub enum TShirtSizeType {
    LARGE,
 }
 
+pub type EmployeeTShirtSizes = HashMap<SSN, TShirtSizeType>;
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Address {
    #[serde(
@@ -5957,6 +5959,18 @@ pub struct Info {
    )]
    pub name: String,
 }
+
+pub type CompanyProperties = HashMap<String, String>;
+
+pub type EmployeeLoginTimes = HashMap<String, Time>;
+
+pub type EmployeeSocialSecurityNumbers = HashMap<String, SSN>;
+
+pub type NextOfKin = HashMap<KinName, KinTelephone>;
+
+pub type EmployeeProfiles = HashMap<String, Concept>;
+
+pub type EmployeeDirectory = HashMap<SSN, Employee>;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Company {
@@ -13714,6 +13728,8 @@ pub enum TShirtSizeType {
    LARGE,
 }
 
+pub type EmployeeTShirtSizes = HashMap<SSN, TShirtSizeType>;
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Address {
    #[serde(
@@ -13806,6 +13822,18 @@ pub struct Info {
    )]
    pub name: String,
 }
+
+pub type CompanyProperties = HashMap<String, String>;
+
+pub type EmployeeLoginTimes = HashMap<String, Time>;
+
+pub type EmployeeSocialSecurityNumbers = HashMap<String, SSN>;
+
+pub type NextOfKin = HashMap<KinName, KinTelephone>;
+
+pub type EmployeeProfiles = HashMap<String, Concept>;
+
+pub type EmployeeDirectory = HashMap<SSN, Employee>;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Company {

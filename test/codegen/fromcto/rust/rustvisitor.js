@@ -1596,4 +1596,90 @@ describe('RustVisitor', function () {
                 ]);
         });
     });
+
+    describe('visitMapDeclaration', () => {
+        let param;
+        let mockMapDeclaration;
+        let mockMapKey;
+        let mockMapValue;
+        let mockModelFile;
+
+        beforeEach(() => {
+            param = {
+                fileWriter: mockFileWriter,
+            };
+            mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            mockMapKey = { getType: sinon.stub() };
+            mockMapValue = { getType: sinon.stub() };
+            mockModelFile = sinon.createStubInstance(ModelFile);
+        });
+
+        it('should generate HashMap type alias for string to string map', () => {
+            mockMapDeclaration.getName.returns('PersonMap');
+            mockMapDeclaration.getKey.returns(mockMapKey);
+            mockMapDeclaration.getValue.returns(mockMapValue);
+            mockMapKey.getType.returns('String');
+            mockMapValue.getType.returns('String');
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getNamespace.returns('org.example');
+
+            rustVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(
+                0,
+                'pub type PersonMap = HashMap<String, String>;'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should generate HashMap type alias for string to custom type map', () => {
+            mockMapDeclaration.getName.returns('AddressMap');
+            mockMapDeclaration.getKey.returns(mockMapKey);
+            mockMapDeclaration.getValue.returns(mockMapValue);
+            mockMapKey.getType.returns('String');
+            mockMapValue.getType.returns('Address');
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getNamespace.returns('org.example');
+
+            rustVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(
+                0,
+                'pub type AddressMap = HashMap<String, Address>;'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should handle DateTime key types', () => {
+            mockMapDeclaration.getName.returns('EventMap');
+            mockMapDeclaration.getKey.returns(mockMapKey);
+            mockMapDeclaration.getValue.returns(mockMapValue);
+            mockMapKey.getType.returns('DateTime');
+            mockMapValue.getType.returns('String');
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getNamespace.returns('org.example');
+
+            rustVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(
+                0,
+                'pub type EventMap = HashMap<DateTime<Utc>, String>;'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should handle primitive type conversions', () => {
+            mockMapDeclaration.getName.returns('ScoreMap');
+            mockMapDeclaration.getKey.returns(mockMapKey);
+            mockMapDeclaration.getValue.returns(mockMapValue);
+            mockMapKey.getType.returns('String');
+            mockMapValue.getType.returns('Integer');
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getNamespace.returns('org.example');
+
+            rustVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(
+                0,
+                'pub type ScoreMap = HashMap<String, i32>;'
+            ).calledOnce.should.be.ok;
+        });
+    });
 });
