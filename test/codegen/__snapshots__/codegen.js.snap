@@ -5390,7 +5390,7 @@ pub mod utils;
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'rust' 2`] = `
 {
   "key": "utils.rs",
-  "value": "use chrono::{ DateTime, TimeZone, Utc };
+  "value": "use chrono::{ DateTime, Utc };
 use serde::{ Deserialize, Serialize, Deserializer, Serializer };
    
 pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>
@@ -5420,7 +5420,7 @@ where
    D: Deserializer<'de>,
 {
    let datetime_str = String::deserialize(deserializer)?;
-   Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)
+   DateTime::parse_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)
 }
    
 pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
@@ -5449,7 +5449,7 @@ where
    let datetime_strings = Vec::<String>::deserialize(deserializer)?;
    datetime_strings
       .iter()
-      .map(|s| Utc.datetime_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))
+      .map(|s| DateTime::parse_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))
       .collect()
 }
 
@@ -5473,7 +5473,7 @@ where
       Some(datetime_strings) => {
          let result: Result<Vec<_>, _> = datetime_strings
             .iter()
-            .map(|s| Utc.datetime_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))
+            .map(|s| DateTime::parse_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))
             .collect();
          result.map(Some)
       },
@@ -5499,7 +5499,7 @@ where
    let string_map = std::collections::HashMap::<String, String>::deserialize(deserializer)?;
    let mut result = std::collections::HashMap::new();
    for (k, v) in string_map {
-      let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+      let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
       result.insert(datetime_key, v);
    }
    Ok(result)
@@ -5523,7 +5523,7 @@ where
    let string_map = std::collections::HashMap::<String, String>::deserialize(deserializer)?;
    let mut result = std::collections::HashMap::new();
    for (k, v) in string_map {
-      let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+      let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
       result.insert(k, datetime_value);
    }
    Ok(result)
@@ -5547,8 +5547,8 @@ where
    let string_map = std::collections::HashMap::<String, String>::deserialize(deserializer)?;
    let mut result = std::collections::HashMap::new();
    for (k, v) in string_map {
-      let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
-      let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+      let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+      let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
       result.insert(datetime_key, datetime_value);
    }
    Ok(result)
@@ -5572,7 +5572,7 @@ where
       Some(string_map) => {
          let mut result = std::collections::HashMap::new();
          for (k, v) in string_map {
-            let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+            let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
             result.insert(datetime_key, v);
          }
          Ok(Some(result))
@@ -5599,7 +5599,7 @@ where
       Some(string_map) => {
          let mut result = std::collections::HashMap::new();
          for (k, v) in string_map {
-            let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+            let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
             result.insert(k, datetime_value);
          }
          Ok(Some(result))
@@ -5626,8 +5626,8 @@ where
       Some(string_map) => {
          let mut result = std::collections::HashMap::new();
          for (k, v) in string_map {
-            let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
-            let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+            let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+            let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
             result.insert(datetime_key, datetime_value);
          }
          Ok(Some(result))
@@ -5643,7 +5643,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "concerto_decorator_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
-use chrono::{ DateTime, TimeZone, Utc };
+use chrono::{ DateTime, Utc };
    
 use crate::concerto_1_0_0::*;
 use crate::utils::*;
@@ -5677,7 +5677,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "concerto_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
-use chrono::{ DateTime, TimeZone, Utc };
+use chrono::{ DateTime, Utc };
    
 use crate::concerto_decorator_1_0_0::*;
 use crate::utils::*;
@@ -5754,7 +5754,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "concerto.rs",
   "value": "use serde::{ Deserialize, Serialize };
-use chrono::{ DateTime, TimeZone, Utc };
+use chrono::{ DateTime, Utc };
    
 use crate::concerto_decorator_1_0_0::*;
 use crate::utils::*;
@@ -5817,7 +5817,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "org_acme_hr_base.rs",
   "value": "use serde::{ Deserialize, Serialize };
-use chrono::{ DateTime, TimeZone, Utc };
+use chrono::{ DateTime, Utc };
    
 use crate::concerto_1_0_0::*;
 use std::collections::HashMap;
@@ -5911,7 +5911,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 {
   "key": "org_acme_hr.rs",
   "value": "use serde::{ Deserialize, Serialize };
-use chrono::{ DateTime, TimeZone, Utc };
+use chrono::{ DateTime, Utc };
    
 use crate::org_acme_hr_base::*;
 use crate::concerto_decorator_1_0_0::*;
@@ -13239,7 +13239,7 @@ pub mod utils;
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'rust' 2`] = `
 {
   "key": "utils.rs",
-  "value": "use chrono::{ DateTime, TimeZone, Utc };
+  "value": "use chrono::{ DateTime, Utc };
 use serde::{ Deserialize, Serialize, Deserializer, Serializer };
    
 pub fn serialize_datetime_option<S>(datetime: &Option<chrono::DateTime<Utc>>, serializer: S) -> Result<S::Ok, S::Error>
@@ -13269,7 +13269,7 @@ where
    D: Deserializer<'de>,
 {
    let datetime_str = String::deserialize(deserializer)?;
-   Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)
+   DateTime::parse_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)
 }
    
 pub fn serialize_datetime<S>(datetime: &chrono::DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
@@ -13298,7 +13298,7 @@ where
    let datetime_strings = Vec::<String>::deserialize(deserializer)?;
    datetime_strings
       .iter()
-      .map(|s| Utc.datetime_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))
+      .map(|s| DateTime::parse_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))
       .collect()
 }
 
@@ -13322,7 +13322,7 @@ where
       Some(datetime_strings) => {
          let result: Result<Vec<_>, _> = datetime_strings
             .iter()
-            .map(|s| Utc.datetime_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))
+            .map(|s| DateTime::parse_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))
             .collect();
          result.map(Some)
       },
@@ -13348,7 +13348,7 @@ where
    let string_map = std::collections::HashMap::<String, String>::deserialize(deserializer)?;
    let mut result = std::collections::HashMap::new();
    for (k, v) in string_map {
-      let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+      let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
       result.insert(datetime_key, v);
    }
    Ok(result)
@@ -13372,7 +13372,7 @@ where
    let string_map = std::collections::HashMap::<String, String>::deserialize(deserializer)?;
    let mut result = std::collections::HashMap::new();
    for (k, v) in string_map {
-      let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+      let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
       result.insert(k, datetime_value);
    }
    Ok(result)
@@ -13396,8 +13396,8 @@ where
    let string_map = std::collections::HashMap::<String, String>::deserialize(deserializer)?;
    let mut result = std::collections::HashMap::new();
    for (k, v) in string_map {
-      let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
-      let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+      let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+      let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
       result.insert(datetime_key, datetime_value);
    }
    Ok(result)
@@ -13421,7 +13421,7 @@ where
       Some(string_map) => {
          let mut result = std::collections::HashMap::new();
          for (k, v) in string_map {
-            let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+            let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
             result.insert(datetime_key, v);
          }
          Ok(Some(result))
@@ -13448,7 +13448,7 @@ where
       Some(string_map) => {
          let mut result = std::collections::HashMap::new();
          for (k, v) in string_map {
-            let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+            let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
             result.insert(k, datetime_value);
          }
          Ok(Some(result))
@@ -13475,8 +13475,8 @@ where
       Some(string_map) => {
          let mut result = std::collections::HashMap::new();
          for (k, v) in string_map {
-            let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
-            let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+            let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
+            let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;
             result.insert(datetime_key, datetime_value);
          }
          Ok(Some(result))
@@ -13492,7 +13492,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "concerto_decorator_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
-use chrono::{ DateTime, TimeZone, Utc };
+use chrono::{ DateTime, Utc };
    
 use crate::concerto_1_0_0::*;
 use crate::utils::*;
@@ -13526,7 +13526,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "concerto_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
-use chrono::{ DateTime, TimeZone, Utc };
+use chrono::{ DateTime, Utc };
    
 use crate::concerto_decorator_1_0_0::*;
 use crate::utils::*;
@@ -13603,7 +13603,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "concerto.rs",
   "value": "use serde::{ Deserialize, Serialize };
-use chrono::{ DateTime, TimeZone, Utc };
+use chrono::{ DateTime, Utc };
    
 use crate::concerto_decorator_1_0_0::*;
 use crate::utils::*;
@@ -13666,7 +13666,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "org_acme_hr_base_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
-use chrono::{ DateTime, TimeZone, Utc };
+use chrono::{ DateTime, Utc };
    
 use crate::concerto_1_0_0::*;
 use std::collections::HashMap;
@@ -13760,7 +13760,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "org_acme_hr_1_0_0.rs",
   "value": "use serde::{ Deserialize, Serialize };
-use chrono::{ DateTime, TimeZone, Utc };
+use chrono::{ DateTime, Utc };
    
 use crate::org_acme_hr_base_1_0_0::*;
 use crate::concerto_decorator_1_0_0::*;

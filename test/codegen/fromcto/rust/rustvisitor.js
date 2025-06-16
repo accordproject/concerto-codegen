@@ -257,7 +257,7 @@ describe('RustVisitor', function () {
                 .map((call) => call.args)
                 .should.deep.equal([
                     [0, 'use serde::{ Deserialize, Serialize };'],
-                    [0, 'use chrono::{ DateTime, TimeZone, Utc };'],
+                    [0, 'use chrono::{ DateTime, Utc };'],
                     [1, ''],
                     [0, 'use crate::org_org2::*;'],
                     [0, 'use crate::super_::*;'],
@@ -869,7 +869,7 @@ describe('RustVisitor', function () {
                 .getCalls()
                 .map((call) => call.args)
                 .should.deep.equal([
-                    [0, 'use chrono::{ DateTime, TimeZone, Utc };'],
+                    [0, 'use chrono::{ DateTime, Utc };'],
                     [
                         0,
                         'use serde::{ Deserialize, Serialize, Deserializer, Serializer };',
@@ -916,7 +916,7 @@ describe('RustVisitor', function () {
                     ],
                     [
                         1,
-                        'Utc.datetime_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)',
+                        'DateTime::parse_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)',
                     ],
                     [0, '}'],
                     [1, ''],
@@ -963,7 +963,7 @@ describe('RustVisitor', function () {
                     [2, '.iter()'],
                     [
                         2,
-                        '.map(|s| Utc.datetime_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))',
+                        '.map(|s| DateTime::parse_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom))',
                     ],
                     [2, '.collect()'],
                     [0, '}'],
@@ -999,7 +999,7 @@ describe('RustVisitor', function () {
                     [4, '.iter()'],
                     [
                         4,
-                        '.map(|s| Utc.datetime_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom))',
+                        '.map(|s| DateTime::parse_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom))',
                     ],
                     [4, '.collect();'],
                     [3, 'result.map(Some)'],
@@ -1043,7 +1043,7 @@ describe('RustVisitor', function () {
                     [1, 'for (k, v) in string_map {'],
                     [
                         2,
-                        'let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;',
+                        'let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [2, 'result.insert(datetime_key, v);'],
                     [1, '}'],
@@ -1085,7 +1085,7 @@ describe('RustVisitor', function () {
                     [1, 'for (k, v) in string_map {'],
                     [
                         2,
-                        'let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;',
+                        'let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [2, 'result.insert(k, datetime_value);'],
                     [1, '}'],
@@ -1127,11 +1127,11 @@ describe('RustVisitor', function () {
                     [1, 'for (k, v) in string_map {'],
                     [
                         2,
-                        'let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;',
+                        'let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [
                         2,
-                        'let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;',
+                        'let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [2, 'result.insert(datetime_key, datetime_value);'],
                     [1, '}'],
@@ -1170,7 +1170,7 @@ describe('RustVisitor', function () {
                     [3, 'for (k, v) in string_map {'],
                     [
                         4,
-                        'let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;',
+                        'let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [4, 'result.insert(datetime_key, v);'],
                     [3, '}'],
@@ -1212,7 +1212,7 @@ describe('RustVisitor', function () {
                     [3, 'for (k, v) in string_map {'],
                     [
                         4,
-                        'let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;',
+                        'let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [4, 'result.insert(k, datetime_value);'],
                     [3, '}'],
@@ -1254,11 +1254,11 @@ describe('RustVisitor', function () {
                     [3, 'for (k, v) in string_map {'],
                     [
                         4,
-                        'let datetime_key = Utc.datetime_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;',
+                        'let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [
                         4,
-                        'let datetime_value = Utc.datetime_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map_err(serde::de::Error::custom)?;',
+                        'let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [4, 'result.insert(datetime_key, datetime_value);'],
                     [3, '}'],
