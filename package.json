@@ -1,6 +1,6 @@
 {
     "name": "@accordproject/concerto-codegen",
-    "version": "3.30.7",
+    "version": "3.31.0",
     "description": "Code Generation for the Concerto Modeling Language",
     "homepage": "https://github.com/accordproject/concerto",
     "engines": {
