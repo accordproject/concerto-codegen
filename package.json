@@ -71,9 +71,9 @@
         "webpack-cli": "4.9.1"
     },
     "dependencies": {
-        "@accordproject/concerto-core": "3.22.0",
-        "@accordproject/concerto-util": "3.22.0",
-        "@accordproject/concerto-vocabulary": "3.22.0",
+        "@accordproject/concerto-core": "3.24.0",
+        "@accordproject/concerto-util": "3.24.0",
+        "@accordproject/concerto-vocabulary": "3.24.0",
         "@openapi-contrib/openapi-schema-to-json-schema": "5.1.0",
         "ajv-formats": "3.0.1",
         "ajv": "8.17.1",
