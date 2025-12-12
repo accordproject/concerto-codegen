@@ -27,7 +27,11 @@
         "build": "npm run build:types",
         "postbuild": "npm run webpack",
         "webpack": "webpack --config webpack.config.js --mode production",
-        "build:types": "tsc index.js --declaration --allowJs --emitDeclarationOnly --outDir types"
+        "build:types": "tsc index.js --declaration --allowJs --emitDeclarationOnly --outDir types",
+        "lint:deps": "syncpack lint",
+        "lint:deps:fix": "syncpack fix",
+        "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --allowed-hosts npm --validate-https",
+        "preinstall": "npm run lint:lockfile && npm run lint:deps"
     },
     "mocha": {
         "require": "mocha-expect-snapshot"
@@ -54,7 +58,7 @@
         "chai-things": "0.2.0",
         "eslint": "8.2.0",
         "expect": "29.1.0",
-        "jsdoc": "^4.0.3",
+        "jsdoc": "4.0.3",
         "license-check-and-add": "2.3.6",
         "mocha": "10.8.2",
         "mocha-expect-snapshot": "6.2.0",
@@ -68,7 +72,9 @@
         "ts-json-schema-generator": "2.3.0",
         "typescript": "5.7.2",
         "webpack": "5.94.0",
-        "webpack-cli": "4.9.1"
+        "webpack-cli": "4.9.1",
+        "lockfile-lint": "4.14.1",
+        "syncpack": "14.0.0-alpha.32"
     },
     "dependencies": {
         "@accordproject/concerto-core": "3.25.0",
