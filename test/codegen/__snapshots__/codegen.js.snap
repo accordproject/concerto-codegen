@@ -5648,7 +5648,7 @@ use chrono::{ DateTime, Utc };
 use crate::concerto_1_0_0::*;
 use crate::utils::*;
    
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Decorator {
    #[serde(
       rename = "$class",
@@ -5656,7 +5656,7 @@ pub struct Decorator {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DotNetNamespace {
    #[serde(
       rename = "$class",
@@ -5682,7 +5682,7 @@ use chrono::{ DateTime, Utc };
 use crate::concerto_decorator_1_0_0::*;
 use crate::utils::*;
    
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
       rename = "$class",
@@ -5690,7 +5690,7 @@ pub struct Concept {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Asset {
    #[serde(
       rename = "$class",
@@ -5703,7 +5703,7 @@ pub struct Asset {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Participant {
    #[serde(
       rename = "$class",
@@ -5716,7 +5716,7 @@ pub struct Participant {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Transaction {
    #[serde(
       rename = "$class",
@@ -5731,7 +5731,7 @@ pub struct Transaction {
    pub _timestamp: DateTime<Utc>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Event {
    #[serde(
       rename = "$class",
@@ -5759,7 +5759,7 @@ use chrono::{ DateTime, Utc };
 use crate::concerto_decorator_1_0_0::*;
 use crate::utils::*;
    
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
       rename = "$class",
@@ -5767,7 +5767,7 @@ pub struct Concept {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Asset {
    #[serde(
       rename = "$class",
@@ -5780,7 +5780,7 @@ pub struct Asset {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Participant {
    #[serde(
       rename = "$class",
@@ -5793,7 +5793,7 @@ pub struct Participant {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Transaction {
    #[serde(
       rename = "$class",
@@ -5801,7 +5801,7 @@ pub struct Transaction {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Event {
    #[serde(
       rename = "$class",
@@ -5823,7 +5823,7 @@ use crate::concerto_1_0_0::*;
 use std::collections::HashMap;
 use crate::utils::*;
    
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Category {
    #[serde(
       rename = "$class",
@@ -5831,7 +5831,7 @@ pub struct Category {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GeneralCategory {
    #[serde(
       rename = "$class",
@@ -5839,7 +5839,7 @@ pub struct GeneralCategory {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum State {
    #[allow(non_camel_case_types)]
    MA,
@@ -5855,7 +5855,7 @@ pub enum State {
    CA,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum TShirtSizeType {
    #[allow(non_camel_case_types)]
    SMALL,
@@ -5867,7 +5867,7 @@ pub enum TShirtSizeType {
 
 pub type EmployeeTShirtSizes = HashMap<SSN, TShirtSizeType>;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Address {
    #[serde(
       rename = "$class",
@@ -5901,7 +5901,7 @@ pub struct Address {
    pub country: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Level {
 }
 
@@ -5921,7 +5921,7 @@ use crate::concerto_1_0_0::*;
 use std::collections::HashMap;
 use crate::utils::*;
    
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct pii {
    #[serde(
       rename = "$class",
@@ -5939,7 +5939,7 @@ pub struct pii {
    pub category: Category,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Category {
    #[serde(
       rename = "$class",
@@ -5947,7 +5947,7 @@ pub struct Category {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Info {
    #[serde(
       rename = "$class",
@@ -5972,7 +5972,7 @@ pub type EmployeeProfiles = HashMap<String, Concept>;
 
 pub type EmployeeDirectory = HashMap<SSN, Employee>;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Company {
    #[serde(
       rename = "$class",
@@ -6020,7 +6020,7 @@ pub struct Company {
    pub employee_social_security_numbers: Option<HashMap<String, String>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Department {
    #[allow(non_camel_case_types)]
    Sales,
@@ -6036,7 +6036,7 @@ pub enum Department {
    Design,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Equipment {
    #[serde(
       rename = "$class",
@@ -6054,7 +6054,7 @@ pub struct Equipment {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum LaptopMake {
    #[allow(non_camel_case_types)]
    Apple,
@@ -6062,7 +6062,7 @@ pub enum LaptopMake {
    Microsoft,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Laptop {
    #[serde(
       rename = "$class",
@@ -6085,7 +6085,7 @@ pub struct Laptop {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Person {
    #[serde(
       rename = "$class",
@@ -6146,7 +6146,7 @@ pub struct Person {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Employee {
    #[serde(
       rename = "$class",
@@ -6248,7 +6248,7 @@ pub struct Employee {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Contractor {
    #[serde(
       rename = "$class",
@@ -6320,7 +6320,7 @@ pub struct Contractor {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Manager {
    #[serde(
       rename = "$class",
@@ -6428,7 +6428,7 @@ pub struct Manager {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CompanyEvent {
    #[serde(
       rename = "$class",
@@ -6443,7 +6443,7 @@ pub struct CompanyEvent {
    pub _timestamp: DateTime<Utc>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Onboarded {
    #[serde(
       rename = "$class",
@@ -6463,7 +6463,7 @@ pub struct Onboarded {
    pub _timestamp: DateTime<Utc>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeOfAddress {
    #[serde(
       rename = "$class",
@@ -13511,7 +13511,7 @@ use chrono::{ DateTime, Utc };
 use crate::concerto_1_0_0::*;
 use crate::utils::*;
    
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Decorator {
    #[serde(
       rename = "$class",
@@ -13519,7 +13519,7 @@ pub struct Decorator {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DotNetNamespace {
    #[serde(
       rename = "$class",
@@ -13545,7 +13545,7 @@ use chrono::{ DateTime, Utc };
 use crate::concerto_decorator_1_0_0::*;
 use crate::utils::*;
    
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
       rename = "$class",
@@ -13553,7 +13553,7 @@ pub struct Concept {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Asset {
    #[serde(
       rename = "$class",
@@ -13566,7 +13566,7 @@ pub struct Asset {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Participant {
    #[serde(
       rename = "$class",
@@ -13579,7 +13579,7 @@ pub struct Participant {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Transaction {
    #[serde(
       rename = "$class",
@@ -13594,7 +13594,7 @@ pub struct Transaction {
    pub _timestamp: DateTime<Utc>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Event {
    #[serde(
       rename = "$class",
@@ -13622,7 +13622,7 @@ use chrono::{ DateTime, Utc };
 use crate::concerto_decorator_1_0_0::*;
 use crate::utils::*;
    
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Concept {
    #[serde(
       rename = "$class",
@@ -13630,7 +13630,7 @@ pub struct Concept {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Asset {
    #[serde(
       rename = "$class",
@@ -13643,7 +13643,7 @@ pub struct Asset {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Participant {
    #[serde(
       rename = "$class",
@@ -13656,7 +13656,7 @@ pub struct Participant {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Transaction {
    #[serde(
       rename = "$class",
@@ -13664,7 +13664,7 @@ pub struct Transaction {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Event {
    #[serde(
       rename = "$class",
@@ -13686,7 +13686,7 @@ use crate::concerto_1_0_0::*;
 use std::collections::HashMap;
 use crate::utils::*;
    
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Category {
    #[serde(
       rename = "$class",
@@ -13694,7 +13694,7 @@ pub struct Category {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GeneralCategory {
    #[serde(
       rename = "$class",
@@ -13702,7 +13702,7 @@ pub struct GeneralCategory {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum State {
    #[allow(non_camel_case_types)]
    MA,
@@ -13718,7 +13718,7 @@ pub enum State {
    CA,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum TShirtSizeType {
    #[allow(non_camel_case_types)]
    SMALL,
@@ -13730,7 +13730,7 @@ pub enum TShirtSizeType {
 
 pub type EmployeeTShirtSizes = HashMap<SSN, TShirtSizeType>;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Address {
    #[serde(
       rename = "$class",
@@ -13764,7 +13764,7 @@ pub struct Address {
    pub country: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Level {
 }
 
@@ -13784,7 +13784,7 @@ use crate::concerto_1_0_0::*;
 use std::collections::HashMap;
 use crate::utils::*;
    
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct pii {
    #[serde(
       rename = "$class",
@@ -13802,7 +13802,7 @@ pub struct pii {
    pub category: Category,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Category {
    #[serde(
       rename = "$class",
@@ -13810,7 +13810,7 @@ pub struct Category {
    pub _class: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Info {
    #[serde(
       rename = "$class",
@@ -13835,7 +13835,7 @@ pub type EmployeeProfiles = HashMap<String, Concept>;
 
 pub type EmployeeDirectory = HashMap<SSN, Employee>;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Company {
    #[serde(
       rename = "$class",
@@ -13883,7 +13883,7 @@ pub struct Company {
    pub employee_social_security_numbers: Option<HashMap<String, String>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Department {
    #[allow(non_camel_case_types)]
    Sales,
@@ -13899,7 +13899,7 @@ pub enum Department {
    Design,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Equipment {
    #[serde(
       rename = "$class",
@@ -13917,7 +13917,7 @@ pub struct Equipment {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum LaptopMake {
    #[allow(non_camel_case_types)]
    Apple,
@@ -13925,7 +13925,7 @@ pub enum LaptopMake {
    Microsoft,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Laptop {
    #[serde(
       rename = "$class",
@@ -13948,7 +13948,7 @@ pub struct Laptop {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Person {
    #[serde(
       rename = "$class",
@@ -14009,7 +14009,7 @@ pub struct Person {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Employee {
    #[serde(
       rename = "$class",
@@ -14111,7 +14111,7 @@ pub struct Employee {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Contractor {
    #[serde(
       rename = "$class",
@@ -14183,7 +14183,7 @@ pub struct Contractor {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Manager {
    #[serde(
       rename = "$class",
@@ -14291,7 +14291,7 @@ pub struct Manager {
    pub _identifier: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CompanyEvent {
    #[serde(
       rename = "$class",
@@ -14306,7 +14306,7 @@ pub struct CompanyEvent {
    pub _timestamp: DateTime<Utc>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Onboarded {
    #[serde(
       rename = "$class",
@@ -14326,7 +14326,7 @@ pub struct Onboarded {
    pub _timestamp: DateTime<Utc>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChangeOfAddress {
    #[serde(
       rename = "$class",

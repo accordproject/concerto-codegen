@@ -334,7 +334,7 @@ describe('RustVisitor', function () {
                 .getCalls()
                 .map((call) => call.args)
                 .should.deep.equal([
-                    [0, '#[derive(Debug, Serialize, Deserialize)]'],
+                    [0, '#[derive(Debug, Clone, Serialize, Deserialize)]'],
                     [0, 'pub struct Bob {'],
                     [1, '#[serde('],
                     [2, 'rename = "$class",'],
@@ -383,7 +383,7 @@ describe('RustVisitor', function () {
             // Verify union enum was generated
             param.fileWriter.writeLine.withArgs(
                 0,
-                '#[derive(Debug, Serialize, Deserialize)]'
+                '#[derive(Debug, Clone, Serialize, Deserialize)]'
             ).calledTwice.should.be.ok;
             param.fileWriter.writeLine.withArgs(0, '#[serde(tag = "$class")]')
                 .calledOnce.should.be.ok;
