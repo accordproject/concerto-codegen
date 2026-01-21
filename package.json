@@ -1,157 +1,161 @@
 {
-    "name": "@accordproject/concerto-codegen",
-    "version": "3.31.3",
-    "description": "Code Generation for the Concerto Modeling Language",
-    "homepage": "https://github.com/accordproject/concerto",
-    "engines": {
-        "node": ">=18",
-        "npm": ">=6"
-    },
-    "main": "index.js",
-    "browser": "umd/concerto-codegen.js",
-    "typings": "types/index.d.ts",
-    "scripts": {
-        "coverage": "node ./scripts/coverage.js \"packages/concerto-*\" && nyc report -t coverage --cwd . --report-dir coverage --reporter=lcov && cat ./coverage/lcov.info",
-        "prepublishOnly": "npm run webpack",
-        "pretest": "npm run lint",
-        "lint": "eslint .",
-        "postlint": "npm run licchk",
-        "licchk": "license-check-and-add",
-        "postlicchk": "npm run doc",
-        "doc": "jsdoc --pedantic --recurse -c jsdoc.json",
-        "test": "nyc mocha --recursive -t 10000",
-        "test:updateSnapshots": "nyc mocha --updateSnapshot --recursive -t 10000",
-        "test:watch": "nyc mocha --watch --recursive -t 10000",
-        "mocha": "mocha --recursive -t 10000",
-        "nyc": "nyc mocha --recursive -t 10000",
-        "build": "npm run build:types",
-        "postbuild": "npm run webpack",
-        "webpack": "webpack --config webpack.config.js --mode production",
-        "build:types": "tsc index.js --declaration --allowJs --emitDeclarationOnly --outDir types",
-        "lint:deps": "syncpack lint",
-        "lint:deps:fix": "syncpack fix",
-        "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --allowed-hosts npm --validate-https",
-        "preinstall": "npm run lint:lockfile && npm run lint:deps"
-    },
-    "mocha": {
-        "require": "mocha-expect-snapshot"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/accordproject/concerto-codegen.git",
-        "directory": "packages/concerto-codegen"
-    },
-    "keywords": [
-        "concerto",
-        "codegen",
-        "modeling"
+  "name": "@accordproject/concerto-codegen",
+  "version": "3.31.3",
+  "description": "Code Generation for the Concerto Modeling Language",
+  "homepage": "https://github.com/accordproject/concerto",
+  "engines": {
+    "node": ">=18",
+    "npm": ">=6"
+  },
+  "main": "index.js",
+  "browser": "umd/concerto-codegen.js",
+  "typings": "types/index.d.ts",
+  "scripts": {
+    "coverage": "node ./scripts/coverage.js \"packages/concerto-*\" && nyc report -t coverage --cwd . --report-dir coverage --reporter=lcov && cat ./coverage/lcov.info",
+    "prepublishOnly": "npm run webpack",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "pretest": "npm run lint",
+    "lint": "eslint .",
+    "postlint": "npm run licchk",
+    "licchk": "license-check-and-add",
+    "postlicchk": "npm run doc",
+    "doc": "jsdoc --pedantic --recurse -c jsdoc.json",
+    "test": "nyc mocha --recursive -t 10000",
+    "test:updateSnapshots": "nyc mocha --updateSnapshot --recursive -t 10000",
+    "test:watch": "nyc mocha --watch --recursive -t 10000",
+    "mocha": "mocha --recursive -t 10000",
+    "nyc": "nyc mocha --recursive -t 10000",
+    "build": "npm run build:types",
+    "postbuild": "npm run webpack",
+    "webpack": "webpack --config webpack.config.js --mode production",
+    "build:types": "tsc index.js --declaration --allowJs --emitDeclarationOnly --outDir types",
+    "lint:deps": "syncpack lint",
+    "lint:deps:fix": "syncpack fix",
+    "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --allowed-hosts npm --validate-https",
+    "preinstall": "npm run lint:lockfile && npm run lint:deps"
+  },
+  "mocha": {
+    "require": "mocha-expect-snapshot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/accordproject/concerto-codegen.git",
+    "directory": "packages/concerto-codegen"
+  },
+  "keywords": [
+    "concerto",
+    "codegen",
+    "modeling"
+  ],
+  "author": "accordproject.org",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@accordproject/concerto-cto": "3.25.0",
+    "@babel/preset-env": "7.16.11",
+    "@types/webgl-ext": "0.0.37",
+    "babel-loader": "8.2.3",
+    "chai": "4.3.6",
+    "chai-as-promised": "7.1.1",
+    "chai-things": "0.2.0",
+    "eslint": "8.2.0",
+    "eslint-config-prettier": "10.1.8",
+    "expect": "29.1.0",
+    "jsdoc": "4.0.3",
+    "license-check-and-add": "2.3.6",
+    "lockfile-lint": "4.14.1",
+    "mocha": "10.8.2",
+    "mocha-expect-snapshot": "6.2.0",
+    "moxios": "0.4.0",
+    "node-polyfill-webpack-plugin": "3.0.0",
+    "nunjucks": "3.2.4",
+    "nyc": "15.1.0",
+    "prettier": "3.8.0",
+    "sinon": "12.0.0",
+    "sinon-chai": "3.7.0",
+    "syncpack": "14.0.0-alpha.32",
+    "tmp-promise": "3.0.2",
+    "ts-json-schema-generator": "2.3.0",
+    "typescript": "5.7.2",
+    "webpack": "5.94.0",
+    "webpack-cli": "4.9.1"
+  },
+  "dependencies": {
+    "@accordproject/concerto-core": "3.25.0",
+    "@accordproject/concerto-util": "3.25.0",
+    "@accordproject/concerto-vocabulary": "3.25.0",
+    "@openapi-contrib/openapi-schema-to-json-schema": "5.1.0",
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1",
+    "camelcase": "6.3.0",
+    "debug": "4.3.4",
+    "get-value": "3.0.1",
+    "json-schema-migrate": "2.0.0",
+    "pluralize": "8.0.0"
+  },
+  "license-check-and-add-config": {
+    "folder": "./lib",
+    "license": "HEADER",
+    "exact_paths_method": "EXCLUDE",
+    "exact_paths": [
+      "api.txt",
+      "composer-logs",
+      "coverage",
+      "index.d.ts",
+      "./system",
+      "./introspect/parser.js",
+      "LICENSE",
+      "node_modules",
+      ".nyc-output",
+      "out",
+      ".tern-project"
     ],
-    "author": "accordproject.org",
-    "license": "Apache-2.0",
-    "devDependencies": {
-        "@accordproject/concerto-cto": "3.25.0",
-        "@babel/preset-env": "7.16.11",
-        "@types/webgl-ext": "0.0.37",
-        "babel-loader": "8.2.3",
-        "chai": "4.3.6",
-        "chai-as-promised": "7.1.1",
-        "chai-things": "0.2.0",
-        "eslint": "8.2.0",
-        "expect": "29.1.0",
-        "jsdoc": "4.0.3",
-        "license-check-and-add": "2.3.6",
-        "mocha": "10.8.2",
-        "mocha-expect-snapshot": "6.2.0",
-        "moxios": "0.4.0",
-        "node-polyfill-webpack-plugin": "3.0.0",
-        "nunjucks": "3.2.4",
-        "nyc": "15.1.0",
-        "sinon": "12.0.0",
-        "sinon-chai": "3.7.0",
-        "tmp-promise": "3.0.2",
-        "ts-json-schema-generator": "2.3.0",
-        "typescript": "5.7.2",
-        "webpack": "5.94.0",
-        "webpack-cli": "4.9.1",
-        "lockfile-lint": "4.14.1",
-        "syncpack": "14.0.0-alpha.32"
-    },
-    "dependencies": {
-        "@accordproject/concerto-core": "3.25.0",
-        "@accordproject/concerto-util": "3.25.0",
-        "@accordproject/concerto-vocabulary": "3.25.0",
-        "@openapi-contrib/openapi-schema-to-json-schema": "5.1.0",
-        "ajv-formats": "3.0.1",
-        "ajv": "8.17.1",
-        "camelcase": "6.3.0",
-        "debug": "4.3.4",
-        "get-value": "3.0.1",
-        "json-schema-migrate": "2.0.0",
-        "pluralize": "8.0.0"
-    },
-    "license-check-and-add-config": {
-        "folder": "./lib",
-        "license": "HEADER",
-        "exact_paths_method": "EXCLUDE",
-        "exact_paths": [
-            "api.txt",
-            "composer-logs",
-            "coverage",
-            "index.d.ts",
-            "./system",
-            "./introspect/parser.js",
-            "LICENSE",
-            "node_modules",
-            ".nyc-output",
-            "out",
-            ".tern-project"
-        ],
-        "file_type_method": "EXCLUDE",
-        "file_types": [
-            ".yml",
-            ".yaml",
-            ".zip",
-            ".tgz"
-        ],
-        "insert_license": false,
-        "license_formats": {
-            "js|njk|pegjs|cto|acl|qry": {
-                "prepend": "/*",
-                "append": " */",
-                "eachLine": {
-                    "prepend": " * "
-                }
-            },
-            "npmrc|editorconfig|txt": {
-                "eachLine": {
-                    "prepend": "# "
-                }
-            },
-            "md": {
-                "file": "./HEADER.md"
-            }
+    "file_type_method": "EXCLUDE",
+    "file_types": [
+      ".yml",
+      ".yaml",
+      ".zip",
+      ".tgz"
+    ],
+    "insert_license": false,
+    "license_formats": {
+      "js|njk|pegjs|cto|acl|qry": {
+        "prepend": "/*",
+        "append": " */",
+        "eachLine": {
+          "prepend": " * "
         }
-    },
-    "nyc": {
-        "produce-source-map": "true",
-        "sourceMap": "inline",
-        "reporter": [
-            "lcov",
-            "text-summary",
-            "html",
-            "json"
-        ],
-        "include": [
-            "lib/**/*.js"
-        ],
-        "exclude": [
-            "lib/codegen/codegen.js"
-        ],
-        "all": true,
-        "check-coverage": true,
-        "statements": 98,
-        "branches": 96,
-        "functions": 98,
-        "lines": 98
+      },
+      "npmrc|editorconfig|txt": {
+        "eachLine": {
+          "prepend": "# "
+        }
+      },
+      "md": {
+        "file": "./HEADER.md"
+      }
     }
+  },
+  "nyc": {
+    "produce-source-map": "true",
+    "sourceMap": "inline",
+    "reporter": [
+      "lcov",
+      "text-summary",
+      "html",
+      "json"
+    ],
+    "include": [
+      "lib/**/*.js"
+    ],
+    "exclude": [
+      "lib/codegen/codegen.js"
+    ],
+    "all": true,
+    "check-coverage": true,
+    "statements": 98,
+    "branches": 96,
+    "functions": 98,
+    "lines": 98
+  }
 }
