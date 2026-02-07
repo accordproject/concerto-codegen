@@ -71,7 +71,7 @@
         "tmp-promise": "3.0.2",
         "ts-json-schema-generator": "2.3.0",
         "typescript": "5.7.2",
-        "webpack": "5.94.0",
+        "webpack": "5.105.0",
         "webpack-cli": "4.9.1",
         "lockfile-lint": "4.14.1",
         "syncpack": "14.0.0-alpha.32"
