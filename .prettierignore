@@ -1,0 +1,7 @@
+coverage
+out
+doc
+node_modules
+dist
+packages
+**/*.min.js
