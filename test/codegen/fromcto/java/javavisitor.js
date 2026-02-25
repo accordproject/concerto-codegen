@@ -243,11 +243,16 @@ describe('JavaVisitor', function () {
             javaVisit.visitEnumDeclaration(mockEnumDeclaration, param);
 
             mockStartClassFile.withArgs(mockEnumDeclaration, param).calledOnce.should.be.ok;
-            param.fileWriter.writeLine.callCount.should.deep.equal(4);
+            param.fileWriter.writeLine.callCount.should.deep.equal(8);
+
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'import com.fasterxml.jackson.annotation.*;']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '@JsonIgnoreProperties({"$class"})']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'public enum Bob {']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '}']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, '@Override']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, 'public String toString() {']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([2, 'return name();']);
+            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([1, '}']);
+            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([0, '}']);
             mockEndClassFile.withArgs(mockEnumDeclaration, param).calledOnce.should.be.ok;
         });
     });
