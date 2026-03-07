@@ -442,7 +442,7 @@ describe('TypescriptVisitor', function () {
     });
 
     describe('visitEnumDeclaration', () => {
-        it('should write the export enum and call accept on each property', () => {
+        it('should write the export type and string union', () => {
             let acceptSpy = sinon.spy();
 
             let param = {
@@ -452,20 +452,22 @@ describe('TypescriptVisitor', function () {
             let mockEnumDeclaration = sinon.createStubInstance(EnumDeclaration);
             mockEnumDeclaration.isEnum.returns(true);
             mockEnumDeclaration.getName.returns('Bob');
+
             mockEnumDeclaration.getOwnProperties.returns([{
-                accept: acceptSpy
+                accept: acceptSpy,
+                getName: () => 'RED'
             },
             {
-                accept: acceptSpy
+                accept: acceptSpy,
+                getName: () => 'BLUE'
             }]);
 
             typescriptVisitor.visitEnumDeclaration(mockEnumDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(2);
-            param.fileWriter.writeLine.withArgs(0, 'export enum Bob {').calledOnce.should.be.ok;
-            param.fileWriter.writeLine.withArgs(0, '}\n').calledOnce.should.be.ok;
-
-            acceptSpy.withArgs(typescriptVisitor, param).calledTwice.should.be.ok;
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.withArgs(0, 'export type Bob =').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, '\'RED\' | \'BLUE\';').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, '').calledOnce.should.be.ok;
         });
     });
 
