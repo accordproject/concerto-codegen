@@ -665,6 +665,31 @@ public class SampleModel : Concept {
             file1.should.match(/NotApplicable/);
         });
 
+        it('should escape C# reserved keywords used as enum values', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            enum Status {
+                o Active
+                o event
+                o fixed
+                o virtual
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.match(/enum Status/);
+            file1.should.match(/Active,/);
+            file1.should.match(/\[System\.Runtime\.Serialization\.EnumMember\(Value = "event"\)\]/);
+            file1.should.match(/_event,/);
+            file1.should.match(/\[System\.Runtime\.Serialization\.EnumMember\(Value = "fixed"\)\]/);
+            file1.should.match(/_fixed,/);
+            file1.should.match(/\[System\.Runtime\.Serialization\.EnumMember\(Value = "virtual"\)\]/);
+            file1.should.match(/_virtual,/);
+        });
+
         it('should throw an error when an invalid @AcceptedValue provided', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
@@ -1697,6 +1722,34 @@ public class SampleModel : Concept {
 
             csharpVisitor.visitEnumValueDeclaration(mockEnumValueDeclaration, param);
             param.fileWriter.writeLine.withArgs(2, 'Bob,').calledOnce.should.be.ok;
+        });
+
+        it('should prefix reserved keyword enum values with underscore and add EnumMember attribute', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockEnumValueDeclaration = sinon.createStubInstance(EnumValueDeclaration);
+            mockEnumValueDeclaration.isEnumValue.returns(true);
+            mockEnumValueDeclaration.getName.returns('event');
+
+            csharpVisitor.visitEnumValueDeclaration(mockEnumValueDeclaration, param);
+            param.fileWriter.writeLine.withArgs(1, '[System.Runtime.Serialization.EnumMember(Value = "event")]').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, '_event,').calledOnce.should.be.ok;
+        });
+
+        it('should not add EnumMember attribute for non-reserved enum values', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockEnumValueDeclaration = sinon.createStubInstance(EnumValueDeclaration);
+            mockEnumValueDeclaration.isEnumValue.returns(true);
+            mockEnumValueDeclaration.getName.returns('Active');
+
+            csharpVisitor.visitEnumValueDeclaration(mockEnumValueDeclaration, param);
+            param.fileWriter.writeLine.withArgs(2, 'Active,').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, sinon.match(/EnumMember/)).called.should.not.be.ok;
         });
     });
 
