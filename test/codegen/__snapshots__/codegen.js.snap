@@ -1011,15 +1011,15 @@ type ChangeOfAddress {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 1`] = `
 {
-  "key": "concerto/decorator/Decorator.java",
+  "key": "concerto/decorator@1/0/0/Decorator.java",
   "value": "// this code is generated and should not be modified
-package concerto.decorator;
+package concerto.decorator@1.0.0;
 
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1031,15 +1031,15 @@ public abstract class Decorator extends Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 2`] = `
 {
-  "key": "concerto/decorator/DotNetNamespace.java",
+  "key": "concerto/decorator@1/0/0/DotNetNamespace.java",
   "value": "// this code is generated and should not be modified
-package concerto.decorator;
+package concerto.decorator@1.0.0;
 
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1058,11 +1058,11 @@ public class DotNetNamespace extends Decorator {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 3`] = `
 {
-  "key": "concerto/Concept.java",
+  "key": "concerto@1/0/0/Concept.java",
   "value": "// this code is generated and should not be modified
-package concerto;
+package concerto@1.0.0;
 
-import concerto.decorator.DotNetNamespace;
+import concerto.decorator@1.0.0.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1074,11 +1074,11 @@ public abstract class Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 4`] = `
 {
-  "key": "concerto/Asset.java",
+  "key": "concerto@1/0/0/Asset.java",
   "value": "// this code is generated and should not be modified
-package concerto;
+package concerto@1.0.0;
 
-import concerto.decorator.DotNetNamespace;
+import concerto.decorator@1.0.0.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1114,11 +1114,11 @@ public abstract class Asset extends Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 5`] = `
 {
-  "key": "concerto/Participant.java",
+  "key": "concerto@1/0/0/Participant.java",
   "value": "// this code is generated and should not be modified
-package concerto;
+package concerto@1.0.0;
 
-import concerto.decorator.DotNetNamespace;
+import concerto.decorator@1.0.0.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1154,11 +1154,153 @@ public abstract class Participant extends Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 6`] = `
 {
+  "key": "concerto@1/0/0/Transaction.java",
+  "value": "// this code is generated and should not be modified
+package concerto@1.0.0;
+
+import concerto.decorator@1.0.0.DotNetNamespace;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class Transaction extends Concept {
+   private java.util.Date $timestamp;
+   public java.util.Date get$timestamp() {
+      return this.$timestamp;
+   }
+   public void set$timestamp(java.util.Date $timestamp) {
+      this.$timestamp = $timestamp;
+   }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 7`] = `
+{
+  "key": "concerto@1/0/0/Event.java",
+  "value": "// this code is generated and should not be modified
+package concerto@1.0.0;
+
+import concerto.decorator@1.0.0.DotNetNamespace;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class Event extends Concept {
+   private java.util.Date $timestamp;
+   public java.util.Date get$timestamp() {
+      return this.$timestamp;
+   }
+   public void set$timestamp(java.util.Date $timestamp) {
+      this.$timestamp = $timestamp;
+   }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 8`] = `
+{
+  "key": "concerto/Concept.java",
+  "value": "// this code is generated and should not be modified
+package concerto;
+
+import concerto.decorator@1.0.0.DotNetNamespace;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class Concept {
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 9`] = `
+{
+  "key": "concerto/Asset.java",
+  "value": "// this code is generated and should not be modified
+package concerto;
+
+import concerto.decorator@1.0.0.DotNetNamespace;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+@JsonIgnoreProperties({"id"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "$identifier")
+public abstract class Asset extends Concept {
+   private String $id;
+            @JsonProperty("$id")
+            public String get$id() {
+                return $id;
+            }
+            @JsonProperty("$id")
+            public void set$id(String i) {
+                $id = i;
+            }
+   
+   // the accessor for the identifying field
+   public String getID() {
+      return this.get$identifier();
+   }
+
+   private String $identifier;
+   public String get$identifier() {
+      return this.$identifier;
+   }
+   public void set$identifier(String $identifier) {
+      this.$identifier = $identifier;
+   }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 10`] = `
+{
+  "key": "concerto/Participant.java",
+  "value": "// this code is generated and should not be modified
+package concerto;
+
+import concerto.decorator@1.0.0.DotNetNamespace;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+@JsonIgnoreProperties({"id"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "$identifier")
+public abstract class Participant extends Concept {
+   private String $id;
+            @JsonProperty("$id")
+            public String get$id() {
+                return $id;
+            }
+            @JsonProperty("$id")
+            public void set$id(String i) {
+                $id = i;
+            }
+   
+   // the accessor for the identifying field
+   public String getID() {
+      return this.get$identifier();
+   }
+
+   private String $identifier;
+   public String get$identifier() {
+      return this.$identifier;
+   }
+   public void set$identifier(String $identifier) {
+      this.$identifier = $identifier;
+   }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 11`] = `
+{
   "key": "concerto/Transaction.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
-import concerto.decorator.DotNetNamespace;
+import concerto.decorator@1.0.0.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1168,13 +1310,13 @@ public abstract class Transaction extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 7`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 12`] = `
 {
   "key": "concerto/Event.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
-import concerto.decorator.DotNetNamespace;
+import concerto.decorator@1.0.0.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1184,17 +1326,17 @@ public abstract class Event extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 8`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 13`] = `
 {
   "key": "org/acme/hr/base/Category.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr.base;
 
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1204,17 +1346,17 @@ public abstract class Category extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 9`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 14`] = `
 {
   "key": "org/acme/hr/base/GeneralCategory.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr.base;
 
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1224,7 +1366,7 @@ public abstract class GeneralCategory extends Category {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 10`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 15`] = `
 {
   "key": "org/acme/hr/base/State.java",
   "value": "// this code is generated and should not be modified
@@ -1244,7 +1386,7 @@ public enum State {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 11`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 16`] = `
 {
   "key": "org/acme/hr/base/TShirtSizeType.java",
   "value": "// this code is generated and should not be modified
@@ -1261,17 +1403,17 @@ public enum TShirtSizeType {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 12`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 17`] = `
 {
   "key": "org/acme/hr/base/Address.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr.base;
 
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1316,7 +1458,7 @@ public class Address extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 13`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 18`] = `
 {
   "key": "org/acme/hr/base/Level.java",
   "value": "// this code is generated and should not be modified
@@ -1330,7 +1472,7 @@ public enum Level {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 14`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 19`] = `
 {
   "key": "org/acme/hr/pii.java",
   "value": "// this code is generated and should not be modified
@@ -1343,12 +1485,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1372,7 +1514,7 @@ public class pii extends Decorator {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 15`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 20`] = `
 {
   "key": "org/acme/hr/Category.java",
   "value": "// this code is generated and should not be modified
@@ -1385,12 +1527,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1400,7 +1542,7 @@ public class Category extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 16`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 21`] = `
 {
   "key": "org/acme/hr/Info.java",
   "value": "// this code is generated and should not be modified
@@ -1413,12 +1555,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -1435,7 +1577,7 @@ public class Info extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 17`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 22`] = `
 {
   "key": "org/acme/hr/Company.java",
   "value": "// this code is generated and should not be modified
@@ -1448,12 +1590,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
@@ -1514,7 +1656,7 @@ public class Company extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 18`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 23`] = `
 {
   "key": "org/acme/hr/Department.java",
   "value": "// this code is generated and should not be modified
@@ -1534,7 +1676,7 @@ public enum Department {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 19`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 24`] = `
 {
   "key": "org/acme/hr/Equipment.java",
   "value": "// this code is generated and should not be modified
@@ -1547,12 +1689,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -1576,7 +1718,7 @@ public abstract class Equipment extends Asset {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 20`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 25`] = `
 {
   "key": "org/acme/hr/LaptopMake.java",
   "value": "// this code is generated and should not be modified
@@ -1592,7 +1734,7 @@ public enum LaptopMake {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 21`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 26`] = `
 {
   "key": "org/acme/hr/Laptop.java",
   "value": "// this code is generated and should not be modified
@@ -1605,12 +1747,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -1634,7 +1776,7 @@ public class Laptop extends Equipment {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 22`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 27`] = `
 {
   "key": "org/acme/hr/Person.java",
   "value": "// this code is generated and should not be modified
@@ -1647,12 +1789,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
@@ -1734,7 +1876,7 @@ public abstract class Person extends Participant {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 23`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 28`] = `
 {
   "key": "org/acme/hr/Employee.java",
   "value": "// this code is generated and should not be modified
@@ -1747,12 +1889,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -1825,7 +1967,7 @@ public class Employee extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 24`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 29`] = `
 {
   "key": "org/acme/hr/Contractor.java",
   "value": "// this code is generated and should not be modified
@@ -1838,12 +1980,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -1874,7 +2016,7 @@ public class Contractor extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 25`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 30`] = `
 {
   "key": "org/acme/hr/Manager.java",
   "value": "// this code is generated and should not be modified
@@ -1887,12 +2029,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -1916,7 +2058,7 @@ public class Manager extends Employee {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 26`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 31`] = `
 {
   "key": "org/acme/hr/CompanyEvent.java",
   "value": "// this code is generated and should not be modified
@@ -1929,12 +2071,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 public class CompanyEvent extends Event {
@@ -1943,7 +2085,7 @@ public class CompanyEvent extends Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 27`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 32`] = `
 {
   "key": "org/acme/hr/Onboarded.java",
   "value": "// this code is generated and should not be modified
@@ -1956,12 +2098,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 public class Onboarded extends CompanyEvent {
@@ -1977,7 +2119,7 @@ public class Onboarded extends CompanyEvent {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 28`] = `
+exports[`codegen #formats check we can convert all formats from namespace unversioned CTO, format 'java' 33`] = `
 {
   "key": "org/acme/hr/ChangeOfAddress.java",
   "value": "// this code is generated and should not be modified
@@ -1990,12 +2132,12 @@ import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 public class ChangeOfAddress extends Transaction {
@@ -8840,15 +8982,15 @@ type ChangeOfAddress {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 1`] = `
 {
-  "key": "concerto/decorator/Decorator.java",
+  "key": "concerto/decorator@1/0/0/Decorator.java",
   "value": "// this code is generated and should not be modified
-package concerto.decorator;
+package concerto.decorator@1.0.0;
 
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -8860,15 +9002,15 @@ public abstract class Decorator extends Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 2`] = `
 {
-  "key": "concerto/decorator/DotNetNamespace.java",
+  "key": "concerto/decorator@1/0/0/DotNetNamespace.java",
   "value": "// this code is generated and should not be modified
-package concerto.decorator;
+package concerto.decorator@1.0.0;
 
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -8887,11 +9029,11 @@ public class DotNetNamespace extends Decorator {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 3`] = `
 {
-  "key": "concerto/Concept.java",
+  "key": "concerto@1/0/0/Concept.java",
   "value": "// this code is generated and should not be modified
-package concerto;
+package concerto@1.0.0;
 
-import concerto.decorator.DotNetNamespace;
+import concerto.decorator@1.0.0.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -8903,11 +9045,11 @@ public abstract class Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 4`] = `
 {
-  "key": "concerto/Asset.java",
+  "key": "concerto@1/0/0/Asset.java",
   "value": "// this code is generated and should not be modified
-package concerto;
+package concerto@1.0.0;
 
-import concerto.decorator.DotNetNamespace;
+import concerto.decorator@1.0.0.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -8943,11 +9085,11 @@ public abstract class Asset extends Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 5`] = `
 {
-  "key": "concerto/Participant.java",
+  "key": "concerto@1/0/0/Participant.java",
   "value": "// this code is generated and should not be modified
-package concerto;
+package concerto@1.0.0;
 
-import concerto.decorator.DotNetNamespace;
+import concerto.decorator@1.0.0.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -8983,11 +9125,153 @@ public abstract class Participant extends Concept {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 6`] = `
 {
+  "key": "concerto@1/0/0/Transaction.java",
+  "value": "// this code is generated and should not be modified
+package concerto@1.0.0;
+
+import concerto.decorator@1.0.0.DotNetNamespace;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class Transaction extends Concept {
+   private java.util.Date $timestamp;
+   public java.util.Date get$timestamp() {
+      return this.$timestamp;
+   }
+   public void set$timestamp(java.util.Date $timestamp) {
+      this.$timestamp = $timestamp;
+   }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 7`] = `
+{
+  "key": "concerto@1/0/0/Event.java",
+  "value": "// this code is generated and should not be modified
+package concerto@1.0.0;
+
+import concerto.decorator@1.0.0.DotNetNamespace;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class Event extends Concept {
+   private java.util.Date $timestamp;
+   public java.util.Date get$timestamp() {
+      return this.$timestamp;
+   }
+   public void set$timestamp(java.util.Date $timestamp) {
+      this.$timestamp = $timestamp;
+   }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 8`] = `
+{
+  "key": "concerto/Concept.java",
+  "value": "// this code is generated and should not be modified
+package concerto;
+
+import concerto.decorator@1.0.0.DotNetNamespace;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+public abstract class Concept {
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 9`] = `
+{
+  "key": "concerto/Asset.java",
+  "value": "// this code is generated and should not be modified
+package concerto;
+
+import concerto.decorator@1.0.0.DotNetNamespace;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+@JsonIgnoreProperties({"id"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "$identifier")
+public abstract class Asset extends Concept {
+   private String $id;
+            @JsonProperty("$id")
+            public String get$id() {
+                return $id;
+            }
+            @JsonProperty("$id")
+            public void set$id(String i) {
+                $id = i;
+            }
+   
+   // the accessor for the identifying field
+   public String getID() {
+      return this.get$identifier();
+   }
+
+   private String $identifier;
+   public String get$identifier() {
+      return this.$identifier;
+   }
+   public void set$identifier(String $identifier) {
+      this.$identifier = $identifier;
+   }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 10`] = `
+{
+  "key": "concerto/Participant.java",
+  "value": "// this code is generated and should not be modified
+package concerto;
+
+import concerto.decorator@1.0.0.DotNetNamespace;
+import com.fasterxml.jackson.annotation.*;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
+@JsonIgnoreProperties({"id"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "$identifier")
+public abstract class Participant extends Concept {
+   private String $id;
+            @JsonProperty("$id")
+            public String get$id() {
+                return $id;
+            }
+            @JsonProperty("$id")
+            public void set$id(String i) {
+                $id = i;
+            }
+   
+   // the accessor for the identifying field
+   public String getID() {
+      return this.get$identifier();
+   }
+
+   private String $identifier;
+   public String get$identifier() {
+      return this.$identifier;
+   }
+   public void set$identifier(String $identifier) {
+      this.$identifier = $identifier;
+   }
+}
+",
+}
+`;
+
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 11`] = `
+{
   "key": "concerto/Transaction.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
-import concerto.decorator.DotNetNamespace;
+import concerto.decorator@1.0.0.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -8997,13 +9281,13 @@ public abstract class Transaction extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 7`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 12`] = `
 {
   "key": "concerto/Event.java",
   "value": "// this code is generated and should not be modified
 package concerto;
 
-import concerto.decorator.DotNetNamespace;
+import concerto.decorator@1.0.0.DotNetNamespace;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -9013,17 +9297,17 @@ public abstract class Event extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 8`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 13`] = `
 {
-  "key": "org/acme/hr/base/Category.java",
+  "key": "org/acme/hr/base@1/0/0/Category.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr.base;
+package org.acme.hr.base@1.0.0;
 
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -9033,17 +9317,17 @@ public abstract class Category extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 9`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 14`] = `
 {
-  "key": "org/acme/hr/base/GeneralCategory.java",
+  "key": "org/acme/hr/base@1/0/0/GeneralCategory.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr.base;
+package org.acme.hr.base@1.0.0;
 
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -9053,11 +9337,11 @@ public abstract class GeneralCategory extends Category {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 10`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 15`] = `
 {
-  "key": "org/acme/hr/base/State.java",
+  "key": "org/acme/hr/base@1/0/0/State.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr.base;
+package org.acme.hr.base@1.0.0;
 
 import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"$class"})
@@ -9073,11 +9357,11 @@ public enum State {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 11`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 16`] = `
 {
-  "key": "org/acme/hr/base/TShirtSizeType.java",
+  "key": "org/acme/hr/base@1/0/0/TShirtSizeType.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr.base;
+package org.acme.hr.base@1.0.0;
 
 import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"$class"})
@@ -9090,17 +9374,17 @@ public enum TShirtSizeType {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 12`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 17`] = `
 {
-  "key": "org/acme/hr/base/Address.java",
+  "key": "org/acme/hr/base@1/0/0/Address.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr.base;
+package org.acme.hr.base@1.0.0;
 
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -9145,11 +9429,11 @@ public class Address extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 13`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 18`] = `
 {
-  "key": "org/acme/hr/base/Level.java",
+  "key": "org/acme/hr/base@1/0/0/Level.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr.base;
+package org.acme.hr.base@1.0.0;
 
 import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"$class"})
@@ -9159,25 +9443,25 @@ public enum Level {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 14`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 19`] = `
 {
-  "key": "org/acme/hr/pii.java",
+  "key": "org/acme/hr@1/0/0/pii.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -9201,25 +9485,25 @@ public class pii extends Decorator {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 15`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 20`] = `
 {
-  "key": "org/acme/hr/Category.java",
+  "key": "org/acme/hr@1/0/0/Category.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -9229,25 +9513,25 @@ public class Category extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 16`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 21`] = `
 {
-  "key": "org/acme/hr/Info.java",
+  "key": "org/acme/hr@1/0/0/Info.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
@@ -9264,25 +9548,25 @@ public class Info extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 17`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 22`] = `
 {
-  "key": "org/acme/hr/Company.java",
+  "key": "org/acme/hr@1/0/0/Company.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
@@ -9343,11 +9627,11 @@ public class Company extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 18`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 23`] = `
 {
-  "key": "org/acme/hr/Department.java",
+  "key": "org/acme/hr@1/0/0/Department.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
 import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"$class"})
@@ -9363,25 +9647,25 @@ public enum Department {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 19`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 24`] = `
 {
-  "key": "org/acme/hr/Equipment.java",
+  "key": "org/acme/hr@1/0/0/Equipment.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -9405,11 +9689,11 @@ public abstract class Equipment extends Asset {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 20`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 25`] = `
 {
-  "key": "org/acme/hr/LaptopMake.java",
+  "key": "org/acme/hr@1/0/0/LaptopMake.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
 import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"$class"})
@@ -9421,25 +9705,25 @@ public enum LaptopMake {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 21`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 26`] = `
 {
-  "key": "org/acme/hr/Laptop.java",
+  "key": "org/acme/hr@1/0/0/Laptop.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -9463,25 +9747,25 @@ public class Laptop extends Equipment {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 22`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 27`] = `
 {
-  "key": "org/acme/hr/Person.java",
+  "key": "org/acme/hr@1/0/0/Person.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
@@ -9563,25 +9847,25 @@ public abstract class Person extends Participant {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 23`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 28`] = `
 {
-  "key": "org/acme/hr/Employee.java",
+  "key": "org/acme/hr@1/0/0/Employee.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -9654,25 +9938,25 @@ public class Employee extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 24`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 29`] = `
 {
-  "key": "org/acme/hr/Contractor.java",
+  "key": "org/acme/hr@1/0/0/Contractor.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -9703,25 +9987,25 @@ public class Contractor extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 25`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 30`] = `
 {
-  "key": "org/acme/hr/Manager.java",
+  "key": "org/acme/hr@1/0/0/Manager.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties({"id"})
@@ -9745,25 +10029,25 @@ public class Manager extends Employee {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 26`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 31`] = `
 {
-  "key": "org/acme/hr/CompanyEvent.java",
+  "key": "org/acme/hr@1/0/0/CompanyEvent.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 public class CompanyEvent extends Event {
@@ -9772,25 +10056,25 @@ public class CompanyEvent extends Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 27`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 32`] = `
 {
-  "key": "org/acme/hr/Onboarded.java",
+  "key": "org/acme/hr@1/0/0/Onboarded.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 public class Onboarded extends CompanyEvent {
@@ -9806,25 +10090,25 @@ public class Onboarded extends CompanyEvent {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 28`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 33`] = `
 {
-  "key": "org/acme/hr/ChangeOfAddress.java",
+  "key": "org/acme/hr@1/0/0/ChangeOfAddress.java",
   "value": "// this code is generated and should not be modified
-package org.acme.hr;
+package org.acme.hr@1.0.0;
 
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
+import org.acme.hr.base@1.0.0.Address;
+import org.acme.hr.base@1.0.0.State;
+import org.acme.hr.base@1.0.0.SSN;
+import org.acme.hr.base@1.0.0.Time;
+import org.acme.hr.base@1.0.0.EmployeeTShirtSizes;
+import org.acme.hr.base@1.0.0.Level;
+import org.acme.hr.base@1.0.0.GeneralCategory;
+import concerto.decorator@1.0.0.Decorator;
+import concerto@1.0.0.Concept;
+import concerto@1.0.0.Asset;
+import concerto@1.0.0.Transaction;
+import concerto@1.0.0.Participant;
+import concerto@1.0.0.Event;
 import com.fasterxml.jackson.annotation.*;
 
 public class ChangeOfAddress extends Transaction {
