@@ -2,7 +2,9 @@ env:
     es6: true
     node: true
     mocha: true
-extends: 'eslint:recommended'
+extends:
+    - 'eslint:recommended'
+    - 'prettier'
 parserOptions:
     ecmaVersion: 13
     sourceType: script
@@ -11,7 +13,7 @@ rules:
         - error
         - 4
     linebreak-style:
-        - warn
+        - error
         - unix
     quotes:
         - error
@@ -31,16 +33,16 @@ rules:
     dot-notation: error
     no-tabs: error
     no-trailing-spaces: error
-    # no-use-before-define: error
+    no-use-before-define: error
     no-useless-call: error
     no-with: error
     operator-linebreak: error
     require-jsdoc:
         - error
         - require:
-            ClassDeclaration: true
-            MethodDefinition: true
-            FunctionDeclaration: true
+              ClassDeclaration: true
+              MethodDefinition: true
+              FunctionDeclaration: true
     valid-jsdoc:
         - error
         - requireReturn: false
