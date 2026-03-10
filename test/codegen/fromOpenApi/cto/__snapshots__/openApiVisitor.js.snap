@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`OpenApiVisitor should generate a Concerto JSON and CTO from a Workday OpenAPI definition 1`] = `
 {

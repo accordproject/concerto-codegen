@@ -60,7 +60,13 @@ module.exports = {
         {
             test: /\.ne$/,
             use: ['raw-loader']
-        }
+        },
+        {
+            test: /\.m?js$/,
+            resolve: {
+                fullySpecified: false,
+            },
+        },
         ]
     },
     resolve: {
