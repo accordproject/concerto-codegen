@@ -5646,6 +5646,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 use chrono::{ DateTime, Utc };
    
 use crate::concerto_1_0_0::*;
+use std::collections::HashMap;
 use crate::utils::*;
    
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -5654,6 +5655,11 @@ pub struct Decorator {
       rename = "$class",
    )]
    pub _class: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -5680,6 +5686,7 @@ exports[`codegen #formats check we can convert all formats from namespace unvers
 use chrono::{ DateTime, Utc };
    
 use crate::concerto_decorator_1_0_0::*;
+use std::collections::HashMap;
 use crate::utils::*;
    
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -5688,6 +5695,11 @@ pub struct Concept {
       rename = "$class",
    )]
    pub _class: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -5701,6 +5713,11 @@ pub struct Asset {
       rename = "$identifier",
    )]
    pub _identifier: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -5714,6 +5731,11 @@ pub struct Participant {
       rename = "$identifier",
    )]
    pub _identifier: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -5729,6 +5751,11 @@ pub struct Transaction {
       deserialize_with = "deserialize_datetime",
    )]
    pub _timestamp: DateTime<Utc>,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -5744,6 +5771,11 @@ pub struct Event {
       deserialize_with = "deserialize_datetime",
    )]
    pub _timestamp: DateTime<Utc>,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 ",
@@ -5829,6 +5861,11 @@ pub struct Category {
       rename = "$class",
    )]
    pub _class: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -6052,6 +6089,11 @@ pub struct Equipment {
       rename = "$identifier",
    )]
    pub _identifier: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -6144,6 +6186,11 @@ pub struct Person {
       rename = "$identifier",
    )]
    pub _identifier: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -6246,6 +6293,11 @@ pub struct Employee {
       rename = "$identifier",
    )]
    pub _identifier: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -6441,6 +6493,11 @@ pub struct CompanyEvent {
       deserialize_with = "deserialize_datetime",
    )]
    pub _timestamp: DateTime<Utc>,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -13509,6 +13566,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 use chrono::{ DateTime, Utc };
    
 use crate::concerto_1_0_0::*;
+use std::collections::HashMap;
 use crate::utils::*;
    
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -13517,6 +13575,11 @@ pub struct Decorator {
       rename = "$class",
    )]
    pub _class: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -13543,6 +13606,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 use chrono::{ DateTime, Utc };
    
 use crate::concerto_decorator_1_0_0::*;
+use std::collections::HashMap;
 use crate::utils::*;
    
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -13551,6 +13615,11 @@ pub struct Concept {
       rename = "$class",
    )]
    pub _class: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -13564,6 +13633,11 @@ pub struct Asset {
       rename = "$identifier",
    )]
    pub _identifier: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -13577,6 +13651,11 @@ pub struct Participant {
       rename = "$identifier",
    )]
    pub _identifier: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -13592,6 +13671,11 @@ pub struct Transaction {
       deserialize_with = "deserialize_datetime",
    )]
    pub _timestamp: DateTime<Utc>,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -13607,6 +13691,11 @@ pub struct Event {
       deserialize_with = "deserialize_datetime",
    )]
    pub _timestamp: DateTime<Utc>,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 ",
@@ -13692,6 +13781,11 @@ pub struct Category {
       rename = "$class",
    )]
    pub _class: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -13915,6 +14009,11 @@ pub struct Equipment {
       rename = "$identifier",
    )]
    pub _identifier: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -14007,6 +14106,11 @@ pub struct Person {
       rename = "$identifier",
    )]
    pub _identifier: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -14109,6 +14213,11 @@ pub struct Employee {
       rename = "$identifier",
    )]
    pub _identifier: String,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -14304,6 +14413,11 @@ pub struct CompanyEvent {
       deserialize_with = "deserialize_datetime",
    )]
    pub _timestamp: DateTime<Utc>,
+   
+   #[serde(
+      flatten,
+   )]
+   pub extra: std::collections::HashMap<String, serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
