@@ -202,6 +202,28 @@ describe('JavaVisitor', function () {
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, 'package org.acme.people;']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '']);
         });
+        it('should write a java class file header with versioned namespace', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+            let mockClass = sinon.createStubInstance(ClassDeclaration);
+            mockClass.isClassDeclaration.returns(true);
+            mockClass.getNamespace.returns('org.acme.people@1.0.0');
+            mockClass.getModelFile.returns({
+                getNamespace: () => {
+                    return 'org.acme.people@1.0.0';
+                },
+                getName: () => {
+                    return 'Bob';
+                }
+            });
+            javaVisit.startClassFile(mockClass, param);
+            param.fileWriter.openFile.withArgs('org/acme/people@1.0.0/bob.java');
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '// this code is generated and should not be modified']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, 'package org.acme.people@1.0.0;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '']);
+        });
     });
 
     describe('endClassFile', () => {
