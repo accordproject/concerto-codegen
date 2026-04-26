@@ -135,6 +135,39 @@ describe('TypescriptVisitor', function () {
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
 
+        it('should propagate optional modifier for scalar fields via parameters', () => {
+            // Create a mock scalar field
+            let mockScalarField = sinon.createStubInstance(Field);
+            mockScalarField.isOptional.returns(false); // Scalar field itself is not optional
+
+            // Create a thing that is a scalar type field
+            let thing = {
+                isModelManager: () => false,
+                isModelFile: () => false,
+                isEnum: () => false,
+                isClassDeclaration: () => false,
+                isMapDeclaration: () => false,
+                isTypeScalar: () => true,
+                isField: () => true,
+                isRelationship: () => false,
+                isEnumValue: () => false,
+                isOptional: () => true, // The parent field is optional
+                getScalarField: () => mockScalarField
+            };
+
+            let mockSpecialVisit = sinon.stub(typescriptVisitor, 'visitField');
+            mockSpecialVisit.returns('Duck');
+
+            typescriptVisitor.visit(thing, param);
+
+            // Verify that visitField was called with the scalar field
+            mockSpecialVisit.calledOnce.should.be.ok;
+            // Verify that forceOptional was passed via parameters (not by mutating the scalar field)
+            const callArgs = mockSpecialVisit.getCall(0).args;
+            callArgs[0].should.equal(mockScalarField);
+            callArgs[1].forceOptional.should.equal(true);
+        });
+
         it('should throw an error when an unrecognised type is supplied', () => {
             let thing = 'Something of unrecognised type';
 
