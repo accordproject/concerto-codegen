@@ -550,4 +550,116 @@ describe('JSONSchema (samples)', function () {
             expect( ajv.validate(schema, instance)).equals(true);
         });
     });
+
+    describe('options', () => {
+        const MODEL_WITH_DEFAULTS = `
+namespace test.options
+
+concept Account {
+  o String name
+  o String currency default="USD"
+  o Integer balance default=0
+  o Boolean active default=true
+}
+`;
+
+        it('emits $class by default (backward compatible)', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test.options.Account' });
+            expect(schema.properties.$class).to.not.be.undefined;
+            expect(schema.properties.$class.type).to.equal('string');
+            expect(schema.required).to.include('$class');
+        });
+
+        it('suppresses $class property and its required entry when includeTypeTag is false', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, {
+                rootType: 'test.options.Account',
+                includeTypeTag: false,
+            });
+            expect(schema.properties.$class).to.be.undefined;
+            expect(schema.required).to.not.include('$class');
+            // other fields still present and required as usual
+            expect(schema.properties.name).to.not.be.undefined;
+            expect(schema.required).to.include('name');
+        });
+
+        it('still includes $class when includeTypeTag is true (explicit default)', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, {
+                rootType: 'test.options.Account',
+                includeTypeTag: true,
+            });
+            expect(schema.properties.$class).to.not.be.undefined;
+            expect(schema.required).to.include('$class');
+        });
+
+        it('marks defaulted properties as required by default (backward compatible)', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test.options.Account' });
+            expect(schema.required).to.include('name');
+            expect(schema.required).to.include('currency');
+            expect(schema.required).to.include('balance');
+            expect(schema.required).to.include('active');
+        });
+
+        it('excludes defaulted properties from required when defaultsAreOptional is true', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, {
+                rootType: 'test.options.Account',
+                defaultsAreOptional: true,
+            });
+            // `name` has no default, stays required
+            expect(schema.required).to.include('name');
+            // `currency`, `balance`, `active` all have defaults, move off required
+            expect(schema.required).to.not.include('currency');
+            expect(schema.required).to.not.include('balance');
+            expect(schema.required).to.not.include('active');
+            // the properties themselves still exist
+            expect(schema.properties.currency.default).to.equal('USD');
+            expect(schema.properties.balance.default).to.equal(0);
+            expect(schema.properties.active.default).to.equal(true);
+        });
+
+        it('excludes $class from required when defaultsAreOptional is true (since $class carries an implicit default)', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, {
+                rootType: 'test.options.Account',
+                defaultsAreOptional: true,
+            });
+            // $class property still emitted (includeTypeTag untouched)
+            expect(schema.properties.$class).to.not.be.undefined;
+            // but no longer in required, since its default is the FQN itself
+            expect(schema.required).to.not.include('$class');
+        });
+
+        it('honors both options together', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, {
+                rootType: 'test.options.Account',
+                includeTypeTag: false,
+                defaultsAreOptional: true,
+            });
+            expect(schema.properties.$class).to.be.undefined;
+            expect(schema.required).to.not.include('$class');
+            expect(schema.required).to.include('name');
+            expect(schema.required).to.not.include('currency');
+            expect(schema.required).to.not.include('balance');
+            expect(schema.required).to.not.include('active');
+        });
+    });
 });
