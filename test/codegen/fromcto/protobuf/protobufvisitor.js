@@ -762,9 +762,69 @@ describe('ProtobufVisitor', function () {
                 'utf8'
             );
 
-            assert.isDefined(writer.data.get('concerto.metamodel.v1_0_0.proto'));
-            assert.isDefined(writer.data.get('org.accordproject.commonmark.v0_5_0.proto'));
-            assert.isDefined(writer.data.get('org.accordproject.party.v0_2_0.proto'));
+            const expectedMetamodelProtobuf = [
+                'syntax = "proto3";',
+                '',
+                'package concerto.metamodel.v1_0_0;',
+                '',
+                'import "google/protobuf/timestamp.proto";',
+                '',
+                'message Property {}',
+                '',
+                'message ConceptDeclaration {}',
+                '',
+                'message Model {}',
+                '',
+                ''
+            ].join('\n');
+
+            const expectedCommonmarkProtobuf = [
+                'syntax = "proto3";',
+                '',
+                'package org.accordproject.commonmark.v0_5_0;',
+                '',
+                'import "google/protobuf/timestamp.proto";',
+                '',
+                'message Document {}',
+                '',
+                ''
+            ].join('\n');
+
+            const expectedPartyProtobuf = [
+                'syntax = "proto3";',
+                '',
+                'package org.accordproject.party.v0_2_0;',
+                '',
+                'import "google/protobuf/timestamp.proto";',
+                '',
+                'message Party {',
+                '  string partyId = 1;',
+                '}',
+                '',
+                'message _Subclasses_of_class_Party {',
+                '  oneof _class_oneof_Party {',
+                '    AgreementParty _subclass_of_class_Party_AgreementParty = 1;',
+                '    Party _subclass_of_class_Party_Party = 2;',
+                '  }',
+                '}',
+                '',
+                ''
+            ].join('\n');
+
+            assert.equal(
+                writer.data.get('concerto.metamodel.v1_0_0.proto'),
+                expectedMetamodelProtobuf.replace(/\r\n/g, '\n')
+            );
+
+            assert.equal(
+                writer.data.get('org.accordproject.commonmark.v0_5_0.proto'),
+                expectedCommonmarkProtobuf.replace(/\r\n/g, '\n')
+            );
+
+            assert.equal(
+                writer.data.get('org.accordproject.party.v0_2_0.proto'),
+                expectedPartyProtobuf.replace(/\r\n/g, '\n')
+            );
 
             assert.equal(
                 writer.data.get('org.accordproject.protocol.v1_0_0.proto'),
