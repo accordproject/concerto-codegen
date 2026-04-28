@@ -1,0 +1,35 @@
+name: Test Java Code Generation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-java-codegen:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build project
+      run: npm run build
+      
+    - name: Build Docker image for Java testing
+      run: |
+        docker build -t concerto-java-test -f .github/docker/codegen-tests/java/Dockerfile .
+        
+    - name: Test Java code generation in Docker
+      run: |
+        docker run --rm \
+          -v "$(pwd):/test" \
+          concerto-java-test
