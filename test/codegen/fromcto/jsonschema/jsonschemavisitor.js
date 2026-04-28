@@ -27,7 +27,7 @@ const JSONSchemaVisitor = require('../../../../lib/codegen/fromcto/jsonschema/js
 const RecursionDetectionVisitor = require('../../../../lib/codegen/fromcto/jsonschema/recursionvisitor.js');
 
 const MODEL_BOUNDS = `
-namespace test
+namespace test@1.0.0
 
 concept Test {
   o String myString regex=/abc.*/
@@ -44,7 +44,7 @@ concept Test {
 `;
 
 const MODEL_SIMPLE = `
-namespace test
+namespace test@1.0.0
 
 enum Color {
   o RED
@@ -74,7 +74,7 @@ transaction MyRequest extends Base {
 `;
 
 const MODEL_SIMPLE_2 = `
-namespace test2
+namespace test2@1.0.0
 
 concept Vehicle {
   o String model
@@ -83,7 +83,7 @@ concept Vehicle {
 `;
 
 const MODEL_RECURSIVE_COMPLEX = `
-namespace org.accordproject.ergo.monitor
+namespace org.accordproject.ergo.monitor@1.0.0
 
 @Important
 enum Color {
@@ -136,7 +136,7 @@ concept Monitor {
 }`;
 
 const MODEL_RECURSIVE_SIMPLE = `
-namespace recursive
+namespace recursive@1.0.0
 
 enum Role {
   o HR
@@ -169,7 +169,7 @@ scalar UUID extends String default="00000000-0000-0000-0000-000000000000" regex=
 `;
 
 const MODEL_SIMPLE3 = `
-namespace test
+namespace test@1.0.0
 
 import concerto.scalar@1.0.0.{ UUID }
 
@@ -181,7 +181,7 @@ concept OtherThing identified by id {
 
 
 const MODEL_MAP_STRING = `
-namespace test
+namespace test@1.0.0
 
 map Dictionary {
   o String
@@ -194,7 +194,7 @@ concept Foo {
 `;
 
 const MODEL_MAP_NUMBER = `
-namespace test
+namespace test@1.0.0
 
 map Dictionary {
   o String
@@ -207,7 +207,7 @@ concept Foo {
 `;
 
 const MODEL_MAP_BOOLEAN = `
-namespace test
+namespace test@1.0.0
 
 map Dictionary {
   o String
@@ -220,7 +220,7 @@ concept Foo {
 `;
 
 const MODEL_MAP_COMPLEX = `
-namespace test
+namespace test@1.0.0
 
 concept Person {
   o String name
@@ -236,7 +236,7 @@ concept Foo {
 `;
 
 const MODEL_RELATIONSHIP_SIMPLE = `
-namespace test
+namespace test@1.0.0
 
 import concerto.scalar@1.0.0.{ UUID }
 
@@ -259,7 +259,7 @@ describe('JSONSchema (samples)', function () {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_RECURSIVE_SIMPLE );
             const visitor = new RecursionDetectionVisitor();
-            const type = modelManager.getType('recursive.Person');
+            const type = modelManager.getType('recursive@1.0.0.Person');
             const result = type.accept(visitor, {stack: []});
             expect(result).equal(true);
         });
@@ -268,7 +268,7 @@ describe('JSONSchema (samples)', function () {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_RECURSIVE_SIMPLE );
             const visitor = new RecursionDetectionVisitor();
-            const type = modelManager.getType('recursive.Factory');
+            const type = modelManager.getType('recursive@1.0.0.Factory');
             const result = type.accept(visitor, {stack: []});
             expect(result).equal(true);
         });
@@ -277,7 +277,7 @@ describe('JSONSchema (samples)', function () {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_RECURSIVE_SIMPLE );
             const visitor = new RecursionDetectionVisitor();
-            const type = modelManager.getType('recursive.Address');
+            const type = modelManager.getType('recursive@1.0.0.Address');
             const result = type.accept(visitor, {stack: []});
             expect(result).equal(true);
         });
@@ -286,8 +286,8 @@ describe('JSONSchema (samples)', function () {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_SIMPLE );
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.MyRequest'});
-            expect(schema.properties.money.$ref).equal('#/definitions/test.Money');
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.MyRequest'});
+            expect(schema.properties.money.$ref).equal('#/definitions/test@1.0.0.Money');
         });
 
         it('should handle multiple model files', () => {
@@ -295,10 +295,10 @@ describe('JSONSchema (samples)', function () {
             modelManager.addCTOModel( MODEL_SIMPLE );
             modelManager.addCTOModel( MODEL_SIMPLE_2 );
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, {rootType: 'test.MyRequest' });
+            const schema = modelManager.accept(visitor, {rootType: 'test@1.0.0.MyRequest' });
             // console.log(JSON.stringify(schema, null, 2));
-            expect(schema.definitions['test.Money']).to.not.be.undefined;
-            expect(schema.definitions['test2.Vehicle']).to.not.be.undefined;
+            expect(schema.definitions['test@1.0.0.Money']).to.not.be.undefined;
+            expect(schema.definitions['test2@1.0.0.Vehicle']).to.not.be.undefined;
             expect(schema.title).equal('MyRequest');
         });
 
@@ -306,7 +306,7 @@ describe('JSONSchema (samples)', function () {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_BOUNDS );
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.Test'});
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Test'});
             expect(schema.properties.myString.pattern).equal('abc.*');
         });
 
@@ -314,7 +314,7 @@ describe('JSONSchema (samples)', function () {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_SIMPLE );
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.MyRequest', inlineTypes: true});
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.MyRequest', inlineTypes: true});
             expect(schema.properties.money.$ref).to.be.undefined;
             expect(schema.properties.money.title).equal('Money');
         });
@@ -324,7 +324,7 @@ describe('JSONSchema (samples)', function () {
             modelManager.addCTOModel( UUID_SCALAR );
             modelManager.addCTOModel( MODEL_RELATIONSHIP_SIMPLE );
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.SomeOtherThing', inlineTypes: true});
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.SomeOtherThing', inlineTypes: true});
             expect(schema.properties.intField.$ref).to.be.undefined;
             expect(schema.properties.otherThingId.$ref).to.be.undefined;
             expect(schema.properties.otherThingId.type).equal('string');
@@ -336,7 +336,7 @@ describe('JSONSchema (samples)', function () {
             modelManager.addCTOModel( UUID_SCALAR );
             modelManager.addCTOModel( MODEL_SIMPLE3 );
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.OtherThing'});
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.OtherThing'});
             expect(schema.properties.id.$ref).to.be.undefined;
             expect(schema.properties.id.type).equal('string');
             expect(schema.properties.id.format).equal('uuid');
@@ -348,9 +348,9 @@ describe('JSONSchema (samples)', function () {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_MAP_STRING );
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.Foo'});
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Foo'});
             expect(schema.properties.dictionary.schema.title).equal('Dictionary');
-            expect(schema.properties.dictionary.schema.description).equal('An instance of test.Dictionary');
+            expect(schema.properties.dictionary.schema.description).equal('An instance of test@1.0.0.Dictionary');
             expect(schema.properties.dictionary.schema.type).equal('object');
             expect(schema.properties.dictionary.schema.propertyNames.type).equal('string');
             expect(schema.properties.dictionary.schema.additionalProperties.type).equal('string');
@@ -361,21 +361,21 @@ describe('JSONSchema (samples)', function () {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_MAP_COMPLEX );
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.Foo'});
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Foo'});
             expect(schema.properties.dictionary.schema.title).equal('Dictionary');
-            expect(schema.properties.dictionary.schema.description).equal('An instance of test.Dictionary');
+            expect(schema.properties.dictionary.schema.description).equal('An instance of test@1.0.0.Dictionary');
             expect(schema.properties.dictionary.schema.type).equal('object');
             expect(schema.properties.dictionary.schema.propertyNames.type).equal('string');
-            expect(schema.properties.dictionary.schema.additionalProperties.$ref).equal('#/definitions/test.Person');
+            expect(schema.properties.dictionary.schema.additionalProperties.$ref).equal('#/definitions/test@1.0.0.Person');
         });
 
         it('should generate for Map of type <String, Double>', () => {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_MAP_NUMBER );
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.Foo'});
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Foo'});
             expect(schema.properties.dictionary.schema.title).equal('Dictionary');
-            expect(schema.properties.dictionary.schema.description).equal('An instance of test.Dictionary');
+            expect(schema.properties.dictionary.schema.description).equal('An instance of test@1.0.0.Dictionary');
             expect(schema.properties.dictionary.schema.type).equal('object');
             expect(schema.properties.dictionary.schema.propertyNames.type).equal('string');
             expect(schema.properties.dictionary.schema.additionalProperties.type).equal('number');
@@ -386,9 +386,9 @@ describe('JSONSchema (samples)', function () {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_MAP_BOOLEAN );
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.Foo'});
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Foo'});
             expect(schema.properties.dictionary.schema.title).equal('Dictionary');
-            expect(schema.properties.dictionary.schema.description).equal('An instance of test.Dictionary');
+            expect(schema.properties.dictionary.schema.description).equal('An instance of test@1.0.0.Dictionary');
             expect(schema.properties.dictionary.schema.type).equal('object');
             expect(schema.properties.dictionary.schema.propertyNames.type).equal('string');
             expect(schema.properties.dictionary.schema.additionalProperties.type).equal('boolean');
@@ -459,8 +459,8 @@ describe('JSONSchema (samples)', function () {
             modelManager.addCTOModel( MODEL_SIMPLE );
             const visitor = new JSONSchemaVisitor();
             const fileWriter = new FileWriter('./output');
-            modelManager.accept(visitor, { fileWriter, rootType: 'test.MyRequest', inlineTypes: true});
-            const contents = JSON.parse(fs.readFileSync( path.join('./output', 'test.MyRequest.json'), 'utf-8' ));
+            modelManager.accept(visitor, { fileWriter, rootType: 'test@1.0.0.MyRequest', inlineTypes: true});
+            const contents = JSON.parse(fs.readFileSync( path.join('./output', 'test@1.0.0.MyRequest.json'), 'utf-8' ));
             expect(contents.title).equal('MyRequest');
         });
 
@@ -476,7 +476,7 @@ describe('JSONSchema (samples)', function () {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_RECURSIVE_COMPLEX );
             const visitor = new RecursionDetectionVisitor();
-            const type = modelManager.getType('org.accordproject.ergo.monitor.Monitor');
+            const type = modelManager.getType('org.accordproject.ergo.monitor@1.0.0.Monitor');
             const result = type.accept(visitor, {stack: []});
             expect(result).equal(true);
         });
@@ -486,19 +486,19 @@ describe('JSONSchema (samples)', function () {
             modelManager.addCTOModel( MODEL_RECURSIVE_COMPLEX );
 
             const visitor = new JSONSchemaVisitor();
-            const monitorSchema = modelManager.accept(visitor, { rootType: 'org.accordproject.ergo.monitor.Monitor'});
+            const monitorSchema = modelManager.accept(visitor, { rootType: 'org.accordproject.ergo.monitor@1.0.0.Monitor'});
             expect(monitorSchema.title).equal('Monitor');
 
-            const phaseSchema = modelManager.accept(visitor, { rootType: 'org.accordproject.ergo.monitor.Phase'});
+            const phaseSchema = modelManager.accept(visitor, { rootType: 'org.accordproject.ergo.monitor@1.0.0.Phase'});
             expect(phaseSchema.title).equal('Phase');
 
             // check that the generated schema validates a valid instance
             const instance =
             {
-                '$class' : 'org.accordproject.ergo.monitor.Monitor',
+                '$class' : 'org.accordproject.ergo.monitor@1.0.0.Monitor',
                 'phases' : [
                     {
-                        '$class' : 'org.accordproject.ergo.monitor.Phase',
+                        '$class' : 'org.accordproject.ergo.monitor@1.0.0.Phase',
                         'name' : 'abcde',
                         'single' : 10.5,
                         'total' : 51,
@@ -509,7 +509,7 @@ describe('JSONSchema (samples)', function () {
                         'myDateTime' : '2011-10-05T14:48:00.000Z',
                         'myColor' : 'RED',
                         'myCar' : {
-                            '$class' : 'org.accordproject.ergo.monitor.Car',
+                            '$class' : 'org.accordproject.ergo.monitor@1.0.0.Car',
                             'vin' : '123'
                         },
                         'friends' : ['ann', 'isaac']
@@ -526,19 +526,19 @@ describe('JSONSchema (samples)', function () {
             modelManager.addCTOModel( MODEL_SIMPLE );
 
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.MyRequest'});
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.MyRequest'});
             expect(schema.title).equal('MyRequest');
 
             // check that the generated schema validates a valid instance
             const instance =
           {
-              $class : 'test.MyRequest',
+              $class : 'test@1.0.0.MyRequest',
               id: '001',
               age : 10,
               name: 'Dan',
               color: 'RED',
               money : {
-                  $class : 'test.Money',
+                  $class : 'test@1.0.0.Money',
                   value: 100.5,
                   currencyCode: 'GBP'
               },

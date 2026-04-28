@@ -22,7 +22,7 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const OpenApiVisitor = require('../../../../lib/codegen/fromcto/openapi/openapivisitor.js');
 
 const MODEL_SIMPLE = `
-namespace test
+namespace test@1.0.0
 
 enum Color {
   o RED
@@ -40,7 +40,7 @@ concept Person identified by email {
 `;
 
 const MODEL_CUSTOM = `
-namespace test
+namespace test@1.0.0
 
 enum Color {
   o RED

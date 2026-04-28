@@ -27,7 +27,6 @@ chai.use(require('chai-things'));
 
 describe('codegen', function () {
     let versionedModelManager = null;
-    let unversionedModelManager = null;
 
     before(function() {
         process.env.ENABLE_MAP_TYPE = 'true'; // TODO Remove on release of MapType
@@ -36,19 +35,12 @@ describe('codegen', function () {
 
     beforeEach(function() {
         versionedModelManager = new ModelManager();
-        unversionedModelManager = new ModelManager();
 
         const base_cto = fs.readFileSync('./test/codegen/fromcto/data/model/hr_base.cto', 'utf-8');
         const cto = fs.readFileSync('./test/codegen/fromcto/data/model/hr.cto', 'utf-8');
 
         versionedModelManager.addCTOModel(base_cto, 'hr_base.cto');
         versionedModelManager.addCTOModel(cto, 'hr.cto');
-
-        const unversionedBaseCto = base_cto.replace('namespace org.acme.hr.base@1.0.0', 'namespace org.acme.hr.base');
-        const unversionedCto = cto.replace('namespace org.acme.hr@1.0.0', 'namespace org.acme.hr').
-            replace('import org.acme.hr.base@1.0.0', 'import org.acme.hr.base');
-        unversionedModelManager.addCTOModel(unversionedBaseCto, 'hr_base.cto');
-        unversionedModelManager.addCTOModel(unversionedCto, 'hr.cto');
     });
 
     afterEach(function() {
@@ -84,19 +76,6 @@ describe('codegen', function () {
                 (() => mockNode.accept(visitor, parameters)).should.throw(/(Unrecognised|Converting)/);
             });
 
-            it(`check we can convert all formats from namespace unversioned CTO, format '${format}'`, function () {
-                const visitor = new formats[format];
-                visitor.should.not.be.null;
-                const writer = new InMemoryWriter();
-                const parameters = {
-                    fileWriter: writer,
-                };
-                unversionedModelManager.accept(visitor, parameters);
-                const files = writer.getFilesInMemory();
-                files.forEach(function(value,key){
-                    expect({value,key}).toMatchSnapshot();
-                });
-            });
         });
 
         const diagramFormats = ['mermaid', 'plantuml'];
