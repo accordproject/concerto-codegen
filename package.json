@@ -48,7 +48,7 @@
     "author": "accordproject.org",
     "license": "Apache-2.0",
     "devDependencies": {
-        "@accordproject/concerto-cto": "4.0.1",
+        "@accordproject/concerto-cto": "4.0.2",
         "@babel/preset-env": "7.16.11",
         "@types/webgl-ext": "0.0.37",
         "babel-loader": "8.2.3",
@@ -88,9 +88,9 @@
         "pluralize": "8.0.0"
     },
     "peerDependencies": {
-        "@accordproject/concerto-core": "^4.0.1",
-        "@accordproject/concerto-util": "^4.0.1",
-        "@accordproject/concerto-vocabulary": "^4.0.1"
+        "@accordproject/concerto-core": "^4.0.2",
+        "@accordproject/concerto-util": "^4.0.2",
+        "@accordproject/concerto-vocabulary": "^4.0.2"
     },
     "license-check-and-add-config": {
         "folder": "./lib",
