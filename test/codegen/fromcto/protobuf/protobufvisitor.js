@@ -27,6 +27,7 @@ const ProtobufVisitor = require(
 
 const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
+const ModelLoader = require('@accordproject/concerto-core').ModelLoader;
 const AssetDeclaration = require('@accordproject/concerto-core').AssetDeclaration;
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
 const MapDeclaration = require('@accordproject/concerto-core').MapDeclaration;
@@ -712,39 +713,8 @@ describe('ProtobufVisitor', function () {
     describe('visit CTO file', () => {
         it('should process an APAP protocol CTO file', async () => {
             sandbox.restore();
-            const modelManager = new ModelManager();
-
-            modelManager.addCTOModel(`
-            namespace concerto.metamodel@1.0.0
-
-            concept Property {
-            }
-
-            concept ConceptDeclaration {
-            }
-
-            concept Model {
-            }
-            `, 'metamodel.cto');
-
-            modelManager.addCTOModel(`
-            namespace org.accordproject.commonmark@0.5.0
-
-            concept Document {
-            }
-            `, 'commonmark.cto');
-
-            modelManager.addCTOModel(`
-            namespace org.accordproject.party@0.2.0
-
-            participant Party identified by partyId {
-                o String partyId
-            }
-            `, 'party.cto');
-
-            modelManager.addCTOModel(
-                fs.readFileSync(path.resolve(__dirname, './data/apapProtocol.cto'), 'utf8'),
-                'apapProtocol.cto'
+            const modelManager = await ModelLoader.loadModelManager(
+                [path.resolve(__dirname, './data/apapProtocol.cto')]
             );
             const writer = new InMemoryWriter();
 
@@ -754,6 +724,27 @@ describe('ProtobufVisitor', function () {
                 }
             );
 
+            const expectedMetamodelProtobuf = fs.readFileSync(
+                path.resolve(
+                    __dirname,
+                    './data/concerto.metamodel.v0_4_0-expected.proto'
+                ),
+                'utf8'
+            );
+            const expectedCommonmarkProtobuf = fs.readFileSync(
+                path.resolve(
+                    __dirname,
+                    './data/org.accordproject.commonmark.v0_5_0-expected.proto'
+                ),
+                'utf8'
+            );
+            const expectedApapPartyProtobuf = fs.readFileSync(
+                path.resolve(
+                    __dirname,
+                    './data/org.accordproject.party.v0_2_0-expected.proto'
+                ),
+                'utf8'
+            );
             const expectedApapProtocolProtobuf = fs.readFileSync(
                 path.resolve(
                     __dirname,
@@ -762,57 +753,8 @@ describe('ProtobufVisitor', function () {
                 'utf8'
             );
 
-            const expectedMetamodelProtobuf = [
-                'syntax = "proto3";',
-                '',
-                'package concerto.metamodel.v1_0_0;',
-                '',
-                'import "google/protobuf/timestamp.proto";',
-                '',
-                'message Property {}',
-                '',
-                'message ConceptDeclaration {}',
-                '',
-                'message Model {}',
-                '',
-                ''
-            ].join('\n');
-
-            const expectedCommonmarkProtobuf = [
-                'syntax = "proto3";',
-                '',
-                'package org.accordproject.commonmark.v0_5_0;',
-                '',
-                'import "google/protobuf/timestamp.proto";',
-                '',
-                'message Document {}',
-                '',
-                ''
-            ].join('\n');
-
-            const expectedPartyProtobuf = [
-                'syntax = "proto3";',
-                '',
-                'package org.accordproject.party.v0_2_0;',
-                '',
-                'import "google/protobuf/timestamp.proto";',
-                '',
-                'message Party {',
-                '  string partyId = 1;',
-                '}',
-                '',
-                'message _Subclasses_of_class_Party {',
-                '  oneof _class_oneof_Party {',
-                '    AgreementParty _subclass_of_class_Party_AgreementParty = 1;',
-                '    Party _subclass_of_class_Party_Party = 2;',
-                '  }',
-                '}',
-                '',
-                ''
-            ].join('\n');
-
             assert.equal(
-                writer.data.get('concerto.metamodel.v1_0_0.proto'),
+                writer.data.get('concerto.metamodel.v0_4_0.proto'),
                 expectedMetamodelProtobuf.replace(/\r\n/g, '\n')
             );
 
@@ -823,7 +765,7 @@ describe('ProtobufVisitor', function () {
 
             assert.equal(
                 writer.data.get('org.accordproject.party.v0_2_0.proto'),
-                expectedPartyProtobuf.replace(/\r\n/g, '\n')
+                expectedApapPartyProtobuf.replace(/\r\n/g, '\n')
             );
 
             assert.equal(
