@@ -553,7 +553,7 @@ describe('JSONSchema (samples)', function () {
 
     describe('options', () => {
         const MODEL_WITH_DEFAULTS = `
-namespace test.options
+namespace test.options@1.0.0
 
 concept Account {
   o String name
@@ -567,7 +567,7 @@ concept Account {
             const modelManager = new ModelManager();
             modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.options.Account' });
+            const schema = modelManager.accept(visitor, { rootType: 'test.options@1.0.0.Account' });
             expect(schema.properties.$class).to.not.be.undefined;
             expect(schema.properties.$class.type).to.equal('string');
             expect(schema.required).to.include('$class');
@@ -578,7 +578,7 @@ concept Account {
             modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
             const visitor = new JSONSchemaVisitor();
             const schema = modelManager.accept(visitor, {
-                rootType: 'test.options.Account',
+                rootType: 'test.options@1.0.0.Account',
                 includeTypeTag: false,
             });
             expect(schema.properties.$class).to.be.undefined;
@@ -593,7 +593,7 @@ concept Account {
             modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
             const visitor = new JSONSchemaVisitor();
             const schema = modelManager.accept(visitor, {
-                rootType: 'test.options.Account',
+                rootType: 'test.options@1.0.0.Account',
                 includeTypeTag: true,
             });
             expect(schema.properties.$class).to.not.be.undefined;
@@ -604,7 +604,7 @@ concept Account {
             const modelManager = new ModelManager();
             modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
             const visitor = new JSONSchemaVisitor();
-            const schema = modelManager.accept(visitor, { rootType: 'test.options.Account' });
+            const schema = modelManager.accept(visitor, { rootType: 'test.options@1.0.0.Account' });
             expect(schema.required).to.include('name');
             expect(schema.required).to.include('currency');
             expect(schema.required).to.include('balance');
@@ -616,7 +616,7 @@ concept Account {
             modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
             const visitor = new JSONSchemaVisitor();
             const schema = modelManager.accept(visitor, {
-                rootType: 'test.options.Account',
+                rootType: 'test.options@1.0.0.Account',
                 defaultsAreOptional: true,
             });
             // `name` has no default, stays required
@@ -636,7 +636,7 @@ concept Account {
             modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
             const visitor = new JSONSchemaVisitor();
             const schema = modelManager.accept(visitor, {
-                rootType: 'test.options.Account',
+                rootType: 'test.options@1.0.0.Account',
                 defaultsAreOptional: true,
             });
             // $class property still emitted (includeTypeTag untouched)
@@ -650,7 +650,7 @@ concept Account {
             modelManager.addCTOModel(MODEL_WITH_DEFAULTS);
             const visitor = new JSONSchemaVisitor();
             const schema = modelManager.accept(visitor, {
-                rootType: 'test.options.Account',
+                rootType: 'test.options@1.0.0.Account',
                 includeTypeTag: false,
                 defaultsAreOptional: true,
             });
