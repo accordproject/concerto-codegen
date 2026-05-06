@@ -86,8 +86,9 @@ export class DirectedGraph {
      *
      * @param {Writer} writer - Buffer for text to be written
      */
-    print(writer: any): void;
+    print(writer: Writer): void;
 }
 import BaseVisitor = require("./basevisitor");
 import { ClassDeclaration } from "@accordproject/concerto-core";
 import { MapDeclaration } from "@accordproject/concerto-core";
+import { Writer } from "@accordproject/concerto-util";
