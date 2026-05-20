@@ -6860,6 +6860,15 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 
 // imports
 import {IAddress,IEmployeeTShirtSizes,SSN} from './org.acme.hr.base@1.0.0';
+
+// Warning: Beware of circular dependencies when modifying these imports
+
+// Warning: Beware of circular dependencies when modifying these imports
+
+// Warning: Beware of circular dependencies when modifying these imports
+
+// Warning: Beware of circular dependencies when modifying these imports
+import {Time,SSN,IAddress,IEmployeeTShirtSizes} from './org.acme.hr.base@1.0.0';
 import {IDecorator} from './concerto.decorator@1.0.0';
 import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0';
 
