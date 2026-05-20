@@ -352,7 +352,7 @@ describe('TypescriptVisitor', function () {
             acceptSpy.withArgs(typescriptVisitor, param).calledTwice.should.be.ok;
         });
 
-        it('should write lines for the imports of direct subclasses that are not in the same namespace', () => {
+        it('should not write cross-namespace subclass imports since unions are scoped to same namespace', () => {
             let acceptSpy = sinon.spy();
 
             let mockSubclassDeclaration1 = sinon.createStubInstance(ClassDeclaration);
@@ -397,13 +397,11 @@ describe('TypescriptVisitor', function () {
             typescriptVisitor.visitModelFile(mockModelFile, param);
 
             param.fileWriter.openFile.withArgs('org.acme.ts').calledOnce.should.be.ok;
-            param.fileWriter.writeLine.callCount.should.deep.equal(6);
+            param.fileWriter.writeLine.callCount.should.deep.equal(4);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '/* eslint-disable @typescript-eslint/no-empty-interface */']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '// Generated code for namespace: org.acme']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '\n// imports']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '\n// Warning: Beware of circular dependencies when modifying these imports']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, 'import type {\n\tIImportedDirectSubclass,\n\tIImportedDirectSubclass2\n} from \'./org.acme.subclasses\';']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '\n// interfaces']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '\n// interfaces']);
             param.fileWriter.closeFile.calledOnce.should.be.ok;
 
             acceptSpy.withArgs(typescriptVisitor, param).calledOnce.should.be.ok;
@@ -631,7 +629,7 @@ describe('TypescriptVisitor', function () {
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '}\n']);
         });
 
-        it('should create a union given a class that has dependencies but no super class', () => {
+        it('should not create a union given a class with only one same-namespace subclass', () => {
             let acceptSpy = sinon.spy();
 
             let mockChildClassDeclaration = sinon.createStubInstance(ClassDeclaration);
@@ -643,6 +641,7 @@ describe('TypescriptVisitor', function () {
                 accept: acceptSpy
             }]);
             mockChildClassDeclaration.getName.returns('Child');
+            mockChildClassDeclaration.getNamespace.returns('org.acme');
             mockChildClassDeclaration.isAbstract.returns(false);
             mockChildClassDeclaration.getSuperType.returns('Parent');
 
@@ -655,9 +654,44 @@ describe('TypescriptVisitor', function () {
                 accept: acceptSpy
             }]);
             mockClassDeclaration.getName.returns('Parent');
+            mockClassDeclaration.getNamespace.returns('org.acme');
             mockClassDeclaration.isAbstract.returns(true);
             mockClassDeclaration.getSuperType.returns(null);
             mockClassDeclaration.getDirectSubclasses.returns([mockChildClassDeclaration]);
+
+            typescriptVisitor.visitClassDeclaration(mockClassDeclaration, param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'export interface IParent {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '$class: string;']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '}\n']);
+        });
+
+        it('should create a union given a class with multiple same-namespace subclasses', () => {
+            let acceptSpy = sinon.spy();
+
+            let mockChildClassDeclaration1 = sinon.createStubInstance(ClassDeclaration);
+            mockChildClassDeclaration1.isClassDeclaration.returns(true);
+            mockChildClassDeclaration1.getName.returns('Child1');
+            mockChildClassDeclaration1.getNamespace.returns('org.acme');
+            mockChildClassDeclaration1.isAbstract.returns(false);
+
+            let mockChildClassDeclaration2 = sinon.createStubInstance(ClassDeclaration);
+            mockChildClassDeclaration2.isClassDeclaration.returns(true);
+            mockChildClassDeclaration2.getName.returns('Child2');
+            mockChildClassDeclaration2.getNamespace.returns('org.acme');
+            mockChildClassDeclaration2.isAbstract.returns(false);
+
+            let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getOwnProperties.returns([{
+                accept: acceptSpy
+            }]);
+            mockClassDeclaration.getName.returns('Parent');
+            mockClassDeclaration.getNamespace.returns('org.acme');
+            mockClassDeclaration.isAbstract.returns(true);
+            mockClassDeclaration.getSuperType.returns(null);
+            mockClassDeclaration.getDirectSubclasses.returns([mockChildClassDeclaration1, mockChildClassDeclaration2]);
 
             typescriptVisitor.visitClassDeclaration(mockClassDeclaration, param);
 
@@ -665,7 +699,7 @@ describe('TypescriptVisitor', function () {
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'export interface IParent {']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '$class: string;']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '}\n']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, 'export type ParentUnion = IChild;\n']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, 'export type ParentUnion = IChild1 | \nIChild2;\n']);
         });
 
         it('should not create a union if a class has no sub-classes', () => {
@@ -832,7 +866,7 @@ describe('TypescriptVisitor', function () {
             param.fileWriter.writeLine.withArgs(1, 'literalTest = EnumType.MyEnumValue;').calledOnce.should.be.ok;
         });
 
-        it('should write a line for field name using a union type when the flattenSubclassesToUnion parameter is set', () => {
+        it('should write a line for field name using a union type when the flattenSubclassesToUnion parameter is set and there are multiple same-namespace subclasses', () => {
             const mockField = sinon.createStubInstance(Field);
             mockField.isPrimitive.returns(false);
             mockField.getName.returns('flattenSubclassesTest');
@@ -842,7 +876,16 @@ describe('TypescriptVisitor', function () {
             const mockModelManager = sinon.createStubInstance(ModelManager);
             const mockModelFile = sinon.createStubInstance(ModelFile);
             const mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
-            mockClassDeclaration.getDirectSubclasses.returns(['blah']); // Not valid, but sufficient for this test
+
+            const mockSubclass1 = sinon.createStubInstance(ClassDeclaration);
+            mockSubclass1.getNamespace.returns('org.acme');
+            mockSubclass1.isEnum.returns(false);
+            const mockSubclass2 = sinon.createStubInstance(ClassDeclaration);
+            mockSubclass2.getNamespace.returns('org.acme');
+            mockSubclass2.isEnum.returns(false);
+
+            mockClassDeclaration.getDirectSubclasses.returns([mockSubclass1, mockSubclass2]);
+            mockClassDeclaration.getNamespace.returns('org.acme');
 
             mockModelManager.getType.returns(mockClassDeclaration);
             mockClassDeclaration.isEnum.returns(false);
@@ -852,6 +895,34 @@ describe('TypescriptVisitor', function () {
             typescriptVisitor.visitField(mockField, { ...param, flattenSubclassesToUnion: true });
 
             param.fileWriter.writeLine.withArgs(1, 'flattenSubclassesTest: AnimalUnion;').calledOnce.should.be.ok;
+        });
+
+        it('should not use union type when flattenSubclassesToUnion is set but there is only one same-namespace subclass', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.getName.returns('singleSubclassTest');
+            mockField.getType.returns('Animal');
+            mockField.getDecorators.returns([]);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+
+            const mockSubclass1 = sinon.createStubInstance(ClassDeclaration);
+            mockSubclass1.getNamespace.returns('org.acme');
+            mockSubclass1.isEnum.returns(false);
+
+            mockClassDeclaration.getDirectSubclasses.returns([mockSubclass1]);
+            mockClassDeclaration.getNamespace.returns('org.acme');
+
+            mockModelManager.getType.returns(mockClassDeclaration);
+            mockClassDeclaration.isEnum.returns(false);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+            typescriptVisitor.visitField(mockField, { ...param, flattenSubclassesToUnion: true });
+
+            param.fileWriter.writeLine.withArgs(1, 'singleSubclassTest: IAnimal;').calledOnce.should.be.ok;
         });
     });
 
