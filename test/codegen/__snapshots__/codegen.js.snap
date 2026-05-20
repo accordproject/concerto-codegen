@@ -6892,7 +6892,7 @@ export enum TShirtSizeType {
    LARGE = 'LARGE',
 }
 
-export type EmployeeTShirtSizes = Map<string, ITShirtSizeType>;
+export type EmployeeTShirtSizes = Map<SSN, TShirtSizeType>;
 
 export interface IAddress extends IConcept {
    street: string;
@@ -6904,6 +6904,10 @@ export interface IAddress extends IConcept {
 
 export enum Level {
 }
+
+export type Time = Date;
+
+export type SSN = string;
 
 ",
 }
@@ -6924,7 +6928,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 // Warning: Beware of circular dependencies when modifying these imports
 
 // Warning: Beware of circular dependencies when modifying these imports
-import {IAddress,IEmployeeTShirtSizes,ISSN} from './org.acme.hr.base@1.0.0';
+import {Time,SSN,IAddress,IEmployeeTShirtSizes} from './org.acme.hr.base@1.0.0';
 import {IDecorator} from './concerto.decorator@1.0.0';
 import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0';
 
@@ -6943,15 +6947,15 @@ export interface IInfo extends IConcept {
 
 export type CompanyProperties = Map<string, string>;
 
-export type EmployeeLoginTimes = Map<string, Date>;
+export type EmployeeLoginTimes = Map<string, Time>;
 
-export type EmployeeSocialSecurityNumbers = Map<string, string>;
+export type EmployeeSocialSecurityNumbers = Map<string, SSN>;
 
-export type NextOfKin = Map<string, string>;
+export type NextOfKin = Map<KinName, KinTelephone>;
 
 export type EmployeeProfiles = Map<string, IConcept>;
 
-export type EmployeeDirectory = Map<string, IEmployee>;
+export type EmployeeDirectory = Map<SSN, IEmployee>;
 
 export interface ICompany extends IConcept {
    name: string;
@@ -6993,7 +6997,7 @@ export interface IPerson extends IParticipant {
    lastName: string;
    middleNames?: string;
    homeAddress: IAddress;
-   ssn: string;
+   ssn: SSN;
    height: number;
    dob: Date;
    nextOfKin: NextOfKin;
@@ -7037,6 +7041,10 @@ export interface IChangeOfAddress extends ITransaction {
    Person: IPerson;
    newAddress: IAddress;
 }
+
+export type KinName = string;
+
+export type KinTelephone = string;
 
 ",
 }
