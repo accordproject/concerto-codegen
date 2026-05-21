@@ -434,14 +434,66 @@ describe('CSharpVisitor', function () {
             file1.should.match(/public string\? Value/);
             file1.should.match(/public int\? NullableIntValue/);
             file1.should.match(/public int NonNullableIntValue/);
-            file1.should.match(/public float\? NullableDoubleValue/);
-            file1.should.match(/public float NonNullableDoubleValue/);
+            file1.should.match(/public double\? NullableDoubleValue/);
+            file1.should.match(/public double NonNullableDoubleValue/);
             file1.should.match(/public bool\? NullableBooleanValue/);
             file1.should.match(/public bool NonNullableBooleanValue/);
             file1.should.match(/public System.DateTime\? NullableDateTimeValue/);
             file1.should.match(/public System.DateTime NonNullableDateTimeValue/);
             file1.should.match(/public long\? NullableLongValue/);
             file1.should.match(/public long NonNullableLongValue/);
+        });
+
+        it('should correctly emit [] and ? for all combinations of array and optional on fields and relationships', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            concept Item identified by itemId {
+                o String itemId
+            }
+
+            concept Container {
+                // primitive fields
+                o String requiredField
+                o String optionalField optional
+                o String[] requiredArray
+                o String[] optionalArray optional
+
+                // concept fields
+                o Item requiredConcept
+                o Item optionalConcept optional
+                o Item[] requiredConceptArray
+                o Item[] optionalConceptArray optional
+
+                // relationships
+                --> Item requiredRel
+                --> Item optionalRel optional
+                --> Item[] requiredRelArray
+                --> Item[] optionalRelArray optional
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.0.0.cs');
+
+            // primitive fields
+            file1.should.match(/public string requiredField \{ get; set; \}/);
+            file1.should.match(/public string\? optionalField \{ get; set; \}/);
+            file1.should.match(/public string\[\] requiredArray \{ get; set; \}/);
+            file1.should.match(/public string\[\]\? optionalArray \{ get; set; \}/);
+
+            // concept fields
+            file1.should.match(/public Item requiredConcept \{ get; set; \}/);
+            file1.should.match(/public Item\? optionalConcept \{ get; set; \}/);
+            file1.should.match(/public Item\[\] requiredConceptArray \{ get; set; \}/);
+            file1.should.match(/public Item\[\]\? optionalConceptArray \{ get; set; \}/);
+
+            // relationships (type name by default, not the identifier type)
+            file1.should.match(/public Item requiredRel \{ get; set; \}/);
+            file1.should.match(/public Item\? optionalRel \{ get; set; \}/);
+            file1.should.match(/public Item\[\] requiredRelArray \{ get; set; \}/);
+            file1.should.match(/public Item\[\]\? optionalRelArray \{ get; set; \}/);
         });
 
         it('should add identifier attributes for concepts with identified by', () => {
@@ -1586,6 +1638,27 @@ public class SampleModel : Concept {
             param.fileWriter.writeLine.withArgs(1, 'public Person[] Bob { get; set; }').calledOnce.should.be.ok;
         });
 
+        it('should write []? for a field that is both optional and an array', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('Person');
+            mockField.isArray.returns(true);
+            mockField.isOptional.returns(true);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+
+            mockModelManager.getType.returns(mockClassDeclaration);
+            mockClassDeclaration.isEnum.returns(false);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+            csharpVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(1, 'public Person[]? Bob { get; set; }').calledOnce.should.be.ok;
+        });
+
         it('should write a line for field name and type thats a map of <String, String>', () => {
             const mockField             = sinon.createStubInstance(Field);
             const getType               = sinon.stub();
@@ -1780,6 +1853,29 @@ public class SampleModel : Concept {
 
             param.fileWriter.writeLine.withArgs(1, 'public Person[] Bob { get; set; }').calledOnce.should.be.ok;
         });
+
+        it('should write []? for a relationship that is both optional and an array', () => {
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('Person');
+            mockField.isArray.returns(true);
+            mockField.isOptional.returns(true);
+            csharpVisitor.visitRelationship(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'public Person[]? Bob { get; set; }').calledOnce.should.be.ok;
+        });
+
+        it('should write ? for an optional relationship', () => {
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getName.returns('Bob');
+            mockField.getType.returns('Person');
+            mockField.isOptional.returns(true);
+            csharpVisitor.visitRelationship(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'public Person? Bob { get; set; }').calledOnce.should.be.ok;
+        });
     });
 
     describe('toCSharpType', () => {
@@ -1793,7 +1889,7 @@ public class SampleModel : Concept {
             csharpVisitor.toCSharpType('String').should.deep.equal('string');
         });
         it('should return number for Double', () => {
-            csharpVisitor.toCSharpType('Double').should.deep.equal('float');
+            csharpVisitor.toCSharpType('Double').should.deep.equal('double');
         });
         it('should return number for Long', () => {
             csharpVisitor.toCSharpType('Long').should.deep.equal('long');
