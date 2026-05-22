@@ -744,6 +744,8 @@ public readonly record struct Time(System.DateTime Value)
 }
 public readonly record struct SSN(string Value)
 {
+   [System.ComponentModel.DataAnnotations.RegularExpression(@"(\\d{3}-\\d{2}-\\d{4})+", ErrorMessage = "Invalid characters")]
+   public string Value { get; init; } = Value;
    public static implicit operator string(SSN s) => s.Value;
    public static implicit operator SSN(string v) => new(v);
    public override string ToString() => Value.ToString();
@@ -842,7 +844,7 @@ public abstract class Person : Participant {
    public string? middleNames { get; set; }
    public org.acme.hr.base.Address homeAddress { get; set; }
    [System.ComponentModel.DataAnnotations.RegularExpression(@"(\\d{3}-\\d{2}-\\d{4})+", ErrorMessage = "Invalid characters")]
-   public SSN ssn { get; set; }
+   public SSN ssn { get; set; } = new("000-00-0000");
    public double height { get; set; }
    public System.DateTime dob { get; set; }
    public Dictionary<KinName, KinTelephone> nextOfKin { get; set; }

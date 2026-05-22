@@ -637,6 +637,53 @@ public class SampleModel : Concept {
             file1.should.match(/public Ratio\? ratio \{ get; set; \}/);
         });
 
+        it('should emit property initializers for default values on primitive fields', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            concept Defaults {
+                o String name default="Alice"
+                o Integer count default=0
+                o Long big default=9999999999
+                o Double rate default=3.14
+                o Boolean active default=true
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.match(/public string name \{ get; set; \} = "Alice";/);
+            file1.should.match(/public int count \{ get; set; \} = 0;/);
+            file1.should.match(/public long big \{ get; set; \} = 9999999999;/);
+            file1.should.match(/public double rate \{ get; set; \} = 3\.14;/);
+            file1.should.match(/public bool active \{ get; set; \} = true;/);
+        });
+
+        it('should emit property initializers for default values on scalar fields', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            scalar SSN extends String default="000-00-0000"
+            scalar Score extends Integer default=100
+
+            concept Person {
+                o SSN ssn
+                o SSN customSsn default="123-45-6789"
+                o Score score
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            // uses scalar declaration default
+            file1.should.match(/public SSN ssn \{ get; set; \} = new\("000-00-0000"\);/);
+            // field-level default overrides scalar declaration default
+            file1.should.match(/public SSN customSsn \{ get; set; \} = new\("123-45-6789"\);/);
+            file1.should.match(/public Score score \{ get; set; \} = new\(100\);/);
+        });
+
         it('should use UUID alias for scalar type UUID with different namespace than concerto.scalar', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
