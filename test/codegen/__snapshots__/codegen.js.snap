@@ -797,9 +797,12 @@ public class Company : Concept {
    public string name { get; set; }
    public org.acme.hr.base.Address headquarters { get; set; }
    public Dictionary<string, string>? companyProperties { get; set; }
+   [System.ComponentModel.DataAnnotations.ValidateComplexType]
    public Dictionary<SSN, Employee>? employeeDirectory { get; set; }
+   [System.ComponentModel.DataAnnotations.ValidateComplexType]
    public Dictionary<SSN, TShirtSizeType>? employeeTShirtSizes { get; set; }
    public Dictionary<string, Concept>? employeeProfiles { get; set; }
+   [System.ComponentModel.DataAnnotations.ValidateComplexType]
    public Dictionary<string, SSN>? employeeSocialSecurityNumbers { get; set; }
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
