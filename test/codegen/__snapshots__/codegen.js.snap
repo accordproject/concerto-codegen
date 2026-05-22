@@ -721,7 +721,7 @@ public enum TShirtSizeType {
       MEDIUM,
       LARGE,
 }
-public class EmployeeTShirtSizes : Dictionary<string, TShirtSizeType> {}
+public class EmployeeTShirtSizes : Dictionary<SSN, TShirtSizeType> {}
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = "1.0.0", Name = "Address")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public class Address : Concept {
@@ -736,10 +736,18 @@ public class Address : Concept {
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum Level {
 }
-//Dummy implementation of the scalar declaration to avoid compilation errors.
-class Time_Dummy {}
-//Dummy implementation of the scalar declaration to avoid compilation errors.
-class SSN_Dummy {}
+public readonly record struct Time(System.DateTime Value)
+{
+   public static implicit operator System.DateTime(Time s) => s.Value;
+   public static implicit operator Time(System.DateTime v) => new(v);
+   public override string ToString() => Value.ToString();
+}
+public readonly record struct SSN(string Value)
+{
+   public static implicit operator string(SSN s) => s.Value;
+   public static implicit operator SSN(string v) => new(v);
+   public override string ToString() => Value.ToString();
+}
 ",
 }
 `;
@@ -773,11 +781,11 @@ public class Info : Concept {
    public string name { get; set; }
 }
 public class CompanyProperties : Dictionary<string, string> {}
-public class EmployeeLoginTimes : Dictionary<string, System.DateTime> {}
-public class EmployeeSocialSecurityNumbers : Dictionary<string, string> {}
-public class NextOfKin : Dictionary<string, string> {}
+public class EmployeeLoginTimes : Dictionary<string, Time> {}
+public class EmployeeSocialSecurityNumbers : Dictionary<string, SSN> {}
+public class NextOfKin : Dictionary<KinName, KinTelephone> {}
 public class EmployeeProfiles : Dictionary<string, Concept> {}
-public class EmployeeDirectory : Dictionary<string, Employee> {}
+public class EmployeeDirectory : Dictionary<SSN, Employee> {}
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Company")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public class Company : Concept {
@@ -787,10 +795,10 @@ public class Company : Concept {
    public string name { get; set; }
    public org.acme.hr.base.Address headquarters { get; set; }
    public Dictionary<string, string>? companyProperties { get; set; }
-   public Dictionary<string, Employee>? employeeDirectory { get; set; }
-   public Dictionary<string, TShirtSizeType>? employeeTShirtSizes { get; set; }
+   public Dictionary<SSN, Employee>? employeeDirectory { get; set; }
+   public Dictionary<SSN, TShirtSizeType>? employeeTShirtSizes { get; set; }
    public Dictionary<string, Concept>? employeeProfiles { get; set; }
-   public Dictionary<string, string>? employeeSocialSecurityNumbers { get; set; }
+   public Dictionary<string, SSN>? employeeSocialSecurityNumbers { get; set; }
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum Department {
@@ -834,10 +842,10 @@ public abstract class Person : Participant {
    public string? middleNames { get; set; }
    public org.acme.hr.base.Address homeAddress { get; set; }
    [System.ComponentModel.DataAnnotations.RegularExpression(@"(\\d{3}-\\d{2}-\\d{4})+", ErrorMessage = "Invalid characters")]
-   public string ssn { get; set; }
+   public SSN ssn { get; set; }
    public double height { get; set; }
    public System.DateTime dob { get; set; }
-   public Dictionary<string, string> nextOfKin { get; set; }
+   public Dictionary<KinName, KinTelephone> nextOfKin { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Employee")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -889,10 +897,18 @@ public class ChangeOfAddress : Transaction {
    public Person Person { get; set; }
    public org.acme.hr.base.Address newAddress { get; set; }
 }
-//Dummy implementation of the scalar declaration to avoid compilation errors.
-class KinName_Dummy {}
-//Dummy implementation of the scalar declaration to avoid compilation errors.
-class KinTelephone_Dummy {}
+public readonly record struct KinName(string Value)
+{
+   public static implicit operator string(KinName s) => s.Value;
+   public static implicit operator KinName(string v) => new(v);
+   public override string ToString() => Value.ToString();
+}
+public readonly record struct KinTelephone(string Value)
+{
+   public static implicit operator string(KinTelephone s) => s.Value;
+   public static implicit operator KinTelephone(string v) => new(v);
+   public override string ToString() => Value.ToString();
+}
 ",
 }
 `;
