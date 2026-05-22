@@ -805,30 +805,6 @@ public class SampleModel : Concept {
             file1.should.match(/public Score score \{ get; set; \} = new\(100\);/);
         });
 
-        it('should emit [ValidateComplexType] on a map field whose value type is a scalar with validators', () => {
-            sandbox.restore(); // allow ModelUtil.isMap to work normally
-            const modelManager = new ModelManager({ strict: true });
-            modelManager.addCTOModel(`
-            namespace org.acme@1.2.3
-
-            scalar SSN extends String regex=/\\d{3}-\\d{2}-\\d{4}/
-
-            map PhoneBook {
-                o String
-                o SSN
-            }
-
-            concept Person {
-                o PhoneBook phoneBook
-            }
-            `);
-            csharpVisitor.visit(modelManager, { fileWriter });
-            const files = fileWriter.getFilesInMemory();
-            const file1 = files.get('org.acme@1.2.3.cs');
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.ValidateComplexType\]/);
-            file1.should.match(/public Dictionary<string, SSN>.*phoneBook \{ get; set; \}/);
-        });
-
         it('should use UUID alias for scalar type UUID with different namespace than concerto.scalar', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`

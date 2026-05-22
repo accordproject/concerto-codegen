@@ -695,6 +695,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "org.acme.hr.base@1.0.0.cs",
   "value": "namespace org.acme.hr.base;
+using System.Collections.Generic;
 using AccordProject.Concerto;
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = "1.0.0", Name = "Category")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -776,6 +777,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "org.acme.hr@1.0.0.cs",
   "value": "namespace org.acme.hr;
+using System.Collections.Generic;
 using org.acme.hr.base;
 using concerto.decorator;
 using AccordProject.Concerto;
@@ -815,12 +817,9 @@ public class Company : Concept {
    public string name { get; set; }
    public org.acme.hr.base.Address headquarters { get; set; }
    public Dictionary<string, string>? companyProperties { get; set; }
-   [System.ComponentModel.DataAnnotations.ValidateComplexType]
    public Dictionary<SSN, Employee>? employeeDirectory { get; set; }
-   [System.ComponentModel.DataAnnotations.ValidateComplexType]
    public Dictionary<SSN, TShirtSizeType>? employeeTShirtSizes { get; set; }
    public Dictionary<string, Concept>? employeeProfiles { get; set; }
-   [System.ComponentModel.DataAnnotations.ValidateComplexType]
    public Dictionary<string, SSN>? employeeSocialSecurityNumbers { get; set; }
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
