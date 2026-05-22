@@ -459,6 +459,7 @@ describe('CSharpVisitor', function () {
             const file1 = files.get('org.acme@1.2.3.cs');
             file1.should.match(/class Thing/);
             file1.should.match(/AccordProject.Concerto.Identifier\(\)/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Key\]/);
             file1.should.match(/public string ThingId/);
         });
 
@@ -490,6 +491,126 @@ describe('CSharpVisitor', function () {
 
             const file2 = files.get('concerto.scalar@1.0.0.cs');
             file2.should.match(/public readonly record struct UUID\(System\.Guid Value\)/);
+        });
+
+        it('should emit a JsonConverter for a String-backed scalar (SSN round-trip)', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            scalar SSN extends String regex=/\\d{3}-\\d{2}-\\d{4}/
+
+            concept Person identified by ssn {
+                o SSN ssn
+                o String givenName
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.cs');
+
+            // struct has [JsonConverter] attribute pointing to the companion converter
+            file.should.match(/\[System\.Text\.Json\.Serialization\.JsonConverter\(typeof\(SSNJsonConverter\)\)\]/);
+            file.should.match(/public readonly record struct SSN\(string Value\)/);
+
+            // companion converter reads/writes as bare string
+            file.should.match(/public class SSNJsonConverter : System\.Text\.Json\.Serialization\.JsonConverter<SSN>/);
+            file.should.match(/r\.GetString\(\)/);
+            file.should.match(/w\.WriteStringValue\(v\.Value\)/);
+
+            // field on Person still typed as SSN (not string)
+            file.should.match(/public SSN ssn \{ get; set; \}/);
+        });
+
+        it('should emit a JsonConverter for a System.Guid-backed scalar (UUID round-trip)', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace concerto.scalar@1.0.0
+
+            scalar UUID extends String default="00000000-0000-0000-0000-000000000000"
+            `);
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            import concerto.scalar@1.0.0.{ UUID }
+
+            concept Thing {
+                o UUID id
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const scalarFile = fileWriter.getFilesInMemory().get('concerto.scalar@1.0.0.cs');
+
+            // struct is Guid-backed
+            scalarFile.should.match(/public readonly record struct UUID\(System\.Guid Value\)/);
+            // converter attribute
+            scalarFile.should.match(/\[System\.Text\.Json\.Serialization\.JsonConverter\(typeof\(UUIDJsonConverter\)\)\]/);
+            // converter reads as Guid, writes as string
+            scalarFile.should.match(/public class UUIDJsonConverter : System\.Text\.Json\.Serialization\.JsonConverter<UUID>/);
+            scalarFile.should.match(/r\.GetGuid\(\)/);
+            scalarFile.should.match(/w\.WriteStringValue\(v\.Value\.ToString\(\)\)/);
+        });
+
+        it('should emit a JsonConverter for an Integer-backed scalar (numeric round-trip)', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            scalar Age extends Integer range=[0,150]
+
+            concept Person {
+                o Age age
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.cs');
+
+            file.should.match(/\[System\.Text\.Json\.Serialization\.JsonConverter\(typeof\(AgeJsonConverter\)\)\]/);
+            file.should.match(/public readonly record struct Age\(int Value\)/);
+            file.should.match(/public class AgeJsonConverter : System\.Text\.Json\.Serialization\.JsonConverter<Age>/);
+            file.should.match(/r\.GetInt32\(\)/);
+            file.should.match(/w\.WriteNumberValue\(v\.Value\)/);
+        });
+
+        it('should emit a JsonConverter for a Double-backed scalar (numeric round-trip)', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            scalar Weight extends Double range=[0.0,500.0]
+
+            concept Item {
+                o Weight weight
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.cs');
+
+            file.should.match(/\[System\.Text\.Json\.Serialization\.JsonConverter\(typeof\(WeightJsonConverter\)\)\]/);
+            file.should.match(/public readonly record struct Weight\(double Value\)/);
+            file.should.match(/public class WeightJsonConverter : System\.Text\.Json\.Serialization\.JsonConverter<Weight>/);
+            file.should.match(/r\.GetDouble\(\)/);
+            file.should.match(/w\.WriteNumberValue\(v\.Value\)/);
+        });
+
+        it('should emit a JsonConverter for a Boolean-backed scalar (bool round-trip)', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            scalar Flag extends Boolean
+
+            concept Config {
+                o Flag enabled
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.cs');
+
+            file.should.match(/\[System\.Text\.Json\.Serialization\.JsonConverter\(typeof\(FlagJsonConverter\)\)\]/);
+            file.should.match(/public readonly record struct Flag\(bool Value\)/);
+            file.should.match(/public class FlagJsonConverter : System\.Text\.Json\.Serialization\.JsonConverter<Flag>/);
+            file.should.match(/r\.GetBoolean\(\)/);
+            file.should.match(/w\.WriteBooleanValue\(v\.Value\)/);
         });
 
         it('should use regex annotation when regex pattern provided to a field', () => {
