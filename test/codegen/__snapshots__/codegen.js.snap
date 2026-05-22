@@ -721,6 +721,7 @@ public enum TShirtSizeType {
       MEDIUM,
       LARGE,
 }
+public class EmployeeTShirtSizes : Dictionary<string, TShirtSizeType> {}
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = "1.0.0", Name = "Address")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public class Address : Concept {
@@ -771,6 +772,12 @@ public class Info : Concept {
    public override string _class { get; } = "org.acme.hr@1.0.0.Info";
    public string name { get; set; }
 }
+public class CompanyProperties : Dictionary<string, string> {}
+public class EmployeeLoginTimes : Dictionary<string, System.DateTime> {}
+public class EmployeeSocialSecurityNumbers : Dictionary<string, string> {}
+public class NextOfKin : Dictionary<string, string> {}
+public class EmployeeProfiles : Dictionary<string, Concept> {}
+public class EmployeeDirectory : Dictionary<string, Employee> {}
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Company")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public class Company : Concept {
@@ -779,11 +786,11 @@ public class Company : Concept {
    [System.ComponentModel.DataAnnotations.RegularExpression(@"abc.*", ErrorMessage = "Invalid characters")]
    public string name { get; set; }
    public org.acme.hr.base.Address headquarters { get; set; }
-   public Dictionary<string, string> companyProperties { get; set; }
-   public Dictionary<string, Employee> employeeDirectory { get; set; }
-   public Dictionary<string, TShirtSizeType> employeeTShirtSizes { get; set; }
-   public Dictionary<string, Concept> employeeProfiles { get; set; }
-   public Dictionary<string, string> employeeSocialSecurityNumbers { get; set; }
+   public Dictionary<string, string>? companyProperties { get; set; }
+   public Dictionary<string, Employee>? employeeDirectory { get; set; }
+   public Dictionary<string, TShirtSizeType>? employeeTShirtSizes { get; set; }
+   public Dictionary<string, Concept>? employeeProfiles { get; set; }
+   public Dictionary<string, string>? employeeSocialSecurityNumbers { get; set; }
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum Department {

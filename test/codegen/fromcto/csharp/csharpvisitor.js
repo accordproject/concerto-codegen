@@ -1783,6 +1783,57 @@ public class SampleModel : Concept {
         });
     });
 
+    describe('map field integration (HR model)', () => {
+        let modelManager;
+        let fileWriter;
+
+        beforeEach(() => {
+            sandbox.restore();
+            modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(
+                fs.readFileSync(path.resolve(__dirname, '../data/model/hr_base.cto'), 'utf-8'),
+                'hr_base.cto'
+            );
+            modelManager.addCTOModel(
+                fs.readFileSync(path.resolve(__dirname, '../data/model/hr.cto'), 'utf-8'),
+                'hr.cto'
+            );
+            fileWriter = new InMemoryWriter();
+        });
+
+        it('should emit map declarations as Dictionary subclasses', () => {
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const hrFile  = fileWriter.getFilesInMemory().get('org.acme.hr@1.0.0.cs');
+            const basFile = fileWriter.getFilesInMemory().get('org.acme.hr.base@1.0.0.cs');
+
+            // hr.cto map declarations
+            hrFile.should.match(/public class CompanyProperties : Dictionary<string, string> \{\}/);
+            hrFile.should.match(/public class EmployeeLoginTimes : Dictionary<string, System\.DateTime> \{\}/);
+            hrFile.should.match(/public class EmployeeSocialSecurityNumbers : Dictionary<string, string> \{\}/);
+            hrFile.should.match(/public class NextOfKin : Dictionary<string, string> \{\}/);
+            hrFile.should.match(/public class EmployeeProfiles : Dictionary<string, Concept> \{\}/);
+            hrFile.should.match(/public class EmployeeDirectory : Dictionary<string, Employee> \{\}/);
+
+            // hr_base.cto map declaration (SSN scalar key → enum value)
+            basFile.should.match(/public class EmployeeTShirtSizes : Dictionary<string, TShirtSizeType> \{\}/);
+        });
+
+        it('should emit map fields as Dictionary<K,V> typed properties', () => {
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const hrFile = fileWriter.getFilesInMemory().get('org.acme.hr@1.0.0.cs');
+
+            // Company fields
+            hrFile.should.match(/public Dictionary<string, string>\? companyProperties \{ get; set; \}/);
+            hrFile.should.match(/public Dictionary<string, TShirtSizeType>\? employeeTShirtSizes \{ get; set; \}/);
+            hrFile.should.match(/public Dictionary<string, string>\? employeeSocialSecurityNumbers \{ get; set; \}/);
+            hrFile.should.match(/public Dictionary<string, Concept>\? employeeProfiles \{ get; set; \}/);
+            hrFile.should.match(/public Dictionary<string, Employee>\? employeeDirectory \{ get; set; \}/);
+
+            // Person field (scalar-key map, non-optional)
+            hrFile.should.match(/public Dictionary<string, string> nextOfKin \{ get; set; \}/);
+        });
+    });
+
     describe('visitEnumValueDeclaration', () => {
         it('should write a line with the name of the enum value', () => {
             let param = {
@@ -1875,6 +1926,54 @@ public class SampleModel : Concept {
             csharpVisitor.visitRelationship(mockField, param);
 
             param.fileWriter.writeLine.withArgs(1, 'public Person? Bob { get; set; }').calledOnce.should.be.ok;
+        });
+    });
+
+    describe('visitMapDeclaration', () => {
+        let param;
+        let mockMapDeclaration;
+
+        beforeEach(() => {
+            param = { fileWriter: mockFileWriter };
+            mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            mockMapDeclaration.getName.returns('PhoneBook');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+        });
+
+        it('should emit a Dictionary subclass for a primitive key and primitive value', () => {
+            const modelFile = sinon.createStubInstance(ModelFile);
+            mockMapDeclaration.getModelFile.returns(modelFile);
+            sandbox.stub(ModelUtil, 'isPrimitiveType').callsFake(t => t === 'String');
+            sandbox.stub(ModelUtil, 'isScalar').returns(false);
+            mockMapDeclaration.getKey.returns({ getType: () => 'String' });
+            mockMapDeclaration.getValue.returns({ getType: () => 'String' });
+
+            csharpVisitor.visitMapDeclaration(mockMapDeclaration, param);
+            param.fileWriter.writeLine.withArgs(0, 'public class PhoneBook : Dictionary<string, string> {}').calledOnce.should.be.ok;
+        });
+
+        it('should emit a Dictionary subclass for a primitive key and concept value', () => {
+            const modelFile = sinon.createStubInstance(ModelFile);
+            mockMapDeclaration.getModelFile.returns(modelFile);
+            sandbox.stub(ModelUtil, 'isPrimitiveType').callsFake(t => t === 'String');
+            sandbox.stub(ModelUtil, 'isScalar').returns(false);
+            mockMapDeclaration.getKey.returns({ getType: () => 'String' });
+            mockMapDeclaration.getValue.returns({ getType: () => 'Person' });
+
+            csharpVisitor.visitMapDeclaration(mockMapDeclaration, param);
+            param.fileWriter.writeLine.withArgs(0, 'public class PhoneBook : Dictionary<string, Person> {}').calledOnce.should.be.ok;
+        });
+
+        it('should emit a Dictionary subclass for a primitive key and DateTime value', () => {
+            const modelFile = sinon.createStubInstance(ModelFile);
+            mockMapDeclaration.getModelFile.returns(modelFile);
+            sandbox.stub(ModelUtil, 'isPrimitiveType').returns(true);
+            sandbox.stub(ModelUtil, 'isScalar').returns(false);
+            mockMapDeclaration.getKey.returns({ getType: () => 'String' });
+            mockMapDeclaration.getValue.returns({ getType: () => 'DateTime' });
+
+            csharpVisitor.visitMapDeclaration(mockMapDeclaration, param);
+            param.fileWriter.writeLine.withArgs(0, 'public class PhoneBook : Dictionary<string, System.DateTime> {}').calledOnce.should.be.ok;
         });
     });
 
