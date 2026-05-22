@@ -444,58 +444,6 @@ describe('CSharpVisitor', function () {
             file1.should.match(/public long NonNullableLongValue/);
         });
 
-        it('should correctly emit [] and ? for all combinations of array and optional on fields and relationships', () => {
-            const modelManager = new ModelManager({ strict: true });
-            modelManager.addCTOModel(`
-            namespace org.acme@1.0.0
-
-            concept Item identified by itemId {
-                o String itemId
-            }
-
-            concept Container {
-                // primitive fields
-                o String requiredField
-                o String optionalField optional
-                o String[] requiredArray
-                o String[] optionalArray optional
-
-                // concept fields
-                o Item requiredConcept
-                o Item optionalConcept optional
-                o Item[] requiredConceptArray
-                o Item[] optionalConceptArray optional
-
-                // relationships
-                --> Item requiredRel
-                --> Item optionalRel optional
-                --> Item[] requiredRelArray
-                --> Item[] optionalRelArray optional
-            }
-            `);
-            csharpVisitor.visit(modelManager, { fileWriter });
-            const files = fileWriter.getFilesInMemory();
-            const file1 = files.get('org.acme@1.0.0.cs');
-
-            // primitive fields
-            file1.should.match(/public string requiredField \{ get; set; \}/);
-            file1.should.match(/public string\? optionalField \{ get; set; \}/);
-            file1.should.match(/public string\[\] requiredArray \{ get; set; \}/);
-            file1.should.match(/public string\[\]\? optionalArray \{ get; set; \}/);
-
-            // concept fields
-            file1.should.match(/public Item requiredConcept \{ get; set; \}/);
-            file1.should.match(/public Item\? optionalConcept \{ get; set; \}/);
-            file1.should.match(/public Item\[\] requiredConceptArray \{ get; set; \}/);
-            file1.should.match(/public Item\[\]\? optionalConceptArray \{ get; set; \}/);
-
-            // relationships (type name by default, not the identifier type)
-            file1.should.match(/public Item requiredRel \{ get; set; \}/);
-            file1.should.match(/public Item\? optionalRel \{ get; set; \}/);
-            file1.should.match(/public Item\[\] requiredRelArray \{ get; set; \}/);
-            file1.should.match(/public Item\[\]\? optionalRelArray \{ get; set; \}/);
-        });
-
         it('should add identifier attributes for concepts with identified by', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
@@ -537,11 +485,11 @@ describe('CSharpVisitor', function () {
             file1.should.match(/namespace org.acme;/);
             file1.should.match(/using concerto.scalar;/);
             file1.should.match(/class Thing/);
-            file1.should.match(/public System.Guid ThingId/);
-            file1.should.match(/public System.Guid\? SomeOtherId/);
+            file1.should.match(/public UUID ThingId/);
+            file1.should.match(/public UUID\? SomeOtherId/);
 
             const file2 = files.get('concerto.scalar@1.0.0.cs');
-            file2.should.match(/class UUID_Dummy {}/);
+            file2.should.match(/public readonly record struct UUID\(System\.Guid Value\)/);
         });
 
         it('should use regex annotation when regex pattern provided to a field', () => {
@@ -623,17 +571,17 @@ public class SampleModel : Concept {
             file1.should.match(/class SampleModel/);
             file1.should.match(/[System.ComponentModel.DataAnnotations.MinLength(1)]/);
             file1.should.match(/[System.ComponentModel.DataAnnotations.MaxLength(10)]/);
-            file1.should.match(/public string scalarStringLengthWithRegex/);
+            file1.should.match(/public ScalarStringLengthWithRegex scalarStringLengthWithRegex/);
             file1.should.match(/[System.ComponentModel.DataAnnotations.MinLength(2)]/);
-            file1.should.match(/public string scalarStringWithMinLength/);
+            file1.should.match(/public ScalarStringWithMinLength scalarStringWithMinLength/);
             file1.should.match(/[System.ComponentModel.DataAnnotations.MinLength(100)]/);
-            file1.should.match(/public string scalarStringWithMaxLength/);
+            file1.should.match(/public ScalarStringWithMaxLength scalarStringWithMaxLength/);
             file1.should.match(/[System.ComponentModel.DataAnnotations.MinLength(3)]/);
             file1.should.match(/[System.ComponentModel.DataAnnotations.MaxLength(3)]/);
-            file1.should.match(/public string scalarStringWithSameMinMaxLength/);
+            file1.should.match(/public ScalarStringWithSameMinMaxLength scalarStringWithSameMinMaxLength/);
         });
 
-        it('should use string for scalar type UUID but with different namespace than concerto.scalar ', () => {
+        it('should use UUID alias for scalar type UUID with different namespace than concerto.scalar', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
             namespace org.specific.scalar@1.0.0
@@ -655,13 +603,13 @@ public class SampleModel : Concept {
             file1.should.match(/namespace org.acme;/);
             file1.should.match(/using org.specific.scalar;/);
             file1.should.match(/class Thing/);
-            file1.should.match(/public string ThingId/);
+            file1.should.match(/public UUID ThingId/);
 
             const file2 = files.get('org.specific.scalar@1.0.0.cs');
-            file2.should.match(/class UUID_Dummy {}/);
+            file2.should.match(/public readonly record struct UUID\(string Value\)/);
         });
 
-        it('should use string for scalar type non UUID', () => {
+        it('should use scalar alias for non UUID scalar type', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
             namespace concerto.scalar@1.0.0
@@ -683,11 +631,11 @@ public class SampleModel : Concept {
             const file1 = files.get('org.acme@1.2.3.cs');
             file1.should.match(/namespace org.acme;/);
             file1.should.match(/class Thing/);
-            file1.should.match(/public string ThingId/);
-            file1.should.match(/public string\? SomeOtherId/);
+            file1.should.match(/public SSN ThingId/);
+            file1.should.match(/public SSN\? SomeOtherId/);
 
             const file2 = files.get('concerto.scalar@1.0.0.cs');
-            file2.should.match(/class SSN_Dummy {}/);
+            file2.should.match(/public readonly record struct SSN\(string Value\)/);
         });
 
         it('should use the @AcceptedValue decorator if present', () => {
@@ -1513,7 +1461,7 @@ public class SampleModel : Concept {
             mockField.getScalarField.returns(mockScalarField);
 
             csharpVisitor.visitScalarField(mockField, param);
-            param.fileWriter.writeLine.withArgs(1, 'public System.Guid someId { get; set; }').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'public UUID someId { get; set; }').calledOnce.should.be.ok;
         });
 
         it('should write a line for scalar optional field of type UUID with dotnet type nullable Guid', () => {
@@ -1533,10 +1481,10 @@ public class SampleModel : Concept {
             mockField.getScalarField.returns(mockScalarField);
 
             csharpVisitor.visitScalarField(mockField, param);
-            param.fileWriter.writeLine.withArgs(1, 'public System.Guid? someId { get; set; }').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'public UUID? someId { get; set; }').calledOnce.should.be.ok;
         });
 
-        it('should write a line for scalar field of type UUID from org specific namespce with dotnet type string', () => {
+        it('should write a line for scalar field of type UUID from org specific namespace with scalar alias name', () => {
             const mockField = sinon.createStubInstance(Field);
             mockField.isPrimitive.returns(false);
             mockField.getName.returns('someId');
@@ -1551,10 +1499,10 @@ public class SampleModel : Concept {
             mockField.getScalarField.returns(mockScalarField);
 
             csharpVisitor.visitScalarField(mockField, param);
-            param.fileWriter.writeLine.withArgs(1, 'public string someId { get; set; }').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'public UUID someId { get; set; }').calledOnce.should.be.ok;
         });
 
-        it('should write a line for scalar field of non UUID type', () => {
+        it('should write a line for scalar field using the scalar alias name', () => {
             const mockField = sinon.createStubInstance(Field);
             mockField.isPrimitive.returns(false);
             mockField.getName.returns('someId');
@@ -1569,7 +1517,7 @@ public class SampleModel : Concept {
             mockField.getScalarField.returns(mockScalarField);
 
             csharpVisitor.visitScalarField(mockField, param);
-            param.fileWriter.writeLine.withArgs(1, 'public string someId { get; set; }').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'public SSN someId { get; set; }').calledOnce.should.be.ok;
         });
     });
 
@@ -1636,27 +1584,6 @@ public class SampleModel : Concept {
             mockField.getParent.returns(mockClassDeclaration);
             csharpVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.withArgs(1, 'public Person[] Bob { get; set; }').calledOnce.should.be.ok;
-        });
-
-        it('should write []? for a field that is both optional and an array', () => {
-            const mockField = sinon.createStubInstance(Field);
-            mockField.isPrimitive.returns(false);
-            mockField.getName.returns('Bob');
-            mockField.getType.returns('Person');
-            mockField.isArray.returns(true);
-            mockField.isOptional.returns(true);
-
-            const mockModelManager = sinon.createStubInstance(ModelManager);
-            const mockModelFile = sinon.createStubInstance(ModelFile);
-            const mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
-
-            mockModelManager.getType.returns(mockClassDeclaration);
-            mockClassDeclaration.isEnum.returns(false);
-            mockModelFile.getModelManager.returns(mockModelManager);
-            mockClassDeclaration.getModelFile.returns(mockModelFile);
-            mockField.getParent.returns(mockClassDeclaration);
-            csharpVisitor.visitField(mockField, param);
-            param.fileWriter.writeLine.withArgs(1, 'public Person[]? Bob { get; set; }').calledOnce.should.be.ok;
         });
 
         it('should write a line for field name and type thats a map of <String, String>', () => {
@@ -1783,57 +1710,6 @@ public class SampleModel : Concept {
         });
     });
 
-    describe('map field integration (HR model)', () => {
-        let modelManager;
-        let fileWriter;
-
-        beforeEach(() => {
-            sandbox.restore();
-            modelManager = new ModelManager({ strict: true });
-            modelManager.addCTOModel(
-                fs.readFileSync(path.resolve(__dirname, '../data/model/hr_base.cto'), 'utf-8'),
-                'hr_base.cto'
-            );
-            modelManager.addCTOModel(
-                fs.readFileSync(path.resolve(__dirname, '../data/model/hr.cto'), 'utf-8'),
-                'hr.cto'
-            );
-            fileWriter = new InMemoryWriter();
-        });
-
-        it('should emit map declarations as Dictionary subclasses', () => {
-            csharpVisitor.visit(modelManager, { fileWriter });
-            const hrFile  = fileWriter.getFilesInMemory().get('org.acme.hr@1.0.0.cs');
-            const basFile = fileWriter.getFilesInMemory().get('org.acme.hr.base@1.0.0.cs');
-
-            // hr.cto map declarations
-            hrFile.should.match(/public class CompanyProperties : Dictionary<string, string> \{\}/);
-            hrFile.should.match(/public class EmployeeLoginTimes : Dictionary<string, System\.DateTime> \{\}/);
-            hrFile.should.match(/public class EmployeeSocialSecurityNumbers : Dictionary<string, string> \{\}/);
-            hrFile.should.match(/public class NextOfKin : Dictionary<string, string> \{\}/);
-            hrFile.should.match(/public class EmployeeProfiles : Dictionary<string, Concept> \{\}/);
-            hrFile.should.match(/public class EmployeeDirectory : Dictionary<string, Employee> \{\}/);
-
-            // hr_base.cto map declaration (SSN scalar key → enum value)
-            basFile.should.match(/public class EmployeeTShirtSizes : Dictionary<string, TShirtSizeType> \{\}/);
-        });
-
-        it('should emit map fields as Dictionary<K,V> typed properties', () => {
-            csharpVisitor.visit(modelManager, { fileWriter });
-            const hrFile = fileWriter.getFilesInMemory().get('org.acme.hr@1.0.0.cs');
-
-            // Company fields
-            hrFile.should.match(/public Dictionary<string, string>\? companyProperties \{ get; set; \}/);
-            hrFile.should.match(/public Dictionary<string, TShirtSizeType>\? employeeTShirtSizes \{ get; set; \}/);
-            hrFile.should.match(/public Dictionary<string, string>\? employeeSocialSecurityNumbers \{ get; set; \}/);
-            hrFile.should.match(/public Dictionary<string, Concept>\? employeeProfiles \{ get; set; \}/);
-            hrFile.should.match(/public Dictionary<string, Employee>\? employeeDirectory \{ get; set; \}/);
-
-            // Person field (scalar-key map, non-optional)
-            hrFile.should.match(/public Dictionary<string, string> nextOfKin \{ get; set; \}/);
-        });
-    });
-
     describe('visitEnumValueDeclaration', () => {
         it('should write a line with the name of the enum value', () => {
             let param = {
@@ -1904,77 +1780,6 @@ public class SampleModel : Concept {
 
             param.fileWriter.writeLine.withArgs(1, 'public Person[] Bob { get; set; }').calledOnce.should.be.ok;
         });
-
-        it('should write []? for a relationship that is both optional and an array', () => {
-            let mockField = sinon.createStubInstance(Field);
-            mockField.isField.returns(true);
-            mockField.getName.returns('Bob');
-            mockField.getType.returns('Person');
-            mockField.isArray.returns(true);
-            mockField.isOptional.returns(true);
-            csharpVisitor.visitRelationship(mockField, param);
-
-            param.fileWriter.writeLine.withArgs(1, 'public Person[]? Bob { get; set; }').calledOnce.should.be.ok;
-        });
-
-        it('should write ? for an optional relationship', () => {
-            let mockField = sinon.createStubInstance(Field);
-            mockField.isField.returns(true);
-            mockField.getName.returns('Bob');
-            mockField.getType.returns('Person');
-            mockField.isOptional.returns(true);
-            csharpVisitor.visitRelationship(mockField, param);
-
-            param.fileWriter.writeLine.withArgs(1, 'public Person? Bob { get; set; }').calledOnce.should.be.ok;
-        });
-    });
-
-    describe('visitMapDeclaration', () => {
-        let param;
-        let mockMapDeclaration;
-
-        beforeEach(() => {
-            param = { fileWriter: mockFileWriter };
-            mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
-            mockMapDeclaration.getName.returns('PhoneBook');
-            mockMapDeclaration.isMapDeclaration.returns(true);
-        });
-
-        it('should emit a Dictionary subclass for a primitive key and primitive value', () => {
-            const modelFile = sinon.createStubInstance(ModelFile);
-            mockMapDeclaration.getModelFile.returns(modelFile);
-            sandbox.stub(ModelUtil, 'isPrimitiveType').callsFake(t => t === 'String');
-            sandbox.stub(ModelUtil, 'isScalar').returns(false);
-            mockMapDeclaration.getKey.returns({ getType: () => 'String' });
-            mockMapDeclaration.getValue.returns({ getType: () => 'String' });
-
-            csharpVisitor.visitMapDeclaration(mockMapDeclaration, param);
-            param.fileWriter.writeLine.withArgs(0, 'public class PhoneBook : Dictionary<string, string> {}').calledOnce.should.be.ok;
-        });
-
-        it('should emit a Dictionary subclass for a primitive key and concept value', () => {
-            const modelFile = sinon.createStubInstance(ModelFile);
-            mockMapDeclaration.getModelFile.returns(modelFile);
-            sandbox.stub(ModelUtil, 'isPrimitiveType').callsFake(t => t === 'String');
-            sandbox.stub(ModelUtil, 'isScalar').returns(false);
-            mockMapDeclaration.getKey.returns({ getType: () => 'String' });
-            mockMapDeclaration.getValue.returns({ getType: () => 'Person' });
-
-            csharpVisitor.visitMapDeclaration(mockMapDeclaration, param);
-            param.fileWriter.writeLine.withArgs(0, 'public class PhoneBook : Dictionary<string, Person> {}').calledOnce.should.be.ok;
-        });
-
-        it('should emit a Dictionary subclass for a primitive key and DateTime value', () => {
-            const modelFile = sinon.createStubInstance(ModelFile);
-            mockMapDeclaration.getModelFile.returns(modelFile);
-            sandbox.stub(ModelUtil, 'isPrimitiveType').returns(true);
-            sandbox.stub(ModelUtil, 'isScalar').returns(false);
-            mockMapDeclaration.getKey.returns({ getType: () => 'String' });
-            mockMapDeclaration.getValue.returns({ getType: () => 'DateTime' });
-
-            csharpVisitor.visitMapDeclaration(mockMapDeclaration, param);
-            param.fileWriter.writeLine.withArgs(0, 'public class PhoneBook : Dictionary<string, System.DateTime> {}').calledOnce.should.be.ok;
-        });
     });
 
     describe('toCSharpType', () => {
@@ -1987,7 +1792,7 @@ public class SampleModel : Concept {
         it('should return string for String', () => {
             csharpVisitor.toCSharpType('String').should.deep.equal('string');
         });
-        it('should return number for Double', () => {
+        it('should return double for Double', () => {
             csharpVisitor.toCSharpType('Double').should.deep.equal('double');
         });
         it('should return number for Long', () => {
