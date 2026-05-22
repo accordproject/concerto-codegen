@@ -828,7 +828,7 @@ public abstract class Person : Participant {
    public org.acme.hr.base.Address homeAddress { get; set; }
    [System.ComponentModel.DataAnnotations.RegularExpression(@"(\\d{3}-\\d{2}-\\d{4})+", ErrorMessage = "Invalid characters")]
    public string ssn { get; set; }
-   public float height { get; set; }
+   public double height { get; set; }
    public System.DateTime dob { get; set; }
    public Dictionary<string, string> nextOfKin { get; set; }
 }
@@ -844,7 +844,7 @@ public class Employee : Person {
    public Department department { get; set; }
    public org.acme.hr.base.Address officeAddress { get; set; }
    public Equipment[] companyAssets { get; set; }
-   public Manager manager { get; set; }
+   public Manager? manager { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Contractor")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -852,14 +852,14 @@ public class Contractor : Person {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.Contractor";
    public Company company { get; set; }
-   public Manager manager { get; set; }
+   public Manager? manager { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Manager")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public class Manager : Employee {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.Manager";
-   public Person[] reports { get; set; }
+   public Person[]? reports { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "CompanyEvent")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
