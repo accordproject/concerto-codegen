@@ -853,6 +853,7 @@ public class Employee : Person {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.Employee";
    public string employeeId { get; set; }
+   [System.ComponentModel.DataAnnotations.Range(typeof(long), "1", "10")]
    public long salary { get; set; }
    public int numDependents { get; set; }
    public bool retired { get; set; }

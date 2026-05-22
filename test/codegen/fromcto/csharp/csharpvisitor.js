@@ -581,6 +581,62 @@ public class SampleModel : Concept {
             file1.should.match(/public ScalarStringWithSameMinMaxLength scalarStringWithSameMinMaxLength/);
         });
 
+        it('should emit [Range] attribute for Integer, Long, and Double fields with range validators', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            concept RangeModel {
+                o Integer intBothBounds range=[1,100]
+                o Long longBothBounds range=[0,9999999999]
+                o Double doubleBothBounds range=[0.5,99.9]
+                o Integer intLowerOnly range=[5,]
+                o Double doubleUpperOnly range=[,1.0]
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Range\(typeof\(int\), "1", "100"\)\]/);
+            file1.should.match(/public int intBothBounds \{ get; set; \}/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Range\(typeof\(long\), "0", "9999999999"\)\]/);
+            file1.should.match(/public long longBothBounds \{ get; set; \}/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Range\(typeof\(double\), "0\.5", "99\.9"\)\]/);
+            file1.should.match(/public double doubleBothBounds \{ get; set; \}/);
+            // lower-only: upper defaults to type max
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Range\(typeof\(int\), "5", "2147483647"\)\]/);
+            file1.should.match(/public int intLowerOnly \{ get; set; \}/);
+            // upper-only: lower defaults to type min
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Range\(typeof\(double\), "-1\.7976931348623157E\+308", "1"\)\]/);
+            file1.should.match(/public double doubleUpperOnly \{ get; set; \}/);
+        });
+
+        it('should emit [Range] attribute for scalar fields backed by numeric types with range validators', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            scalar Age extends Integer range=[0,150]
+            scalar Salary extends Long range=[1,]
+            scalar Ratio extends Double range=[0.0,1.0]
+
+            concept Person {
+                o Age age
+                o Salary salary
+                o Ratio ratio optional
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Range\(typeof\(int\), "0", "150"\)\]/);
+            file1.should.match(/public Age age \{ get; set; \}/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Range\(typeof\(long\), "1", "9223372036854775807"\)\]/);
+            file1.should.match(/public Salary salary \{ get; set; \}/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Range\(typeof\(double\), "0", "1"\)\]/);
+            file1.should.match(/public Ratio\? ratio \{ get; set; \}/);
+        });
+
         it('should use UUID alias for scalar type UUID with different namespace than concerto.scalar', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
