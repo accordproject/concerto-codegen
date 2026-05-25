@@ -254,8 +254,8 @@ concept veggie {
 concept geographical_location {
   o String name default="home" regex=/[\\w\\s]+/ optional
   o Double latitude
-  o Double longitude range=[-180,180]
-  o Double elevation range=[-11034,] optional
+  o Double longitude range=[-180.0,180.0]
+  o Double elevation range=[-11034.0,] optional
   o Integer yearDiscovered range=[,2022] optional
 }`);
     });
