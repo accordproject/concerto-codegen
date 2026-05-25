@@ -657,6 +657,7 @@ public abstract class Asset : Concept {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "concerto@1.0.0.Asset";
    [AccordProject.Concerto.Identifier()]
+   [System.ComponentModel.DataAnnotations.Key]
    [System.Text.Json.Serialization.JsonPropertyName("$identifier")]
    public string _identifier { get; set; }
 }
@@ -666,6 +667,7 @@ public abstract class Participant : Concept {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "concerto@1.0.0.Participant";
    [AccordProject.Concerto.Identifier()]
+   [System.ComponentModel.DataAnnotations.Key]
    [System.Text.Json.Serialization.JsonPropertyName("$identifier")]
    public string _identifier { get; set; }
 }
@@ -693,6 +695,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "org.acme.hr.base@1.0.0.cs",
   "value": "namespace org.acme.hr.base;
+using System.Collections.Generic;
 using AccordProject.Concerto;
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = "1.0.0", Name = "Category")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -736,17 +739,35 @@ public class Address : Concept {
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum Level {
 }
+[System.Text.Json.Serialization.JsonConverter(typeof(TimeJsonConverter))]
 public readonly record struct Time(System.DateTime Value)
 {
    public static implicit operator System.DateTime(Time s) => s.Value;
    public static implicit operator Time(System.DateTime v) => new(v);
    public override string ToString() => Value.ToString();
 }
+public class TimeJsonConverter : System.Text.Json.Serialization.JsonConverter<Time>
+{
+   public override Time Read(ref System.Text.Json.Utf8JsonReader r, System.Type t, System.Text.Json.JsonSerializerOptions o)
+      => new((System.DateTime)System.Convert.ChangeType(r.GetString()!, typeof(System.DateTime)));
+   public override void Write(System.Text.Json.Utf8JsonWriter w, Time v, System.Text.Json.JsonSerializerOptions o)
+      => w.WriteStringValue(v.Value.ToString()!);
+}
+[System.Text.Json.Serialization.JsonConverter(typeof(SSNJsonConverter))]
 public readonly record struct SSN(string Value)
 {
+   [System.ComponentModel.DataAnnotations.RegularExpression(@"(\\d{3}-\\d{2}-\\d{4})+", ErrorMessage = "Invalid characters")]
+   public string Value { get; init; } = Value;
    public static implicit operator string(SSN s) => s.Value;
    public static implicit operator SSN(string v) => new(v);
    public override string ToString() => Value.ToString();
+}
+public class SSNJsonConverter : System.Text.Json.Serialization.JsonConverter<SSN>
+{
+   public override SSN Read(ref System.Text.Json.Utf8JsonReader r, System.Type t, System.Text.Json.JsonSerializerOptions o)
+      => new(r.GetString()!);
+   public override void Write(System.Text.Json.Utf8JsonWriter w, SSN v, System.Text.Json.JsonSerializerOptions o)
+      => w.WriteStringValue(v.Value);
 }
 ",
 }
@@ -756,6 +777,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "org.acme.hr@1.0.0.cs",
   "value": "namespace org.acme.hr;
+using System.Collections.Generic;
 using org.acme.hr.base;
 using concerto.decorator;
 using AccordProject.Concerto;
@@ -815,6 +837,7 @@ public abstract class Equipment : Asset {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.Equipment";
    [AccordProject.Concerto.Identifier()]
+   [System.ComponentModel.DataAnnotations.Key]
    public string serialNumber { get; set; }
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
@@ -835,6 +858,7 @@ public abstract class Person : Participant {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.Person";
    [AccordProject.Concerto.Identifier()]
+   [System.ComponentModel.DataAnnotations.Key]
    [System.ComponentModel.DataAnnotations.MaxLength(254)]
    public string email { get; set; }
    public string firstName { get; set; }
@@ -842,7 +866,7 @@ public abstract class Person : Participant {
    public string? middleNames { get; set; }
    public org.acme.hr.base.Address homeAddress { get; set; }
    [System.ComponentModel.DataAnnotations.RegularExpression(@"(\\d{3}-\\d{2}-\\d{4})+", ErrorMessage = "Invalid characters")]
-   public SSN ssn { get; set; }
+   public SSN ssn { get; set; } = new("000-00-0000");
    public double height { get; set; }
    public System.DateTime dob { get; set; }
    public Dictionary<KinName, KinTelephone> nextOfKin { get; set; }
@@ -853,6 +877,7 @@ public class Employee : Person {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.Employee";
    public string employeeId { get; set; }
+   [System.ComponentModel.DataAnnotations.Range(typeof(long), "1", "10")]
    public long salary { get; set; }
    public int numDependents { get; set; }
    public bool retired { get; set; }
@@ -897,17 +922,33 @@ public class ChangeOfAddress : Transaction {
    public Person Person { get; set; }
    public org.acme.hr.base.Address newAddress { get; set; }
 }
+[System.Text.Json.Serialization.JsonConverter(typeof(KinNameJsonConverter))]
 public readonly record struct KinName(string Value)
 {
    public static implicit operator string(KinName s) => s.Value;
    public static implicit operator KinName(string v) => new(v);
    public override string ToString() => Value.ToString();
 }
+public class KinNameJsonConverter : System.Text.Json.Serialization.JsonConverter<KinName>
+{
+   public override KinName Read(ref System.Text.Json.Utf8JsonReader r, System.Type t, System.Text.Json.JsonSerializerOptions o)
+      => new(r.GetString()!);
+   public override void Write(System.Text.Json.Utf8JsonWriter w, KinName v, System.Text.Json.JsonSerializerOptions o)
+      => w.WriteStringValue(v.Value);
+}
+[System.Text.Json.Serialization.JsonConverter(typeof(KinTelephoneJsonConverter))]
 public readonly record struct KinTelephone(string Value)
 {
    public static implicit operator string(KinTelephone s) => s.Value;
    public static implicit operator KinTelephone(string v) => new(v);
    public override string ToString() => Value.ToString();
+}
+public class KinTelephoneJsonConverter : System.Text.Json.Serialization.JsonConverter<KinTelephone>
+{
+   public override KinTelephone Read(ref System.Text.Json.Utf8JsonReader r, System.Type t, System.Text.Json.JsonSerializerOptions o)
+      => new(r.GetString()!);
+   public override void Write(System.Text.Json.Utf8JsonWriter w, KinTelephone v, System.Text.Json.JsonSerializerOptions o)
+      => w.WriteStringValue(v.Value);
 }
 ",
 }
