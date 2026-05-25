@@ -621,6 +621,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "concerto.decorator@1.0.0.cs",
   "value": "namespace concerto.decorator;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using AccordProject.Concerto;
 [AccordProject.Concerto.Type(Namespace = "concerto.decorator", Version = "1.0.0", Name = "Decorator")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -644,6 +646,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 {
   "key": "concerto@1.0.0.cs",
   "value": "namespace AccordProject.Concerto;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using concerto.decorator;
 [AccordProject.Concerto.Type(Namespace = "concerto", Version = "1.0.0", Name = "Concept")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -696,6 +700,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "org.acme.hr.base@1.0.0.cs",
   "value": "namespace org.acme.hr.base;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using AccordProject.Concerto;
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr.base", Version = "1.0.0", Name = "Category")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -778,6 +783,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "key": "org.acme.hr@1.0.0.cs",
   "value": "namespace org.acme.hr;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using org.acme.hr.base;
 using concerto.decorator;
 using AccordProject.Concerto;
@@ -865,7 +871,6 @@ public abstract class Person : Participant {
    public string lastName { get; set; }
    public string? middleNames { get; set; }
    public org.acme.hr.base.Address homeAddress { get; set; }
-   [System.ComponentModel.DataAnnotations.RegularExpression(@"(\\d{3}-\\d{2}-\\d{4})+", ErrorMessage = "Invalid characters")]
    public SSN ssn { get; set; } = new("000-00-0000");
    public double height { get; set; }
    public System.DateTime dob { get; set; }
