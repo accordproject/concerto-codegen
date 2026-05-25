@@ -613,6 +613,143 @@ describe('CSharpVisitor', function () {
             file.should.match(/w\.WriteBooleanValue\(v\.Value\)/);
         });
 
+        it('should emit a Newtonsoft JsonConverter for a String-backed scalar with useNewtonsoftJson flag', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            scalar SSN extends String regex=/\\d{3}-\\d{2}-\\d{4}/
+
+            concept Person identified by ssn {
+                o SSN ssn
+                o String givenName
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter, useNewtonsoftJson: true });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.cs');
+
+            file.should.match(/\[Newtonsoft\.Json\.JsonConverter\(typeof\(SSNJsonConverter\)\)\]/);
+            file.should.match(/public readonly record struct SSN\(string Value\)/);
+            file.should.match(/public class SSNJsonConverter : Newtonsoft\.Json\.JsonConverter<SSN>/);
+            file.should.match(/\(string\)r\.Value!/);
+            file.should.match(/w\.WriteValue\(v\.Value\)/);
+        });
+
+        it('should emit a Newtonsoft JsonConverter for a UUID scalar with useNewtonsoftJson flag', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace concerto.scalar@1.0.0
+
+            scalar UUID extends String default="00000000-0000-0000-0000-000000000000"
+            `);
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            import concerto.scalar@1.0.0.{ UUID }
+
+            concept Thing {
+                o UUID id
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter, useNewtonsoftJson: true });
+            const scalarFile = fileWriter.getFilesInMemory().get('concerto.scalar@1.0.0.cs');
+
+            // struct is Guid-backed
+            scalarFile.should.match(/public readonly record struct UUID\(System\.Guid Value\)/);
+            // converter attribute uses Newtonsoft
+            scalarFile.should.match(/\[Newtonsoft\.Json\.JsonConverter\(typeof\(UUIDJsonConverter\)\)\]/);
+            // converter extends Newtonsoft base
+            scalarFile.should.match(/public class UUIDJsonConverter : Newtonsoft\.Json\.JsonConverter<UUID>/);
+            // Newtonsoft-style read/write
+            scalarFile.should.match(/public override UUID ReadJson\(/);
+            scalarFile.should.match(/public override void WriteJson\(/);
+            scalarFile.should.match(/System\.Guid\.Parse\(\(string\)r\.Value!\)/);
+        });
+
+        it('should emit a Newtonsoft JsonConverter for an Integer scalar with useNewtonsoftJson flag', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            scalar Age extends Integer range=[0,150]
+
+            concept Person {
+                o Age age
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter, useNewtonsoftJson: true });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.cs');
+
+            file.should.match(/\[Newtonsoft\.Json\.JsonConverter\(typeof\(AgeJsonConverter\)\)\]/);
+            file.should.match(/public readonly record struct Age\(int Value\)/);
+            file.should.match(/public class AgeJsonConverter : Newtonsoft\.Json\.JsonConverter<Age>/);
+            file.should.match(/System\.Convert\.ToInt32\(r\.Value\)/);
+            file.should.match(/w\.WriteValue\(v\.Value\)/);
+        });
+
+        it('should emit a Newtonsoft JsonConverter for a Long scalar with useNewtonsoftJson flag', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            scalar BigNumber extends Long
+
+            concept Item {
+                o BigNumber count
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter, useNewtonsoftJson: true });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.cs');
+
+            file.should.match(/\[Newtonsoft\.Json\.JsonConverter\(typeof\(BigNumberJsonConverter\)\)\]/);
+            file.should.match(/public readonly record struct BigNumber\(long Value\)/);
+            file.should.match(/public class BigNumberJsonConverter : Newtonsoft\.Json\.JsonConverter<BigNumber>/);
+            file.should.match(/System\.Convert\.ToInt64\(r\.Value\)/);
+            file.should.match(/w\.WriteValue\(v\.Value\)/);
+        });
+
+        it('should emit a Newtonsoft JsonConverter for a Double scalar with useNewtonsoftJson flag', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            scalar Weight extends Double range=[0.0,500.0]
+
+            concept Item {
+                o Weight weight
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter, useNewtonsoftJson: true });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.cs');
+
+            file.should.match(/\[Newtonsoft\.Json\.JsonConverter\(typeof\(WeightJsonConverter\)\)\]/);
+            file.should.match(/public readonly record struct Weight\(double Value\)/);
+            file.should.match(/public class WeightJsonConverter : Newtonsoft\.Json\.JsonConverter<Weight>/);
+            file.should.match(/System\.Convert\.ToDouble\(r\.Value\)/);
+            file.should.match(/w\.WriteValue\(v\.Value\)/);
+        });
+
+        it('should emit a Newtonsoft JsonConverter for a Boolean scalar with useNewtonsoftJson flag', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            scalar Flag extends Boolean
+
+            concept Config {
+                o Flag enabled
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter, useNewtonsoftJson: true });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.cs');
+
+            file.should.match(/\[Newtonsoft\.Json\.JsonConverter\(typeof\(FlagJsonConverter\)\)\]/);
+            file.should.match(/public readonly record struct Flag\(bool Value\)/);
+            file.should.match(/public class FlagJsonConverter : Newtonsoft\.Json\.JsonConverter<Flag>/);
+            file.should.match(/\(bool\)r\.Value!/);
+            file.should.match(/w\.WriteValue\(v\.Value\)/);
+        });
+
         it('should use regex annotation when regex pattern provided to a field', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(fs.readFileSync(path.resolve(__dirname, '../data/model/agreement.cto'), 'utf8'), 'agreement.cto');
