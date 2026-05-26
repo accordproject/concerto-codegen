@@ -52,12 +52,28 @@ declare class TypescriptVisitor {
     private visitClassDeclaration;
     /**
      * Visitor design pattern
+     * @param {Object} scalarDeclaration - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitScalarDeclaration;
+    /**
+     * Visitor design pattern
      * @param {Field} field - the object being visited
      * @param {Object} parameters  - the parameter
      * @return {Object} the result of visiting or null
      * @private
      */
     private visitField;
+    /**
+     * Visitor design pattern - handles fields whose type is a scalar declaration
+     * @param {Object} field - the scalar-typed field being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitScalarField;
     /**
      * Visitor design pattern
      * @param {EnumValueDeclaration} enumValueDeclaration - the object being visited
