@@ -632,7 +632,7 @@ public abstract class Decorator : Concept {
 }
 [AccordProject.Concerto.Type(Namespace = "concerto.decorator", Version = "1.0.0", Name = "DotNetNamespace")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
-public class DotNetNamespace : Decorator {
+public class DotNetNamespace : AccordProject.Concerto.Metamodel.Decorator {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "concerto.decorator@1.0.0.DotNetNamespace";
    [System.Text.Json.Serialization.JsonPropertyName("namespace")]
@@ -648,7 +648,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "namespace AccordProject.Concerto;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using concerto.decorator;
+using AccordProject.Concerto.Metamodel;
 [AccordProject.Concerto.Type(Namespace = "concerto", Version = "1.0.0", Name = "Concept")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
 public abstract class Concept {
@@ -785,11 +785,11 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using org.acme.hr.base;
-using concerto.decorator;
+using AccordProject.Concerto.Metamodel;
 using AccordProject.Concerto;
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "pii")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
-public class pii : concerto.decorator.Decorator {
+public class pii : AccordProject.Concerto.Metamodel.Decorator {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.pii";
    public bool isPii { get; set; }
