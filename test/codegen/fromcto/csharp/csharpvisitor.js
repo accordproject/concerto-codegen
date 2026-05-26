@@ -922,8 +922,10 @@ public class SampleModel : Concept {
                 o Integer count
                 o String nick optional
                 o SSN ssn
+                o SSN[] ssns
                 o Status status default="ACTIVE"
                 o Status state
+                o Status[] states
                 o Child child
                 o Child[] children
             }
@@ -935,8 +937,10 @@ public class SampleModel : Concept {
             file1.should.match(/public int count \{ get; set; \}/);
             file1.should.match(/public string\? nick \{ get; set; \}/);
             file1.should.match(/public SSN ssn \{ get; set; \}/);
+            file1.should.match(/public required SSN\[\] ssns \{ get; set; \}/);
             file1.should.match(/public Status status \{ get; set; \} = Status.Active;/);
             file1.should.match(/public Status state \{ get; set; \}/);
+            file1.should.match(/public required Status\[\] states \{ get; set; \}/);
             file1.should.match(/public required Child child \{ get; set; \}/);
             file1.should.match(/public required Child\[\] children \{ get; set; \}/);
             file1.should.not.match(/public required SSN ssn \{ get; set; \}/);
