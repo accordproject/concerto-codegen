@@ -859,6 +859,27 @@ public class SampleModel : Concept {
             file1.should.match(/public Score score \{ get; set; \} = new\(100\);/);
         });
 
+        it('should emit property initializers for default enum values', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            enum Status {
+                o ACTIVE
+                o INACTIVE
+            }
+
+            concept Task {
+                o Status status default="ACTIVE"
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            // Enum default values should be emitted as qualified C# enum members
+            file1.should.match(/public Status status \{ get; set; \} = Status.Active;/);
+        });
+
         it('should use UUID alias for scalar type UUID with different namespace than concerto.scalar', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
