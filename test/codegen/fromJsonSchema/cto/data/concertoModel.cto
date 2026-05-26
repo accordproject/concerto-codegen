@@ -6,7 +6,7 @@ concept Root {
   o DateTime dob
   o DateTime graduationDate optional
   o Integer age
-  o Double height range=[50,]
+  o Double height range=[50.0,]
   o String favouriteFood optional
   o Root$_properties$_children[] children
   o Root$_properties$_company company
@@ -97,7 +97,7 @@ concept Pet {
 
 concept Stuff {
   o String sku
-  o Double price range=[,99999999]
+  o Double price range=[,99999999.0]
   o Pet product
 }
 
