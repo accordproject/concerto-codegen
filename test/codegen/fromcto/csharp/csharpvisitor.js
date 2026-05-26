@@ -605,6 +605,27 @@ describe('CSharpVisitor', function () {
             file.should.match(/w\.WriteNumberValue\(v\.Value\)/);
         });
 
+        it('should avoid CS0542 name collision when scalar type is named Value', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+
+            scalar Value extends Double
+
+            concept Sample {
+                o Value amount
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.cs');
+
+            file.should.match(/public readonly record struct Value\(double RawValue\)/);
+            file.should.match(/public static implicit operator double\(Value s\) => s\.RawValue;/);
+            file.should.match(/public override string ToString\(\) => RawValue\.ToString\(\);/);
+            file.should.match(/w\.WriteNumberValue\(v\.RawValue\)/);
+            file.should.not.match(/public readonly record struct Value\(double Value\)/);
+        });
+
         it('should emit a JsonConverter for a Boolean-backed scalar (bool round-trip)', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
@@ -878,6 +899,71 @@ public class SampleModel : Concept {
             const file1 = files.get('org.acme@1.2.3.cs');
             // Enum default values should be emitted as qualified C# enum members
             file1.should.match(/public Status status \{ get; set; \} = Status.Active;/);
+        });
+
+        it('should emit required for non-optional reference fields when flag is enabled', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            scalar SSN extends String
+
+            enum Status {
+                o ACTIVE
+                o INACTIVE
+            }
+
+            concept Child {
+                o String id
+            }
+
+            concept Parent {
+                o String name
+                o Integer count
+                o String nick optional
+                o SSN ssn
+                o Status status default="ACTIVE"
+                o Status state
+                o Child child
+                o Child[] children
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter, useRequiredForNonOptionalReferenceTypes: true });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.match(/public required string name \{ get; set; \}/);
+            file1.should.match(/public int count \{ get; set; \}/);
+            file1.should.match(/public string\? nick \{ get; set; \}/);
+            file1.should.match(/public SSN ssn \{ get; set; \}/);
+            file1.should.match(/public Status status \{ get; set; \} = Status.Active;/);
+            file1.should.match(/public Status state \{ get; set; \}/);
+            file1.should.match(/public required Child child \{ get; set; \}/);
+            file1.should.match(/public required Child\[\] children \{ get; set; \}/);
+            file1.should.not.match(/public required SSN ssn \{ get; set; \}/);
+            file1.should.not.match(/public required Status state \{ get; set; \}/);
+        });
+
+        it('should not emit required when flag is disabled', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            concept Child {
+                o String id
+            }
+
+            concept Parent {
+                o String name
+                o Child child
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter, useRequiredForNonOptionalReferenceTypes: false });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.match(/public string name \{ get; set; \}/);
+            file1.should.match(/public Child child \{ get; set; \}/);
+            file1.should.not.match(/public required string name \{ get; set; \}/);
+            file1.should.not.match(/public required Child child \{ get; set; \}/);
         });
 
         it('should use UUID alias for scalar type UUID with different namespace than concerto.scalar', () => {
@@ -2018,6 +2104,35 @@ public class SampleModel : Concept {
 
             csharpVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.withArgs(1, 'public Dictionary<string, System.DateTime> Map1 { get; set; }').calledOnce.should.be.ok;
+        });
+
+        it('should write required for non-optional map fields when required flag is enabled', () => {
+            const mockField             = sinon.createStubInstance(Field);
+            const getType               = sinon.stub();
+
+            mockField.getModelFile.returns({ getType: getType });
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
+            getType.returns(mockMapDeclaration);
+            getKeyType.returns('String');
+            getValueType.returns('String');
+            mockField.getName.returns('Map1');
+            mockField.isOptional.returns(false);
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            csharpVisitor.visitField(mockField, { ...param, useRequiredForNonOptionalReferenceTypes: true });
+            param.fileWriter.writeLine.withArgs(1, 'public required Dictionary<string, string> Map1 { get; set; }').calledOnce.should.be.ok;
         });
     });
 
