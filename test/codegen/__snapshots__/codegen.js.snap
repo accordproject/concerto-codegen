@@ -6822,18 +6822,11 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 // Generated code for namespace: concerto.decorator@1.0.0
 
 // imports
-
-// Warning: Beware of circular dependencies when modifying these imports
-import type {
-	Ipii
-} from './org.acme.hr@1.0.0';
 import {IConcept} from './concerto@1.0.0';
 
 // interfaces
 export interface IDecorator extends IConcept {
 }
-
-export type DecoratorUnion = Ipii;
 
 export interface IDotNetNamespace extends IDecorator {
    namespace: string;
@@ -6851,76 +6844,26 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 
 // imports
 
-// Warning: Beware of circular dependencies when modifying these imports
-import type {
-	ICategory,
-	State,
-	TShirtSizeType,
-	IAddress,
-	Level
-} from './org.acme.hr.base@1.0.0';
-import type {
-	ICategory,
-	IInfo,
-	ICompany,
-	Department,
-	LaptopMake
-} from './org.acme.hr@1.0.0';
-
-// Warning: Beware of circular dependencies when modifying these imports
-import type {
-	IEquipment
-} from './org.acme.hr@1.0.0';
-
-// Warning: Beware of circular dependencies when modifying these imports
-import type {
-	IPerson
-} from './org.acme.hr@1.0.0';
-
-// Warning: Beware of circular dependencies when modifying these imports
-import type {
-	IChangeOfAddress
-} from './org.acme.hr@1.0.0';
-
-// Warning: Beware of circular dependencies when modifying these imports
-import type {
-	ICompanyEvent
-} from './org.acme.hr@1.0.0';
-
 // interfaces
 export interface IConcept {
    $class: string;
 }
 
-export type ConceptUnion = ICategory | 
-IAddress | 
-ICategory | 
-IInfo | 
-ICompany;
-
 export interface IAsset extends IConcept {
    $identifier: string;
 }
-
-export type AssetUnion = IEquipment;
 
 export interface IParticipant extends IConcept {
    $identifier: string;
 }
 
-export type ParticipantUnion = IPerson;
-
 export interface ITransaction extends IConcept {
    $timestamp: Date;
 }
 
-export type TransactionUnion = IChangeOfAddress;
-
 export interface IEvent extends IConcept {
    $timestamp: Date;
 }
-
-export type EventUnion = ICompanyEvent;
 
 ",
 }
@@ -6933,15 +6876,11 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 // Generated code for namespace: org.acme.hr.base@1.0.0
 
 // imports
-
-// Warning: Beware of circular dependencies when modifying these imports
 import {IConcept} from './concerto@1.0.0';
 
 // interfaces
 export interface ICategory extends IConcept {
 }
-
-export type CategoryUnion = IGeneralCategory;
 
 export interface IGeneralCategory extends ICategory {
 }
@@ -6989,14 +6928,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 // Generated code for namespace: org.acme.hr@1.0.0
 
 // imports
-
-// Warning: Beware of circular dependencies when modifying these imports
-
-// Warning: Beware of circular dependencies when modifying these imports
-
-// Warning: Beware of circular dependencies when modifying these imports
-
-// Warning: Beware of circular dependencies when modifying these imports
 import {Time,SSN,IAddress,IEmployeeTShirtSizes} from './org.acme.hr.base@1.0.0';
 import {IDecorator} from './concerto.decorator@1.0.0';
 import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0';
@@ -7049,8 +6980,6 @@ export interface IEquipment extends IAsset {
    serialNumber: string;
 }
 
-export type EquipmentUnion = ILaptop;
-
 export enum LaptopMake {
    Apple = 'Apple',
    Microsoft = 'Microsoft',
@@ -7086,8 +7015,6 @@ export interface IEmployee extends IPerson {
    manager?: IManager;
 }
 
-export type EmployeeUnion = IManager;
-
 export interface IContractor extends IPerson {
    company: ICompany;
    manager?: IManager;
@@ -7099,8 +7026,6 @@ export interface IManager extends IEmployee {
 
 export interface ICompanyEvent extends IEvent {
 }
-
-export type CompanyEventUnion = IOnboarded;
 
 export interface IOnboarded extends ICompanyEvent {
    employee: IEmployee;
