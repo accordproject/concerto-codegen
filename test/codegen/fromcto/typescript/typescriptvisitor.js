@@ -247,10 +247,14 @@ describe('TypescriptVisitor', function () {
             mockClassDeclaration.accept = acceptSpy;
 
             let mockClassDeclaration2 = sinon.createStubInstance(ClassDeclaration);
-            mockClassDeclaration.isEnum.returns(false);
+            mockClassDeclaration2.isEnum.returns(false);
             mockClassDeclaration2.getSuperType.returns('super.Parent');
             mockClassDeclaration2.getProperties.returns([]);
             mockClassDeclaration2.accept = acceptSpy;
+
+            let mockModelManager = sinon.createStubInstance(ModelManager);
+            mockModelManager.isModelManager.returns(true);
+            mockModelManager.getType.returns({ isMapDeclaration: () => false });
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
             mockModelFile.getNamespace.returns('org.acme');
@@ -266,6 +270,9 @@ describe('TypescriptVisitor', function () {
                 'super.Property3',
                 'super.Parent'
             ]);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockClassDeclaration2.getModelFile.returns(mockModelFile);
             mockModelFile.imports= [];
 
             typescriptVisitor.visitModelFile(mockModelFile, param);
@@ -323,6 +330,7 @@ describe('TypescriptVisitor', function () {
 
             let mockModelManager = sinon.createStubInstance(ModelManager);
             mockModelManager.isModelManager.returns(true);
+            mockModelManager.getType.returns({ isMapDeclaration: () => false });
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
             mockModelFile.isModelFile.returns(true);
@@ -337,6 +345,7 @@ describe('TypescriptVisitor', function () {
                 'org.org2.Import1'
             ]);
             mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
             mockModelFile.imports= [];
             typescriptVisitor.visitModelFile(mockModelFile, param);
 
@@ -438,8 +447,14 @@ describe('TypescriptVisitor', function () {
 
             mockClassDeclaration.getDirectSubclasses.returns([]);
 
+            let mockModelManager = sinon.createStubInstance(ModelManager);
+            mockModelManager.isModelManager.returns(true);
+            mockModelManager.getType.returns({ isMapDeclaration: () => false });
+
             let mockModelFile = sinon.createStubInstance(ModelFile);
             mockModelFile.getNamespace.returns('org.test.collection');
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
             mockModelFile.imports = [
                 {
                     '$class': 'concerto.metamodel@1.0.0.ImportTypes',
