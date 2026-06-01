@@ -53,11 +53,8 @@ class \`org.acme.hr@1.0.0.pii\` {
    + Category category
 }
 
-\`org.acme.hr@1.0.0.pii\` "1" *-- "1" \`org.acme.hr@1.0.0.Category\`
+\`org.acme.hr@1.0.0.pii\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Category\`
 \`org.acme.hr@1.0.0.pii\` --|> \`concerto.decorator@1.0.0.Decorator\`
-class \`org.acme.hr@1.0.0.Category\`
-<< concept>> \`org.acme.hr@1.0.0.Category\`
-
 class \`org.acme.hr@1.0.0.Info\` {
 << concept>>
    + String name
@@ -256,10 +253,8 @@ class org.acme.hr_1_0_0.pii {
    + Boolean isPii
    + Category category
 }
-org.acme.hr_1_0_0.pii "1" *-- "1" org.acme.hr_1_0_0.Category : category
+org.acme.hr_1_0_0.pii "1" *-- "1" org.acme.hr.base_1_0_0.Category : category
 org.acme.hr_1_0_0.pii --|> concerto.decorator_1_0_0.Decorator
-class org.acme.hr_1_0_0.Category {
-}
 class org.acme.hr_1_0_0.Info {
    + String name
 }
@@ -481,9 +476,6 @@ protocol MyProtocol {
    record pii {
       boolean isPii;
       Category category;
-   }
-
-   record Category {
    }
 
    record Info {
@@ -793,13 +785,7 @@ public class pii : AccordProject.Concerto.Metamodel.Decorator {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.pii";
    public bool isPii { get; set; }
-   public Category category { get; set; }
-}
-[AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Category")]
-[System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
-public class Category : Concept {
-   [System.Text.Json.Serialization.JsonPropertyName("$class")]
-   public override string _class { get; } = "org.acme.hr@1.0.0.Category";
+   public org.acme.hr.base.Category category { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Info")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -1065,9 +1051,6 @@ type pii struct {
    IsPii bool \`json:"isPii"\`
    Category Category \`json:"category"\`
 }
-type Category struct {
-   concerto_1_0_0.Concept
-}
 type Info struct {
    concerto_1_0_0.Concept
    Name string \`json:"name"\`
@@ -1201,9 +1184,6 @@ enum Level {
 type pii @example @usedBy {
    isPii: Boolean!
    category: Category!
-}
-type Category {
-   _: Boolean
 }
 type Info {
    name: String! @pii(false: "Category")
@@ -1692,6 +1672,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -1724,34 +1705,6 @@ public class pii extends Decorator {
 
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 15`] = `
 {
-  "key": "org/acme/hr/Category.java",
-  "value": "// this code is generated and should not be modified
-package org.acme.hr;
-
-import org.acme.hr.base.Address;
-import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
-import org.acme.hr.base.Level;
-import org.acme.hr.base.GeneralCategory;
-import concerto.decorator.Decorator;
-import concerto.Concept;
-import concerto.Asset;
-import concerto.Transaction;
-import concerto.Participant;
-import concerto.Event;
-import com.fasterxml.jackson.annotation.*;
-
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "$class")
-public class Category extends Concept {
-}
-",
-}
-`;
-
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 16`] = `
-{
   "key": "org/acme/hr/Info.java",
   "value": "// this code is generated and should not be modified
 package org.acme.hr;
@@ -1762,6 +1715,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -1785,7 +1739,7 @@ public class Info extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 17`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 16`] = `
 {
   "key": "org/acme/hr/Company.java",
   "value": "// this code is generated and should not be modified
@@ -1797,6 +1751,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -1864,7 +1819,7 @@ public class Company extends Concept {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 18`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 17`] = `
 {
   "key": "org/acme/hr/Department.java",
   "value": "// this code is generated and should not be modified
@@ -1884,7 +1839,7 @@ public enum Department {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 19`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 18`] = `
 {
   "key": "org/acme/hr/Equipment.java",
   "value": "// this code is generated and should not be modified
@@ -1896,6 +1851,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -1926,7 +1882,7 @@ public abstract class Equipment extends Asset {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 20`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 19`] = `
 {
   "key": "org/acme/hr/LaptopMake.java",
   "value": "// this code is generated and should not be modified
@@ -1942,7 +1898,7 @@ public enum LaptopMake {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 21`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 20`] = `
 {
   "key": "org/acme/hr/Laptop.java",
   "value": "// this code is generated and should not be modified
@@ -1954,6 +1910,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -1984,7 +1941,7 @@ public class Laptop extends Equipment {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 22`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 21`] = `
 {
   "key": "org/acme/hr/Person.java",
   "value": "// this code is generated and should not be modified
@@ -1996,6 +1953,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -2084,7 +2042,7 @@ public abstract class Person extends Participant {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 23`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 22`] = `
 {
   "key": "org/acme/hr/Employee.java",
   "value": "// this code is generated and should not be modified
@@ -2096,6 +2054,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -2175,7 +2134,7 @@ public class Employee extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 24`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 23`] = `
 {
   "key": "org/acme/hr/Contractor.java",
   "value": "// this code is generated and should not be modified
@@ -2187,6 +2146,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -2224,7 +2184,7 @@ public class Contractor extends Person {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 25`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 24`] = `
 {
   "key": "org/acme/hr/Manager.java",
   "value": "// this code is generated and should not be modified
@@ -2236,6 +2196,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -2266,7 +2227,7 @@ public class Manager extends Employee {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 26`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 25`] = `
 {
   "key": "org/acme/hr/CompanyEvent.java",
   "value": "// this code is generated and should not be modified
@@ -2278,6 +2239,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -2293,7 +2255,7 @@ public class CompanyEvent extends Event {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 27`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 26`] = `
 {
   "key": "org/acme/hr/Onboarded.java",
   "value": "// this code is generated and should not be modified
@@ -2305,6 +2267,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -2327,7 +2290,7 @@ public class Onboarded extends CompanyEvent {
 }
 `;
 
-exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 28`] = `
+exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'java' 27`] = `
 {
   "key": "org/acme/hr/ChangeOfAddress.java",
   "value": "// this code is generated and should not be modified
@@ -2339,6 +2302,7 @@ import org.acme.hr.base.SSN;
 import org.acme.hr.base.Time;
 import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
+import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
 import concerto.decorator.Decorator;
 import concerto.Concept;
@@ -2490,7 +2454,14 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "boolean"
         },
         "category": {
-          "$ref": "#/definitions/org.acme.hr@1.0.0.Category"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/org.acme.hr.base@1.0.0.Category"
+            },
+            {
+              "$ref": "#/definitions/org.acme.hr.base@1.0.0.GeneralCategory"
+            }
+          ]
         }
       },
       "required": [
@@ -2506,22 +2477,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "Everyone"
         ]
       }
-    },
-    "org.acme.hr@1.0.0.Category": {
-      "title": "Category",
-      "description": "An instance of org.acme.hr@1.0.0.Category",
-      "type": "object",
-      "properties": {
-        "$class": {
-          "type": "string",
-          "default": "org.acme.hr@1.0.0.Category",
-          "pattern": "^org\\\\.acme\\\\.hr@1\\\\.0\\\\.0\\\\.Category$",
-          "description": "The class identifier for org.acme.hr@1.0.0.Category"
-        }
-      },
-      "required": [
-        "$class"
-      ]
     },
     "org.acme.hr@1.0.0.Info": {
       "title": "Info",
@@ -3341,7 +3296,7 @@ class \`org.acme.hr.base@1.0.0.Level\`
 # Namespace org.acme.hr@1.0.0
 
 ## Overview
-- 4 concepts
+- 3 concepts
 - 2 enumerations
 - 6 maps
 - 2 scalars
@@ -3349,7 +3304,7 @@ class \`org.acme.hr.base@1.0.0.Level\`
 - 4 participants
 - 1 transactions
 - 2 events
-- 23 total declarations
+- 22 total declarations
 
 ## Imports
 - org.acme.hr.base@1.0.0.Address
@@ -3358,6 +3313,7 @@ class \`org.acme.hr.base@1.0.0.Level\`
 - org.acme.hr.base@1.0.0.Time
 - org.acme.hr.base@1.0.0.EmployeeTShirtSizes
 - org.acme.hr.base@1.0.0.Level
+- org.acme.hr.base@1.0.0.Category
 - org.acme.hr.base@1.0.0.GeneralCategory
 - concerto.decorator@1.0.0.Decorator
 - concerto@1.0.0.Concept
@@ -3374,7 +3330,7 @@ class \`org.acme.hr.base@1.0.0.Level\`
 | Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | isPii | <code>Boolean</code> | ✔️ |  |  |  |  |  |
-| category | <code>org.acme.hr@1.0.0.Category</code> | ✔️ |  |  |  |  |  |
+| category | <code>org.acme.hr.base@1.0.0.Category</code> | ✔️ |  |  |  |  |  |
 
 #### Example Usage
 \`\`\`cs
@@ -3385,12 +3341,6 @@ class \`org.acme.hr.base@1.0.0.Level\`
 | |
 | - |
 |Everyone|
-
-
-### Category (Concept)
-
-
-No fields.
 
 
 ### Info (Concept)
@@ -3577,11 +3527,8 @@ class \`org.acme.hr@1.0.0.pii\` {
    + Category category
 }
 
-\`org.acme.hr@1.0.0.pii\` "1" *-- "1" \`org.acme.hr@1.0.0.Category\`
+\`org.acme.hr@1.0.0.pii\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Category\`
 \`org.acme.hr@1.0.0.pii\` --|> \`concerto.decorator@1.0.0.Decorator\`
-class \`org.acme.hr@1.0.0.Category\`
-<< concept>> \`org.acme.hr@1.0.0.Category\`
-
 class \`org.acme.hr@1.0.0.Info\` {
 << concept>>
    + String name
@@ -3799,12 +3746,8 @@ class \`org.acme.hr@1.0.0.pii\` {
    + Category category
 }
 
-\`org.acme.hr@1.0.0.pii\` "1" *-- "1" \`org.acme.hr@1.0.0.Category\`
+\`org.acme.hr@1.0.0.pii\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Category\`
 \`org.acme.hr@1.0.0.pii\` --|> \`concerto.decorator@1.0.0.Decorator\`
-class \`org.acme.hr@1.0.0.Category\`
-<< concept>> \`org.acme.hr@1.0.0.Category\`
-
-\`org.acme.hr@1.0.0.Category\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr@1.0.0.Info\` {
 << concept>>
    + String name
@@ -4130,10 +4073,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             <Annotation Term="usedBy0" String="Everyone" />
          <Property Name="isPii" Type="Edm.Boolean"  >
          </Property>
-         <Property Name="category" Type="org.acme.hr.Category"  >
+         <Property Name="category" Type="org.acme.hr.base.Category"  >
          </Property>
-      </ComplexType>
-      <ComplexType Name="Category"  BaseType="concerto.Concept">
       </ComplexType>
       <ComplexType Name="Info"  BaseType="concerto.Concept">
          <Property Name="name" Type="Edm.String"  >
@@ -4428,7 +4369,14 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "boolean"
           },
           "category": {
-            "$ref": "#/components/schemas/org.acme.hr@1.0.0.Category"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Category"
+              },
+              {
+                "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.GeneralCategory"
+              }
+            ]
           }
         },
         "required": [
@@ -4444,22 +4392,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "Everyone"
           ]
         }
-      },
-      "org.acme.hr@1.0.0.Category": {
-        "title": "Category",
-        "description": "An instance of org.acme.hr@1.0.0.Category",
-        "type": "object",
-        "properties": {
-          "$class": {
-            "type": "string",
-            "default": "org.acme.hr@1.0.0.Category",
-            "pattern": "^org\\\\.acme\\\\.hr@1\\\\.0\\\\.0\\\\.Category$",
-            "description": "The class identifier for org.acme.hr@1.0.0.Category"
-          }
-        },
-        "required": [
-          "$class"
-        ]
       },
       "org.acme.hr@1.0.0.Info": {
         "title": "Info",
@@ -5446,11 +5378,8 @@ class org.acme.hr_1_0_0.pii {
    + Boolean isPii
    + Category category
 }
-org.acme.hr_1_0_0.pii "1" *-- "1" org.acme.hr_1_0_0.Category : category
+org.acme.hr_1_0_0.pii "1" *-- "1" org.acme.hr.base_1_0_0.Category : category
 org.acme.hr_1_0_0.pii --|> concerto.decorator_1_0_0.Decorator
-class org.acme.hr_1_0_0.Category {
-}
-org.acme.hr_1_0_0.Category --|> concerto_1_0_0.Concept
 class org.acme.hr_1_0_0.Info {
    + String name
 }
@@ -5621,8 +5550,6 @@ message pii {
   Category category = 1;
   bool isPii = 2;
 }
-
-message Category {}
 
 message Info {
   string name = 1;
@@ -6263,14 +6190,6 @@ pub struct pii {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Category {
-   #[serde(
-      rename = "$class",
-   )]
-   pub _class: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Info {
    #[serde(
       rename = "$class",
@@ -6860,7 +6779,6 @@ import type {
 	Level
 } from './org.acme.hr.base@1.0.0';
 import type {
-	ICategory,
 	IInfo,
 	ICompany,
 	Department,
@@ -6894,7 +6812,6 @@ export interface IConcept {
 
 export type ConceptUnion = ICategory | 
 IAddress | 
-ICategory | 
 IInfo | 
 ICompany;
 
@@ -6997,7 +6914,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
 // Warning: Beware of circular dependencies when modifying these imports
 
 // Warning: Beware of circular dependencies when modifying these imports
-import {Time,SSN,IAddress,EmployeeTShirtSizes} from './org.acme.hr.base@1.0.0';
+import {ICategory,Time,SSN,IAddress,EmployeeTShirtSizes} from './org.acme.hr.base@1.0.0';
 import {IDecorator} from './concerto.decorator@1.0.0';
 import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0';
 
@@ -7005,9 +6922,6 @@ import {IConcept,IAsset,IParticipant,IEvent,ITransaction} from './concerto@1.0.0
 export interface Ipii extends IDecorator {
    isPii: boolean;
    category: ICategory;
-}
-
-export interface ICategory extends IConcept {
 }
 
 export interface IInfo extends IConcept {
@@ -7170,7 +7084,6 @@ declarations:
     properties:
       - isPii: Is Pii of thepii
       - category: Category of thepii
-  - Category: Category
   - Info: Info
     properties:
       - name: Name of the Info
@@ -7456,21 +7369,12 @@ xmlns:concerto="concerto"
    <xs:extension base="concerto.decorator:Decorator">
    <xs:sequence>
       <xs:element name="isPii" type="xs:boolean"/>
-      <xs:element name="category" type="org.acme.hr:Category"/>
+      <xs:element name="category" type="org.acme.hr.base:Category"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
 </xs:complexType>
 <xs:element name="pii" type="org.acme.hr:pii"/>
-<xs:complexType name="Category">
-   <xs:complexContent>
-   <xs:extension base="concerto:Concept">
-   <xs:sequence>
-   </xs:sequence>
-   </xs:extension>
-   </xs:complexContent>
-</xs:complexType>
-<xs:element name="Category" type="org.acme.hr:Category"/>
 <xs:complexType name="Info">
    <xs:complexContent>
    <xs:extension base="concerto:Concept">
