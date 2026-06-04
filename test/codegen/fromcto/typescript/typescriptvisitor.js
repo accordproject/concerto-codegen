@@ -38,6 +38,10 @@ describe('TypescriptVisitor', function () {
         typescriptVisitor = new TypescriptVisitor();
         mockFileWriter = sinon.createStubInstance(FileWriter);
     });
+    // Leaked Sinon stub doesn't break hr_integration tests
+    afterEach(() => {
+        sandbox.restore();
+    });
 
     describe('visit', () => {
         let param;

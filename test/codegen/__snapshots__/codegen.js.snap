@@ -44,8 +44,10 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 }
 
 \`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
-class \`org.acme.hr.base@1.0.0.Level\`
-<< enumeration>> \`org.acme.hr.base@1.0.0.Level\`
+class \`org.acme.hr.base@1.0.0.Level\` {
+<< enumeration>>
+   + NONE
+}
 
 class \`org.acme.hr@1.0.0.pii\` {
 << concept>>
@@ -248,6 +250,7 @@ class org.acme.hr.base_1_0_0.Address {
 }
 org.acme.hr.base_1_0_0.Address "1" *-- "1" org.acme.hr.base_1_0_0.State : state
 class org.acme.hr.base_1_0_0.Level << (E,grey) >> {
+   + NONE
 }
 class org.acme.hr_1_0_0.pii {
    + Boolean isPii
@@ -456,6 +459,7 @@ protocol MyProtocol {
    }
 
    enum Level {
+      NONE
    }
 
 }
@@ -735,6 +739,7 @@ public class Address : Concept {
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 public enum Level {
+      NONE,
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(TimeJsonConverter))]
 public readonly record struct Time(System.DateTime Value)
@@ -1031,6 +1036,7 @@ type Address struct {
 }
 type Level int
 const (
+   NONE Level = 1 + iota
 )
 ",
 }
@@ -1178,7 +1184,7 @@ type Address {
    country: String!
 }
 enum Level {
-   _: Boolean
+   NONE
 }
 # namespace org.acme.hr@1.0.0
 type pii @example @usedBy {
@@ -1655,6 +1661,7 @@ package org.acme.hr.base;
 import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"$class"})
 public enum Level {
+   NONE,
 }
 ",
 }
@@ -2429,7 +2436,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
     "org.acme.hr.base@1.0.0.Level": {
       "title": "Level",
       "description": "An instance of org.acme.hr.base@1.0.0.Level",
-      "enum": []
+      "enum": [
+        "NONE"
+      ]
     },
     "org.acme.hr.base@1.0.0.Time": {
       "format": "date-time",
@@ -2532,7 +2541,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
         },
         "companyProperties": {
-          "$id": "org.acme.hr@1.0.0.Company.companyProperties",
           "schema": {
             "title": "CompanyProperties",
             "description": "An instance of org.acme.hr@1.0.0.CompanyProperties",
@@ -2546,7 +2554,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           }
         },
         "employeeDirectory": {
-          "$id": "org.acme.hr@1.0.0.Company.employeeDirectory",
           "schema": {
             "title": "EmployeeDirectory",
             "description": "An instance of org.acme.hr@1.0.0.EmployeeDirectory",
@@ -2561,7 +2568,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           }
         },
         "employeeTShirtSizes": {
-          "$id": "org.acme.hr@1.0.0.Company.employeeTShirtSizes",
           "schema": {
             "title": "EmployeeTShirtSizes",
             "description": "An instance of org.acme.hr.base@1.0.0.EmployeeTShirtSizes",
@@ -2576,7 +2582,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           }
         },
         "employeeProfiles": {
-          "$id": "org.acme.hr@1.0.0.Company.employeeProfiles",
           "schema": {
             "title": "EmployeeProfiles",
             "description": "An instance of org.acme.hr@1.0.0.EmployeeProfiles",
@@ -2590,7 +2595,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           }
         },
         "employeeSocialSecurityNumbers": {
-          "$id": "org.acme.hr@1.0.0.Company.employeeSocialSecurityNumbers",
           "schema": {
             "title": "EmployeeSocialSecurityNumbers",
             "description": "An instance of org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers",
@@ -2743,7 +2747,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "nextOfKin": {
-          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
           "schema": {
             "title": "NextOfKin",
             "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -2850,7 +2853,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "nextOfKin": {
-          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
           "schema": {
             "title": "NextOfKin",
             "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -2949,7 +2951,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "nextOfKin": {
-          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
           "schema": {
             "title": "NextOfKin",
             "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -3061,7 +3062,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "nextOfKin": {
-          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
           "schema": {
             "title": "NextOfKin",
             "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -3242,7 +3242,9 @@ No fields.
 
 ### Level (Enumeration)
 
-No values.
+| Value | Description | 
+| ------ | ------------------- |
+| NONE | |
 
 
 ## Diagram
@@ -3288,8 +3290,10 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 }
 
 \`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
-class \`org.acme.hr.base@1.0.0.Level\`
-<< enumeration>> \`org.acme.hr.base@1.0.0.Level\`
+class \`org.acme.hr.base@1.0.0.Level\` {
+<< enumeration>>
+   + NONE
+}
 
 \`\`\`
 
@@ -3736,8 +3740,10 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 
 \`org.acme.hr.base@1.0.0.Address\` "1" *-- "1" \`org.acme.hr.base@1.0.0.State\`
 \`org.acme.hr.base@1.0.0.Address\` --|> \`concerto@1.0.0.Concept\`
-class \`org.acme.hr.base@1.0.0.Level\`
-<< enumeration>> \`org.acme.hr.base@1.0.0.Level\`
+class \`org.acme.hr.base@1.0.0.Level\` {
+<< enumeration>>
+   + NONE
+}
 
 \`org.acme.hr.base@1.0.0.Level\` --|> \`concerto@1.0.0.Concept\`
 class \`org.acme.hr@1.0.0.pii\` {
@@ -4037,6 +4043,8 @@ exports[`codegen #formats check we can convert all formats from namespace versio
          </Property>
       </ComplexType>
       <EnumType Name="Level">
+         <Member Name="NONE">
+         </Member>
       </EnumType>
    <EntityContainer Name="org.acme.hr.baseService">
    </EntityContainer>
@@ -4344,7 +4352,9 @@ exports[`codegen #formats check we can convert all formats from namespace versio
       "org.acme.hr.base@1.0.0.Level": {
         "title": "Level",
         "description": "An instance of org.acme.hr.base@1.0.0.Level",
-        "enum": []
+        "enum": [
+          "NONE"
+        ]
       },
       "org.acme.hr.base@1.0.0.Time": {
         "format": "date-time",
@@ -4447,7 +4457,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
           },
           "companyProperties": {
-            "$id": "org.acme.hr@1.0.0.Company.companyProperties",
             "schema": {
               "title": "CompanyProperties",
               "description": "An instance of org.acme.hr@1.0.0.CompanyProperties",
@@ -4461,7 +4470,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             }
           },
           "employeeDirectory": {
-            "$id": "org.acme.hr@1.0.0.Company.employeeDirectory",
             "schema": {
               "title": "EmployeeDirectory",
               "description": "An instance of org.acme.hr@1.0.0.EmployeeDirectory",
@@ -4476,7 +4484,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             }
           },
           "employeeTShirtSizes": {
-            "$id": "org.acme.hr@1.0.0.Company.employeeTShirtSizes",
             "schema": {
               "title": "EmployeeTShirtSizes",
               "description": "An instance of org.acme.hr.base@1.0.0.EmployeeTShirtSizes",
@@ -4491,7 +4498,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             }
           },
           "employeeProfiles": {
-            "$id": "org.acme.hr@1.0.0.Company.employeeProfiles",
             "schema": {
               "title": "EmployeeProfiles",
               "description": "An instance of org.acme.hr@1.0.0.EmployeeProfiles",
@@ -4505,7 +4511,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             }
           },
           "employeeSocialSecurityNumbers": {
-            "$id": "org.acme.hr@1.0.0.Company.employeeSocialSecurityNumbers",
             "schema": {
               "title": "EmployeeSocialSecurityNumbers",
               "description": "An instance of org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers",
@@ -4658,7 +4663,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "nextOfKin": {
-            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
             "schema": {
               "title": "NextOfKin",
               "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -4765,7 +4769,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "nextOfKin": {
-            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
             "schema": {
               "title": "NextOfKin",
               "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -4864,7 +4867,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "nextOfKin": {
-            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
             "schema": {
               "title": "NextOfKin",
               "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -4976,7 +4978,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "nextOfKin": {
-            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
             "schema": {
               "title": "NextOfKin",
               "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -5372,6 +5373,7 @@ class org.acme.hr.base_1_0_0.Address {
 org.acme.hr.base_1_0_0.Address "1" *-- "1" org.acme.hr.base_1_0_0.State : state
 org.acme.hr.base_1_0_0.Address --|> concerto_1_0_0.Concept
 class org.acme.hr.base_1_0_0.Level << (E,grey) >> {
+   + NONE
 }
 org.acme.hr.base_1_0_0.Level --|> concerto_1_0_0.Concept
 class org.acme.hr_1_0_0.pii {
@@ -5529,7 +5531,9 @@ message Address {
   string zipCode = 5;
 }
 
-enum Level {}
+enum Level {
+  Level_NONE = 0;
+}
 
 ",
 }
@@ -6153,6 +6157,8 @@ pub struct Address {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Level {
+   #[allow(non_camel_case_types)]
+   NONE,
 }
 
 ",
@@ -6889,6 +6895,7 @@ export interface IAddress extends IConcept {
 }
 
 export enum Level {
+   NONE = 'NONE',
 }
 
 export type Time = Date;
@@ -7067,6 +7074,8 @@ declarations:
       - zipCode: Zip Code of the Address
       - country: Country of the Address
   - Level: Level
+    properties:
+      - NONE: NONE of the Level
   - Time: Time
   - SSN: SSN
 ",
@@ -7344,6 +7353,7 @@ xmlns:concerto="concerto"
 <xs:element name="Address" type="org.acme.hr.base:Address"/>
 <xs:simpleType name="Level">
    <xs:restriction base="xs:string">
+      <xs:enumeration value="NONE"/>
    </xs:restriction>
 </xs:simpleType>
 <xs:element name="Level" type="org.acme.hr.base:Level"/>
