@@ -402,16 +402,18 @@ describe('JSONSchema (samples)', function () {
             expect(visitor.visit(modelManager.getType('test@1.0.0.Tags'), {})).to.be.undefined;
         });
 
-        it('should fail Ajv compile when generated schema contains an empty enum', () => {
+        it('should translate empty enums to valid JSON Schema and compile with Ajv', () => {
             const modelManager = new ModelManager();
             modelManager.addCTOModel(MODEL_EMPTY_ENUM);
             const visitor = new JSONSchemaVisitor();
             const schema = modelManager.accept(visitor, {});
 
-            expect(schema.definitions['test@1.0.0.Level'].enum).to.deep.equal([]);
+            const level = schema.definitions['test@1.0.0.Level'];
+            expect(level.enum).to.be.undefined;
+            expect(level.not).to.deep.equal({});
 
             const ajv = new Ajv({ strict: false });
-            expect(() => ajv.compile(schema)).to.throw(/fewer than 1 item/);
+            ajv.compile(schema);
         });
 
         it('should generate for Map of type <String, String>', () => {
