@@ -2429,7 +2429,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
     "org.acme.hr.base@1.0.0.Level": {
       "title": "Level",
       "description": "An instance of org.acme.hr.base@1.0.0.Level",
-      "enum": []
+      "not": {}
     },
     "org.acme.hr.base@1.0.0.Time": {
       "format": "date-time",
@@ -2532,7 +2532,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "$ref": "#/definitions/org.acme.hr.base@1.0.0.Address"
         },
         "companyProperties": {
-          "$id": "org.acme.hr@1.0.0.Company.companyProperties",
           "schema": {
             "title": "CompanyProperties",
             "description": "An instance of org.acme.hr@1.0.0.CompanyProperties",
@@ -2546,7 +2545,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           }
         },
         "employeeDirectory": {
-          "$id": "org.acme.hr@1.0.0.Company.employeeDirectory",
           "schema": {
             "title": "EmployeeDirectory",
             "description": "An instance of org.acme.hr@1.0.0.EmployeeDirectory",
@@ -2561,7 +2559,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           }
         },
         "employeeTShirtSizes": {
-          "$id": "org.acme.hr@1.0.0.Company.employeeTShirtSizes",
           "schema": {
             "title": "EmployeeTShirtSizes",
             "description": "An instance of org.acme.hr.base@1.0.0.EmployeeTShirtSizes",
@@ -2576,7 +2573,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           }
         },
         "employeeProfiles": {
-          "$id": "org.acme.hr@1.0.0.Company.employeeProfiles",
           "schema": {
             "title": "EmployeeProfiles",
             "description": "An instance of org.acme.hr@1.0.0.EmployeeProfiles",
@@ -2590,7 +2586,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           }
         },
         "employeeSocialSecurityNumbers": {
-          "$id": "org.acme.hr@1.0.0.Company.employeeSocialSecurityNumbers",
           "schema": {
             "title": "EmployeeSocialSecurityNumbers",
             "description": "An instance of org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers",
@@ -2743,7 +2738,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "nextOfKin": {
-          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
           "schema": {
             "title": "NextOfKin",
             "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -2850,7 +2844,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "nextOfKin": {
-          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
           "schema": {
             "title": "NextOfKin",
             "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -2949,7 +2942,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "nextOfKin": {
-          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
           "schema": {
             "title": "NextOfKin",
             "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -3061,7 +3053,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "type": "string"
         },
         "nextOfKin": {
-          "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
           "schema": {
             "title": "NextOfKin",
             "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -4344,7 +4335,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
       "org.acme.hr.base@1.0.0.Level": {
         "title": "Level",
         "description": "An instance of org.acme.hr.base@1.0.0.Level",
-        "enum": []
+        "not": {}
       },
       "org.acme.hr.base@1.0.0.Time": {
         "format": "date-time",
@@ -4447,7 +4438,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "$ref": "#/components/schemas/org.acme.hr.base@1.0.0.Address"
           },
           "companyProperties": {
-            "$id": "org.acme.hr@1.0.0.Company.companyProperties",
             "schema": {
               "title": "CompanyProperties",
               "description": "An instance of org.acme.hr@1.0.0.CompanyProperties",
@@ -4461,7 +4451,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             }
           },
           "employeeDirectory": {
-            "$id": "org.acme.hr@1.0.0.Company.employeeDirectory",
             "schema": {
               "title": "EmployeeDirectory",
               "description": "An instance of org.acme.hr@1.0.0.EmployeeDirectory",
@@ -4476,7 +4465,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             }
           },
           "employeeTShirtSizes": {
-            "$id": "org.acme.hr@1.0.0.Company.employeeTShirtSizes",
             "schema": {
               "title": "EmployeeTShirtSizes",
               "description": "An instance of org.acme.hr.base@1.0.0.EmployeeTShirtSizes",
@@ -4491,7 +4479,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             }
           },
           "employeeProfiles": {
-            "$id": "org.acme.hr@1.0.0.Company.employeeProfiles",
             "schema": {
               "title": "EmployeeProfiles",
               "description": "An instance of org.acme.hr@1.0.0.EmployeeProfiles",
@@ -4505,7 +4492,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             }
           },
           "employeeSocialSecurityNumbers": {
-            "$id": "org.acme.hr@1.0.0.Company.employeeSocialSecurityNumbers",
             "schema": {
               "title": "EmployeeSocialSecurityNumbers",
               "description": "An instance of org.acme.hr@1.0.0.EmployeeSocialSecurityNumbers",
@@ -4658,7 +4644,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "nextOfKin": {
-            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
             "schema": {
               "title": "NextOfKin",
               "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -4765,7 +4750,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "nextOfKin": {
-            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
             "schema": {
               "title": "NextOfKin",
               "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -4864,7 +4848,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "nextOfKin": {
-            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
             "schema": {
               "title": "NextOfKin",
               "description": "An instance of org.acme.hr@1.0.0.NextOfKin",
@@ -4976,7 +4959,6 @@ exports[`codegen #formats check we can convert all formats from namespace versio
             "type": "string"
           },
           "nextOfKin": {
-            "$id": "org.acme.hr@1.0.0.Person.nextOfKin",
             "schema": {
               "title": "NextOfKin",
               "description": "An instance of org.acme.hr@1.0.0.NextOfKin",

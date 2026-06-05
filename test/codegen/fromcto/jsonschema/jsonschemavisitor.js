@@ -251,6 +251,30 @@ concept SomeOtherThing identified {
 }
 `;
 
+const MODEL_NON_EMPTY_ENUMS = `
+namespace test@1.0.0
+
+enum Level {
+    o NONE
+}
+
+enum Role {
+    o ADMIN
+    o USER
+}
+
+map Tags {
+    o String
+    o String
+}
+`;
+
+const MODEL_EMPTY_ENUM = `
+namespace test@1.0.0
+
+enum Level {}
+`;
+
 describe('JSONSchema (samples)', function () {
 
     describe('samples', () => {
@@ -342,6 +366,54 @@ describe('JSONSchema (samples)', function () {
             expect(schema.properties.id.format).equal('uuid');
             expect(schema.properties.someId.type).equal('string');
             expect(schema.properties.someId.format).to.be.undefined;
+        });
+
+        it('should emit non-empty enum arrays and compile with Ajv', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_NON_EMPTY_ENUMS);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, {});
+
+            const enumDefinitions = Object.entries(schema.definitions)
+                .filter(([, definition]) => Array.isArray(definition.enum));
+
+            expect(enumDefinitions.length).to.equal(2);
+
+            enumDefinitions.forEach(([fqn, definition]) => {
+                expect(
+                    definition.enum,
+                    `${fqn} must declare at least one enum value`
+                ).to.have.lengthOf.at.least(1);
+                definition.enum.forEach((value, index) => {
+                    expect(
+                        value,
+                        `${fqn} enum[${index}] must not be null or undefined`
+                    ).to.not.be.oneOf([null, undefined]);
+                });
+            });
+
+            expect(schema.definitions['test@1.0.0.Level'].enum).to.include('NONE');
+            expect(schema.definitions['test@1.0.0.Role'].enum).to.include('ADMIN', 'USER');
+
+            const ajv = new Ajv({ strict: false });
+            ajv.compile(schema);
+
+            // maps are handled inline on fields; visiting a map type alone does nothing
+            expect(visitor.visit(modelManager.getType('test@1.0.0.Tags'), {})).to.be.undefined;
+        });
+
+        it('should translate empty enums to valid JSON Schema and compile with Ajv', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_EMPTY_ENUM);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, {});
+
+            const level = schema.definitions['test@1.0.0.Level'];
+            expect(level.enum).to.be.undefined;
+            expect(level.not).to.deep.equal({});
+
+            const ajv = new Ajv({ strict: false });
+            ajv.compile(schema);
         });
 
         it('should generate for Map of type <String, String>', () => {
