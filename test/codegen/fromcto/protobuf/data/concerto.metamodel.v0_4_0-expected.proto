@@ -21,6 +21,8 @@ message TypeIdentifier {
   optional string namespace = 2;
 }
 
+message DecoratorLiteral {}
+
 message _Subclasses_of_class_DecoratorLiteral {
   oneof _class_oneof_DecoratorLiteral {
     DecoratorBoolean _subclass_of_class_DecoratorLiteral_DecoratorBoolean = 1;
@@ -69,6 +71,8 @@ message _Subclasses_of_class_Identified {
 message IdentifiedBy {
   string name = 1;
 }
+
+message Declaration {}
 
 message _Subclasses_of_class_Declaration {
   oneof _class_oneof_Declaration {
@@ -153,6 +157,8 @@ message EventDeclaration {
   repeated _Subclasses_of_class_Property properties = 6;
   optional TypeIdentifier superType = 7;
 }
+
+message Property {}
 
 message _Subclasses_of_class_Property {
   oneof _class_oneof_Property {
@@ -262,6 +268,8 @@ message LongDomainValidator {
   optional sint64 lower = 1;
   optional sint64 upper = 2;
 }
+
+message Import {}
 
 message _Subclasses_of_class_Import {
   oneof _class_oneof_Import {

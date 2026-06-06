@@ -1178,7 +1178,7 @@ type Address {
    country: String!
 }
 enum Level {
-   _: Boolean
+   _
 }
 # namespace org.acme.hr@1.0.0
 type pii @example @usedBy {
@@ -5488,6 +5488,10 @@ package org.acme.hr.base.v1_0_0;
 
 import "google/protobuf/timestamp.proto";
 
+message Category {}
+
+message GeneralCategory {}
+
 enum State {
   State_CA = 0;
   State_CO = 1;
@@ -5538,11 +5542,11 @@ message Info {
 }
 
 message Company {
-  optional map<string, string> CompanyProperties = 1;
-  optional map<SSN, Employee> EmployeeDirectory = 2;
-  optional map<string, Concept> EmployeeProfiles = 3;
-  optional map<string, SSN> EmployeeSocialSecurityNumbers = 4;
-  optional map<SSN, TShirtSizeType> EmployeeTShirtSizes = 5;
+  map<string, string> CompanyProperties = 1;
+  map<string, Employee> EmployeeDirectory = 2;
+  map<string, Concept> EmployeeProfiles = 3;
+  map<string, string> EmployeeSocialSecurityNumbers = 4;
+  map<string, TShirtSizeType> EmployeeTShirtSizes = 5;
   Address headquarters = 6;
   string name = 7;
 }
@@ -5555,6 +5559,8 @@ enum Department {
   Department_Marketing = 4;
   Department_Sales = 5;
 }
+
+message Equipment {}
 
 message _Subclasses_of_class_Equipment {
   oneof _class_oneof_Equipment {
@@ -5571,6 +5577,8 @@ message Laptop {
   LaptopMake make = 1;
   string serialNumber = 2;
 }
+
+message Person {}
 
 message _Subclasses_of_class_Person {
   oneof _class_oneof_Person {
@@ -5592,7 +5600,7 @@ message Employee {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  map<KinName, KinTelephone> NextOfKin = 12;
+  map<string, string> NextOfKin = 12;
   sint64 numDependents = 13;
   Address officeAddress = 14;
   bool retired = 15;
@@ -5617,7 +5625,7 @@ message Contractor {
   string lastName = 7;
   optional string manager = 8;
   optional string middleNames = 9;
-  map<KinName, KinTelephone> NextOfKin = 10;
+  map<string, string> NextOfKin = 10;
   string ssn = 11;
 }
 
@@ -5633,7 +5641,7 @@ message Manager {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  map<KinName, KinTelephone> NextOfKin = 12;
+  map<string, string> NextOfKin = 12;
   sint64 numDependents = 13;
   Address officeAddress = 14;
   repeated string reports = 15;
@@ -5660,6 +5668,14 @@ message ChangeOfAddress {
   Address newAddress = 1;
   string Person = 2;
 }
+
+message Category {}
+
+message Time {}
+
+message SSN {}
+
+message Concept {}
 
 ",
 }
