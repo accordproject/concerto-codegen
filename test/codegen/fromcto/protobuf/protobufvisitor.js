@@ -424,6 +424,7 @@ describe('ProtobufVisitor', function () {
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+            const mockModelFile         = { getType: sinon.stub() };
 
             mockField.getModelFile.returns({ getType: getType });
             getType.returns(mockMapDeclaration);
@@ -432,6 +433,7 @@ describe('ProtobufVisitor', function () {
             getValueType.returns('String');
             mockMapDeclaration.getName.returns('map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
@@ -447,6 +449,8 @@ describe('ProtobufVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.restore();
+
             sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
                 return true;
             });
@@ -457,6 +461,7 @@ describe('ProtobufVisitor', function () {
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+            const mockModelFile         = { getType: sinon.stub() };
 
             mockField.getModelFile.returns({ getType: getType });
             getType.returns(mockMapDeclaration);
@@ -465,6 +470,7 @@ describe('ProtobufVisitor', function () {
             getValueType.returns('DateTime');
             mockMapDeclaration.getName.returns('map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
@@ -480,6 +486,8 @@ describe('ProtobufVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.restore();
+
             sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
                 return true;
             });
@@ -490,6 +498,7 @@ describe('ProtobufVisitor', function () {
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+            const mockModelFile         = { getType: sinon.stub() };
 
             mockField.getModelFile.returns({ getType: getType });
             getType.returns(mockMapDeclaration);
@@ -498,12 +507,17 @@ describe('ProtobufVisitor', function () {
             getValueType.returns('SSN');
             mockMapDeclaration.getName.returns('map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.withArgs('SSN').returns({
+                isScalarDeclaration: () => true,
+                getType: () => 'String',
+            });
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             protobufVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.callCount.should.deep.equal(1);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, SSN> map1 = 0;']);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, string> map1 = 0;']);
 
             sandbox.restore();
         });
@@ -513,6 +527,8 @@ describe('ProtobufVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.restore();
+
             sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
                 return true;
             });
@@ -523,6 +539,7 @@ describe('ProtobufVisitor', function () {
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+            const mockModelFile         = { getType: sinon.stub() };
 
             mockField.getModelFile.returns({ getType: getType });
             getType.returns(mockMapDeclaration);
@@ -531,6 +548,11 @@ describe('ProtobufVisitor', function () {
             getValueType.returns('Concept');
             mockMapDeclaration.getName.returns('map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.withArgs('Concept').returns({
+                isScalarDeclaration: () => false,
+                isEnum: () => false,
+            });
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
@@ -546,6 +568,8 @@ describe('ProtobufVisitor', function () {
                 fileWriter: mockFileWriter
             };
 
+            sandbox.restore();
+
             sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
                 return true;
             });
@@ -556,6 +580,7 @@ describe('ProtobufVisitor', function () {
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+            const mockModelFile         = { getType: sinon.stub() };
 
             mockField.getModelFile.returns({ getType: getType });
             getType.returns(mockMapDeclaration);
@@ -564,12 +589,17 @@ describe('ProtobufVisitor', function () {
             getValueType.returns('String');
             mockMapDeclaration.getName.returns('map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.withArgs('SSN').returns({
+                isScalarDeclaration: () => true,
+                getType: () => 'String',
+            });
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             protobufVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.callCount.should.deep.equal(1);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<SSN, string> map1 = 0;']);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, string> map1 = 0;']);
 
             sandbox.restore();
         });
@@ -591,7 +621,7 @@ describe('ProtobufVisitor', function () {
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
-
+            const mockModelFile         = { getType: sinon.stub() };
 
             mockField.getModelFile.returns({ getType: getType });
             getType.returns(mockMapDeclaration);
@@ -600,12 +630,21 @@ describe('ProtobufVisitor', function () {
             getValueType.returns('Employee');
             mockMapDeclaration.getName.returns('map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.withArgs('SSN').returns({
+                isScalarDeclaration: () => true,
+                getType: () => 'String',
+            });
+            mockModelFile.getType.withArgs('Employee').returns({
+                isScalarDeclaration: () => false,
+                isEnum: () => false,
+            });
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             protobufVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.callCount.should.deep.equal(1);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<SSN, Employee> map1 = 0;']);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, Employee> map1 = 0;']);
 
             sandbox.restore();
         });
@@ -627,6 +666,7 @@ describe('ProtobufVisitor', function () {
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+            const mockModelFile         = { getType: sinon.stub() };
 
             mockField.getModelFile.returns({ getType: getType });
             getType.returns(mockMapDeclaration);
@@ -635,6 +675,7 @@ describe('ProtobufVisitor', function () {
             getValueType.returns('Double');
             mockMapDeclaration.getName.returns('map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
@@ -660,6 +701,7 @@ describe('ProtobufVisitor', function () {
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+            const mockModelFile         = { getType: sinon.stub() };
 
             mockField.getModelFile.returns({ getType: getType });
             getType.returns(mockMapDeclaration);
@@ -668,6 +710,7 @@ describe('ProtobufVisitor', function () {
             getValueType.returns('Integer');
             mockMapDeclaration.getName.returns('map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
@@ -693,6 +736,7 @@ describe('ProtobufVisitor', function () {
             const findStub              = sinon.stub();
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
+            const mockModelFile         = { getType: sinon.stub() };
 
             mockField.getModelFile.returns({ getType: getType });
             getType.returns(mockMapDeclaration);
@@ -701,12 +745,133 @@ describe('ProtobufVisitor', function () {
             getValueType.returns('Long');
             mockMapDeclaration.getName.returns('map1');
             mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             protobufVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.callCount.should.deep.equal(1);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, sint64> map1 = 0;']);
+        });
+
+        it('should return an object representing a Proto3 field that is a map <DateTime, String>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            sandbox.restore();
+
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const getType = sinon.stub();
+            const mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            const mockField = sinon.createStubInstance(Field);
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
+            const mockModelFile = { getType: sinon.stub() };
+
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
+            getKeyType.returns('DateTime');
+            getValueType.returns('String');
+            mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            protobufVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.callCount.should.deep.equal(1);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, string> map1 = 0;']);
+        });
+
+        it('should return an object representing a Proto3 field that is a map <Employee, String>', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            sandbox.restore();
+
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const getType = sinon.stub();
+            const mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            const mockField = sinon.createStubInstance(Field);
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
+            const mockModelFile = { getType: sinon.stub() };
+
+            mockField.getModelFile.returns({ getType: getType });
+            getType.returns(mockMapDeclaration);
+            getKeyType.returns('Employee');
+            getValueType.returns('String');
+            mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.withArgs('Employee').returns({
+                isScalarDeclaration: () => false,
+                isEnum: () => false,
+            });
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            protobufVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.callCount.should.deep.equal(1);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, string> map1 = 0;']);
+        });
+    });
+
+    describe('concertoNamespaceToProto3SafePackageName', () => {
+        it('should handle a namespace without a version', () => {
+            protobufVisitor.concertoNamespaceToProto3SafePackageName('concerto')
+                .should.equal('concerto.v');
+        });
+    });
+
+    describe('getNamesOfNonabstractSubclassesOfClassRecursively', () => {
+        it('should return an empty array when assignable classes are unavailable', () => {
+            protobufVisitor.getNamesOfNonabstractSubclassesOfClassRecursively({})
+                .should.deep.equal([]);
+        });
+    });
+
+    describe('visitEnumValueDeclaration', () => {
+        it('should default the enum value index when none is supplied', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+                valueDeclarationName: 'State',
+            };
+
+            let mockEnumValueDeclaration = sinon.createStubInstance(EnumValueDeclaration);
+            mockEnumValueDeclaration.getName.returns('CA');
+
+            protobufVisitor.visitEnumValueDeclaration(mockEnumValueDeclaration, param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(1);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  State_CA = 0;']);
+        });
+    });
+
+    describe('visitRelationshipDeclaration', () => {
+        it('should write a required relationship field without a preposition', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+                fieldIndex: 3,
+            };
+
+            let mockRelationshipDeclaration = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationshipDeclaration.getName.returns('owner');
+            mockRelationshipDeclaration.isArray.returns(false);
+            mockRelationshipDeclaration.isOptional.returns(false);
+
+            protobufVisitor.visitRelationshipDeclaration(mockRelationshipDeclaration, param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(1);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  string owner = 3;']);
         });
     });
 

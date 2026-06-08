@@ -126,6 +126,8 @@ message Signature {
   optional google.protobuf.Timestamp signedAt = 4;
 }
 
+message ConversionOptions {}
+
 message _Subclasses_of_class_ConversionOptions {
   oneof _class_oneof_ConversionOptions {
     PdfConversionOptions _subclass_of_class_ConversionOptions_PdfConversionOptions = 1;

@@ -4,6 +4,8 @@ package org.accordproject.commonmark.v0_5_0;
 
 import "google/protobuf/timestamp.proto";
 
+message Node {}
+
 message _Subclasses_of_class_Node {
   oneof _class_oneof_Node {
     BlockQuote _subclass_of_class_Node_BlockQuote = 1;
@@ -33,11 +35,15 @@ message _Subclasses_of_class_Node {
   }
 }
 
+message Root {}
+
 message _Subclasses_of_class_Root {
   oneof _class_oneof_Root {
     Document _subclass_of_class_Root_Document = 1;
   }
 }
+
+message Child {}
 
 message _Subclasses_of_class_Child {
   oneof _class_oneof_Child {

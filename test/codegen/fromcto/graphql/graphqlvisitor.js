@@ -279,6 +279,48 @@ describe('GraphQLVisitor', function () {
 
             acceptSpy.withArgs(graphQLVisitor, param).calledTwice.should.be.ok;
         });
+
+        it('should write a placeholder member for an empty enum', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getName.returns('Level');
+            mockClassDeclaration.isEnum.returns(true);
+            mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Level');
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getDecorators.returns([]);
+
+            graphQLVisitor.visitClassDeclaration(mockClassDeclaration, param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'enum Level {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '_']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '}']);
+        });
+
+        it('should write a placeholder field for an empty type', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockClassDeclaration = sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getName.returns('Category');
+            mockClassDeclaration.isEnum.returns(false);
+            mockClassDeclaration.getFullyQualifiedName.returns('org.acme.Category');
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getDecorators.returns([]);
+
+            graphQLVisitor.visitClassDeclaration(mockClassDeclaration, param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'type Category {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '_: Boolean']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '}']);
+        });
     });
 
     describe('visitField', () => {
