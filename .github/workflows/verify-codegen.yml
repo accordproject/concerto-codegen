@@ -10,11 +10,9 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}/concerto-verify
+  BASE_IMAGE_TAG: concerto-verify-base:pr-${{ github.sha }}
 
 jobs:
   verify:
@@ -34,40 +32,33 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
+      # Buildx (docker-container driver) cannot use a locally loaded image when
+      # BASE_IMAGE is a registry URL. Tag the base locally and build targets with
+      # classic docker build so FROM resolves against the daemon image store.
       - name: Build base image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: verification/docker/base/Dockerfile
-          tags: ${{ env.IMAGE_PREFIX }}-base:pr-${{ github.sha }}
+          tags: ${{ env.BASE_IMAGE_TAG }}
           load: true
           cache-from: type=gha,scope=verify-base
           cache-to: type=gha,mode=max,scope=verify-base
 
       - name: Build target image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: verification/docker/${{ matrix.target }}/Dockerfile
-          build-args: BASE_IMAGE=${{ env.IMAGE_PREFIX }}-base:pr-${{ github.sha }}
-          tags: ${{ env.IMAGE_PREFIX }}-${{ matrix.target }}:pr-${{ github.sha }}
-          load: true
-          cache-from: type=gha,scope=verify-${{ matrix.target }}
-          cache-to: type=gha,mode=max,scope=verify-${{ matrix.target }}
+        run: |
+          docker build \
+            -f "verification/docker/${{ matrix.target }}/Dockerfile" \
+            --build-arg "BASE_IMAGE=${{ env.BASE_IMAGE_TAG }}" \
+            -t "concerto-verify-${{ matrix.target }}:pr-${{ github.sha }}" \
+            .
 
       - name: Generate and verify in container
         run: |
           docker run --rm \
             -v "$PWD/verification/corpus:/corpus:ro" \
             -v "$PWD/verification/work-${{ matrix.target }}:/work" \
-            ${{ env.IMAGE_PREFIX }}-${{ matrix.target }}:pr-${{ github.sha }}
+            "concerto-verify-${{ matrix.target }}:pr-${{ github.sha }}"
 
       - name: Upload failure artifacts
         if: failure()
