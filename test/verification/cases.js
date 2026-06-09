@@ -73,6 +73,12 @@ const CASES = [
     },
 ];
 
+/**
+ * Return the skip reason for a case and target, if any.
+ * @param {object} testCase verification case definition
+ * @param {string} target codegen target name
+ * @returns {string|null} skip reason or null when the case should run
+ */
 function getSkipReason(testCase, target) {
     if (!testCase.skip) {
         return null;
@@ -83,6 +89,11 @@ function getSkipReason(testCase, target) {
     return testCase.skip[target] || null;
 }
 
+/**
+ * Build a ModelManager populated from a verification case.
+ * @param {object} testCase verification case definition
+ * @returns {ModelManager} configured model manager
+ */
 function createModelManager(testCase) {
     const modelManager = new ModelManager();
 
@@ -100,6 +111,9 @@ function createModelManager(testCase) {
     return modelManager;
 }
 
+/**
+ * Set environment variables used by verification codegen runs.
+ */
 function applyVerificationEnv() {
     process.env.ENABLE_MAP_TYPE = 'true';
     process.env.IMPORT_ALIASING = 'true';

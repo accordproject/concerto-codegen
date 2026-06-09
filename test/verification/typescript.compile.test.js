@@ -31,6 +31,11 @@ const {
 
 const TSC = path.join(__dirname, '../../node_modules/typescript/bin/tsc');
 
+/**
+ * Generate TypeScript from a model and verify it compiles with tsc.
+ * @param {ModelManager} modelManager populated model manager
+ * @param {object} [visitorOptions] options passed to TypescriptVisitor
+ */
 async function verifyTypescriptCompiles(modelManager, visitorOptions = {}) {
     const { path: outputDir, cleanup } = await dir({ unsafeCleanup: true });
 

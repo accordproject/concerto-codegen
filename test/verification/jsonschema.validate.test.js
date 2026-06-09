@@ -29,6 +29,11 @@ const {
     applyVerificationEnv,
 } = require('./cases.js');
 
+/**
+ * Generate JSON Schema from a model and verify it compiles with ajv.
+ * @param {ModelManager} modelManager populated model manager
+ * @param {object} [visitorOptions] options passed to JSONSchemaVisitor
+ */
 async function verifyJsonSchemaCompiles(modelManager, visitorOptions = {}) {
     const { path: outputDir, cleanup } = await dir({ unsafeCleanup: true });
 
