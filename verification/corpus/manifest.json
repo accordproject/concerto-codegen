@@ -1,0 +1,15 @@
+{
+    "env": {
+        "ENABLE_MAP_TYPE": "true",
+        "IMPORT_ALIASING": "true"
+    },
+    "cases": [
+        {
+            "name": "metamodel",
+            "compile": {
+                "metamodel": true,
+                "offline": true
+            }
+        }
+    ]
+}

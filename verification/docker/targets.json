@@ -1,0 +1,14 @@
+{
+    "typescript": {
+        "cli": "Typescript",
+        "baseImage": "node:20-alpine",
+        "tool": "tsc --noEmit",
+        "type": "compiled"
+    },
+    "jsonschema": {
+        "cli": "JSONSchema",
+        "baseImage": "node:20-alpine",
+        "tool": "ajv compile",
+        "type": "schema"
+    }
+}
