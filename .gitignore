@@ -19,6 +19,8 @@ npm-debug.log*
 
 # Test output
 output
+verification/work
+verification/work-*
 
 # Runtime data
 pids
