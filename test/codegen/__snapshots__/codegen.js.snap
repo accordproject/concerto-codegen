@@ -5696,7 +5696,7 @@ where
       Some(dt) => {
          serialize_datetime(&dt, serializer)
       },
-      _ => unreachable!(),
+      None => serializer.serialize_none(),
    }
 }
 

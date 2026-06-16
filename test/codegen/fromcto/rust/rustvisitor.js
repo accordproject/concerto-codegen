@@ -1339,7 +1339,7 @@ describe('RustVisitor', function () {
                     [2, 'Some(dt) => {'],
                     [3, 'serialize_datetime(&dt, serializer)'],
                     [2, '},'],
-                    [2, '_ => unreachable!(),'],
+                    [2, 'None => serializer.serialize_none(),'],
                     [1, '}'],
                     [0, '}'],
                     [0, ''],
