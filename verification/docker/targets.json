@@ -10,5 +10,12 @@
         "baseImage": "node:20-alpine",
         "tool": "ajv compile",
         "type": "schema"
+    },
+    "csharp": {
+        "cli": "CSharp",
+        "baseImage": "node:20-alpine",
+        "toolInstall": "apk add --no-cache dotnet8-sdk",
+        "tool": "dotnet build",
+        "type": "compiled"
     }
 }

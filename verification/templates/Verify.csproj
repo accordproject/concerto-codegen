@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <!-- Generated models use optional/nullable syntax; verification only checks compile success. -->
+    <NoWarn>$(NoWarn);CS8618;CS8632</NoWarn>
+  </PropertyGroup>
+</Project>

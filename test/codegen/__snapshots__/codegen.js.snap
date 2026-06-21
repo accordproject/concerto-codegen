@@ -690,7 +690,7 @@ public abstract class Event : Concept {
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'csharp' 3`] = `
 {
   "key": "org.acme.hr.base@1.0.0.cs",
-  "value": "namespace org.acme.hr.base;
+  "value": "namespace org.acme.hr._base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AccordProject.Concerto;
@@ -776,7 +776,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
   "value": "namespace org.acme.hr;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using org.acme.hr.base;
+using org.acme.hr._base;
 using AccordProject.Concerto.Metamodel;
 using AccordProject.Concerto;
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "pii")]
@@ -785,7 +785,7 @@ public class pii : AccordProject.Concerto.Metamodel.Decorator {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.pii";
    public bool isPii { get; set; }
-   public org.acme.hr.base.Category category { get; set; }
+   public org.acme.hr._base.Category category { get; set; }
 }
 [AccordProject.Concerto.Type(Namespace = "org.acme.hr", Version = "1.0.0", Name = "Info")]
 [System.Text.Json.Serialization.JsonConverter(typeof(AccordProject.Concerto.ConcertoConverterFactorySystem))]
@@ -807,7 +807,7 @@ public class Company : Concept {
    public override string _class { get; } = "org.acme.hr@1.0.0.Company";
    [System.ComponentModel.DataAnnotations.RegularExpression(@"abc.*", ErrorMessage = "Invalid characters")]
    public string name { get; set; }
-   public org.acme.hr.base.Address headquarters { get; set; }
+   public org.acme.hr._base.Address headquarters { get; set; }
    public Dictionary<string, string>? companyProperties { get; set; }
    public Dictionary<SSN, Employee>? employeeDirectory { get; set; }
    public Dictionary<SSN, TShirtSizeType>? employeeTShirtSizes { get; set; }
@@ -856,7 +856,7 @@ public abstract class Person : Participant {
    public string firstName { get; set; }
    public string lastName { get; set; }
    public string? middleNames { get; set; }
-   public org.acme.hr.base.Address homeAddress { get; set; }
+   public org.acme.hr._base.Address homeAddress { get; set; }
    public SSN ssn { get; set; } = new("000-00-0000");
    public double height { get; set; }
    public System.DateTime dob { get; set; }
@@ -873,7 +873,7 @@ public class Employee : Person {
    public int numDependents { get; set; }
    public bool retired { get; set; }
    public Department department { get; set; }
-   public org.acme.hr.base.Address officeAddress { get; set; }
+   public org.acme.hr._base.Address officeAddress { get; set; }
    public Equipment[] companyAssets { get; set; }
    public Manager? manager { get; set; }
 }
@@ -911,7 +911,7 @@ public class ChangeOfAddress : Transaction {
    [System.Text.Json.Serialization.JsonPropertyName("$class")]
    public override string _class { get; } = "org.acme.hr@1.0.0.ChangeOfAddress";
    public Person Person { get; set; }
-   public org.acme.hr.base.Address newAddress { get; set; }
+   public org.acme.hr._base.Address newAddress { get; set; }
 }
 [System.Text.Json.Serialization.JsonConverter(typeof(KinNameJsonConverter))]
 public readonly record struct KinName(string Value)

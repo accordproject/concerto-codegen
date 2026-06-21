@@ -41,6 +41,7 @@ describe('CSharpVisitor', function () {
     let mockFileWriter;
 
     beforeEach(() => {
+        delete process.env.CSHARP_USE_CONCERTO_RUNTIME;
         csharpVisitor = new CSharpVisitor();
         mockFileWriter = sinon.createStubInstance(FileWriter);
         sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
@@ -898,7 +899,7 @@ public class SampleModel : Concept {
             const files = fileWriter.getFilesInMemory();
             const file1 = files.get('org.acme@1.2.3.cs');
             // Enum default values should be emitted as qualified C# enum members
-            file1.should.match(/public Status status \{ get; set; \} = Status.Active;/);
+            file1.should.match(/public Status status \{ get; set; \} = Status.ACTIVE;/);
         });
 
         it('should emit required for non-optional reference fields when flag is enabled', () => {
@@ -938,7 +939,7 @@ public class SampleModel : Concept {
             file1.should.match(/public string\? nick \{ get; set; \}/);
             file1.should.match(/public SSN ssn \{ get; set; \}/);
             file1.should.match(/public required SSN\[\] ssns \{ get; set; \}/);
-            file1.should.match(/public Status status \{ get; set; \} = Status.Active;/);
+            file1.should.match(/public Status status \{ get; set; \} = Status.ACTIVE;/);
             file1.should.match(/public Status state \{ get; set; \}/);
             file1.should.match(/public required Status\[\] states \{ get; set; \}/);
             file1.should.match(/public required Child child \{ get; set; \}/);

@@ -24,6 +24,7 @@ jobs:
         target:
           - typescript
           - jsonschema
+          - csharp
 
     steps:
       - name: Harden the runner (Audit all outbound calls)

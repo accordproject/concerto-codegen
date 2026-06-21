@@ -24,6 +24,7 @@
         "verify:docker": "node scripts/verification/docker-run.js",
         "verify:docker:typescript": "node scripts/verification/docker-run.js typescript",
         "verify:docker:jsonschema": "node scripts/verification/docker-run.js jsonschema",
+        "verify:docker:csharp": "node scripts/verification/docker-run.js csharp",
         "test:updateSnapshots": "nyc mocha --updateSnapshot --recursive -t 10000",
         "test:watch": "nyc mocha --watch --recursive -t 10000",
         "mocha": "mocha --recursive -t 10000",
