@@ -733,5 +733,150 @@ concept Account {
             expect(schema.required).to.not.include('balance');
             expect(schema.required).to.not.include('active');
         });
+
+        // ── omitValidators ────────────────────────────────────────────────────
+
+        it('emits validator keywords by default (backward compatible)', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_BOUNDS);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Test' });
+            // validators should be present when flag is not set
+            expect(schema.properties.myString.pattern).to.equal('abc.*');
+            expect(schema.properties.intLowerUpper.minimum).to.equal(-1);
+            expect(schema.properties.intLowerUpper.maximum).to.equal(1);
+            expect(schema.properties.doubleLowerUpper.minimum).to.equal(-1.2);
+            expect(schema.properties.doubleLowerUpper.maximum).to.equal(1.2);
+        });
+
+        it('suppresses pattern, minimum and maximum when omitValidators is true', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_BOUNDS);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, {
+                rootType: 'test@1.0.0.Test',
+                omitValidators: true,
+            });
+            // type keywords must still be present
+            expect(schema.properties.myString.type).to.equal('string');
+            expect(schema.properties.intLowerUpper.type).to.equal('integer');
+            expect(schema.properties.doubleLowerUpper.type).to.equal('number');
+
+            // validator keywords must be absent
+            expect(schema.properties.myString.pattern).to.be.undefined;
+            expect(schema.properties.intLowerUpper.minimum).to.be.undefined;
+            expect(schema.properties.intLowerUpper.maximum).to.be.undefined;
+            expect(schema.properties.intLower.minimum).to.be.undefined;
+            expect(schema.properties.intUpper.maximum).to.be.undefined;
+            expect(schema.properties.longLowerUpper.minimum).to.be.undefined;
+            expect(schema.properties.longLowerUpper.maximum).to.be.undefined;
+            expect(schema.properties.doubleLowerUpper.minimum).to.be.undefined;
+            expect(schema.properties.doubleLowerUpper.maximum).to.be.undefined;
+        });
+
+        it('suppresses format: date-time on DateTime fields when omitValidators is true', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_SIMPLE);
+            const visitor = new JSONSchemaVisitor();
+
+            // default: format present
+            const schemaBefore = modelManager.accept(visitor, { rootType: 'test@1.0.0.MyRequest' });
+            expect(schemaBefore.properties.date.format).to.equal('date-time');
+
+            // omitValidators: format absent, type still present
+            const schemaAfter = modelManager.accept(visitor, {
+                rootType: 'test@1.0.0.MyRequest',
+                omitValidators: true,
+            });
+            expect(schemaAfter.properties.date.type).to.equal('string');
+            expect(schemaAfter.properties.date.format).to.be.undefined;
+        });
+
+        it('suppresses format: uuid on scalar UUID fields when omitValidators is true', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(UUID_SCALAR);
+            modelManager.addCTOModel(MODEL_SIMPLE3);
+            const visitor = new JSONSchemaVisitor();
+
+            // default: format present
+            const schemaBefore = modelManager.accept(visitor, { rootType: 'test@1.0.0.OtherThing' });
+            expect(schemaBefore.properties.id.format).to.equal('uuid');
+
+            // omitValidators: format absent, type still present
+            const schemaAfter = modelManager.accept(visitor, {
+                rootType: 'test@1.0.0.OtherThing',
+                omitValidators: true,
+            });
+            expect(schemaAfter.properties.id.type).to.equal('string');
+            expect(schemaAfter.properties.id.format).to.be.undefined;
+        });
+
+        it('suppresses format: uuid on relationship fields when omitValidators is true', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(UUID_SCALAR);
+            modelManager.addCTOModel(MODEL_RELATIONSHIP_SIMPLE);
+            const visitor = new JSONSchemaVisitor();
+
+            // default: format present
+            const schemaBefore = modelManager.accept(visitor, {
+                rootType: 'test@1.0.0.SomeOtherThing',
+                inlineTypes: true,
+            });
+            expect(schemaBefore.properties.otherThingId.format).to.equal('uuid');
+
+            // omitValidators: format absent, type still present
+            const schemaAfter = modelManager.accept(visitor, {
+                rootType: 'test@1.0.0.SomeOtherThing',
+                inlineTypes: true,
+                omitValidators: true,
+            });
+            expect(schemaAfter.properties.otherThingId.type).to.equal('string');
+            expect(schemaAfter.properties.otherThingId.format).to.be.undefined;
+        });
+
+        it('suppresses minLength and maxLength on string fields when omitValidators is true', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(
+                fs.readFileSync(path.resolve(__dirname, '../data/model/stringlength.cto'), 'utf8'),
+                'stringlength.cto'
+            );
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, {
+                rootType: 'org.acme@1.2.3.SampleModel',
+                omitValidators: true,
+            });
+            // type still present
+            expect(schema.properties.stringLengthWithRegex.type).to.equal('string');
+            // validator keywords gone
+            expect(schema.properties.stringLengthWithRegex.pattern).to.be.undefined;
+            expect(schema.properties.stringLengthWithRegex.minLength).to.be.undefined;
+            expect(schema.properties.stringLengthWithRegex.maxLength).to.be.undefined;
+            expect(schema.properties.stringWithMinLength.minLength).to.be.undefined;
+            expect(schema.properties.stringWithMaxLength.maxLength).to.be.undefined;
+        });
+
+        it('omitValidators: true produces a schema that passes strict Ajv compilation', () => {
+            // Strict structured-output APIs (OpenAI, Anthropic) reject extra keywords.
+            // Verify the schema produced with omitValidators is at least Ajv-compilable.
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_RECURSIVE_COMPLEX);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, {
+                rootType: 'org.accordproject.ergo.monitor@1.0.0.Monitor',
+                omitValidators: true,
+            });
+            const ajv = new Ajv({ strict: false });
+            // should not throw
+            expect(() => ajv.compile(schema)).to.not.throw();
+        });
+
+        it('omitValidators: false is identical to not setting the flag (backward compatible)', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_BOUNDS);
+            const visitor = new JSONSchemaVisitor();
+            const schemaDefault = modelManager.accept(visitor, { rootType: 'test@1.0.0.Test' });
+            const schemaExplicit = modelManager.accept(visitor, { rootType: 'test@1.0.0.Test', omitValidators: false });
+            expect(JSON.stringify(schemaDefault)).to.equal(JSON.stringify(schemaExplicit));
+        });
     });
 });
