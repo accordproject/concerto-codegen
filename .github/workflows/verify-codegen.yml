@@ -24,6 +24,8 @@ jobs:
         target:
           - typescript
           - jsonschema
+          - graphql
+          - protobuf
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
