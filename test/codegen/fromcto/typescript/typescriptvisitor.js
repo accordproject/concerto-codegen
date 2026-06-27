@@ -550,7 +550,7 @@ describe('TypescriptVisitor', function () {
             typescriptVisitor.visitScalarDeclaration(mockScalarDeclaration, param);
 
             param.fileWriter.writeLine.calledOnce.should.be.ok;
-            param.fileWriter.writeLine.withArgs(0, 'export type RegistrationDate = Date;\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type RegistrationDate = string;\n').calledOnce.should.be.ok;
         });
     });
 
@@ -944,7 +944,7 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, Date>;\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, string>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <String, Address>', () => {
@@ -1010,7 +1010,7 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<Date, IAddress>;\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, IAddress>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <String, Concept>', () => {
@@ -1172,8 +1172,8 @@ describe('TypescriptVisitor', function () {
     });
 
     describe('toTsType', () => {
-        it('should return Date for DateTime', () => {
-            typescriptVisitor.toTsType('DateTime').should.deep.equal('Date');
+        it('should return string for DateTime', () => {
+            typescriptVisitor.toTsType('DateTime').should.deep.equal('string');
         });
         it('should return boolean for Boolean', () => {
             typescriptVisitor.toTsType('Boolean').should.deep.equal('boolean');
