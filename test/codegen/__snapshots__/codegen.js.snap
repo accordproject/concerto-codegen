@@ -6810,13 +6810,13 @@ export interface IParticipant extends IConcept {
 export type ParticipantUnion = IPerson;
 
 export interface ITransaction extends IConcept {
-   $timestamp: Date;
+   $timestamp: string;
 }
 
 export type TransactionUnion = IChangeOfAddress;
 
 export interface IEvent extends IConcept {
-   $timestamp: Date;
+   $timestamp: string;
 }
 
 export type EventUnion = ICompanyEvent;
@@ -6873,7 +6873,7 @@ export interface IAddress extends IConcept {
 export enum Level {
 }
 
-export type Time = Date;
+export type Time = string;
 
 export type SSN = string;
 
@@ -6964,7 +6964,7 @@ export interface IPerson extends IParticipant {
    homeAddress: IAddress;
    ssn: SSN;
    height: number;
-   dob: Date;
+   dob: string;
    nextOfKin: NextOfKin;
 }
 
