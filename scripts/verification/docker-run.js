@@ -20,7 +20,7 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '../..');
 const BASE_IMAGE = 'concerto-verify-base:local';
-const TARGETS = ['typescript', 'jsonschema'];
+const TARGETS = ['typescript', 'jsonschema', 'graphql', 'protobuf'];
 
 /**
  * Run a command synchronously with inherited stdio.

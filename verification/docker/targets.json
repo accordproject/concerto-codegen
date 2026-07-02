@@ -10,5 +10,17 @@
         "baseImage": "node:20-alpine",
         "tool": "ajv compile",
         "type": "schema"
+    },
+    "graphql": {
+        "cli": "GraphQL",
+        "baseImage": "node:20-alpine",
+        "tool": "graphql buildSchema",
+        "type": "schema"
+    },
+    "protobuf": {
+        "cli": "Protobuf",
+        "baseImage": "node:20-alpine",
+        "tool": "protoc",
+        "type": "schema"
     }
 }
