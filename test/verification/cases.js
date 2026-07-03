@@ -26,7 +26,7 @@ const MODEL_DIR = path.join(__dirname, '../codegen/fromcto/data/model');
  * Each case loads one fixture (or valid combination) into its own ModelManager.
  * Do not combine unrelated CTO files — some share namespaces or have import deps.
  *
- * `skip` may be a string (all targets) or `{ typescript: '...', jsonschema: '...', protobuf: '...', graphql: '...' }`.
+ * `skip` may be a string (all targets) or `{ typescript: '...', jsonschema: '...', protobuf: '...', graphql: '...', csharp: '...' }`.
  */
 const CASES = [
     {

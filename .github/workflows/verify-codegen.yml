@@ -26,6 +26,7 @@ jobs:
           - jsonschema
           - graphql
           - protobuf
+          - csharp
 
     steps:
       - name: Harden the runner (Audit all outbound calls)

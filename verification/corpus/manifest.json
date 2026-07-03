@@ -9,6 +9,9 @@
             "compile": {
                 "metamodel": true,
                 "offline": true
+            },
+            "skip": {
+                "csharp": "generated C# references AccordProject.Concerto runtime types (e.g. ConcertoConverterFactorySystem) that are not available for a standalone dotnet build"
             }
         }
     ]

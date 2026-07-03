@@ -22,5 +22,11 @@
         "baseImage": "node:20-alpine",
         "tool": "protoc",
         "type": "schema"
+    },
+    "csharp": {
+        "cli": "CSharp",
+        "baseImage": "dotnet/sdk:8.0-alpine",
+        "tool": "dotnet build",
+        "type": "compiled"
     }
 }
