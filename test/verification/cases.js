@@ -26,7 +26,7 @@ const MODEL_DIR = path.join(__dirname, '../codegen/fromcto/data/model');
  * Each case loads one fixture (or valid combination) into its own ModelManager.
  * Do not combine unrelated CTO files — some share namespaces or have import deps.
  *
- * `skip` may be a string (all targets) or `{ typescript: '...', jsonschema: '...', protobuf: '...', graphql: '...', csharp: '...' }`.
+ * `skip` may be a string (all targets) or `{ typescript: '...', jsonschema: '...', protobuf: '...', graphql: '...', csharp: '...', rust: '...' }`.
  */
 const CASES = [
     {
@@ -42,6 +42,7 @@ const CASES = [
         skip: {
             // jsonschema: 'empty Level enum produces invalid JSON Schema (enum must have >= 1 item)',
             // graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
+            rust: 'map declarations reference scalar key/value types (e.g. SSN) that the Rust visitor does not emit, so cargo check fails',
         },
     },
     {
@@ -52,7 +53,8 @@ const CASES = [
             // typescript: 'TypescriptVisitor emits non-compilable TS (duplicate ICategory, map import bugs)',
             // jsonschema: 'ambiguous $ref for org.acme.hr@1.0.0.Person.nextOfKin',
             // // protobuf: 'scalar map keys (e.g. SSN) are not valid Proto3 map key types',
-            // graphql: 'map type   s emit invalid GraphQL SDL (key/value field syntax)',
+            graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
+            rust: 'map declarations reference scalar key/value types (e.g. SSN, Time) that the Rust visitor does not emit, so cargo check fails',
         },
     },
     {

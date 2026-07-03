@@ -27,6 +27,7 @@ jobs:
           - graphql
           - protobuf
           - csharp
+          - rust
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
