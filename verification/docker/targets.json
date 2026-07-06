@@ -28,5 +28,11 @@
         "baseImage": "dotnet/sdk:8.0-alpine",
         "tool": "dotnet build",
         "type": "compiled"
+    },
+    "rust": {
+        "cli": "Rust",
+        "baseImage": "rust:alpine",
+        "tool": "cargo check",
+        "type": "compiled"
     }
 }
