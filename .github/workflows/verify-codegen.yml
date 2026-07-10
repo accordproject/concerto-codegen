@@ -28,6 +28,7 @@ jobs:
           - protobuf
           - csharp
           - rust
+          - java
 
     steps:
       - name: Harden the runner (Audit all outbound calls)

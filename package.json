@@ -28,6 +28,7 @@
         "verify:docker:protobuf": "node scripts/verification/docker-run.js protobuf",
         "verify:docker:csharp": "node scripts/verification/docker-run.js csharp",
         "verify:docker:rust": "node scripts/verification/docker-run.js rust",
+        "verify:docker:java": "node scripts/verification/docker-run.js java",
         "test:updateSnapshots": "nyc mocha --updateSnapshot --recursive -t 10000",
         "test:watch": "nyc mocha --watch --recursive -t 10000",
         "mocha": "mocha --recursive -t 10000",

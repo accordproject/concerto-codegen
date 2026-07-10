@@ -21,6 +21,7 @@ npm-debug.log*
 output
 verification/work
 verification/work-*
+verification/templates/jackson-annotations-*.jar
 
 # Runtime data
 pids
