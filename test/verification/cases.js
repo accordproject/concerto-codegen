@@ -41,7 +41,8 @@ const CASES = [
         files: ['hr_base.cto'],
         skip: {
             // jsonschema: 'empty Level enum produces invalid JSON Schema (enum must have >= 1 item)',
-            // graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
+            protobuf:'Empty enum produces invalid Protobuf (enum must have >= 1 item)',
+            graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
             rust: 'map declarations reference scalar key/value types (e.g. SSN) that the Rust visitor does not emit, so cargo check fails',
         },
     },
@@ -52,7 +53,7 @@ const CASES = [
         skip: {
             // typescript: 'TypescriptVisitor emits non-compilable TS (duplicate ICategory, map import bugs)',
             // jsonschema: 'ambiguous $ref for org.acme.hr@1.0.0.Person.nextOfKin',
-            // // protobuf: 'scalar map keys (e.g. SSN) are not valid Proto3 map key types',
+            protobuf: 'Empty enum produces invalid Protobuf (enum must have >= 1 item) and scalar map keys (e.g. SSN) are not valid Proto3 map key types',
             graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
             rust: 'map declarations reference scalar key/value types (e.g. SSN, Time) that the Rust visitor does not emit, so cargo check fails',
         },
