@@ -40,5 +40,11 @@
         "baseImage": "eclipse-temurin:17-jdk-alpine",
         "tool": "javac",
         "type": "compiled"
+    },
+    "odata": {
+        "cli": "OData",
+        "baseImage": "node:20-alpine",
+        "tool": "xmllint --noout",
+        "type": "schema"
     }
 }
