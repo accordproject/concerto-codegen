@@ -1668,9 +1668,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -1711,9 +1708,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -1747,9 +1741,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -1759,6 +1750,7 @@ import concerto.Asset;
 import concerto.Transaction;
 import concerto.Participant;
 import concerto.Event;
+import org.acme.hr.base.TShirtSizeType;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
@@ -1768,29 +1760,29 @@ public class Company extends Concept {
    private String name;
    private Address headquarters;
    private Map<String, String> companyProperties = new HashMap<>();
-   private Map<SSN, Employee> employeeDirectory = new HashMap<>();
-   private Map<SSN, TShirtSizeType> employeeTShirtSizes = new HashMap<>();
+   private Map<String, Employee> employeeDirectory = new HashMap<>();
+   private Map<String, TShirtSizeType> employeeTShirtSizes = new HashMap<>();
    private Map<String, Concept> employeeProfiles = new HashMap<>();
-   private Map<String, SSN> employeeSocialSecurityNumbers = new HashMap<>();
+   private Map<String, String> employeeSocialSecurityNumbers = new HashMap<>();
    public String getName() {
       return this.name;
    }
    public Address getHeadquarters() {
       return this.headquarters;
    }
-   public CompanyProperties getCompanyProperties() {
+   public Map<String, String> getCompanyProperties() {
       return this.companyProperties;
    }
-   public EmployeeDirectory getEmployeeDirectory() {
+   public Map<String, Employee> getEmployeeDirectory() {
       return this.employeeDirectory;
    }
-   public EmployeeTShirtSizes getEmployeeTShirtSizes() {
+   public Map<String, TShirtSizeType> getEmployeeTShirtSizes() {
       return this.employeeTShirtSizes;
    }
-   public EmployeeProfiles getEmployeeProfiles() {
+   public Map<String, Concept> getEmployeeProfiles() {
       return this.employeeProfiles;
    }
-   public EmployeeSocialSecurityNumbers getEmployeeSocialSecurityNumbers() {
+   public Map<String, String> getEmployeeSocialSecurityNumbers() {
       return this.employeeSocialSecurityNumbers;
    }
    public void setName(String name) {
@@ -1799,19 +1791,19 @@ public class Company extends Concept {
    public void setHeadquarters(Address headquarters) {
       this.headquarters = headquarters;
    }
-   public void setCompanyProperties(CompanyProperties companyProperties) {
+   public void setCompanyProperties(Map<String, String> companyProperties) {
       this.companyProperties = companyProperties;
    }
-   public void setEmployeeDirectory(EmployeeDirectory employeeDirectory) {
+   public void setEmployeeDirectory(Map<String, Employee> employeeDirectory) {
       this.employeeDirectory = employeeDirectory;
    }
-   public void setEmployeeTShirtSizes(EmployeeTShirtSizes employeeTShirtSizes) {
+   public void setEmployeeTShirtSizes(Map<String, TShirtSizeType> employeeTShirtSizes) {
       this.employeeTShirtSizes = employeeTShirtSizes;
    }
-   public void setEmployeeProfiles(EmployeeProfiles employeeProfiles) {
+   public void setEmployeeProfiles(Map<String, Concept> employeeProfiles) {
       this.employeeProfiles = employeeProfiles;
    }
-   public void setEmployeeSocialSecurityNumbers(EmployeeSocialSecurityNumbers employeeSocialSecurityNumbers) {
+   public void setEmployeeSocialSecurityNumbers(Map<String, String> employeeSocialSecurityNumbers) {
       this.employeeSocialSecurityNumbers = employeeSocialSecurityNumbers;
    }
 }
@@ -1847,9 +1839,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -1906,9 +1895,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -1949,9 +1935,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -1982,7 +1965,7 @@ public abstract class Person extends Participant {
    private String ssn;
    private double height;
    private java.util.Date dob;
-   private Map<KinName, KinTelephone> nextOfKin = new HashMap<>();
+   private Map<String, String> nextOfKin = new HashMap<>();
    public String getEmail() {
       return this.email;
    }
@@ -2007,7 +1990,7 @@ public abstract class Person extends Participant {
    public java.util.Date getDob() {
       return this.dob;
    }
-   public NextOfKin getNextOfKin() {
+   public Map<String, String> getNextOfKin() {
       return this.nextOfKin;
    }
    public void setEmail(String email) {
@@ -2034,7 +2017,7 @@ public abstract class Person extends Participant {
    public void setDob(java.util.Date dob) {
       this.dob = dob;
    }
-   public void setNextOfKin(NextOfKin nextOfKin) {
+   public void setNextOfKin(Map<String, String> nextOfKin) {
       this.nextOfKin = nextOfKin;
    }
 }
@@ -2050,9 +2033,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -2142,9 +2122,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -2192,9 +2169,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -2235,9 +2209,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -2263,9 +2234,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
@@ -2298,9 +2266,6 @@ package org.acme.hr;
 
 import org.acme.hr.base.Address;
 import org.acme.hr.base.State;
-import org.acme.hr.base.SSN;
-import org.acme.hr.base.Time;
-import org.acme.hr.base.EmployeeTShirtSizes;
 import org.acme.hr.base.Level;
 import org.acme.hr.base.Category;
 import org.acme.hr.base.GeneralCategory;
