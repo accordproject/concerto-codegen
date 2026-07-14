@@ -16,10 +16,14 @@ RUN npm install --no-save \
     @accordproject/concerto-vocabulary@^4.1.3
 
 # Point the global Concerto CLI at this checkout so PRs test branch codegen.
+# Also replace the copy nested under concerto-cli (Node resolves that first).
 RUN npm install -g @accordproject/concerto-cli \
     && GLOBAL_ROOT="$(npm root -g)" \
-    && rm -rf "$GLOBAL_ROOT/@accordproject/concerto-codegen" \
-    && ln -s /opt/concerto-codegen "$GLOBAL_ROOT/@accordproject/concerto-codegen"
+    && find "$GLOBAL_ROOT" -type d -path '*/@accordproject/concerto-codegen' -print0 \
+        | xargs -0 -r rm -rf \
+    && ln -s /opt/concerto-codegen "$GLOBAL_ROOT/@accordproject/concerto-codegen" \
+    && mkdir -p "$GLOBAL_ROOT/@accordproject/concerto-cli/node_modules/@accordproject" \
+    && ln -s /opt/concerto-codegen "$GLOBAL_ROOT/@accordproject/concerto-cli/node_modules/@accordproject/concerto-codegen"
 
 ENV ENABLE_MAP_TYPE=true \
     IMPORT_ALIASING=true \

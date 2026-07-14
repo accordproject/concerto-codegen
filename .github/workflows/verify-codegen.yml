@@ -29,6 +29,7 @@ jobs:
           - csharp
           - rust
           - java
+          - odata
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
