@@ -30,6 +30,7 @@ jobs:
           - rust
           - java
           - odata
+          - mermaid
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
