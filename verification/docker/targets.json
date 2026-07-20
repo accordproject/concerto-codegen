@@ -52,5 +52,11 @@
         "baseImage": "node:20-alpine",
         "tool": "mermaid.parse",
         "type": "schema"
+    },
+    "xmlschema": {
+        "cli": "XMLSchema",
+        "baseImage": "node:20-alpine",
+        "tool": "xmllint --schema",
+        "type": "schema"
     }
 }

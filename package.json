@@ -31,6 +31,7 @@
         "verify:docker:java": "node scripts/verification/docker-run.js java",
         "verify:docker:odata": "node scripts/verification/docker-run.js odata",
         "verify:docker:mermaid": "node scripts/verification/docker-run.js mermaid",
+        "verify:docker:xmlschema": "node scripts/verification/docker-run.js xmlschema",
         "test:updateSnapshots": "nyc mocha --updateSnapshot --recursive -t 10000",
         "test:watch": "nyc mocha --watch --recursive -t 10000",
         "mocha": "mocha --recursive -t 10000",

@@ -31,6 +31,7 @@ jobs:
           - java
           - odata
           - mermaid
+          - xmlschema
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
