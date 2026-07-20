@@ -29,8 +29,7 @@ const {
     applyVerificationEnv,
 } = require('./cases.js');
 
-const XSD_META_SCHEMA_PATH = process.env.XMLSCHEMA_META_SCHEMA
-    || '/usr/local/share/XMLSchema.xsd';
+const XSD_META_SCHEMA_PATH = process.env.XMLSCHEMA_META_SCHEMA || '/usr/local/share/XMLSchema.xsd';
 const XSD_META_SCHEMA_URL = 'http://www.w3.org/2001/XMLSchema.xsd';
 
 /**
