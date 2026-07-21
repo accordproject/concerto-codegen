@@ -29,8 +29,7 @@ const {
     applyVerificationEnv,
 } = require('./cases.js');
 
-const REDOCLY_CONFIG_PATH = process.env.REDOCLY_CONFIG
-    || path.join(__dirname, '../../verification/docker/openapi/redocly.yaml');
+const REDOCLY_CONFIG_PATH = process.env.REDOCLY_CONFIG || path.join(__dirname, '../../verification/docker/openapi/redocly.yaml');
 const REDOCLY_CLI = require.resolve('@redocly/cli/bin/cli.js');
 
 /**
