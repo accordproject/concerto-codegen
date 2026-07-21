@@ -11,7 +11,8 @@
                 "offline": true
             },
             "skip": {
-                "csharp": "generated C# references AccordProject.Concerto runtime types (e.g. ConcertoConverterFactorySystem) that are not available for a standalone dotnet build"
+                "csharp": "generated C# references AccordProject.Concerto runtime types (e.g. ConcertoConverterFactorySystem) that are not available for a standalone dotnet build",
+                "avro": "versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment \"0\")"
             }
         }
     ]
