@@ -32,6 +32,8 @@ jobs:
           - odata
           - mermaid
           - xmlschema
+          - openapi
+          - avro
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
