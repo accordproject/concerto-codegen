@@ -34,6 +34,8 @@
         "verify:docker:xmlschema": "node scripts/verification/docker-run.js xmlschema",
         "verify:docker:openapi": "node scripts/verification/docker-run.js openapi",
         "verify:docker:avro": "node scripts/verification/docker-run.js avro",
+        "verify:docker:plantuml": "node scripts/verification/docker-run.js plantuml",
+        "verify:docker:vocabulary": "node scripts/verification/docker-run.js vocabulary",
         "test:updateSnapshots": "nyc mocha --updateSnapshot --recursive -t 10000",
         "test:watch": "nyc mocha --watch --recursive -t 10000",
         "mocha": "mocha --recursive -t 10000",
