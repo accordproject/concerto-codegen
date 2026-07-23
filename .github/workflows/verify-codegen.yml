@@ -29,6 +29,7 @@ jobs:
           - csharp
           - rust
           - java
+          - golang
           - odata
           - mermaid
           - xmlschema

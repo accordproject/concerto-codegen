@@ -29,6 +29,7 @@
         "verify:docker:csharp": "node scripts/verification/docker-run.js csharp",
         "verify:docker:rust": "node scripts/verification/docker-run.js rust",
         "verify:docker:java": "node scripts/verification/docker-run.js java",
+        "verify:docker:golang": "node scripts/verification/docker-run.js golang",
         "verify:docker:odata": "node scripts/verification/docker-run.js odata",
         "verify:docker:mermaid": "node scripts/verification/docker-run.js mermaid",
         "verify:docker:xmlschema": "node scripts/verification/docker-run.js xmlschema",
