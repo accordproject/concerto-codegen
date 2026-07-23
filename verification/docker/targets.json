@@ -41,6 +41,12 @@
         "tool": "javac",
         "type": "compiled"
     },
+    "golang": {
+        "cli": "GoLang",
+        "baseImage": "golang:1.22-alpine",
+        "tool": "go build",
+        "type": "compiled"
+    },
     "odata": {
         "cli": "OData",
         "baseImage": "node:20-alpine",
