@@ -40,5 +40,35 @@
         "baseImage": "eclipse-temurin:17-jdk-alpine",
         "tool": "javac",
         "type": "compiled"
+    },
+    "odata": {
+        "cli": "OData",
+        "baseImage": "node:20-alpine",
+        "tool": "xmllint --noout",
+        "type": "schema"
+    },
+    "mermaid": {
+        "cli": "Mermaid",
+        "baseImage": "node:20-alpine",
+        "tool": "mermaid.parse",
+        "type": "schema"
+    },
+    "xmlschema": {
+        "cli": "XMLSchema",
+        "baseImage": "node:20-alpine",
+        "tool": "xmllint --schema",
+        "type": "schema"
+    },
+    "openapi": {
+        "cli": "OpenApi",
+        "baseImage": "node:20-alpine",
+        "tool": "redocly lint",
+        "type": "schema"
+    },
+    "avro": {
+        "cli": "Avro",
+        "baseImage": "node:20-alpine",
+        "tool": "avro-tools idl",
+        "type": "schema"
     }
 }

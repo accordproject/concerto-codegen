@@ -26,7 +26,7 @@ const MODEL_DIR = path.join(__dirname, '../codegen/fromcto/data/model');
  * Each case loads one fixture (or valid combination) into its own ModelManager.
  * Do not combine unrelated CTO files — some share namespaces or have import deps.
  *
- * `skip` may be a string (all targets) or `{ typescript: '...', jsonschema: '...', protobuf: '...', graphql: '...', csharp: '...', rust: '...', java: '...' }`.
+ * `skip` may be a string (all targets) or `{ typescript: '...', jsonschema: '...', protobuf: '...', graphql: '...', csharp: '...', rust: '...', java: '...', xmlschema: '...', openapi: '...', avro: '...' }`.
  */
 const CASES = [
     {
@@ -34,6 +34,9 @@ const CASES = [
         setup(modelManager) {
             // Same as `concerto compile --target <format> --metamodel` in concerto-cli
             modelManager.addCTOModel(MetaModelUtil.metaModelCto);
+        },
+        skip: {
+            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
         },
     },
     {
@@ -44,6 +47,7 @@ const CASES = [
             protobuf:'Empty enum produces invalid Protobuf (enum must have >= 1 item)',
             graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
             rust: 'map declarations reference scalar key/value types (e.g. SSN) that the Rust visitor does not emit, so cargo check fails',
+            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
         },
     },
     {
@@ -56,23 +60,39 @@ const CASES = [
             protobuf: 'Empty enum produces invalid Protobuf (enum must have >= 1 item) and scalar map keys (e.g. SSN) are not valid Proto3 map key types',
             graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
             rust: 'map declarations reference scalar key/value types (e.g. SSN, Time) that the Rust visitor does not emit, so cargo check fails',
+            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
+            openapi: 'JSON Schema $decorators and invalid schema nesting fail OpenAPI struct validation',
         },
     },
     {
         name: 'stringlength',
         files: ['stringlength.cto'],
+        skip: {
+            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
+        },
     },
     {
         name: 'model-base',
         files: ['model-base.cto'],
+        skip: {
+            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
+            openapi: 'JSON Schema $decorators fail OpenAPI struct validation',
+        },
     },
     {
         name: 'agreement',
         files: ['agreement.cto'],
+        skip: {
+            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
+            openapi: 'JSON Schema $decorators fail OpenAPI struct validation',
+        },
     },
     {
         name: 'circular',
         files: ['circular.cto'],
+        skip: {
+            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
+        },
     },
 ];
 
