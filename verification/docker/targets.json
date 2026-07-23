@@ -76,5 +76,17 @@
         "baseImage": "node:20-alpine",
         "tool": "avro-tools idl",
         "type": "schema"
+    },
+    "plantuml": {
+        "cli": "PlantUML",
+        "baseImage": "openjdk:17-alpine",
+        "tool": "plantuml -syntax",
+        "type": "schema"
+    },
+    "vocabulary": {
+        "cli": "Vocabulary",
+        "baseImage": "node:20-alpine",
+        "tool": "concerto-vocabulary VocabularyManager",
+        "type": "schema"
     }
 }

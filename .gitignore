@@ -23,6 +23,7 @@ verification/work
 verification/work-*
 verification/templates/jackson-annotations-*.jar
 verification/templates/avro-tools-*.jar
+verification/templates/plantuml-*.jar
 
 # Runtime data
 pids

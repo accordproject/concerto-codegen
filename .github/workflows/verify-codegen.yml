@@ -35,6 +35,8 @@ jobs:
           - xmlschema
           - openapi
           - avro
+          - plantuml
+          - vocabulary
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
