@@ -88,5 +88,11 @@
         "baseImage": "node:20-alpine",
         "tool": "concerto-vocabulary VocabularyManager",
         "type": "schema"
+    },
+    "markdown": {
+        "cli": "Markdown",
+        "baseImage": "node:20-alpine",
+        "tool": "markdownlint",
+        "type": "lint"
     }
 }

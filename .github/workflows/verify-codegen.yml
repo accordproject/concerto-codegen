@@ -37,6 +37,7 @@ jobs:
           - avro
           - plantuml
           - vocabulary
+          - markdown
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
