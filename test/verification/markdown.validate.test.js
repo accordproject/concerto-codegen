@@ -29,8 +29,7 @@ const {
     applyVerificationEnv,
 } = require('./cases.js');
 
-const MARKDOWNLINT_CONFIG = process.env.MARKDOWNLINT_CONFIG
-    || path.join(__dirname, '../../verification/docker/markdown/markdownlint.json');
+const MARKDOWNLINT_CONFIG = process.env.MARKDOWNLINT_CONFIG || path.join(__dirname, '../../verification/docker/markdown/markdownlint.json');
 const MARKDOWNLINT_CLI = require.resolve('markdownlint-cli');
 
 /**
