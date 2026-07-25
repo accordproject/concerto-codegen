@@ -67,6 +67,8 @@ Concerto CodeGen registers sixteen `fromcto` formats in `lib/codegen/codegen.js`
 
 Metadata for Docker targets also lives in `verification/docker/targets.json` (CLI name, base tooling note, tool command, and type).
 
+Pinned toolchain and package versions live in `verification/docker/versions.json`. Dockerfiles take those values as build-args (via `docker-run.js` locally and the verify CI workflow). Bump versions only in that file.
+
 ## Repository layout
 
 ```text
@@ -79,6 +81,7 @@ verification/
       Dockerfile           # Shared Node 20 image: deps, CLI, branch codegen
       run-case.sh          # Generate one corpus case via `concerto compile`
     targets.json           # Registry of all verification targets
+    versions.json          # Pinned images, npm packages, jars, cargo crates
     <target>/
       Dockerfile           # Toolchain layered on the base image
       entrypoint.sh        # Loop corpus cases: generate, then verify
@@ -87,6 +90,7 @@ verification/
 
 scripts/verification/
   docker-run.js            # Local helper: build base, build target(s), run containers
+  docker-versions.js       # Load versions.json and emit docker --build-arg flags
 
 test/verification/
   cases.js                 # Shared Mocha cases (fixture CTO files + skips)
@@ -98,7 +102,7 @@ test/verification/
 
 ### Shared base image
 
-`verification/docker/base/Dockerfile` starts from `node:20-alpine` and:
+`verification/docker/base/Dockerfile` starts from the Node image pinned in `versions.json` (`images.node`) and:
 
 1. Installs `jq`
 2. Runs `npm ci` for this repository
@@ -209,16 +213,21 @@ Unknown names exit with a list of valid targets.
 Useful when debugging a single Dockerfile change:
 
 ```bash
+# Expand pinned versions from verification/docker/versions.json
+VERSION_ARGS=$(node scripts/verification/docker-versions.js flags)
+
 # 1. Base image
 docker build \
   -f verification/docker/base/Dockerfile \
   -t concerto-verify-base:local \
+  $VERSION_ARGS \
   .
 
 # 2. Target image (example: markdown)
 docker build \
   -f verification/docker/markdown/Dockerfile \
   --build-arg BASE_IMAGE=concerto-verify-base:local \
+  $VERSION_ARGS \
   -t concerto-verify-markdown:local \
   .
 

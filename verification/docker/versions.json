@@ -1,0 +1,30 @@
+{
+    "images": {
+        "node": "node:20-alpine",
+        "golang": "golang:1.25-alpine",
+        "dotnet": "mcr.microsoft.com/dotnet/sdk:8.0-alpine",
+        "rust": "rust:alpine",
+        "jdk": "eclipse-temurin:17-jdk-alpine"
+    },
+    "npm": {
+        "concertoCore": "4.1.3",
+        "concertoUtil": "4.1.3",
+        "concertoVocabulary": "4.1.3",
+        "typescript": "5.7.2",
+        "markdownlintCli": "0.44.0",
+        "redoclyCli": "1.34.3",
+        "graphql": "16",
+        "ajvCli": "5",
+        "mermaid": "11.12.0",
+        "jsdom": "25.0.1"
+    },
+    "jars": {
+        "jacksonAnnotations": "2.17.2",
+        "avroTools": "1.12.0",
+        "plantuml": "1.2024.7"
+    },
+    "cargo": {
+        "serde": "1",
+        "chrono": "0.4"
+    }
+}

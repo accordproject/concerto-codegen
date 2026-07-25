@@ -20,7 +20,7 @@ for case_name in $(jq -r '.cases[].name' "${CORPUS_DIR}/manifest.json"); do
     echo "==> VERIFY $case_name with cargo check"
     # mod.rs is the crate root; cargo expects it to be named lib.rs.
     mv "$out/src/mod.rs" "$out/src/lib.rs"
-    cat > "$out/Cargo.toml" <<'EOF'
+    cat > "$out/Cargo.toml" <<EOF
 [package]
 name = "verify"
 version = "0.1.0"
@@ -30,8 +30,8 @@ edition = "2021"
 path = "src/lib.rs"
 
 [dependencies]
-serde = { version = "1", features = ["derive"] }
-chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "${SERDE_VERSION}", features = ["derive"] }
+chrono = { version = "${CHRONO_VERSION}", features = ["serde"] }
 EOF
     (cd "$out" && cargo check --quiet)
 done

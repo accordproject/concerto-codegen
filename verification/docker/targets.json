@@ -25,7 +25,7 @@
     },
     "csharp": {
         "cli": "CSharp",
-        "baseImage": "dotnet/sdk:8.0-alpine",
+        "baseImage": "mcr.microsoft.com/dotnet/sdk:8.0-alpine",
         "tool": "dotnet build",
         "type": "compiled"
     },
@@ -43,7 +43,7 @@
     },
     "golang": {
         "cli": "GoLang",
-        "baseImage": "golang:1.22-alpine",
+        "baseImage": "golang:1.25-alpine",
         "tool": "go build",
         "type": "compiled"
     },
@@ -79,7 +79,7 @@
     },
     "plantuml": {
         "cli": "PlantUML",
-        "baseImage": "openjdk:17-alpine",
+        "baseImage": "node:20-alpine",
         "tool": "plantuml -syntax",
         "type": "schema"
     },

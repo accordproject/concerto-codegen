@@ -17,6 +17,7 @@
 const { execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const { versionBuildArgs } = require('./docker-versions');
 
 const ROOT = path.join(__dirname, '../..');
 const BASE_IMAGE = 'concerto-verify-base:local';
@@ -53,6 +54,7 @@ function buildBase() {
         'build',
         '-f', 'verification/docker/base/Dockerfile',
         '-t', BASE_IMAGE,
+        ...versionBuildArgs(),
         '.',
     ]);
 }
@@ -68,6 +70,7 @@ function buildTarget(target) {
         'build',
         '-f', `verification/docker/${target}/Dockerfile`,
         '--build-arg', `BASE_IMAGE=${BASE_IMAGE}`,
+        ...versionBuildArgs(),
         '-t', image,
         '.',
     ]);
