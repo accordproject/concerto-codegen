@@ -96,7 +96,7 @@ if (require.main === module) {
         process.stdout.write(`${versionBuildArgs().join(' ')}\n`);
     } else {
         // eslint-disable-next-line no-console
-        console.error(`Usage: node docker-versions.js [flags|file]`);
+        console.error('Usage: node docker-versions.js [flags|file]');
         process.exit(1);
     }
 }
