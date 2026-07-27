@@ -25,7 +25,7 @@
     },
     "csharp": {
         "cli": "CSharp",
-        "baseImage": "dotnet/sdk:8.0-alpine",
+        "baseImage": "mcr.microsoft.com/dotnet/sdk:8.0-alpine",
         "tool": "dotnet build",
         "type": "compiled"
     },
@@ -39,6 +39,12 @@
         "cli": "Java",
         "baseImage": "eclipse-temurin:17-jdk-alpine",
         "tool": "javac",
+        "type": "compiled"
+    },
+    "golang": {
+        "cli": "GoLang",
+        "baseImage": "golang:1.25-alpine",
+        "tool": "go build",
         "type": "compiled"
     },
     "odata": {
@@ -73,7 +79,7 @@
     },
     "plantuml": {
         "cli": "PlantUML",
-        "baseImage": "openjdk:17-alpine",
+        "baseImage": "node:20-alpine",
         "tool": "plantuml -syntax",
         "type": "schema"
     },
@@ -82,5 +88,11 @@
         "baseImage": "node:20-alpine",
         "tool": "concerto-vocabulary VocabularyManager",
         "type": "schema"
+    },
+    "markdown": {
+        "cli": "Markdown",
+        "baseImage": "node:20-alpine",
+        "tool": "markdownlint",
+        "type": "lint"
     }
 }

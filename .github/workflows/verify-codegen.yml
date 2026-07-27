@@ -29,6 +29,7 @@ jobs:
           - csharp
           - rust
           - java
+          - golang
           - odata
           - mermaid
           - xmlschema
@@ -36,6 +37,7 @@ jobs:
           - avro
           - plantuml
           - vocabulary
+          - markdown
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
@@ -49,6 +51,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 
+      - name: Load pinned Docker versions
+        id: versions
+        run: |
+          {
+            echo 'build_args<<EOF'
+            node scripts/verification/docker-versions.js file
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
       # Buildx (docker-container driver) cannot use a locally loaded image when
       # BASE_IMAGE is a registry URL. Tag the base locally and build targets with
       # classic docker build so FROM resolves against the daemon image store.
@@ -59,14 +70,17 @@ jobs:
           file: verification/docker/base/Dockerfile
           tags: ${{ env.BASE_IMAGE_TAG }}
           load: true
+          build-args: ${{ steps.versions.outputs.build_args }}
           cache-from: type=gha,scope=verify-base
           cache-to: type=gha,mode=max,scope=verify-base
 
       - name: Build target image
         run: |
+          # shellcheck disable=SC2046
           docker build \
             -f "verification/docker/${{ matrix.target }}/Dockerfile" \
             --build-arg "BASE_IMAGE=${{ env.BASE_IMAGE_TAG }}" \
+            $(node scripts/verification/docker-versions.js flags) \
             -t "concerto-verify-${{ matrix.target }}:pr-${{ github.sha }}" \
             .
 

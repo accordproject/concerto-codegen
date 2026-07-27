@@ -1,8 +1,10 @@
-# Pull the .NET 8 SDK from the official Alpine image (proposal: dotnet/sdk:8.0-alpine)
-# and layer it onto the shared Node-based verify base, which provides the Concerto
-# CLI + branch codegen used to generate the C# before `dotnet build`.
+# Pull the .NET SDK from the official Alpine image and layer it onto the shared
+# Node-based verify base, which provides the Concerto CLI + branch codegen used
+# to generate the C# before `dotnet build`.
+# Toolchain versions come from verification/docker/versions.json.
 ARG BASE_IMAGE=concerto-verify-base:local
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS dotnet
+ARG DOTNET_IMAGE
+FROM ${DOTNET_IMAGE} AS dotnet
 FROM ${BASE_IMAGE}
 
 # Runtime libraries required by the .NET SDK on Alpine (musl).

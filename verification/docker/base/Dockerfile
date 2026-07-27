@@ -1,4 +1,9 @@
-FROM node:20-alpine
+ARG NODE_IMAGE
+FROM ${NODE_IMAGE}
+
+ARG CONCERTO_CORE_VERSION
+ARG CONCERTO_UTIL_VERSION
+ARG CONCERTO_VOCABULARY_VERSION
 
 RUN apk add --no-cache jq
 
@@ -11,9 +16,9 @@ COPY . .
 
 # Install peer dependencies required at runtime by concerto-codegen visitors.
 RUN npm install --no-save \
-    @accordproject/concerto-core@^4.1.3 \
-    @accordproject/concerto-util@^4.1.3 \
-    @accordproject/concerto-vocabulary@^4.1.3
+    @accordproject/concerto-core@${CONCERTO_CORE_VERSION} \
+    @accordproject/concerto-util@${CONCERTO_UTIL_VERSION} \
+    @accordproject/concerto-vocabulary@${CONCERTO_VOCABULARY_VERSION}
 
 # Point the global Concerto CLI at this checkout so PRs test branch codegen.
 # Also replace the copy nested under concerto-cli (Node resolves that first).
