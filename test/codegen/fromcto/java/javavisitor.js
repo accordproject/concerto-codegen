@@ -498,6 +498,76 @@ describe('JavaVisitor', function () {
             sandbox.reset();
         });
 
+        it('should use the resolved Map type for map getters and setters', () => {
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const mockField             = sinon.createStubInstance(Field);
+            const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
+            mockField.getModelFile.returns({ getType: () => mockMapDeclaration });
+            mockField.getName.returns('properties');
+            mockField.getType.returns('CompanyProperties');
+            getKeyType.returns('String');
+            getValueType.returns('String');
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            javaVisit.visitField(mockField, Object.assign({}, param, {mode: 'getter'}));
+            javaVisit.visitField(mockField, Object.assign({}, param, {mode: 'setter'}));
+
+            param.fileWriter.writeLine.withArgs(1, 'public Map<String, String> getProperties() {').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'public void setProperties(Map<String, String> properties) {').calledOnce.should.be.ok;
+            sandbox.reset();
+        });
+
+        it('should unwrap scalar aliases used in map key and value types', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+                mode: 'field'
+            };
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const mockField             = sinon.createStubInstance(Field);
+            const mockMapDeclaration    = sinon.createStubInstance(MapDeclaration);
+            const getKeyType            = sinon.stub();
+            const getValueType          = sinon.stub();
+
+            mockField.getModelFile.returns({ getType: () => mockMapDeclaration });
+            mockField.getName.returns('employeeDirectory');
+            mockField.getType.returns('EmployeeDirectory');
+            getKeyType.returns('SSN');
+            getValueType.returns('Employee');
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+            mockMapDeclaration.getModelFile.returns({
+                getType: (type) => {
+                    if (type === 'SSN') {
+                        return {
+                            isScalarDeclaration: () => true,
+                            getType: () => 'String'
+                        };
+                    }
+                    return {
+                        isScalarDeclaration: () => false
+                    };
+                }
+            });
+
+            javaVisit.visitField(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'private Map<String, Employee> employeeDirectory = new HashMap<>();').calledOnce.should.be.ok;
+            sandbox.reset();
+        });
+
         it('should write a line defining a field', () => {
             let mockField = sinon.createStubInstance(Field);
             mockField.isField.returns(true);
