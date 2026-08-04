@@ -5,20 +5,30 @@ on:
     types:
       - published
 
+permissions:
+  id-token: write  # Required for OIDC / npmjs publish
+  contents: write
+  pull-requests: write
+
 jobs:
   publish:
     name: Publish to npm
     if: ${{ github.repository_owner == 'accordproject' }}
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: git checkout
         uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
         with:
-          node-version: 16.x
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      # Ensure npm 11.5.1 or later for trusted publishing
+      - run: npm install -g npm@latest
 
       - run: npm ci
       - run: npm run build --if-present
@@ -35,7 +45,7 @@ jobs:
           npm publish --access public ${{ steps.tag.outputs.tag }} 2>&1
 
       - name: Create PR to increment version
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v8
         with:
           base: main
           commit-message: 'chore(actions): publish ${{ github.event.release.tag_name }} to npm'

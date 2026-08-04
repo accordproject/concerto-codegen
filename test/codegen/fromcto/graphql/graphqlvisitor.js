@@ -33,7 +33,7 @@ const { ModelUtil } = require('@accordproject/concerto-core');
 let sandbox = sinon.createSandbox();
 
 const MODEL_WITH_DECORATORS = `
-namespace test
+namespace test@1.0.0
 
 concept Address {
 }
@@ -141,7 +141,7 @@ describe('GraphQLVisitor', function () {
 
             (() => {
                 graphQLVisitor.visit(thing, param);
-            }).should.throw('Unrecognised \'Something of unrecognised type\'');
+            }).should.throw('Unrecognised type: string, value: \'Something of unrecognised type\'');
         });
     });
 

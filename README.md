@@ -11,7 +11,7 @@ npm install @accordproject/concerto-codegen --save
 
 ### Benchmark Model Generator
 
-This API allows you to generate models of varying sizes (up to a 100 MiB) which can be used to test the performance of your Concerto-handling code.
+This API allows you to generate models of varying sizes (up to 100 MiB) which can be used to test the performance of your Concerto-handling code.
 
 #### Generate a model up to a specified number of declarations and properties
 
@@ -82,7 +82,7 @@ The expected response will include an array of generated `models` (currently con
 }
 ```
 
-As you can see from the above example model, the generator will try its best to reach the upper `generateUpToSize` reqested size, but may fall short by a few bytes.
+As you can see from the above example model, the generator will try its best to reach the upper `generateUpToSize` requested size, but may fall short by a few bytes.
 
 ## License <a name="license"></a>
 Accord Project source code files are made available under the Apache License, Version 2.0 (Apache-2.0), located in the LICENSE file. Accord Project documentation files are made available under the Creative Commons Attribution 4.0 International License (CC-BY-4.0), available at http://creativecommons.org/licenses/by/4.0/.

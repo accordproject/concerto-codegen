@@ -367,24 +367,31 @@ describe('VocabularyVisitor', function () {
     });
 
     describe('visitProperty for Field', () => {
-        let param;
-        beforeEach(() => {
-            param = {
-                fileWriter: mockFileWriter
-            };
-        });
         it('should write a line for field name and its vocabulary in english', () => {
+            const mockFileWriter = { writeLine: sinon.stub() };
+            const param = { fileWriter: mockFileWriter };
             const mockField = sinon.createStubInstance(Field);
-            const mockParent = {
-                getName: sinon.stub().returns('Person')
-            };
+            const mockParent = { getName: sinon.stub().returns('Person') };
             mockField.getParent.returns(mockParent);
             mockField.isPrimitive.returns(false);
             mockField.getName.returns('name');
             mockField.getType.returns('String');
             mockField.isPrimitive.returns(true);
             vocabularyVisitor.visitProperty(mockField, param);
-            param.fileWriter.writeLine.withArgs(0,'      - name: Name of the Person').calledOnce.should.be.ok;
+            mockFileWriter.writeLine.withArgs(0, '      - name: Name of the Person').calledOnce.should.be.ok;
+        });
+
+        it('should skip vocabulary generation for system property', () => {
+            const mockFileWriter = { writeLine: sinon.stub() };
+            const param = { fileWriter: mockFileWriter };
+            const mockField = sinon.createStubInstance(Field);
+            const mockParent = { getName: sinon.stub().returns('Person') };
+            mockField.getParent.returns(mockParent);
+            mockField.isPrimitive.returns(false);
+            mockField.getName.returns('$identifier');
+            mockField.isPrimitive.returns(true);
+            vocabularyVisitor.visitProperty(mockField, param);
+            mockFileWriter.writeLine.called.should.be.false;
         });
     });
 

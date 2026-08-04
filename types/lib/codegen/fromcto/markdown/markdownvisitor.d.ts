@@ -8,15 +8,7 @@ export = MarkdownVisitor;
  * @private
  * @class
  */
-declare class MarkdownVisitor {
-    /**
-     * Visitor design pattern
-     * @param {Object} thing - the object being visited
-     * @param {Object} parameters  - the parameter
-     * @return {Object} the result of visiting or null
-     * @private
-     */
-    private visit;
+declare class MarkdownVisitor extends BaseVisitor {
     /**
      * Visitor design pattern
      * @param {ModelManager} modelManager - the object being visited
@@ -33,4 +25,49 @@ declare class MarkdownVisitor {
      * @private
      */
     private visitModelFile;
+    /**
+     * Visitor design pattern
+     * @param {ClassDeclaration} classDeclaration - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitClassDeclaration;
+    /**
+     * Visitor design pattern
+     * @param {ClassDeclaration} classDeclaration - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitEnumDeclaration;
+    /**
+     * Visitor design pattern
+     * @param {EnumValueDeclaration} enumValueDeclaration - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @protected
+     */
+    protected visitEnumValueDeclaration(enumValueDeclaration: EnumValueDeclaration, parameters: any): void;
+    /**
+     * Visitor design pattern
+     * @param {Field} field - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @protected
+     */
+    protected visitScalarField(field: Field, parameters: any): void;
+    /**
+     * Visitor design pattern
+     * @param {Field} field - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @protected
+     */
+    protected visitField(field: Field, parameters: any): void;
+    /**
+     * Visitor design pattern
+     * @param {Decorator} decorator - the object being visited
+     * @param {Object} parameters  - the parameter
+     * @protected
+     */
+    protected visitDecorator(decorator: Decorator, parameters: any): void;
 }
+import BaseVisitor = require("../../../common/basevisitor");

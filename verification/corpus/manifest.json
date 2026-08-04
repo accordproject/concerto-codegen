@@ -1,0 +1,20 @@
+{
+    "env": {
+        "ENABLE_MAP_TYPE": "true",
+        "IMPORT_ALIASING": "true"
+    },
+    "cases": [
+        {
+            "name": "metamodel",
+            "compile": {
+                "metamodel": true,
+                "offline": true
+            },
+            "skip": {
+                "csharp": "generated C# references AccordProject.Concerto runtime types (e.g. ConcertoConverterFactorySystem) that are not available for a standalone dotnet build",
+                "avro": "versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment \"0\")",
+                "golang": "GoLangVisitor emits bare package-name imports (e.g. import \"concerto_decorator_1_0_0\") instead of Go module-relative import paths, so any cross-namespace model fails go build"
+            }
+        }
+    ]
+}

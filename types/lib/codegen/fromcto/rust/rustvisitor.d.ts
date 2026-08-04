@@ -10,11 +10,19 @@ export = RustVisitor;
  */
 declare class RustVisitor {
     /**
-     * Helper method: Convert any string into a valid Rust name.
-     * @param {string} input - the field name
-     * @returns {string} - the validated rust name
+     * Convert a string to a valid Rust identifier name in snake_case
+     * @param {String} input - the input string to convert
+     * @return {String} - a valid Rust identifier in snake_case
+     * @private
      */
-    toValidRustName(input: string): string;
+    private toValidRustName;
+    /**
+     * Convert a string to snake_case with proper handling of acronyms and consecutive uppercase letters
+     * @param {String} input - the input string
+     * @return {String} - the snake_case version
+     * @private
+     */
+    private toSnakeCase;
     /**
      * Visitor design pattern
      * @param {Object} thing - the object being visited
@@ -79,6 +87,14 @@ declare class RustVisitor {
     private visitEnumValueDeclaration;
     /**
      * Visitor design pattern
+     * @param {MapDeclaration} mapDeclaration - the object being visited
+     * @param {Object} parameters - the parameter
+     * @return {Object} the result of visiting or null
+     * @private
+     */
+    private visitMapDeclaration;
+    /**
+     * Visitor design pattern
      * @param {RelationshipDeclaration} relationshipDeclaration - the object being visited
      * @param {Object} parameters - the parameter
      * @return {Object} the result of visiting or null
@@ -86,9 +102,11 @@ declare class RustVisitor {
      */
     private visitRelationshipDeclaration;
     /**
-     * Visitor design pattern
-     * @param {String} type - the data type type to be converted
-     * @return {String} - the equivalent data type in rust
+     * Converts a Concerto type to a Rust type. Primitive types are converted
+     * everything else is passed through unchanged after validation.
+     * @param {string} type - the concerto type
+     * @param {boolean} useUnion - whether to use a union type (append 'Union' suffix)
+     * @return {string} the corresponding type in Rust
      * @private
      */
     private toRustType;

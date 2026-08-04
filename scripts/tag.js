@@ -19,6 +19,7 @@ const semver = require('semver');
 const targetVersion = process.argv[2];
 
 if (!semver.valid(targetVersion)) {
+    // eslint-disable-next-line no-console
     console.error(`Error: the version "${targetVersion}" is invalid!`);
     process.exit(1);
 }
@@ -26,4 +27,5 @@ if (!semver.valid(targetVersion)) {
 const prerelease = semver.prerelease(targetVersion);
 const tag = prerelease ? 'unstable' : 'latest';
 
+// eslint-disable-next-line no-console
 console.log(`::set-output name=tag::--tag=${tag}`);

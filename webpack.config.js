@@ -20,6 +20,7 @@ const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const packageJson = require('./package.json');
 
 module.exports = {
+    devtool: 'source-map',
     entry: {
         client: [
             './index.js'
@@ -59,7 +60,13 @@ module.exports = {
         {
             test: /\.ne$/,
             use: ['raw-loader']
-        }
+        },
+        {
+            test: /\.m?js$/,
+            resolve: {
+                fullySpecified: false,
+            },
+        },
         ]
     },
     resolve: {
@@ -69,7 +76,6 @@ module.exports = {
             'net': false,
             'path': false,
             'os': false,
-            'util': false,
             'url': false,
         }
     }

@@ -44,7 +44,9 @@ const lcovs = glob.sync(globPattern).map((dir) => {
 
 // usage
 copyFiles(lcovs, 'coverage').then(() => {
+    // eslint-disable-next-line no-console
     console.log('done');
 }).catch(err => {
+    // eslint-disable-next-line no-console
     console.log(err);
 });

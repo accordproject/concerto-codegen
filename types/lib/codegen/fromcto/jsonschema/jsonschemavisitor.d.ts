@@ -14,6 +14,18 @@ export = JSONSchemaVisitor;
  * The default value for refRoot is '#/definitions'. Set the refRoot parameter
  * to override.
  *
+ * Set `includeTypeTag` to `false` to suppress the `$class` property that is
+ * otherwise emitted on every object schema (both as a property and in
+ * `required`). Useful for consumers that do not round-trip Concerto types —
+ * e.g. downstream validators that only see plain JSON data.
+ *
+ * Set `defaultsAreOptional` to `true` to exclude properties that declare a
+ * `default=value` from the generated `required` array. Useful when the
+ * caller's input may legitimately omit fields that the model provides a
+ * default for. Applies to both class properties and the `$class` tag.
+ *
+ * Both options default to `false` (preserving historical behavior).
+ *
  * The meta schema used is http://json-schema.org/draft-07/schema#
  *
  * @private
