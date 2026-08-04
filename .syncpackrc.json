@@ -4,9 +4,16 @@
     {
       "label": "Enforce pinned versions (no ^ or ~)",
       "dependencies": ["**"],
-      "dependencyTypes": ["prod", "dev", "peer"],
+      "dependencyTypes": ["prod", "dev"],
       "packages": ["**"],
       "range": ""
+    },
+    {
+      "label": "Enforce caret ranges for peers",
+      "dependencies": ["**"],
+      "dependencyTypes": ["peer"],
+      "packages": ["**"],
+      "range": "^"
     }
   ]
 }

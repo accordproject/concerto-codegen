@@ -1,7 +1,7 @@
 @category(GeneralCategory)
 namespace org.acme.hr@1.0.0
 
-import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes, Level, GeneralCategory}
+import org.acme.hr.base@1.0.0.{Address, State, SSN, Time, EmployeeTShirtSizes, Level, Category, GeneralCategory}
 import concerto.decorator@1.0.0.{Decorator}
 
 @example("@pii(true, GeneralCategory)")
@@ -10,8 +10,6 @@ concept pii extends Decorator {
    o Boolean isPii
    o Category category
 }
-
-concept Category {}
 
 concept Info {
    @pii(false, Category)

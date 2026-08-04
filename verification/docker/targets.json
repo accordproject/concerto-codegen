@@ -1,0 +1,98 @@
+{
+    "typescript": {
+        "cli": "Typescript",
+        "baseImage": "node:20-alpine",
+        "tool": "tsc --noEmit",
+        "type": "compiled"
+    },
+    "jsonschema": {
+        "cli": "JSONSchema",
+        "baseImage": "node:20-alpine",
+        "tool": "ajv compile",
+        "type": "schema"
+    },
+    "graphql": {
+        "cli": "GraphQL",
+        "baseImage": "node:20-alpine",
+        "tool": "graphql buildSchema",
+        "type": "schema"
+    },
+    "protobuf": {
+        "cli": "Protobuf",
+        "baseImage": "node:20-alpine",
+        "tool": "protoc",
+        "type": "schema"
+    },
+    "csharp": {
+        "cli": "CSharp",
+        "baseImage": "mcr.microsoft.com/dotnet/sdk:8.0-alpine",
+        "tool": "dotnet build",
+        "type": "compiled"
+    },
+    "rust": {
+        "cli": "Rust",
+        "baseImage": "rust:alpine",
+        "tool": "cargo check",
+        "type": "compiled"
+    },
+    "java": {
+        "cli": "Java",
+        "baseImage": "eclipse-temurin:17-jdk-alpine",
+        "tool": "javac",
+        "type": "compiled"
+    },
+    "golang": {
+        "cli": "GoLang",
+        "baseImage": "golang:1.25-alpine",
+        "tool": "go build",
+        "type": "compiled"
+    },
+    "odata": {
+        "cli": "OData",
+        "baseImage": "node:20-alpine",
+        "tool": "xmllint --noout",
+        "type": "schema"
+    },
+    "mermaid": {
+        "cli": "Mermaid",
+        "baseImage": "node:20-alpine",
+        "tool": "mermaid.parse",
+        "type": "schema"
+    },
+    "xmlschema": {
+        "cli": "XMLSchema",
+        "baseImage": "node:20-alpine",
+        "tool": "xmllint --schema",
+        "type": "schema"
+    },
+    "openapi": {
+        "cli": "OpenApi",
+        "baseImage": "node:20-alpine",
+        "tool": "redocly lint",
+        "type": "schema"
+    },
+    "avro": {
+        "cli": "Avro",
+        "baseImage": "node:20-alpine",
+        "tool": "avro-tools idl",
+        "type": "schema"
+    },
+    "plantuml": {
+        "cli": "PlantUML",
+        "baseImage": "node:20-alpine",
+        "tool": "plantuml -syntax",
+        "type": "schema"
+    },
+    "vocabulary": {
+        "cli": "Vocabulary",
+        "baseImage": "node:20-alpine",
+        "tool": "concerto-vocabulary VocabularyManager",
+        "type": "schema"
+    },
+    "markdown": {
+        "cli": "Markdown",
+        "baseImage": "node:20-alpine",
+        "tool": "markdownlint",
+        "type": "lint"
+    }
+}

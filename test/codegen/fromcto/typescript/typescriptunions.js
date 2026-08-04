@@ -18,7 +18,7 @@ const path = require('path');
 const chai = require('chai');
 const { createGenerator } = require('ts-json-schema-generator');
 
-const { ModelManager, Concerto } = require('@accordproject/concerto-core');
+const { ModelManager } = require('@accordproject/concerto-core');
 const { FileWriter } = require('@accordproject/concerto-util');
 const TypescriptVisitor = require('../../../../lib/codegen/fromcto/typescript/typescriptvisitor.js');
 
@@ -71,8 +71,8 @@ describe('TypescriptVisitor', function () {
             (validate.errors === null).should.be.true;
 
             // Validate the instance with Concerto
-            const concerto = new Concerto(modelManager);
-            concerto.validate(data);
+            const serializer = modelManager.getSerializer();
+            serializer.fromJSON(data);
         });
     });
 });

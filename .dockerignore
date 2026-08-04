@@ -1,0 +1,15 @@
+node_modules
+coverage
+.nyc_output
+.git
+.github
+verification/work
+*.md
+!README.md
+.DS_Store
+thumbs.db
+.vscode
+.idea
+umd
+dist
+out

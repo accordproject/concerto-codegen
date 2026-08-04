@@ -38,6 +38,10 @@ describe('TypescriptVisitor', function () {
         typescriptVisitor = new TypescriptVisitor();
         mockFileWriter = sinon.createStubInstance(FileWriter);
     });
+    // Leaked Sinon stub doesn't break hr_integration tests
+    afterEach(() => {
+        sandbox.restore();
+    });
 
     describe('visit', () => {
         let param;
@@ -124,6 +128,17 @@ describe('TypescriptVisitor', function () {
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
 
+        it('should return visitScalarDeclaration for a ScalarDeclaration', () => {
+            let thing = sinon.createStubInstance(ScalarDeclaration);
+            thing.isScalarDeclaration.returns(true);
+            let mockSpecialVisit = sinon.stub(typescriptVisitor, 'visitScalarDeclaration');
+            mockSpecialVisit.returns('Duck');
+
+            typescriptVisitor.visit(thing, param).should.deep.equal('Duck');
+
+            mockSpecialVisit.calledWith(thing, param).should.be.ok;
+        });
+
         it('should return visitMapDeclaration for a MapDeclaration', () => {
             let thing = sinon.createStubInstance(MapDeclaration);
             thing.isMapDeclaration.returns(true);
@@ -132,6 +147,29 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visit(thing, param).should.deep.equal('Duck');
 
+            mockSpecialVisit.calledWith(thing, param).should.be.ok;
+        });
+
+        it('should route scalar type fields to visitScalarField', () => {
+            let thing = {
+                isModelManager: () => false,
+                isModelFile: () => false,
+                isScalarDeclaration: () => false,
+                isEnum: () => false,
+                isClassDeclaration: () => false,
+                isMapDeclaration: () => false,
+                isTypeScalar: () => true,
+                isField: () => true,
+                isRelationship: () => false,
+                isEnumValue: () => false,
+            };
+
+            let mockSpecialVisit = sinon.stub(typescriptVisitor, 'visitScalarField');
+            mockSpecialVisit.returns('Duck');
+
+            typescriptVisitor.visit(thing, param);
+
+            mockSpecialVisit.calledOnce.should.be.ok;
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
 
@@ -213,10 +251,14 @@ describe('TypescriptVisitor', function () {
             mockClassDeclaration.accept = acceptSpy;
 
             let mockClassDeclaration2 = sinon.createStubInstance(ClassDeclaration);
-            mockClassDeclaration.isEnum.returns(false);
+            mockClassDeclaration2.isEnum.returns(false);
             mockClassDeclaration2.getSuperType.returns('super.Parent');
             mockClassDeclaration2.getProperties.returns([]);
             mockClassDeclaration2.accept = acceptSpy;
+
+            let mockModelManager = sinon.createStubInstance(ModelManager);
+            mockModelManager.isModelManager.returns(true);
+            mockModelManager.getType.returns({ isMapDeclaration: () => false });
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
             mockModelFile.getNamespace.returns('org.acme');
@@ -232,6 +274,9 @@ describe('TypescriptVisitor', function () {
                 'super.Property3',
                 'super.Parent'
             ]);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockClassDeclaration2.getModelFile.returns(mockModelFile);
             mockModelFile.imports= [];
 
             typescriptVisitor.visitModelFile(mockModelFile, param);
@@ -289,6 +334,7 @@ describe('TypescriptVisitor', function () {
 
             let mockModelManager = sinon.createStubInstance(ModelManager);
             mockModelManager.isModelManager.returns(true);
+            mockModelManager.getType.returns({ isMapDeclaration: () => false });
 
             let mockModelFile = sinon.createStubInstance(ModelFile);
             mockModelFile.isModelFile.returns(true);
@@ -303,6 +349,7 @@ describe('TypescriptVisitor', function () {
                 'org.org2.Import1'
             ]);
             mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
             mockModelFile.imports= [];
             typescriptVisitor.visitModelFile(mockModelFile, param);
 
@@ -404,8 +451,14 @@ describe('TypescriptVisitor', function () {
 
             mockClassDeclaration.getDirectSubclasses.returns([]);
 
+            let mockModelManager = sinon.createStubInstance(ModelManager);
+            mockModelManager.isModelManager.returns(true);
+            mockModelManager.getType.returns({ isMapDeclaration: () => false });
+
             let mockModelFile = sinon.createStubInstance(ModelFile);
             mockModelFile.getNamespace.returns('org.test.collection');
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
             mockModelFile.imports = [
                 {
                     '$class': 'concerto.metamodel@1.0.0.ImportTypes',
@@ -466,6 +519,85 @@ describe('TypescriptVisitor', function () {
             param.fileWriter.writeLine.withArgs(0, '}\n').calledOnce.should.be.ok;
 
             acceptSpy.withArgs(typescriptVisitor, param).calledTwice.should.be.ok;
+        });
+    });
+
+    describe('visitScalarDeclaration', () => {
+        let param;
+        beforeEach(() => {
+            param = {
+                fileWriter: mockFileWriter
+            };
+        });
+        it('should emit a type alias for a scalar extending String', () => {
+            let mockScalarDeclaration = sinon.createStubInstance(ScalarDeclaration);
+            mockScalarDeclaration.isScalarDeclaration.returns(true);
+            mockScalarDeclaration.getName.returns('EmailAddress');
+            mockScalarDeclaration.getType.returns('String');
+
+            typescriptVisitor.visitScalarDeclaration(mockScalarDeclaration, param);
+
+            param.fileWriter.writeLine.calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type EmailAddress = string;\n').calledOnce.should.be.ok;
+        });
+
+        it('should emit a type alias for a scalar extending DateTime', () => {
+            let mockScalarDeclaration = sinon.createStubInstance(ScalarDeclaration);
+            mockScalarDeclaration.isScalarDeclaration.returns(true);
+            mockScalarDeclaration.getName.returns('RegistrationDate');
+            mockScalarDeclaration.getType.returns('DateTime');
+
+            typescriptVisitor.visitScalarDeclaration(mockScalarDeclaration, param);
+
+            param.fileWriter.writeLine.calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type RegistrationDate = string;\n').calledOnce.should.be.ok;
+        });
+    });
+
+    describe('visitScalarField', () => {
+        let param;
+        beforeEach(() => {
+            param = {
+                fileWriter: mockFileWriter
+            };
+        });
+        it('should write a field using the scalar type name', () => {
+            let field = {
+                getName: () => 'email',
+                getType: () => 'EmailAddress',
+                isArray: () => false,
+                isOptional: () => false
+            };
+
+            typescriptVisitor.visitScalarField(field, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'email: EmailAddress;').calledOnce.should.be.ok;
+        });
+
+        it('should handle optional scalar fields', () => {
+            let field = {
+                getName: () => 'email',
+                getType: () => 'EmailAddress',
+                isArray: () => false,
+                isOptional: () => true
+            };
+
+            typescriptVisitor.visitScalarField(field, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'email?: EmailAddress;').calledOnce.should.be.ok;
+        });
+
+        it('should handle array scalar fields', () => {
+            let field = {
+                getName: () => 'emails',
+                getType: () => 'EmailAddress',
+                isArray: () => true,
+                isOptional: () => false
+            };
+
+            typescriptVisitor.visitScalarField(field, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'emails: EmailAddress[];').calledOnce.should.be.ok;
         });
     });
 
@@ -812,7 +944,7 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, Date>;\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, string>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <String, Address>', () => {
@@ -826,6 +958,11 @@ describe('TypescriptVisitor', function () {
             });
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
             let mockMapKeyType     = sinon.createStubInstance(MapKeyType);
+            const mockModelFile    = sinon.createStubInstance(ModelFile);
+            const mockValueDecl    = sinon.createStubInstance(ClassDeclaration);
+            mockValueDecl.isEnum.returns(false);
+            mockModelFile.getType.returns(mockValueDecl);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
 
             const getKeyType    = sinon.stub();
             const getValueType  = sinon.stub();
@@ -854,6 +991,11 @@ describe('TypescriptVisitor', function () {
             });
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
             let mockMapKeyType     = sinon.createStubInstance(MapKeyType);
+            const mockModelFile    = sinon.createStubInstance(ModelFile);
+            const mockValueDecl    = sinon.createStubInstance(ClassDeclaration);
+            mockValueDecl.isEnum.returns(false);
+            mockModelFile.getType.returns(mockValueDecl);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
 
             const getKeyType    = sinon.stub();
             const getValueType  = sinon.stub();
@@ -868,7 +1010,7 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<Date, IAddress>;\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, IAddress>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <String, Concept>', () => {
@@ -881,6 +1023,11 @@ describe('TypescriptVisitor', function () {
             });
 
             let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            const mockModelFile    = sinon.createStubInstance(ModelFile);
+            const mockValueDecl    = sinon.createStubInstance(ClassDeclaration);
+            mockValueDecl.isEnum.returns(false);
+            mockModelFile.getType.returns(mockValueDecl);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
 
             const getKeyType    = sinon.stub();
             const getValueType  = sinon.stub();
@@ -895,6 +1042,37 @@ describe('TypescriptVisitor', function () {
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
             param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, IConcept>;\n').calledOnce.should.be.ok;
+        });
+
+        it('should write a line with the name, key and value of the map <String, TagSource> where value is an enum', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isScalar').callsFake(() => {
+                return false;
+            });
+
+            let mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            const mockModelFile    = sinon.createStubInstance(ModelFile);
+            const mockEnumDecl     = sinon.createStubInstance(EnumDeclaration);
+            mockEnumDecl.isEnum.returns(true);
+            mockModelFile.getType.returns(mockEnumDecl);
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+
+            const getKeyType    = sinon.stub();
+            const getValueType  = sinon.stub();
+
+            getKeyType.returns('String');
+            getValueType.returns('TagSource');
+            mockMapDeclaration.getName.returns('TagSourceMap');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+
+            typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(0, 'export type TagSourceMap = Map<string, TagSource>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <SSN, String>', () => {
@@ -927,7 +1105,7 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, string>;\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<SSN, string>;\n').calledOnce.should.be.ok;
         });
 
         it('should write a line with the name, key and value of the map <String, SSN>', () => {
@@ -960,7 +1138,7 @@ describe('TypescriptVisitor', function () {
 
             typescriptVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, string>;\n').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(0, 'export type Map1 = Map<string, SSN>;\n').calledOnce.should.be.ok;
         });
     });
 
@@ -994,8 +1172,8 @@ describe('TypescriptVisitor', function () {
     });
 
     describe('toTsType', () => {
-        it('should return Date for DateTime', () => {
-            typescriptVisitor.toTsType('DateTime').should.deep.equal('Date');
+        it('should return string for DateTime', () => {
+            typescriptVisitor.toTsType('DateTime').should.deep.equal('string');
         });
         it('should return boolean for Boolean', () => {
             typescriptVisitor.toTsType('Boolean').should.deep.equal('boolean');

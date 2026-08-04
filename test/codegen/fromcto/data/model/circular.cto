@@ -1,7 +1,7 @@
 /**
  * Sample business network definition.
  */
-namespace xx.yy.zz
+namespace xx.yy.zz@1.0.0
 
 asset SomeTransmission identified by orderNumber {
   o String orderNumber  //Some order number
