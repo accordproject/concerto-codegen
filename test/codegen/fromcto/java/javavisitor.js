@@ -221,8 +221,6 @@ describe('JavaVisitor', function () {
 
     describe('visitEnumDeclaration', () => {
         it('should write an enum declaration and call accept on each property', () => {
-            let acceptSpy = sinon.spy();
-
             let param = {
                 fileWriter: mockFileWriter
             };
@@ -230,12 +228,10 @@ describe('JavaVisitor', function () {
             let mockEnumDeclaration = sinon.createStubInstance(EnumDeclaration);
             mockEnumDeclaration.isEnum.returns(true);
             mockEnumDeclaration.getName.returns('Bob');
-            mockEnumDeclaration.getOwnProperties.returns([{
-                accept: acceptSpy
-            },
-            {
-                accept: acceptSpy
-            }]);
+            mockEnumDeclaration.getOwnProperties.returns([
+                { getName: () => 'VALUE_A' },
+                { getName: () => 'VALUE_B' },
+            ]);
 
             let mockStartClassFile = sinon.stub(javaVisit, 'startClassFile');
             let mockEndClassFile = sinon.stub(javaVisit, 'endClassFile');
@@ -243,11 +239,18 @@ describe('JavaVisitor', function () {
             javaVisit.visitEnumDeclaration(mockEnumDeclaration, param);
 
             mockStartClassFile.withArgs(mockEnumDeclaration, param).calledOnce.should.be.ok;
-            param.fileWriter.writeLine.callCount.should.deep.equal(4);
+            param.fileWriter.writeLine.callCount.should.deep.equal(10);
+
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'import com.fasterxml.jackson.annotation.*;']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '@JsonIgnoreProperties({"$class"})']);
             param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'public enum Bob {']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([0, '}']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, 'VALUE_A,']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, 'VALUE_B;']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([1, '@Override']);
+            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([1, 'public String toString() {']);
+            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([2, 'return name();']);
+            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '}']);
+            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([0, '}']);
             mockEndClassFile.withArgs(mockEnumDeclaration, param).calledOnce.should.be.ok;
         });
     });
