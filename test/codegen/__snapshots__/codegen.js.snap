@@ -1568,7 +1568,7 @@ public enum State {
    CO,
    WA,
    IL,
-   CA,
+   CA;
    @Override
    public String toString() {
       return name();
@@ -1589,7 +1589,7 @@ import com.fasterxml.jackson.annotation.*;
 public enum TShirtSizeType {
    SMALL,
    MEDIUM,
-   LARGE,
+   LARGE;
    @Override
    public String toString() {
       return name();
@@ -1845,7 +1845,7 @@ public enum Department {
    Finance,
    HR,
    Engineering,
-   Design,
+   Design;
    @Override
    public String toString() {
       return name();
@@ -1908,7 +1908,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties({"$class"})
 public enum LaptopMake {
    Apple,
-   Microsoft,
+   Microsoft;
    @Override
    public String toString() {
       return name();
