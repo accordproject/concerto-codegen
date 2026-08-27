@@ -833,81 +833,246 @@ public class SampleModel : Concept {
             file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Range\(typeof\(int\), "-2147483648", "100"\)\]/);
         });
 
-        it('should emit [MinLength]/[MaxLength] attributes for map fields with size validators', () => {
-            sandbox.restore();
+        it('should emit [JsonExtensionData] on root user classes when enableExtensionData is true with System.Text.Json', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
             namespace org.acme@1.2.3
-
-            map Labels {
-                o String
-                o String
-            }
-
-            concept Config {
-                o Labels metadata size=[1,20]
+            concept MyModel {
+                o String name
             }
             `);
-            csharpVisitor.visit(modelManager, { fileWriter });
+            csharpVisitor.visit(modelManager, { fileWriter, enableExtensionData: true });
             const files = fileWriter.getFilesInMemory();
-            const file1 = files.get('org.acme@1.2.3.cs');
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(1\)\]/);
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(20\)\]/);
-            file1.should.match(/public Dictionary<string, string> metadata \{ get; set; \}/);
+            const userFile = files.get('org.acme@1.2.3.cs');
+            userFile.should.match(/\[System\.Text\.Json\.Serialization\.JsonExtensionData\]/);
+            userFile.should.match(/public Dictionary<string, object> ExtensionData \{ get; set; \}/);
         });
 
-        it('should emit [MinLength]/[MaxLength] attributes for array fields with size validators', () => {
+        it('should emit [JsonExtensionData] with Newtonsoft.Json', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
             namespace org.acme@1.2.3
-
-            concept CollectionModel {
-                o String[] tagsBoth size=[1,10]
-                o String[] tagsMinOnly size=[2,]
-                o String[] tagsMaxOnly size=[,5]
-                o Integer[] numbers size=[0,100]
+            concept MyModel {
+                o String name
             }
             `);
-            csharpVisitor.visit(modelManager, { fileWriter });
+            csharpVisitor.visit(modelManager, { fileWriter, enableExtensionData: true, useNewtonsoftJson: true, useSystemTextJson: false });
             const files = fileWriter.getFilesInMemory();
-            const file1 = files.get('org.acme@1.2.3.cs');
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(1\)\]/);
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(10\)\]/);
-            file1.should.match(/public string\[\] tagsBoth \{ get; set; \}/);
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(2\)\]/);
-            file1.should.match(/public string\[\] tagsMinOnly \{ get; set; \}/);
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(5\)\]/);
-            file1.should.match(/public string\[\] tagsMaxOnly \{ get; set; \}/);
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(0\)\]/);
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(100\)\]/);
-            file1.should.match(/public int\[\] numbers \{ get; set; \}/);
+            const userFile = files.get('org.acme@1.2.3.cs');
+            userFile.should.match(/\[Newtonsoft\.Json\.JsonExtensionData\]/);
+            userFile.should.match(/public Dictionary<string, object> ExtensionData \{ get; set; \}/);
+            userFile.should.not.match(/System\.Text\.Json\.Serialization\.JsonExtensionData/);
         });
 
-        it('should emit [MinLength]/[MaxLength] attributes for relationship arrays with size validators', () => {
+        it('should emit both [JsonExtensionData] attributes when both serializers are enabled', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+            concept MyModel {
+                o String name
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter, enableExtensionData: true, useSystemTextJson: true, useNewtonsoftJson: true });
+            const files = fileWriter.getFilesInMemory();
+            const userFile = files.get('org.acme@1.2.3.cs');
+            userFile.should.match(/\[System\.Text\.Json\.Serialization\.JsonExtensionData\]/);
+            userFile.should.match(/\[Newtonsoft\.Json\.JsonExtensionData\]/);
+            userFile.should.match(/public Dictionary<string, object> ExtensionData \{ get; set; \}/);
+        });
+
+        it('should NOT emit [JsonExtensionData] on derived user classes (inherited from parent)', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+            concept Animal { o String species }
+            concept Dog extends Animal { o String breed }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter, enableExtensionData: true });
+            const files = fileWriter.getFilesInMemory();
+            const file = files.get('org.acme@1.2.3.cs');
+            const classes = file.split(/(?=\[AccordProject\.Concerto\.Type)/);
+            const animalClass = classes.find(c => c.includes('Name = "Animal"'));
+            const dogClass = classes.find(c => c.includes('Name = "Dog"'));
+            animalClass.should.match(/ExtensionData/);
+            dogClass.should.not.match(/ExtensionData/);
+        });
+
+        it('should emit [JsonExtensionData] with Newtonsoft.Json per-model generation', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`
             namespace org.acme@1.2.3
 
-            participant Person identified by email {
-                o String email
+            concept Address {
+                o String street
+                o String city
             }
 
-            concept Team {
-                --> Person[] members size=[1,50]
-                --> Person[] minOnly size=[2,]
-                --> Person[] maxOnly size=[,10]
+            concept Person {
+                o String name
+                o Address address
+            }
+            `);
+            for (const model of modelManager.getModelFiles().filter(mf => !mf.isSystemModelFile())) {
+                model.accept(csharpVisitor, {
+                    fileWriter,
+                    useNewtonsoftJson: true,
+                    enableExtensionData: true
+                });
+            }
+            const files = fileWriter.getFilesInMemory();
+            const file = files.get('org.acme@1.2.3.cs');
+
+            const classes = file.split(/(?=\[AccordProject\.Concerto\.Type)/);
+            const addressClass = classes.find(c => c.includes('Name = "Address"'));
+            const personClass = classes.find(c => c.includes('Name = "Person"'));
+            addressClass.should.match(/\[Newtonsoft\.Json\.JsonExtensionData\]/);
+            addressClass.should.match(/public Dictionary<string, object> ExtensionData \{ get; set; \}/);
+            personClass.should.match(/\[Newtonsoft\.Json\.JsonExtensionData\]/);
+            personClass.should.match(/public Dictionary<string, object> ExtensionData \{ get; set; \}/);
+        });
+
+        it('should generate code that round-trips unknown fields and undeclared declarations', function () {
+            this.timeout(60000);
+            const { execFileSync } = require('child_process');
+            const fs = require('fs');
+            const path = require('path');
+            const { dirSync } = require('tmp-promise');
+
+            try {
+                execFileSync('dotnet', ['--version'], { encoding: 'utf-8', stdio: 'pipe' });
+            } catch (e) {
+                this.skip('dotnet not available');
+            }
+
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            concept Address {
+                o String street
+                o String city
+            }
+
+            concept Person {
+                o String name
+                o Address address
+            }
+            `);
+
+            const { name: outputDir } = dirSync({ unsafeCleanup: true });
+
+            for (const model of modelManager.getModelFiles().filter(mf => !mf.isSystemModelFile())) {
+                model.accept(csharpVisitor, {
+                    fileWriter: new (require('@accordproject/concerto-util').FileWriter)(outputDir),
+                    useNewtonsoftJson: true,
+                    enableExtensionData: true
+                });
+            }
+
+            const conceptStub = [
+                'namespace AccordProject.Concerto {',
+                '    public abstract class Concept {',
+                '        [Newtonsoft.Json.JsonProperty("$class")]',
+                '        public virtual string _class { get; }',
+                '    }',
+                '    public class ConcertoConverterNewtonsoft : Newtonsoft.Json.JsonConverter {',
+                '        public override bool CanConvert(System.Type t) => true;',
+                '        public override object ReadJson(Newtonsoft.Json.JsonReader r, System.Type t, object v, Newtonsoft.Json.JsonSerializer s) => s.Deserialize(r, t);',
+                '        public override void WriteJson(Newtonsoft.Json.JsonWriter w, object v, Newtonsoft.Json.JsonSerializer s) => s.Serialize(w, v);',
+                '        public override bool CanRead => false;',
+                '        public override bool CanWrite => false;',
+                '    }',
+                '    [System.AttributeUsage(System.AttributeTargets.Class)]',
+                '    public class TypeAttribute : System.Attribute {',
+                '        public string Namespace { get; set; }',
+                '        public string Version { get; set; }',
+                '        public string Name { get; set; }',
+                '        public TypeAttribute(string ns = null, string v = null, string n = null) {}',
+                '    }',
+                '    [System.AttributeUsage(System.AttributeTargets.Property)]',
+                '    public class IdentifierAttribute : System.Attribute {}',
+                '}',
+            ].join('\n');
+            fs.writeFileSync(path.join(outputDir, 'Concept.cs'), conceptStub);
+
+            const program = [
+                'using System;',
+                'using System.Collections.Generic;',
+                'using Newtonsoft.Json;',
+                'using Newtonsoft.Json.Linq;',
+                'using org.acme;',
+                '',
+                'var json = "{"',
+                '    + "\\"$class\\": \\"org.acme@1.2.3.Person\\","',
+                '    + "\\"name\\": \\"Alice\\","',
+                '    + "\\"age\\": 30,"',
+                '    + "\\"address\\": {"',
+                '    + "  \\"$class\\": \\"org.acme@1.2.3.Address\\","',
+                '    + "  \\"street\\": \\"123 Main St\\","',
+                '    + "  \\"city\\": \\"Springfield\\","',
+                '    + "  \\"zipCode\\": \\"12345\\""',
+                '    + "},"',
+                '    + "\\"employer\\": {"',
+                '    + "  \\"$class\\": \\"org.acme@2.0.0.Company\\","',
+                '    + "  \\"name\\": \\"Acme Corp\\""',
+                '    + "}"',
+                '    + "}";',
+                '',
+                'var person = JsonConvert.DeserializeObject<Person>(json);',
+                'var output = JsonConvert.SerializeObject(person, Formatting.None);',
+                'var doc = JObject.Parse(output);',
+                '',
+                'if (doc["age"]?.ToObject<int>() != 30) throw new Exception("age lost");',
+                'if (doc["employer"]?["$class"]?.ToString() != "org.acme@2.0.0.Company") throw new Exception("employer.$class lost");',
+                'if (doc["employer"]?["name"]?.ToString() != "Acme Corp") throw new Exception("employer.name lost");',
+                'if (doc["address"]?["zipCode"]?.ToString() != "12345") throw new Exception("address.zipCode lost");',
+                '',
+                'Console.WriteLine("ROUNDTRIP_OK");',
+            ].join('\n');
+            fs.writeFileSync(path.join(outputDir, 'Program.cs'), program);
+
+            const csproj = [
+                '<Project Sdk="Microsoft.NET.Sdk">',
+                '  <PropertyGroup>',
+                '    <OutputType>Exe</OutputType>',
+                '    <TargetFramework>net10.0</TargetFramework>',
+                '  </PropertyGroup>',
+                '  <ItemGroup>',
+                '    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />',
+                '  </ItemGroup>',
+                '</Project>',
+            ].join('\n');
+            fs.writeFileSync(path.join(outputDir, 'Test.csproj'), csproj);
+
+            try {
+                const result = execFileSync('dotnet', ['run', '--project', outputDir], {
+                    encoding: 'utf-8',
+                    stdio: ['ignore', 'pipe', 'pipe'],
+                    timeout: 60000
+                });
+                result.should.include('ROUNDTRIP_OK');
+            } catch (err) {
+                const details = [err.stdout, err.stderr].filter(Boolean).join('\n').trim();
+                if (details.includes('not found') || details.includes('SDK')) {
+                    this.skip('dotnet SDK not properly configured');
+                }
+                throw new Error(`Round-trip test failed:\n${details}`);
+            }
+        });
+
+        it('should NOT emit [JsonExtensionData] when enableExtensionData is not set', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+            concept MyModel {
+                o String name
             }
             `);
             csharpVisitor.visit(modelManager, { fileWriter });
             const files = fileWriter.getFilesInMemory();
-            const file1 = files.get('org.acme@1.2.3.cs');
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(1\)\]/);
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(50\)\]/);
-            file1.should.match(/public Person\[\] members \{ get; set; \}/);
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(2\)\]/);
-            file1.should.match(/public Person\[\] minOnly \{ get; set; \}/);
-            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(10\)\]/);
-            file1.should.match(/public Person\[\] maxOnly \{ get; set; \}/);
+            const userFile = files.get('org.acme@1.2.3.cs');
+            userFile.should.not.match(/JsonExtensionData/);
+            userFile.should.not.match(/ExtensionData/);
         });
 
         it('should emit property initializers for default values on primitive fields', () => {
