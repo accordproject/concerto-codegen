@@ -19,13 +19,14 @@ jobs:
 
     steps:
       - name: git checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Use Node.js 20.x
+      - name: Use Node.js 24.x
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 24.x
           registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
 
       # Ensure npm 11.5.1 or later for trusted publishing
       - run: npm install -g npm@latest
