@@ -833,6 +833,83 @@ public class SampleModel : Concept {
             file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.Range\(typeof\(int\), "-2147483648", "100"\)\]/);
         });
 
+        it('should emit [MinLength]/[MaxLength] attributes for map fields with size validators', () => {
+            sandbox.restore();
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            map Labels {
+                o String
+                o String
+            }
+
+            concept Config {
+                o Labels metadata size=[1,20]
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(1\)\]/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(20\)\]/);
+            file1.should.match(/public Dictionary<string, string> metadata \{ get; set; \}/);
+        });
+
+        it('should emit [MinLength]/[MaxLength] attributes for array fields with size validators', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            concept CollectionModel {
+                o String[] tagsBoth size=[1,10]
+                o String[] tagsMinOnly size=[2,]
+                o String[] tagsMaxOnly size=[,5]
+                o Integer[] numbers size=[0,100]
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(1\)\]/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(10\)\]/);
+            file1.should.match(/public string\[\] tagsBoth \{ get; set; \}/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(2\)\]/);
+            file1.should.match(/public string\[\] tagsMinOnly \{ get; set; \}/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(5\)\]/);
+            file1.should.match(/public string\[\] tagsMaxOnly \{ get; set; \}/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(0\)\]/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(100\)\]/);
+            file1.should.match(/public int\[\] numbers \{ get; set; \}/);
+        });
+
+        it('should emit [MinLength]/[MaxLength] attributes for relationship arrays with size validators', () => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.2.3
+
+            participant Person identified by email {
+                o String email
+            }
+
+            concept Team {
+                --> Person[] members size=[1,50]
+                --> Person[] minOnly size=[2,]
+                --> Person[] maxOnly size=[,10]
+            }
+            `);
+            csharpVisitor.visit(modelManager, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file1 = files.get('org.acme@1.2.3.cs');
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(1\)\]/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(50\)\]/);
+            file1.should.match(/public Person\[\] members \{ get; set; \}/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MinLength\(2\)\]/);
+            file1.should.match(/public Person\[\] minOnly \{ get; set; \}/);
+            file1.should.match(/\[System\.ComponentModel\.DataAnnotations\.MaxLength\(10\)\]/);
+            file1.should.match(/public Person\[\] maxOnly \{ get; set; \}/);
+        });
+
         it('should emit property initializers for default values on primitive fields', () => {
             const modelManager = new ModelManager({ strict: true });
             modelManager.addCTOModel(`

@@ -1,0 +1,19 @@
+namespace org.acme@1.2.3
+
+participant Person identified by email {
+    o String email
+}
+
+map Labels {
+    o String
+    o String
+}
+
+concept CollectionSizeModel {
+    o String[] tagsBoth size=[1,10]
+    o String[] tagsMinOnly size=[2,]
+    o String[] tagsMaxOnly size=[,5]
+    o Integer[] numbers size=[0,100]
+    o Labels metadata size=[1,20]
+    --> Person[] friends size=[1,50]
+}
