@@ -623,6 +623,141 @@ describe('JSONSchema (samples)', function () {
         });
     });
 
+    describe('collection size validators', () => {
+        const MODEL_COLLECTION_SIZE = `
+namespace test@1.0.0
+
+participant Person identified by id {
+    o String id
+}
+
+concept Test {
+    o String[] tagsBoth size=[1,10]
+    o String[] tagsMinOnly size=[2,]
+    o String[] tagsMaxOnly size=[,5]
+    o Integer[] numbers size=[0,100]
+    --> Person[] friends size=[1,50]
+}
+`;
+
+        it('should generate minProperties/maxProperties for map fields with size validators', () => {
+            const MODEL_MAP_SIZE = `
+namespace test@1.0.0
+
+map Labels {
+    o String
+    o String
+}
+
+concept Test {
+    o Labels both size=[1,20]
+    o Labels minOnly size=[3,]
+    o Labels maxOnly size=[,10]
+}
+`;
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_MAP_SIZE);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Test' });
+
+            expect(schema.properties.both.schema.minProperties).equal(1);
+            expect(schema.properties.both.schema.maxProperties).equal(20);
+            expect(schema.properties.both.schema.type).equal('object');
+
+            expect(schema.properties.minOnly.schema.minProperties).equal(3);
+            expect(schema.properties.minOnly.schema).to.not.have.property('maxProperties');
+
+            expect(schema.properties.maxOnly.schema).to.not.have.property('minProperties');
+            expect(schema.properties.maxOnly.schema.maxProperties).equal(10);
+        });
+
+        it('should generate minItems/maxItems for array fields with size validators', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_COLLECTION_SIZE);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Test' });
+
+            expect(schema.properties.tagsBoth.type).equal('array');
+            expect(schema.properties.tagsBoth.minItems).equal(1);
+            expect(schema.properties.tagsBoth.maxItems).equal(10);
+
+            expect(schema.properties.tagsMinOnly.type).equal('array');
+            expect(schema.properties.tagsMinOnly.minItems).equal(2);
+            expect(schema.properties.tagsMinOnly).to.not.have.property('maxItems');
+
+            expect(schema.properties.tagsMaxOnly.type).equal('array');
+            expect(schema.properties.tagsMaxOnly).to.not.have.property('minItems');
+            expect(schema.properties.tagsMaxOnly.maxItems).equal(5);
+
+            expect(schema.properties.numbers.type).equal('array');
+            expect(schema.properties.numbers.minItems).equal(0);
+            expect(schema.properties.numbers.maxItems).equal(100);
+
+            expect(schema.properties.friends.type).equal('array');
+            expect(schema.properties.friends.minItems).equal(1);
+            expect(schema.properties.friends.maxItems).equal(50);
+        });
+
+        it('should generate minItems/maxItems for relationship arrays with size validators', () => {
+            const MODEL_REL_SIZE = `
+namespace test@1.0.0
+
+participant Person identified by id {
+    o String id
+}
+
+concept Test {
+    --> Person[] both size=[1,50]
+    --> Person[] minOnly size=[2,]
+    --> Person[] maxOnly size=[,10]
+}
+`;
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_REL_SIZE);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Test' });
+
+            expect(schema.properties.both.minItems).equal(1);
+            expect(schema.properties.both.maxItems).equal(50);
+
+            expect(schema.properties.minOnly.minItems).equal(2);
+            expect(schema.properties.minOnly).to.not.have.property('maxItems');
+
+            expect(schema.properties.maxOnly).to.not.have.property('minItems');
+            expect(schema.properties.maxOnly.maxItems).equal(10);
+        });
+
+        it('should validate instances against collection size constraints', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_COLLECTION_SIZE);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Test' });
+
+            const ajv = new Ajv({ strict: false });
+            const validate = ajv.compile(schema);
+
+            const valid = {
+                $class: 'test@1.0.0.Test',
+                tagsBoth: ['a'],
+                tagsMinOnly: ['a', 'b'],
+                tagsMaxOnly: ['a'],
+                numbers: [1, 2, 3],
+                friends: ['resource:test@1.0.0.Person#p1']
+            };
+            expect(validate(valid)).equals(true);
+
+            const invalid = {
+                $class: 'test@1.0.0.Test',
+                tagsBoth: [],
+                tagsMinOnly: ['a', 'b'],
+                tagsMaxOnly: ['a'],
+                numbers: [1],
+                friends: ['resource:test@1.0.0.Person#p1']
+            };
+            expect(validate(invalid)).equals(false);
+        });
+    });
+
     describe('options', () => {
         const MODEL_WITH_DEFAULTS = `
 namespace test.options@1.0.0

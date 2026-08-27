@@ -76,6 +76,17 @@ const CASES = [
         },
     },
     {
+        name: 'collectionsize',
+        files: ['collectionsize.cto'],
+        skip: {
+            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
+            golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
+            protobuf: 'Relationships are not supported in protobuf',
+            graphql: 'Relationships are not supported in graphql visitor',
+            openapi: 'Map schema nesting (schema property) fails OpenAPI struct validation',
+        },
+    },
+    {
         name: 'model-base',
         files: ['model-base.cto'],
         skip: {

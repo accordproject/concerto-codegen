@@ -783,6 +783,155 @@ describe('XmlSchemaVisitor', function () {
             xmlSchemaVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>').calledOnce.should.be.ok;
         });
+
+        it('should write a line for an array field with both size constraints', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getFullyQualifiedTypeName.returns('String');
+            mockField.getName.returns('Bob');
+            mockField.isArray.returns(true);
+            mockField.getSizeValidator.returns({
+                getMinSize: () => 1,
+                getMaxSize: () => 10
+            });
+
+            xmlSchemaVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="1" maxOccurs="10"/>').calledOnce.should.be.ok;
+        });
+
+        it('should write a line for an array field with only min size constraint', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getFullyQualifiedTypeName.returns('String');
+            mockField.getName.returns('Bob');
+            mockField.isArray.returns(true);
+            mockField.getSizeValidator.returns({
+                getMinSize: () => 2,
+                getMaxSize: () => null
+            });
+
+            xmlSchemaVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="2" maxOccurs="unbounded"/>').calledOnce.should.be.ok;
+        });
+
+        it('should write a line for an array field with only max size constraint', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getFullyQualifiedTypeName.returns('String');
+            mockField.getName.returns('Bob');
+            mockField.isArray.returns(true);
+            mockField.getSizeValidator.returns({
+                getMinSize: () => null,
+                getMaxSize: () => 5
+            });
+
+            xmlSchemaVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="0" maxOccurs="5"/>').calledOnce.should.be.ok;
+        });
+
+        it('should write an inline complexType for a map field with both size constraints', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockMapDecl = sinon.createStubInstance(MapDeclaration);
+            mockMapDecl.isMapDeclaration.returns(true);
+
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile.getType.returns(mockMapDecl);
+            let mockParent = sinon.createStubInstance(ClassDeclaration);
+            mockParent.getModelFile.returns(mockModelFile);
+
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getFullyQualifiedTypeName.returns('org.acme.Labels');
+            mockField.getName.returns('metadata');
+            mockField.getType.returns('Labels');
+            mockField.isArray.returns(false);
+            mockField.isPrimitive.returns(false);
+            mockField.getParent.returns(mockParent);
+            mockField.getSizeValidator.returns({
+                getMinSize: () => 1,
+                getMaxSize: () => 20
+            });
+
+            xmlSchemaVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="metadata">').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="LabelsEntryType" minOccurs="1" maxOccurs="20"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, '</xs:element>').calledOnce.should.be.ok;
+        });
+
+        it('should write an inline complexType for a map field with only min size', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockMapDecl = sinon.createStubInstance(MapDeclaration);
+            mockMapDecl.isMapDeclaration.returns(true);
+
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile.getType.returns(mockMapDecl);
+            let mockParent = sinon.createStubInstance(ClassDeclaration);
+            mockParent.getModelFile.returns(mockModelFile);
+
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getFullyQualifiedTypeName.returns('org.acme.Labels');
+            mockField.getName.returns('metadata');
+            mockField.getType.returns('Labels');
+            mockField.isArray.returns(false);
+            mockField.isPrimitive.returns(false);
+            mockField.getParent.returns(mockParent);
+            mockField.getSizeValidator.returns({
+                getMinSize: () => 3,
+                getMaxSize: () => null
+            });
+
+            xmlSchemaVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="LabelsEntryType" minOccurs="3" maxOccurs="unbounded"/>').calledOnce.should.be.ok;
+        });
+
+        it('should write an inline complexType for a map field with only max size', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockMapDecl = sinon.createStubInstance(MapDeclaration);
+            mockMapDecl.isMapDeclaration.returns(true);
+
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile.getType.returns(mockMapDecl);
+            let mockParent = sinon.createStubInstance(ClassDeclaration);
+            mockParent.getModelFile.returns(mockModelFile);
+
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getFullyQualifiedTypeName.returns('org.acme.Labels');
+            mockField.getName.returns('metadata');
+            mockField.getType.returns('Labels');
+            mockField.isArray.returns(false);
+            mockField.isPrimitive.returns(false);
+            mockField.getParent.returns(mockParent);
+            mockField.getSizeValidator.returns({
+                getMinSize: () => null,
+                getMaxSize: () => 10
+            });
+
+            xmlSchemaVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="LabelsEntryType" minOccurs="0" maxOccurs="10"/>').calledOnce.should.be.ok;
+        });
     });
 
     describe('visitEnumValueDeclaration', () => {
@@ -831,6 +980,63 @@ describe('XmlSchemaVisitor', function () {
             xmlSchemaVisitor.visitRelationship(mockRelationship, param);
 
             param.fileWriter.writeLine.withArgs(1, '+ string Bob');
+        });
+
+        it('should write a line for a relationship array with size constraints', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship.isRelationship.returns(true);
+            mockRelationship.getFullyQualifiedTypeName.returns('String');
+            mockRelationship.getName.returns('Bob');
+            mockRelationship.isArray.returns(true);
+            mockRelationship.getSizeValidator.returns({
+                getMinSize: () => 1,
+                getMaxSize: () => 50
+            });
+
+            xmlSchemaVisitor.visitRelationship(mockRelationship, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="1" maxOccurs="50"/>').calledOnce.should.be.ok;
+        });
+
+        it('should write a line for a relationship array with only min size constraint', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship.isRelationship.returns(true);
+            mockRelationship.getFullyQualifiedTypeName.returns('String');
+            mockRelationship.getName.returns('Bob');
+            mockRelationship.isArray.returns(true);
+            mockRelationship.getSizeValidator.returns({
+                getMinSize: () => 2,
+                getMaxSize: () => null
+            });
+
+            xmlSchemaVisitor.visitRelationship(mockRelationship, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="2" maxOccurs="unbounded"/>').calledOnce.should.be.ok;
+        });
+
+        it('should write a line for a relationship array with only max size constraint', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship.isRelationship.returns(true);
+            mockRelationship.getFullyQualifiedTypeName.returns('String');
+            mockRelationship.getName.returns('Bob');
+            mockRelationship.isArray.returns(true);
+            mockRelationship.getSizeValidator.returns({
+                getMinSize: () => null,
+                getMaxSize: () => 10
+            });
+
+            xmlSchemaVisitor.visitRelationship(mockRelationship, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="0" maxOccurs="10"/>').calledOnce.should.be.ok;
         });
     });
 });
