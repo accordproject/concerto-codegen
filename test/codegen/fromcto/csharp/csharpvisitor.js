@@ -907,7 +907,7 @@ public class SampleModel : Concept {
             const files = fileWriter.getFilesInMemory();
             const userFile = files.get('org.acme@1.2.3.cs');
             userFile.should.match(/\[System\.Text\.Json\.Serialization\.JsonExtensionData\]/);
-            userFile.should.match(/public Dictionary<string, object> ExtensionData \{ get; set; \}/);
+            userFile.should.match(/public Dictionary<string, object>\? ExtensionData \{ get; set; \}/);
         });
 
         it('should emit [JsonExtensionData] with Newtonsoft.Json', () => {
@@ -922,7 +922,7 @@ public class SampleModel : Concept {
             const files = fileWriter.getFilesInMemory();
             const userFile = files.get('org.acme@1.2.3.cs');
             userFile.should.match(/\[Newtonsoft\.Json\.JsonExtensionData\]/);
-            userFile.should.match(/public Dictionary<string, object> ExtensionData \{ get; set; \}/);
+            userFile.should.match(/public Dictionary<string, object>\? ExtensionData \{ get; set; \}/);
             userFile.should.not.match(/System\.Text\.Json\.Serialization\.JsonExtensionData/);
         });
 
@@ -939,7 +939,7 @@ public class SampleModel : Concept {
             const userFile = files.get('org.acme@1.2.3.cs');
             userFile.should.match(/\[System\.Text\.Json\.Serialization\.JsonExtensionData\]/);
             userFile.should.match(/\[Newtonsoft\.Json\.JsonExtensionData\]/);
-            userFile.should.match(/public Dictionary<string, object> ExtensionData \{ get; set; \}/);
+            userFile.should.match(/public Dictionary<string, object>\? ExtensionData \{ get; set; \}/);
         });
 
         it('should NOT emit [JsonExtensionData] on derived user classes (inherited from parent)', () => {
@@ -988,9 +988,9 @@ public class SampleModel : Concept {
             const addressClass = classes.find(c => c.includes('Name = "Address"'));
             const personClass = classes.find(c => c.includes('Name = "Person"'));
             addressClass.should.match(/\[Newtonsoft\.Json\.JsonExtensionData\]/);
-            addressClass.should.match(/public Dictionary<string, object> ExtensionData \{ get; set; \}/);
+            addressClass.should.match(/public Dictionary<string, object>\? ExtensionData \{ get; set; \}/);
             personClass.should.match(/\[Newtonsoft\.Json\.JsonExtensionData\]/);
-            personClass.should.match(/public Dictionary<string, object> ExtensionData \{ get; set; \}/);
+            personClass.should.match(/public Dictionary<string, object>\? ExtensionData \{ get; set; \}/);
         });
 
         it('should generate code that round-trips unknown fields and undeclared declarations', function () {
