@@ -2,6 +2,12 @@
   "$schema": "https://unpkg.com/syncpack@14/schema.json",
   "semverGroups": [
     {
+      "label": "Allow additive peer compatibility ranges",
+      "dependencyTypes": ["peer"],
+      "specifierTypes": ["range-complex"],
+      "isIgnored": true
+    },
+    {
       "label": "Enforce pinned versions (no ^ or ~)",
       "dependencies": ["**"],
       "dependencyTypes": ["prod", "dev"],
@@ -14,6 +20,18 @@
       "dependencyTypes": ["peer"],
       "packages": ["**"],
       "range": "^"
+    }
+  ],
+  "versionGroups": [
+    {
+      "label": "Allow Concerto peers to support multiple major versions",
+      "dependencies": [
+        "@accordproject/concerto-core",
+        "@accordproject/concerto-util",
+        "@accordproject/concerto-vocabulary"
+      ],
+      "dependencyTypes": ["peer"],
+      "isIgnored": true
     }
   ]
 }

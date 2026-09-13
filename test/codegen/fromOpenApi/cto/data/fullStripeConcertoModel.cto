@@ -2479,7 +2479,7 @@ concept components$_schemas$_file$_properties$_links {
   o file_link[] data
   o Boolean has_more
   o components$_schemas$_file$_properties$_links$_properties$_object object
-  o String url regex=/^/v1/file_links/
+  o String url regex=/^\/v1\/file_links/
 }
 
 enum components$_schemas$_file$_properties$_links$_properties$_object {
@@ -2636,7 +2636,7 @@ concept components$_schemas$_financial_connections_2esession$_properties$_accoun
   o financial_connections_2eaccount[] data
   o Boolean has_more
   o components$_schemas$_financial_connections_2esession$_properties$_accounts$_properties$_object object
-  o String url regex=/^/v1/financial_connections/accounts/
+  o String url regex=/^\/v1\/financial_connections\/accounts/
 }
 
 enum components$_schemas$_financial_connections_2esession$_properties$_accounts$_properties$_object {
@@ -11844,7 +11844,7 @@ concept components$_schemas$_treasury_2etransaction$_properties$_entries {
   o treasury_2etransaction_entry[] data
   o Boolean has_more
   o components$_schemas$_treasury_2etransaction$_properties$_entries$_properties$_object object
-  o String url regex=/^/v1/treasury/transaction_entries/
+  o String url regex=/^\/v1\/treasury\/transaction_entries/
 }
 
 enum components$_schemas$_treasury_2etransaction$_properties$_entries$_properties$_object {
