@@ -74,6 +74,38 @@ declare class JavaVisitor {
      */
     private visitField;
     /**
+     * Return whether an imported Concerto type should be imported by generated Java.
+     * Java code does not emit named types for scalar or map declarations, so importing
+     * them produces uncompilable source.
+     * @param {ModelFile} modelFile - model file containing the import
+     * @param {string} imported - fully qualified imported type name
+     * @return {boolean} true if the generated Java class should import the type
+     * @private
+     */
+    private shouldImportType;
+    /**
+     * Convert a Concerto map field to a Java Map type.
+     * @param {Field} field - map-typed field
+     * @return {string} Java Map type
+     * @private
+     */
+    private toJavaMapType;
+    /**
+     * Convert a map key or value type to Java, unwrapping Concerto scalar aliases.
+     * @param {MapDeclaration} mapDeclaration - map declaration
+     * @param {Field} member - map key or value declaration
+     * @return {string} Java type
+     * @private
+     */
+    private toJavaMapMemberType;
+    /**
+     * Return imports required by non-scalar map key or value member types.
+     * @param {Field} field - map-typed field
+     * @return {object[]} namespace/typeName pairs to import
+     * @private
+     */
+    private getJavaMapMemberImports;
+    /**
      * Visitor design pattern
      * @param {EnumValueDeclaration} enumValueDeclaration - the object being visited
      * @param {Object} parameters  - the parameter

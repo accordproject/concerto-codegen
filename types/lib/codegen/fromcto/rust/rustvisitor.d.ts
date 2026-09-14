@@ -123,4 +123,12 @@ declare class RustVisitor {
      * @private
      */
     private addUtilsModelFile;
+    /**
+     * Writes the description of a declaration or property as a Rust documentation comment.
+     * @param {Object} thing - the declaration or property
+     * @param {Object} parameters - the parameters
+     * @param {number} indent - the indentation level
+     * @private
+     */
+    private writeDescription;
 }
