@@ -7,9 +7,9 @@
         "jdk": "eclipse-temurin:17-jdk-alpine"
     },
     "npm": {
-        "concertoCore": "4.1.3",
-        "concertoUtil": "4.1.3",
-        "concertoVocabulary": "4.1.3",
+        "concertoCore": "5.0.0",
+        "concertoUtil": "5.0.0",
+        "concertoVocabulary": "5.0.0",
         "typescript": "5.7.2",
         "markdownlintCli": "0.44.0",
         "redoclyCli": "1.34.3",
