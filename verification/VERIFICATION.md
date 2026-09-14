@@ -26,9 +26,9 @@ Both layers use the same idea: generate from a known model, then ask a real tool
 
 ```bash
 npm install --no-save \
-  @accordproject/concerto-core@^4.1.3 \
-  @accordproject/concerto-util@^4.1.3 \
-  @accordproject/concerto-vocabulary@^4.1.3 \
+  @accordproject/concerto-core@^5.0.0 \
+  @accordproject/concerto-util@^5.0.0 \
+  @accordproject/concerto-vocabulary@^5.0.0 \
   @accordproject/concerto-metamodel
 ```
 
