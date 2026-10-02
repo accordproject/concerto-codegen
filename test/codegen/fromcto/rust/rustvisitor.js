@@ -533,6 +533,124 @@ describe('RustVisitor', function () {
                 ]);
         });
 
+        describe('recursion', () => {
+            const decl = (name, props, superTypes = []) => ({
+                isClassDeclaration: () => true,
+                isEnum: () => false,
+                getFullyQualifiedName: () => name,
+                getProperties: () => props,
+                getAllSuperTypeDeclarations: () => superTypes,
+            });
+            const prop = (type, opts = {}) => ({
+                isArray: () => !!opts.array,
+                isPrimitive: () => false,
+                getFullyQualifiedTypeName: () => type,
+            });
+            let modelManager;
+            let owner;
+            const rel = (type, parent) => {
+                const r = sinon.createStubInstance(RelationshipDeclaration);
+                r.name = 'bob';
+                r.type = type;
+                r.getParent.returns(parent);
+                r.getFullyQualifiedTypeName.returns(type);
+                r.isPrimitive.returns(false);
+                return r;
+            };
+
+            beforeEach(() => {
+                modelManager = { getType: sinon.stub() };
+                owner = decl('org.A', []);
+                owner.getModelFile = () => ({
+                    getType: () => owner,
+                    getModelManager: () => modelManager,
+                });
+            });
+
+            const lastLine = () =>
+                param.fileWriter.writeLine.lastCall.args[1];
+
+            it('should box a relationship to its own class', () => {
+                modelManager.getType.withArgs('org.A').returns(owner);
+                rustVisitor.visitRelationshipDeclaration(
+                    rel('org.A', owner),
+                    param
+                );
+                lastLine().should.equal('pub bob: Box<org.A>,');
+            });
+
+            it('should box a relationship that reaches its class through another', () => {
+                modelManager.getType
+                    .withArgs('org.B')
+                    .returns(decl('org.B', [prop('org.A')]));
+                rustVisitor.visitRelationshipDeclaration(
+                    rel('org.B', owner),
+                    param
+                );
+                lastLine().should.equal('pub bob: Box<org.B>,');
+            });
+
+            it('should box a relationship to a subclass of its class', () => {
+                modelManager.getType
+                    .withArgs('org.B')
+                    .returns(decl('org.B', [], [owner]));
+                rustVisitor.visitRelationshipDeclaration(
+                    rel('org.B', owner),
+                    param
+                );
+                lastLine().should.equal('pub bob: Box<org.B>,');
+            });
+
+            it('should not box when only reachable through an array', () => {
+                modelManager.getType
+                    .withArgs('org.B')
+                    .returns(decl('org.B', [prop('org.A', { array: true })]));
+                rustVisitor.visitRelationshipDeclaration(
+                    rel('org.B', owner),
+                    param
+                );
+                lastLine().should.equal('pub bob: org.B,');
+            });
+
+            it('should not loop on cycles that do not include the owner', () => {
+                modelManager.getType
+                    .withArgs('org.B')
+                    .returns(decl('org.B', [prop('org.C')]));
+                modelManager.getType
+                    .withArgs('org.C')
+                    .returns(decl('org.C', [prop('org.B')]));
+                rustVisitor.visitRelationshipDeclaration(
+                    rel('org.B', owner),
+                    param
+                );
+                lastLine().should.equal('pub bob: org.B,');
+            });
+
+            it('should not box a relationship to an enum', () => {
+                const enumDecl = decl('org.E', [prop('org.A')]);
+                enumDecl.isEnum = () => true;
+                modelManager.getType.withArgs('org.E').returns(enumDecl);
+                rustVisitor.visitRelationshipDeclaration(
+                    rel('org.E', owner),
+                    param
+                );
+                lastLine().should.equal('pub bob: org.E,');
+            });
+
+            it('should box a containment field to its own class', () => {
+                modelManager.getType.withArgs('org.A').returns(owner);
+                const field = sinon.createStubInstance(Field);
+                field.name = 'bob';
+                field.type = 'org.A';
+                field.getParent.returns(owner);
+                field.getFullyQualifiedTypeName.returns('org.A');
+                field.isPrimitive.returns(false);
+                field.isOptional.returns(true);
+                rustVisitor.visitField(field, param);
+                lastLine().should.equal('pub bob: Option<Box<org.A>>,');
+            });
+        });
+
         it('should write a line for field name and type thats an array', () => {
             const mockField = sinon.createStubInstance(Field);
             mockField.isPrimitive.returns(false);
@@ -1772,6 +1890,49 @@ describe('RustVisitor', function () {
             param.fileWriter.writeLine.withArgs(
                 0,
                 'pub type AddressMap = HashMap<String, Address>;'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should unwrap scalar key and value types to their primitives', () => {
+            mockMapDeclaration.getName.returns('DirectoryMap');
+            mockMapDeclaration.getKey.returns(mockMapKey);
+            mockMapDeclaration.getValue.returns(mockMapValue);
+            mockMapKey.getType.returns('SSN');
+            mockMapValue.getType.returns('Employee');
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.withArgs('SSN').returns({
+                isScalarDeclaration: () => true,
+                getType: () => 'String',
+            });
+            mockModelFile.getType.withArgs('Employee').returns({
+                isScalarDeclaration: () => false,
+            });
+
+            rustVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(
+                0,
+                'pub type DirectoryMap = HashMap<String, Employee>;'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should unwrap scalar value types to their primitives', () => {
+            mockMapDeclaration.getName.returns('RatingMap');
+            mockMapDeclaration.getKey.returns(mockMapKey);
+            mockMapDeclaration.getValue.returns(mockMapValue);
+            mockMapKey.getType.returns('String');
+            mockMapValue.getType.returns('Rating');
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.withArgs('Rating').returns({
+                isScalarDeclaration: () => true,
+                getType: () => 'Integer',
+            });
+
+            rustVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(
+                0,
+                'pub type RatingMap = HashMap<String, i32>;'
             ).calledOnce.should.be.ok;
         });
 
