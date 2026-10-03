@@ -506,6 +506,133 @@ describe('RustVisitor', function () {
                 'pub enum SimpleClassUnion {'
             ).called.should.be.false;
         });
+
+        it('should list every concrete descendant in the union, skipping abstract ones', () => {
+            let mockDog = sinon.createStubInstance(ClassDeclaration);
+            mockDog.getName.returns('Dog');
+            mockDog.getFullyQualifiedName.returns('org.example.Dog');
+            mockDog.isEnum.returns(false);
+            mockDog.isAbstract.returns(false);
+            mockDog.getModelFile.returns(mockModelFile);
+            mockDog.getDirectSubclasses.returns([]);
+
+            let mockMammal = sinon.createStubInstance(ClassDeclaration);
+            mockMammal.getName.returns('Mammal');
+            mockMammal.getFullyQualifiedName.returns('org.example.Mammal');
+            mockMammal.isEnum.returns(false);
+            mockMammal.isAbstract.returns(true);
+            mockMammal.getModelFile.returns(mockModelFile);
+            mockMammal.getDirectSubclasses.returns([mockDog]);
+
+            let mockBird = sinon.createStubInstance(ClassDeclaration);
+            mockBird.getName.returns('Bird');
+            mockBird.getFullyQualifiedName.returns('org.example.Bird');
+            mockBird.isEnum.returns(false);
+            mockBird.isAbstract.returns(false);
+            mockBird.getModelFile.returns(mockModelFile);
+            mockBird.getDirectSubclasses.returns([]);
+
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getName.returns('Animal');
+            mockClassDeclaration.getFullyQualifiedName.returns(
+                'org.example.Animal'
+            );
+            mockClassDeclaration.getDirectSubclasses.returns([
+                mockMammal,
+                mockBird,
+            ]);
+            mockClassDeclaration.isAbstract.returns(true);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+
+            param.flattenSubclassesToUnion = true;
+
+            rustVisitor.visitClassDeclaration(mockClassDeclaration, param);
+
+            const lines = param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args);
+            const start = lines.findIndex(
+                ([, line]) => line === 'pub enum AnimalUnion {'
+            );
+            lines.slice(start, start + 6).should.deep.equal([
+                [0, 'pub enum AnimalUnion {'],
+                [1, '#[serde(rename = "org.example.Dog")]'],
+                [1, 'Dog(Dog),'],
+                [0, ''],
+                [1, '#[serde(rename = "org.example.Bird")]'],
+                [1, 'Bird(Bird),'],
+            ]);
+            param.fileWriter.writeLine.withArgs(1, 'Mammal(Mammal),').called
+                .should.be.false;
+        });
+
+        it('should not require $class on a struct that is a union variant', () => {
+            let mockSuperType = sinon.createStubInstance(ClassDeclaration);
+            mockSuperType.getModelFile.returns(mockModelFile);
+
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getName.returns('Dog');
+            mockClassDeclaration.isAbstract.returns(false);
+            mockClassDeclaration.getSuperTypeDeclaration.returns(
+                mockSuperType
+            );
+            mockClassDeclaration.getDirectSubclasses.returns([]);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+
+            param.flattenSubclassesToUnion = true;
+
+            rustVisitor.visitClassDeclaration(mockClassDeclaration, param);
+
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [0, '#[derive(Debug, Clone, Serialize, Deserialize)]'],
+                    [0, 'pub struct Dog {'],
+                    [1, '#[serde('],
+                    [2, 'rename = "$class",'],
+                    [2, 'default,'],
+                    [2, 'skip_serializing_if = "String::is_empty",'],
+                    [1, ')]'],
+                    [1, 'pub _class: String,'],
+                    [0, '}'],
+                    [0, ''],
+                ]);
+        });
+
+        it('should require $class on a struct whose super type is in another model file', () => {
+            let mockSuperType = sinon.createStubInstance(ClassDeclaration);
+            mockSuperType.getModelFile.returns(
+                sinon.createStubInstance(ModelFile)
+            );
+
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getName.returns('Dog');
+            mockClassDeclaration.isAbstract.returns(false);
+            mockClassDeclaration.getSuperTypeDeclaration.returns(
+                mockSuperType
+            );
+            mockClassDeclaration.getDirectSubclasses.returns([]);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+
+            param.flattenSubclassesToUnion = true;
+
+            rustVisitor.visitClassDeclaration(mockClassDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(2, 'default,').called.should.be
+                .false;
+            param.fileWriter.writeLine.withArgs(1, 'pub _class: String,')
+                .calledOnce.should.be.ok;
+        });
     });
 
     describe('visitField', () => {
@@ -514,6 +641,45 @@ describe('RustVisitor', function () {
             param = {
                 fileWriter: mockFileWriter,
             };
+        });
+
+        it('should let a field whose default is its Rust default be absent', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.name = 'isArray';
+            mockField.type = 'Boolean';
+            mockField.isPrimitive.returns(true);
+            mockField.getDefaultValue.returns(false);
+            rustVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde('],
+                    [2, 'rename = "isArray",'],
+                    [2, 'default,'],
+                    [1, ')]'],
+                    [1, 'pub is_array: bool,'],
+                ]);
+        });
+
+        it('should default a field only when its default is its Rust default', () => {
+            const cases = [
+                ['Boolean', true, false, false],
+                ['Integer', 0, false, true],
+                ['Long', 1, false, false],
+                ['Double', 0, false, true],
+                ['String', '', false, true],
+                ['String', 'x', false, false],
+                ['Boolean', false, true, false],
+                ['DateTime', false, false, false],
+            ];
+            cases.forEach(([type, defaultValue, optional, expected]) => {
+                const mockField = sinon.createStubInstance(Field);
+                mockField.type = type;
+                mockField.getDefaultValue.returns(defaultValue);
+                mockField.isOptional.returns(optional);
+                rustVisitor.hasRustDefault(mockField).should.equal(expected);
+            });
         });
         it('should write a line for primitive field name and type', () => {
             const mockField = sinon.createStubInstance(Field);
