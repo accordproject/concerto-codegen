@@ -10,9 +10,22 @@
     "main": "index.js",
     "browser": "umd/concerto-codegen.js",
     "typings": "types/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./types/index.d.ts",
+            "browser": "./dist/esm-browser/index.mjs",
+            "default": "./index.js"
+        },
+        "./lib/codegen/fromjson/cto/inferModel": {
+            "browser": "./dist/esm-browser/lib/codegen/fromjson/cto/inferModel.mjs",
+            "default": "./lib/codegen/fromjson/cto/inferModel.js"
+        },
+        "./package.json": "./package.json"
+    },
+    "sideEffects": false,
     "scripts": {
         "coverage": "node ./scripts/coverage.js \"packages/concerto-*\" && nyc report -t coverage --cwd . --report-dir coverage --reporter=lcov && cat ./coverage/lcov.info",
-        "prepublishOnly": "npm run webpack",
+        "prepublishOnly": "npm run build:esm && npm run webpack",
         "pretest": "npm run lint",
         "lint": "eslint . && npm run lint:lockfile && npm run lint:deps",
         "postlint": "npm run licchk",
@@ -42,10 +55,12 @@
         "test:watch": "nyc mocha --watch --recursive -t 10000",
         "mocha": "mocha --recursive -t 10000",
         "nyc": "nyc mocha --recursive -t 10000",
-        "build": "npm run build:types",
+        "build": "npm run build:types && npm run build:esm",
         "postbuild": "npm run webpack",
         "webpack": "webpack --config webpack.config.js --mode production",
         "build:types": "tsc index.js --declaration --allowJs --emitDeclarationOnly --skipLibCheck --esModuleInterop --outDir types",
+        "build:esm": "node ./scripts/build-esm.js",
+        "test:esm": "node ./scripts/smoke-esm.mjs",
         "lint:deps": "syncpack lint",
         "lint:deps:fix": "syncpack fix",
         "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --allowed-hosts npm --validate-https"
@@ -77,6 +92,7 @@
         "chai": "4.3.6",
         "chai-as-promised": "7.1.1",
         "chai-things": "0.2.0",
+        "esbuild": "0.27.1",
         "eslint": "8.2.0",
         "expect": "30.2.0",
         "graphql": "16.14.2",
