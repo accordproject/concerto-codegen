@@ -130,6 +130,31 @@ enum Root {
 }`);
     });
 
+    it('should generate for a schema with a non-URL $id value', async () => {
+        const inferredConcertoJsonModel = JsonSchemaVisitor
+            .parse({
+                $schema: 'http://json-schema.org/draft-07/schema#',
+                $id: 'mySchema',
+                type: 'object',
+                properties: {
+                    name: { type: 'string' }
+                }
+            })
+            .accept(
+                jsonSchemaVisitor, jsonSchemaVisitorParameters
+            );
+
+        const inferredConcertoModel = Printer.toCTO(
+            inferredConcertoJsonModel.models[0]
+        );
+
+        inferredConcertoModel.should.equal(`namespace com.test@1.0.0
+
+concept mySchema {
+  o String name optional
+}`);
+    });
+
     it('should generate for a simple array definition', async () => {
         const inferredConcertoJsonModel = JsonSchemaVisitor
             .parse({
