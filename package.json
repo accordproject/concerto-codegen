@@ -8,7 +8,6 @@
         "npm": ">=9"
     },
     "main": "index.js",
-    "browser": "umd/concerto-codegen.js",
     "typings": "types/index.d.ts",
     "exports": {
         ".": {
@@ -25,7 +24,7 @@
     "sideEffects": false,
     "scripts": {
         "coverage": "node ./scripts/coverage.js \"packages/concerto-*\" && nyc report -t coverage --cwd . --report-dir coverage --reporter=lcov && cat ./coverage/lcov.info",
-        "prepublishOnly": "npm run build:esm && npm run webpack",
+        "prepublishOnly": "npm run build:esm",
         "pretest": "npm run lint",
         "lint": "eslint . && npm run lint:lockfile && npm run lint:deps",
         "postlint": "npm run licchk",
@@ -56,8 +55,6 @@
         "mocha": "mocha --recursive -t 10000",
         "nyc": "nyc mocha --recursive -t 10000",
         "build": "npm run build:types && npm run build:esm",
-        "postbuild": "npm run webpack",
-        "webpack": "webpack --config webpack.config.js --mode production",
         "build:types": "tsc index.js --declaration --allowJs --emitDeclarationOnly --skipLibCheck --esModuleInterop --outDir types",
         "build:esm": "node ./scripts/build-esm.js",
         "test:esm": "node ./scripts/smoke-esm.mjs",
@@ -85,10 +82,8 @@
         "@accordproject/concerto-cto": "5.0.0",
         "@accordproject/concerto-util": "5.0.0",
         "@accordproject/concerto-vocabulary": "5.0.0",
-        "@babel/preset-env": "7.16.11",
         "@redocly/cli": "1.34.3",
         "@types/webgl-ext": "0.0.37",
-        "babel-loader": "8.2.3",
         "chai": "4.3.6",
         "chai-as-promised": "7.1.1",
         "chai-things": "0.2.0",
@@ -106,7 +101,6 @@
         "mocha": "11.3.0",
         "mocha-expect-snapshot": "8.0.0",
         "moxios": "0.4.0",
-        "node-polyfill-webpack-plugin": "4.1.0",
         "nunjucks": "3.2.4",
         "nyc": "15.1.0",
         "openapi-typescript": "7.13.0",
@@ -115,9 +109,7 @@
         "syncpack": "14.0.0-alpha.32",
         "tmp-promise": "3.0.2",
         "ts-json-schema-generator": "2.3.0",
-        "typescript": "5.7.2",
-        "webpack": "5.105.0",
-        "webpack-cli": "4.9.1"
+        "typescript": "5.7.2"
     },
     "dependencies": {
         "@openapi-contrib/openapi-schema-to-json-schema": "4.0.0",
