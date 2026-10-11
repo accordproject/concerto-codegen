@@ -38,6 +38,9 @@ jobs:
       - run: npm run build --if-present
       - run: npm test
 
+      - name: Smoke test the ES module build
+        run: npm run test:esm
+
       - name: Calculate code coverage
         run: npm run coverage
 
