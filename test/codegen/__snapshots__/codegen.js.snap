@@ -367,7 +367,7 @@ org.acme.hr_1_0_0.ChangeOfAddress "1" *-- "1" org.acme.hr.base_1_0_0.Address : n
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 1`] = `
 {
   "key": "concerto.decorator@1.0.0.avdl",
-  "value": "@namespace("concerto.decorator@1.0.0")
+  "value": "@namespace("concerto.decorator")
 protocol MyProtocol {
 
    import idl "concerto@1.0.0.avdl";
@@ -387,7 +387,7 @@ protocol MyProtocol {
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 2`] = `
 {
   "key": "concerto@1.0.0.avdl",
-  "value": "@namespace("concerto@1.0.0")
+  "value": "@namespace("concerto")
 protocol MyProtocol {
 
    import idl "concerto.decorator@1.0.0.avdl";
@@ -421,7 +421,7 @@ protocol MyProtocol {
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 3`] = `
 {
   "key": "org.acme.hr.base@1.0.0.avdl",
-  "value": "@namespace("org.acme.hr.base@1.0.0")
+  "value": "@namespace("org.acme.hr.base")
 protocol MyProtocol {
 
    import idl "concerto@1.0.0.avdl";
@@ -466,7 +466,7 @@ protocol MyProtocol {
 exports[`codegen #formats check we can convert all formats from namespace versioned CTO, format 'avro' 4`] = `
 {
   "key": "org.acme.hr@1.0.0.avdl",
-  "value": "@namespace("org.acme.hr@1.0.0")
+  "value": "@namespace("org.acme.hr")
 protocol MyProtocol {
 
    import idl "org.acme.hr.base@1.0.0.avdl";
