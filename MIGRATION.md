@@ -33,13 +33,14 @@ grep -rn "concerto-codegen.js" .
 | Node, `require()` | `index.js` | `index.js` (unchanged) |
 | Node, `import` | `index.js` | `index.js` (unchanged) |
 | Bundlers targeting the web (webpack 5, Vite, Rollup, esbuild) | `umd/concerto-codegen.js`, through the `browser` field | `dist/esm-browser/index.mjs`, through the `browser` condition of `exports` |
-| Files inside the package | importable | not importable, except `lib/codegen/fromjson/cto/inferModel` |
+| Files inside the package | importable | not importable |
 | `<script>` tag | `umd/concerto-codegen.js` | removed |
 
 The package API is unchanged: `CodeGen`, `Common` and `version` export the same
 members as before. Each generator is now also exported by name, for example
 `import { TypescriptVisitor } from '@accordproject/concerto-codegen'`. These are the
-same classes as `CodeGen.TypescriptVisitor`.
+same classes as `CodeGen.TypescriptVisitor`. `inferModel`, which was only reachable
+through its file path, is now exported from the package root too.
 
 The browser build imports `@accordproject/concerto-core`, `@accordproject/concerto-util`
 and `@accordproject/concerto-vocabulary` from your application, instead of carrying its
@@ -57,8 +58,8 @@ const TypescriptVisitor = require('@accordproject/concerto-codegen/lib/codegen/f
 ```
 
 **After (7.0.0)** this fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`, because the
-`exports` map only lists the package root, `./package.json` and
-`./lib/codegen/fromjson/cto/inferModel`. Import from the package root instead:
+`exports` map only lists the package root and `./package.json`. Import from the
+package root instead:
 
 ```js
 const { TypescriptVisitor } = require('@accordproject/concerto-codegen');
@@ -66,8 +67,25 @@ const { TypescriptVisitor } = require('@accordproject/concerto-codegen');
 import { TypescriptVisitor } from '@accordproject/concerto-codegen';
 ```
 
-`@accordproject/concerto-codegen/lib/codegen/fromjson/cto/inferModel` keeps working,
-in Node and in bundlers.
+### `inferModel` moves to the package root
+
+**Before (6.x)** `inferModel` was not exported from the package, so it was imported by
+its file path, with or without `.js`, as the module's default export:
+
+```js
+const inferModel = require('@accordproject/concerto-codegen/lib/codegen/fromjson/cto/inferModel');
+// or
+const { default: inferModel } = await import('@accordproject/concerto-codegen/lib/codegen/fromjson/cto/inferModel');
+```
+
+**After (7.0.0)** the file path no longer resolves. Import `inferModel` by name from
+the package root; it now comes with type declarations:
+
+```js
+const { inferModel } = require('@accordproject/concerto-codegen');
+// or
+import { inferModel } from '@accordproject/concerto-codegen';
+```
 
 ### The UMD bundle is removed
 

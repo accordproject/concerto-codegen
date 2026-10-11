@@ -15,10 +15,6 @@
             "browser": "./dist/esm-browser/index.mjs",
             "default": "./index.js"
         },
-        "./lib/codegen/fromjson/cto/inferModel": {
-            "browser": "./dist/esm-browser/lib/codegen/fromjson/cto/inferModel.mjs",
-            "default": "./lib/codegen/fromjson/cto/inferModel.js"
-        },
         "./package.json": "./package.json"
     },
     "sideEffects": false,

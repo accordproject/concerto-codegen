@@ -39,7 +39,6 @@ const require = createRequire(import.meta.url);
 const packageDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const browserDir = path.join(packageDir, 'dist', 'esm-browser');
 const PACKAGE = '@accordproject/concerto-codegen';
-const INFER_MODEL = `${PACKAGE}/lib/codegen/fromjson/cto/inferModel`;
 
 const MODEL = `namespace smoke@1.0.0
 concept Address {
@@ -127,9 +126,10 @@ check('Node import and require expose the same names', async () => {
     assert.deepStrictEqual(namesOf(await import(PACKAGE)), namesOf(require(PACKAGE)));
 });
 
-check('Node resolves the inferModel subpath', () => {
-    const inferModel = require(INFER_MODEL);
-    assert.match(inferModel('smoke@1.0.0', 'Root', { name: 'x' }), /concept Root/);
+check('files inside the package do not resolve', () => {
+    for (const file of ['lib/codegen/fromjson/cto/inferModel', 'lib/codegen/codegen.js', 'index.js']) {
+        assert.throws(() => require.resolve(`${PACKAGE}/${file}`), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' }, file);
+    }
 });
 
 check('the browser build exposes the same names as the CommonJS entry point', async () => {
@@ -176,8 +176,7 @@ check('a bundled application generates code in a browser-like context', async ()
     const { code, inputs } = await bundle(`
         import { ModelManager } from '@accordproject/concerto-core';
         import { InMemoryWriter } from '@accordproject/concerto-util';
-        import { CodeGen, Common, BenchmarkModelGenerator } from '${PACKAGE}';
-        import inferModel from '${INFER_MODEL}';
+        import { CodeGen, Common, BenchmarkModelGenerator, inferModel } from '${PACKAGE}';
 
         const modelManager = new ModelManager();
         modelManager.addCTOModel(${JSON.stringify(MODEL)}, 'smoke.cto');

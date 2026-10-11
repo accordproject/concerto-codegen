@@ -63,3 +63,4 @@ export const BenchmarkModelGenerator: typeof import("./lib/common/benchmarkModel
 export const DiagramVisitor: typeof import("./lib/common/diagramvisitor");
 export const ConcertoGraphVisitor: typeof import("./lib/common/graph").ConcertoGraphVisitor;
 export const DirectedGraph: typeof import("./lib/common/graph").DirectedGraph;
+export const inferModel: typeof import("./lib/codegen/fromjson/cto/inferModel");

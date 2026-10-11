@@ -20,12 +20,14 @@ chai.should();
 const codegen = require('../index.js');
 const CodeGen = require('../lib/codegen/codegen.js');
 const Common = require('../lib/common/common.js');
+const inferModel = require('../lib/codegen/fromjson/cto/inferModel.js');
 const packageJson = require('../package.json');
 
 describe('index', function () {
-    it('exports CodeGen, Common and version', function () {
+    it('exports CodeGen, Common, inferModel and version', function () {
         codegen.CodeGen.should.equal(CodeGen);
         codegen.Common.should.equal(Common);
+        codegen.inferModel.should.equal(inferModel);
         codegen.version.should.equal(packageJson);
     });
 
@@ -44,7 +46,7 @@ describe('index', function () {
     });
 
     it('exports nothing else', function () {
-        const expected = ['CodeGen', 'Common', 'version',
+        const expected = ['CodeGen', 'Common', 'inferModel', 'version',
             ...Object.keys(CodeGen).filter(name => name !== 'formats'),
             ...Object.keys(Common)];
         Object.keys(codegen).sort().should.deep.equal(expected.sort());

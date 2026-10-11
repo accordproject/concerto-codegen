@@ -146,8 +146,8 @@ const builtinShimPlugin = {
 
 /**
  * Writes the ES module entry points over the per-module outputs, mirroring the
- * shape of index.js: the CodeGen and Common namespaces, version, and the named
- * generator exports. The shape is read from index.js itself, so a generator
+ * shape of index.js: the CodeGen and Common namespaces, version, the named
+ * generator exports and inferModel. The shape is read from index.js itself, so a generator
  * added to lib/codegen/codegen.js and index.js appears here without edits.
  *
  * These files are written rather than bundled. Bundling them would hoist every
@@ -214,10 +214,14 @@ function writeEntryPoints() {
             continue;
         }
         const namespace = namespaces.find(candidate => index[candidate][name] === value);
-        if (!namespace) {
-            throw new Error(`index.js export ${name} is not a member of ${namespaces.join(' or ')}`);
+        if (namespace) {
+            lines.push(`export { ${name} } from './${namespace}.mjs';`);
+        } else if (modules.has(value)) {
+            // An export of its own, such as inferModel, re-exported from its module.
+            lines.push(`export { default as ${name} } from '${specifierOf(modules.get(value))}';`);
+        } else {
+            throw new Error(`index.js export ${name} is neither a member of ${namespaces.join(' or ')} nor a module under lib/`);
         }
-        lines.push(`export { ${name} } from './${namespace}.mjs';`);
     }
     fs.writeFileSync(path.join(outdir, 'index.mjs'), `${lines.join('\n')}\n`);
 }

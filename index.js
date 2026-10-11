@@ -50,3 +50,6 @@ module.exports.BenchmarkModelGenerator = require('./lib/common/benchmarkModelGen
 module.exports.DiagramVisitor = require('./lib/common/diagramvisitor');
 module.exports.ConcertoGraphVisitor = require('./lib/common/graph').ConcertoGraphVisitor;
 module.exports.DirectedGraph = require('./lib/common/graph').DirectedGraph;
+
+// Infers a Concerto model from a sample JSON value. It is not part of CodeGen or Common.
+module.exports.inferModel = require('./lib/codegen/fromjson/cto/inferModel');
