@@ -36,7 +36,6 @@ const CASES = [
             modelManager.addCTOModel(MetaModelUtil.metaModelCto);
         },
         skip: {
-            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
     },
@@ -48,7 +47,6 @@ const CASES = [
             protobuf:'Empty enum produces invalid Protobuf (enum must have >= 1 item)',
             graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
             rust: 'map declarations reference scalar key/value types (e.g. SSN) that the Rust visitor does not emit, so cargo check fails',
-            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
     },
@@ -62,7 +60,7 @@ const CASES = [
             protobuf: 'Empty enum produces invalid Protobuf (enum must have >= 1 item) and scalar map keys (e.g. SSN) are not valid Proto3 map key types',
             graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
             rust: 'map declarations reference scalar key/value types (e.g. SSN, Time) that the Rust visitor does not emit, so cargo check fails',
-            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
+            avro: 'imported types are referenced by short name (e.g. Category from org.acme.hr.base), so avro-tools cannot resolve them',
             openapi: 'JSON Schema $decorators and invalid schema nesting fail OpenAPI struct validation',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
@@ -71,7 +69,6 @@ const CASES = [
         name: 'stringlength',
         files: ['stringlength.cto'],
         skip: {
-            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
     },
@@ -79,7 +76,6 @@ const CASES = [
         name: 'collectionsize',
         files: ['collectionsize.cto'],
         skip: {
-            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
             protobuf: 'Relationships are not supported in protobuf',
             graphql: 'Relationships are not supported in graphql visitor',
@@ -90,7 +86,6 @@ const CASES = [
         name: 'model-base',
         files: ['model-base.cto'],
         skip: {
-            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
             openapi: 'JSON Schema $decorators fail OpenAPI struct validation',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
@@ -99,7 +94,6 @@ const CASES = [
         name: 'agreement',
         files: ['agreement.cto'],
         skip: {
-            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
             openapi: 'JSON Schema $decorators fail OpenAPI struct validation',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
@@ -108,7 +102,6 @@ const CASES = [
         name: 'circular',
         files: ['circular.cto'],
         skip: {
-            avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
     },
