@@ -63,7 +63,7 @@ const CASES = [
             graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
             rust: 'map declarations reference scalar key/value types (e.g. SSN, Time) that the Rust visitor does not emit, so cargo check fails',
             avro: 'versioned namespaces (e.g. concerto.decorator@1.0.0) are illegal Avro identifiers (segment "0")',
-            openapi: 'JSON Schema $decorators and invalid schema nesting fail OpenAPI struct validation',
+            openapi: 'JSON Schema $decorators and map propertyNames fail OpenAPI struct validation, and some $refs do not resolve',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
     },
@@ -83,7 +83,7 @@ const CASES = [
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
             protobuf: 'Relationships are not supported in protobuf',
             graphql: 'Relationships are not supported in graphql visitor',
-            openapi: 'Map schema nesting (schema property) fails OpenAPI struct validation',
+            openapi: 'OpenAPI 3.0 schema objects do not allow propertyNames, which map key schemas use',
         },
     },
     {
