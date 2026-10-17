@@ -1191,7 +1191,7 @@ describe('RustVisitor', function () {
                     [1, '#[serde('],
                     [2, 'rename = "Bob",'],
                     [1, ')]'],
-                    [1, 'pub bob: Person,'],
+                    [1, 'pub bob: Box<Person>,'],
                 ]);
         });
 
@@ -1236,7 +1236,7 @@ describe('RustVisitor', function () {
                     [2, 'rename = "Bob",'],
                     [2, 'skip_serializing_if = "Option::is_none",'],
                     [1, ')]'],
-                    [1, 'pub bob: Option<Person>,'],
+                    [1, 'pub bob: Option<Box<Person>>,'],
                 ]);
         });
 
@@ -1772,6 +1772,29 @@ describe('RustVisitor', function () {
             param.fileWriter.writeLine.withArgs(
                 0,
                 'pub type AddressMap = HashMap<String, Address>;'
+            ).calledOnce.should.be.ok;
+        });
+
+        it('should unwrap scalar key and value types to their primitives', () => {
+            mockMapDeclaration.getName.returns('DirectoryMap');
+            mockMapDeclaration.getKey.returns(mockMapKey);
+            mockMapDeclaration.getValue.returns(mockMapValue);
+            mockMapKey.getType.returns('SSN');
+            mockMapValue.getType.returns('Employee');
+            mockMapDeclaration.getModelFile.returns(mockModelFile);
+            mockModelFile.getType.withArgs('SSN').returns({
+                isScalarDeclaration: () => true,
+                getType: () => 'String',
+            });
+            mockModelFile.getType.withArgs('Employee').returns({
+                isScalarDeclaration: () => false,
+            });
+
+            rustVisitor.visitMapDeclaration(mockMapDeclaration, param);
+
+            param.fileWriter.writeLine.withArgs(
+                0,
+                'pub type DirectoryMap = HashMap<String, Employee>;'
             ).calledOnce.should.be.ok;
         });
 

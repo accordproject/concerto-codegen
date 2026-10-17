@@ -6083,7 +6083,7 @@ pub enum TShirtSizeType {
    LARGE,
 }
 
-pub type EmployeeTShirtSizes = HashMap<SSN, TShirtSizeType>;
+pub type EmployeeTShirtSizes = HashMap<String, TShirtSizeType>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Address {
@@ -6172,15 +6172,15 @@ pub struct Info {
 
 pub type CompanyProperties = HashMap<String, String>;
 
-pub type EmployeeLoginTimes = HashMap<String, Time>;
+pub type EmployeeLoginTimes = HashMap<String, DateTime<Utc>>;
 
-pub type EmployeeSocialSecurityNumbers = HashMap<String, SSN>;
+pub type EmployeeSocialSecurityNumbers = HashMap<String, String>;
 
-pub type NextOfKin = HashMap<KinName, KinTelephone>;
+pub type NextOfKin = HashMap<String, String>;
 
 pub type EmployeeProfiles = HashMap<String, Concept>;
 
-pub type EmployeeDirectory = HashMap<SSN, Employee>;
+pub type EmployeeDirectory = HashMap<String, Employee>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Company {
@@ -6402,7 +6402,7 @@ pub struct Employee {
       rename = "manager",
       skip_serializing_if = "Option::is_none",
    )]
-   pub manager: Option<Manager>,
+   pub manager: Option<Box<Manager>>,
    
    #[serde(
       rename = "email",
@@ -6474,7 +6474,7 @@ pub struct Contractor {
       rename = "manager",
       skip_serializing_if = "Option::is_none",
    )]
-   pub manager: Option<Manager>,
+   pub manager: Option<Box<Manager>>,
    
    #[serde(
       rename = "email",
@@ -6582,7 +6582,7 @@ pub struct Manager {
       rename = "manager",
       skip_serializing_if = "Option::is_none",
    )]
-   pub manager: Option<Manager>,
+   pub manager: Option<Box<Manager>>,
    
    #[serde(
       rename = "email",
@@ -6663,7 +6663,7 @@ pub struct Onboarded {
    #[serde(
       rename = "employee",
    )]
-   pub employee: Employee,
+   pub employee: Box<Employee>,
    
    #[serde(
       rename = "$timestamp",
@@ -6683,7 +6683,7 @@ pub struct ChangeOfAddress {
    #[serde(
       rename = "Person",
    )]
-   pub person: Person,
+   pub person: Box<Person>,
    
    #[serde(
       rename = "newAddress",
