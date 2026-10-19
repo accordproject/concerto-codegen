@@ -56,6 +56,17 @@ describe('Avro', function () {
             file.should.match(/protocol FancyProtocol/);
         });
 
+        it('should drop the version from the namespace', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel( MODEL_SIMPLE );
+            const visitor = new AvroVisitor();
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(visitor, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file = files.get('test@1.0.0.avdl');
+            file.should.match(/^@namespace\("test"\)$/m);
+        });
+
         it('should throw an error when an unrecognised type is supplied', () => {
             let thing = 'Something of unrecognised type';
             const visitor = new AvroVisitor();
