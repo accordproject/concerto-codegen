@@ -67,6 +67,35 @@ describe('Avro', function () {
             file.should.match(/^@namespace\("test"\)$/m);
         });
 
+        it('should write imported types with their full name', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel( MODEL_SIMPLE );
+            modelManager.addCTOModel(`
+namespace other@1.0.0
+
+import test@1.0.0.{Person, Color}
+
+map ColorByName {
+  o String
+  o Color
+}
+
+concept Team {
+  o Person lead
+  o Color[] colors
+  o ColorByName favourites
+}
+`);
+            const visitor = new AvroVisitor();
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(visitor, { fileWriter });
+            const files = fileWriter.getFilesInMemory();
+            const file = files.get('other@1.0.0.avdl');
+            file.should.match(/^\s+test\.Person lead;$/m);
+            file.should.match(/^\s+array<test\.Color> colors;$/m);
+            file.should.match(/^\s+map<test\.Color> favourites;$/m);
+        });
+
         it('should throw an error when an unrecognised type is supplied', () => {
             let thing = 'Something of unrecognised type';
             const visitor = new AvroVisitor();
