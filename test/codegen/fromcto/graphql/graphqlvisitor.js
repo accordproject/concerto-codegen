@@ -17,6 +17,7 @@
 const chai = require('chai');
 chai.should();
 const sinon = require('sinon');
+const { buildSchema } = require('graphql');
 
 const GraphQLVisitor = require('../../../../lib/codegen/fromcto/graphql/graphqlvisitor.js');
 
@@ -422,6 +423,67 @@ int: Int
 float: Float
 ref: String
 arrayRef: String) on OBJECT | FIELD_DEFINITION`]);
+        });
+    });
+
+    describe('names with $', () => {
+        // $ is not legal in GraphQL names, whatever kind of element it is in
+        const MODEL_WITH_DOLLARS = `
+namespace test@1.0.0
+
+enum Le$ve$l {
+  o LO$W$X
+}
+
+map Look$Up$Map {
+  o String
+  o String
+}
+
+asset It$em identified by id {
+  o String id
+  o String some$field$name
+  o Le$ve$l lev
+  o Look$Up$Map lookup
+  --> It$em par$ent$x optional
+}
+`;
+        let previousMapType;
+        before(() => {
+            previousMapType = process.env.ENABLE_MAP_TYPE;
+            process.env.ENABLE_MAP_TYPE = 'true';
+        });
+        after(() => {
+            if (previousMapType === undefined) {
+                delete process.env.ENABLE_MAP_TYPE;
+            } else {
+                process.env.ENABLE_MAP_TYPE = previousMapType;
+            }
+        });
+
+        it('should replace every $ so that the generated GraphQL is valid', () => {
+            const lines = [];
+            const fileWriter = {
+                openFile: () => {},
+                closeFile: () => {},
+                writeLine: (indent, line) => lines.push(line),
+                writeBeforeLine: (indent, line) => lines.unshift(line),
+            };
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_WITH_DOLLARS);
+            graphQLVisitor.visit(modelManager, { fileWriter });
+
+            const sdl = lines.join('\n');
+            // comments (e.g. the type of a relationship) keep the Concerto name
+            lines.map((line) => line.split('#')[0]).join('\n').should.not.contain('$');
+            sdl.should.contain('enum Le_ve_l {');
+            sdl.should.contain('LO_W_X');
+            sdl.should.contain('type Look_Up_Map {');
+            sdl.should.contain('type It_em ');
+            sdl.should.contain('some_field_name: String!');
+            sdl.should.contain('par_ent_x: ID # It$em');
+            // graphql-js is the reference parser for GraphQL SDL
+            (() => buildSchema(sdl)).should.not.throw();
         });
     });
 });
