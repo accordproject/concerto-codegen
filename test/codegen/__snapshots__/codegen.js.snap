@@ -7283,13 +7283,12 @@ xmlns:concerto="concerto"
    </xs:restriction>
 </xs:simpleType>
 <xs:element name="TShirtSizeType" type="org.acme.hr.base:TShirtSizeType"/>
-<xs:element name="EmployeeTShirtSizes">
-<xs:complexType>
+<xs:complexType name="EmployeeTShirtSizes">
    <xs:sequence>
-      <xs:element name="entry" type="EmployeeTShirtSizesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="entry" type="org.acme.hr.base:EmployeeTShirtSizesEntryType" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
 </xs:complexType>
-</xs:element>
+<xs:element name="EmployeeTShirtSizes" type="org.acme.hr.base:EmployeeTShirtSizes"/>
 <xs:complexType name="EmployeeTShirtSizesEntryType">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
@@ -7353,78 +7352,72 @@ xmlns:concerto="concerto"
    </xs:complexContent>
 </xs:complexType>
 <xs:element name="Info" type="org.acme.hr:Info"/>
-<xs:element name="CompanyProperties">
-<xs:complexType>
+<xs:complexType name="CompanyProperties">
    <xs:sequence>
-      <xs:element name="entry" type="CompanyPropertiesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="entry" type="org.acme.hr:CompanyPropertiesEntryType" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
 </xs:complexType>
-</xs:element>
+<xs:element name="CompanyProperties" type="org.acme.hr:CompanyProperties"/>
 <xs:complexType name="CompanyPropertiesEntryType">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
       <xs:element name="value" type="xs:string"/>
    </xs:sequence>
 </xs:complexType>
-<xs:element name="EmployeeLoginTimes">
-<xs:complexType>
+<xs:complexType name="EmployeeLoginTimes">
    <xs:sequence>
-      <xs:element name="entry" type="EmployeeLoginTimesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="entry" type="org.acme.hr:EmployeeLoginTimesEntryType" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
 </xs:complexType>
-</xs:element>
+<xs:element name="EmployeeLoginTimes" type="org.acme.hr:EmployeeLoginTimes"/>
 <xs:complexType name="EmployeeLoginTimesEntryType">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
       <xs:element name="value" type="xs:dateTime"/>
    </xs:sequence>
 </xs:complexType>
-<xs:element name="EmployeeSocialSecurityNumbers">
-<xs:complexType>
+<xs:complexType name="EmployeeSocialSecurityNumbers">
    <xs:sequence>
-      <xs:element name="entry" type="EmployeeSocialSecurityNumbersEntryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="entry" type="org.acme.hr:EmployeeSocialSecurityNumbersEntryType" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
 </xs:complexType>
-</xs:element>
+<xs:element name="EmployeeSocialSecurityNumbers" type="org.acme.hr:EmployeeSocialSecurityNumbers"/>
 <xs:complexType name="EmployeeSocialSecurityNumbersEntryType">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
       <xs:element name="value" type="xs:string"/>
    </xs:sequence>
 </xs:complexType>
-<xs:element name="NextOfKin">
-<xs:complexType>
+<xs:complexType name="NextOfKin">
    <xs:sequence>
-      <xs:element name="entry" type="NextOfKinEntryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="entry" type="org.acme.hr:NextOfKinEntryType" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
 </xs:complexType>
-</xs:element>
+<xs:element name="NextOfKin" type="org.acme.hr:NextOfKin"/>
 <xs:complexType name="NextOfKinEntryType">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
       <xs:element name="value" type="xs:string"/>
    </xs:sequence>
 </xs:complexType>
-<xs:element name="EmployeeProfiles">
-<xs:complexType>
+<xs:complexType name="EmployeeProfiles">
    <xs:sequence>
-      <xs:element name="entry" type="EmployeeProfilesEntryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="entry" type="org.acme.hr:EmployeeProfilesEntryType" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
 </xs:complexType>
-</xs:element>
+<xs:element name="EmployeeProfiles" type="org.acme.hr:EmployeeProfiles"/>
 <xs:complexType name="EmployeeProfilesEntryType">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>
       <xs:element name="value" type="concerto:Concept"/>
    </xs:sequence>
 </xs:complexType>
-<xs:element name="EmployeeDirectory">
-<xs:complexType>
+<xs:complexType name="EmployeeDirectory">
    <xs:sequence>
-      <xs:element name="entry" type="EmployeeDirectoryEntryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="entry" type="org.acme.hr:EmployeeDirectoryEntryType" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
 </xs:complexType>
-</xs:element>
+<xs:element name="EmployeeDirectory" type="org.acme.hr:EmployeeDirectory"/>
 <xs:complexType name="EmployeeDirectoryEntryType">
    <xs:sequence>
       <xs:element name="key" type="xs:string"/>

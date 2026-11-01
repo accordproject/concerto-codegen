@@ -29,6 +29,7 @@ const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+const InMemoryWriter = require('@accordproject/concerto-util').InMemoryWriter;
 const ModelUtil = require('@accordproject/concerto-core').ModelUtil;
 let sandbox = sinon.createSandbox();
 
@@ -413,21 +414,20 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(13);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:element name="Map1">']);
-            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="entry" type="Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '</xs:element>']);
+            param.fileWriter.writeLine.callCount.should.deep.equal(12);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="entry" type="org.acme:Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '<xs:element name="Map1" type="org.acme:Map1"/>']);
 
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([2, '<xs:element name="value" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(12).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
+            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="value" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([0, '</xs:complexType>']);
         });
 
 
@@ -459,21 +459,20 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(13);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:element name="Map1">']);
-            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="entry" type="Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '</xs:element>']);
+            param.fileWriter.writeLine.callCount.should.deep.equal(12);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="entry" type="org.acme:Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '<xs:element name="Map1" type="org.acme:Map1"/>']);
 
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([2, '<xs:element name="value" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(12).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
+            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="value" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([0, '</xs:complexType>']);
         });
 
         it('should write the map declaration for a map <String, Person>', () => {
@@ -506,13 +505,13 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(13);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:element name="Map1">']);
-            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="entry" type="Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.callCount.should.deep.equal(12);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="entry" type="org.acme:Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '<xs:element name="Map1" type="org.acme:Map1"/>']);
         });
 
         it('should write the map declaration for a map <String, Long>', () => {
@@ -533,21 +532,20 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(13);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:element name="Map1">']);
-            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="entry" type="Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '</xs:element>']);
+            param.fileWriter.writeLine.callCount.should.deep.equal(12);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="entry" type="org.acme:Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '<xs:element name="Map1" type="org.acme:Map1"/>']);
 
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([2, '<xs:element name="value" type="xs:long"/>']);
-            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(12).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
+            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="value" type="xs:long"/>']);
+            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([0, '</xs:complexType>']);
         });
 
         it('should write the map declaration for a map <String, Double>', () => {
@@ -568,21 +566,20 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(13);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:element name="Map1">']);
-            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="entry" type="Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '</xs:element>']);
+            param.fileWriter.writeLine.callCount.should.deep.equal(12);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="entry" type="org.acme:Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '<xs:element name="Map1" type="org.acme:Map1"/>']);
 
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([2, '<xs:element name="value" type="xs:double"/>']);
-            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(12).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
+            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="value" type="xs:double"/>']);
+            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([0, '</xs:complexType>']);
         });
 
         it('should write the map declaration for a map <String, Integer>', () => {
@@ -605,21 +602,20 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(13);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:element name="Map1">']);
-            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="entry" type="Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '</xs:element>']);
+            param.fileWriter.writeLine.callCount.should.deep.equal(12);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="entry" type="org.acme:Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '<xs:element name="Map1" type="org.acme:Map1"/>']);
 
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([2, '<xs:element name="value" type="xs:integer"/>']);
-            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(12).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
+            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="value" type="xs:integer"/>']);
+            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([0, '</xs:complexType>']);
         });
 
         it('should write the map declaration for a map <String, Concept>', () => {
@@ -633,13 +629,15 @@ describe('XmlSchemaVisitor', function () {
             const getKeyType            = sinon.stub();
             const getValueType          = sinon.stub();
 
-            sandbox.reset();
+            sandbox.restore();
 
+            mockMapDeclaration.getNamespace.returns('org.acme@1.0.0');
             mockMapDeclaration.getModelFile.returns(mockModelFile);
             mockModelFile.getNamespace.returns('org.acme');
             mockModelFile.getType.returns(mockDeclaration);
             mockDeclaration.isClassDeclaration.returns(true);
             mockDeclaration.getType.returns('Concept');
+            mockDeclaration.getFullyQualifiedName.returns('concerto@1.0.0.Concept');
             mockMapDeclaration.isClassDeclaration.returns(true);
             getKeyType.returns('String');
             getValueType.returns('Concept');
@@ -649,21 +647,20 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitMapDeclaration(mockMapDeclaration, param);
 
-            param.fileWriter.writeLine.callCount.should.deep.equal(13);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:element name="Map1">']);
-            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '<xs:complexType>']);
-            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([2, '<xs:element name="entry" type="Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
-            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '</xs:complexType>']);
-            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '</xs:element>']);
+            param.fileWriter.writeLine.callCount.should.deep.equal(12);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '<xs:complexType name="Map1">']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([2, '<xs:element name="entry" type="org.acme:Map1EntryType" minOccurs="0" maxOccurs="unbounded"/>']);
+            param.fileWriter.writeLine.getCall(3).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(4).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(5).args.should.deep.equal([0, '<xs:element name="Map1" type="org.acme:Map1"/>']);
 
-            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
-            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([1, '<xs:sequence>']);
-            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
-            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([2, '<xs:element name="value" type="concerto:Concept"/>']);
-            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([1, '</xs:sequence>']);
-            param.fileWriter.writeLine.getCall(12).args.should.deep.equal([0, '</xs:complexType>']);
+            param.fileWriter.writeLine.getCall(6).args.should.deep.equal([0, '<xs:complexType name="Map1EntryType">']);
+            param.fileWriter.writeLine.getCall(7).args.should.deep.equal([1, '<xs:sequence>']);
+            param.fileWriter.writeLine.getCall(8).args.should.deep.equal([2, '<xs:element name="key" type="xs:string"/>']);
+            param.fileWriter.writeLine.getCall(9).args.should.deep.equal([2, '<xs:element name="value" type="concerto:Concept"/>']);
+            param.fileWriter.writeLine.getCall(10).args.should.deep.equal([1, '</xs:sequence>']);
+            param.fileWriter.writeLine.getCall(11).args.should.deep.equal([0, '</xs:complexType>']);
 
         });
 
@@ -869,7 +866,7 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.withArgs(2, '<xs:element name="metadata">').calledOnce.should.be.ok;
-            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="LabelsEntryType" minOccurs="1" maxOccurs="20"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="org.acme:LabelsEntryType" minOccurs="1" maxOccurs="20"/>').calledOnce.should.be.ok;
             param.fileWriter.writeLine.withArgs(2, '</xs:element>').calledOnce.should.be.ok;
         });
 
@@ -900,7 +897,7 @@ describe('XmlSchemaVisitor', function () {
             });
 
             xmlSchemaVisitor.visitField(mockField, param);
-            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="LabelsEntryType" minOccurs="3" maxOccurs="unbounded"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="org.acme:LabelsEntryType" minOccurs="3" maxOccurs="unbounded"/>').calledOnce.should.be.ok;
         });
 
         it('should write an inline complexType for a map field with only max size', () => {
@@ -930,7 +927,7 @@ describe('XmlSchemaVisitor', function () {
             });
 
             xmlSchemaVisitor.visitField(mockField, param);
-            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="LabelsEntryType" minOccurs="0" maxOccurs="10"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="org.acme:LabelsEntryType" minOccurs="0" maxOccurs="10"/>').calledOnce.should.be.ok;
         });
     });
 
@@ -1037,6 +1034,59 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitRelationship(mockRelationship, param);
             param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="0" maxOccurs="10"/>').calledOnce.should.be.ok;
+        });
+    });
+
+    describe('maps', () => {
+        it('should write map types that can be referenced from other namespaces', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace org.base@1.0.0
+concept Address {
+    o String city
+}
+enum Color {
+    o RED
+}
+scalar SSN extends String
+map Labels {
+    o String
+    o String
+}`);
+            modelManager.addCTOModel(`namespace org.acme@1.0.0
+import org.base@1.0.0.{Address, Color, SSN, Labels}
+map AddressBook {
+    o String
+    o Address
+}
+map Colors {
+    o SSN
+    o Color
+}
+map Profiles {
+    o String
+    o Concept
+}
+concept Person {
+    o AddressBook addresses
+    o Colors colors size=[1,3]
+    o Labels labels
+    o Labels tags size=[,5]
+}`);
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(xmlSchemaVisitor, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('org.acme@1.0.0.xsd');
+
+            file.should.contain('<xs:complexType name="AddressBook">');
+            file.should.contain('<xs:element name="entry" type="org.acme:AddressBookEntryType" minOccurs="0" maxOccurs="unbounded"/>');
+            file.should.contain('<xs:element name="AddressBook" type="org.acme:AddressBook"/>');
+            file.should.contain('<xs:element name="value" type="org.base:Address"/>');
+            file.should.contain('<xs:element name="value" type="org.base:Color"/>');
+            file.should.contain('<xs:element name="value" type="concerto:Concept"/>');
+            file.should.contain('<xs:element name="addresses" type="org.acme:AddressBook"/>');
+            file.should.contain('<xs:element name="entry" type="org.acme:ColorsEntryType" minOccurs="1" maxOccurs="3"/>');
+            file.should.contain('<xs:element name="labels" type="org.base:Labels"/>');
+            file.should.contain('<xs:element name="entry" type="org.base:LabelsEntryType" minOccurs="0" maxOccurs="5"/>');
+            file.should.not.contain('<xs:element name="Colors">');
         });
     });
 });
