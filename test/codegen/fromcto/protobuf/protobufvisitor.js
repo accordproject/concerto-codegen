@@ -774,4 +774,27 @@ describe('ProtobufVisitor', function () {
             );
         });
     });
+
+    describe('scalars', () => {
+        it('should make optional fields of a scalar type optional', () => {
+            sandbox.restore();
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace test@1.0.0
+scalar SSN extends String
+scalar Time extends DateTime
+concept Person {
+    o SSN ssn
+    o SSN taxId optional
+    o Time lastSeen optional
+    o SSN[] aliases optional
+}`);
+            const writer = new InMemoryWriter();
+            modelManager.accept(new ProtobufVisitor(), { fileWriter: writer });
+            const file = writer.getFilesInMemory().get('test.v1_0_0.proto');
+            file.should.contain('  repeated string aliases = 1;');
+            file.should.contain('  optional google.protobuf.Timestamp lastSeen = 2;');
+            file.should.contain('  string ssn = 3;');
+            file.should.contain('  optional string taxId = 4;');
+        });
+    });
 });
