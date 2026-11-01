@@ -57,6 +57,32 @@ concept Person identified by email {
 }
 `;
 
+const MODEL_DECORATED = `
+namespace test@1.0.0
+
+@Term("Colour")
+enum Color {
+  o RED
+  o GREEN
+}
+
+concept Address {
+  o String city
+}
+
+@resource
+@Term("Person")
+concept Person identified by email {
+  o String email
+  @Term("Age in years")
+  o Integer age
+  @Term("Home")
+  o Address home
+  @Term("Friends")
+  --> Person[] friends
+}
+`;
+
 describe('OpenApi (samples)', function () {
 
     describe('samples', () => {
@@ -83,6 +109,20 @@ describe('OpenApi (samples)', function () {
             const visitor = new OpenApiVisitor();
             const spec = modelManager.accept(visitor);
             spec.paths.should.have.property('/peeps');
+        });
+        it('should write decorators under an x- extension key', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel( MODEL_DECORATED );
+            const visitor = new OpenApiVisitor();
+            const spec = modelManager.accept(visitor);
+            const schemas = spec.components.schemas;
+            const person = schemas['test@1.0.0.Person'];
+            expect(schemas['test@1.0.0.Color']['x-concerto-decorators']).deep.equal({ Term: ['Colour'] });
+            expect(person['x-concerto-decorators']).deep.equal({ resource: [], Term: ['Person'] });
+            expect(person.properties.age['x-concerto-decorators']).deep.equal({ Term: ['Age in years'] });
+            expect(person.properties.home['x-concerto-decorators']).deep.equal({ Term: ['Home'] });
+            expect(person.properties.friends['x-concerto-decorators']).deep.equal({ Term: ['Friends'] });
+            JSON.stringify(spec).should.not.contain('$decorators');
         });
         it('should throw an error when an unrecognised type is supplied', () => {
             let thing = 'Something of unrecognised type';

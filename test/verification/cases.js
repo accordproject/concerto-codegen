@@ -61,7 +61,7 @@ const CASES = [
             graphql: 'map types emit invalid GraphQL SDL (key/value field syntax)',
             rust: 'map declarations reference scalar key/value types (e.g. SSN, Time) that the Rust visitor does not emit, so cargo check fails',
             avro: 'imported types are referenced by short name (e.g. Category from org.acme.hr.base), so avro-tools cannot resolve them',
-            openapi: 'JSON Schema $decorators and invalid schema nesting fail OpenAPI struct validation',
+            openapi: 'Map schema nesting (schema property) fails OpenAPI struct validation',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
     },
@@ -86,7 +86,6 @@ const CASES = [
         name: 'model-base',
         files: ['model-base.cto'],
         skip: {
-            openapi: 'JSON Schema $decorators fail OpenAPI struct validation',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
     },
@@ -94,7 +93,6 @@ const CASES = [
         name: 'agreement',
         files: ['agreement.cto'],
         skip: {
-            openapi: 'JSON Schema $decorators fail OpenAPI struct validation',
             golang: 'GoLangVisitor emits bare package-name imports (e.g. import "concerto_decorator_1_0_0") instead of Go module-relative import paths, so any cross-namespace model fails go build',
         },
     },
