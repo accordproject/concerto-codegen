@@ -7302,7 +7302,7 @@ xmlns:concerto="concerto"
    <xs:sequence>
       <xs:element name="street" type="xs:string"/>
       <xs:element name="city" type="xs:string"/>
-      <xs:element name="state" type="org.acme.hr.base:State"/>
+      <xs:element name="state" type="org.acme.hr.base:State" minOccurs="0"/>
       <xs:element name="zipCode" type="xs:string"/>
       <xs:element name="country" type="xs:string"/>
    </xs:sequence>
@@ -7437,11 +7437,11 @@ xmlns:concerto="concerto"
    <xs:sequence>
       <xs:element name="name" type="xs:string"/>
       <xs:element name="headquarters" type="org.acme.hr.base:Address"/>
-      <xs:element name="companyProperties" type="org.acme.hr:CompanyProperties"/>
-      <xs:element name="employeeDirectory" type="org.acme.hr:EmployeeDirectory"/>
-      <xs:element name="employeeTShirtSizes" type="org.acme.hr.base:EmployeeTShirtSizes"/>
-      <xs:element name="employeeProfiles" type="org.acme.hr:EmployeeProfiles"/>
-      <xs:element name="employeeSocialSecurityNumbers" type="org.acme.hr:EmployeeSocialSecurityNumbers"/>
+      <xs:element name="companyProperties" type="org.acme.hr:CompanyProperties" minOccurs="0"/>
+      <xs:element name="employeeDirectory" type="org.acme.hr:EmployeeDirectory" minOccurs="0"/>
+      <xs:element name="employeeTShirtSizes" type="org.acme.hr.base:EmployeeTShirtSizes" minOccurs="0"/>
+      <xs:element name="employeeProfiles" type="org.acme.hr:EmployeeProfiles" minOccurs="0"/>
+      <xs:element name="employeeSocialSecurityNumbers" type="org.acme.hr:EmployeeSocialSecurityNumbers" minOccurs="0"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -7492,7 +7492,7 @@ xmlns:concerto="concerto"
       <xs:element name="email" type="xs:string"/>
       <xs:element name="firstName" type="xs:string"/>
       <xs:element name="lastName" type="xs:string"/>
-      <xs:element name="middleNames" type="xs:string"/>
+      <xs:element name="middleNames" type="xs:string" minOccurs="0"/>
       <xs:element name="homeAddress" type="org.acme.hr.base:Address"/>
       <xs:element name="ssn" type="xs:string"/>
       <xs:element name="height" type="xs:double"/>
@@ -7514,7 +7514,7 @@ xmlns:concerto="concerto"
       <xs:element name="department" type="org.acme.hr:Department"/>
       <xs:element name="officeAddress" type="org.acme.hr.base:Address"/>
       <xs:element name="companyAssets" type="org.acme.hr:Equipment" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="manager" type="org.acme.hr:Manager"/>
+      <xs:element name="manager" type="org.acme.hr:Manager" minOccurs="0"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
@@ -7525,7 +7525,7 @@ xmlns:concerto="concerto"
    <xs:extension base="org.acme.hr:Person">
    <xs:sequence>
       <xs:element name="company" type="org.acme.hr:Company"/>
-      <xs:element name="manager" type="org.acme.hr:Manager"/>
+      <xs:element name="manager" type="org.acme.hr:Manager" minOccurs="0"/>
    </xs:sequence>
    </xs:extension>
    </xs:complexContent>
