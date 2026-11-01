@@ -20,6 +20,7 @@ const path = require('path');
 const { dir } = require('tmp-promise');
 
 const { FileWriter } = require('@accordproject/concerto-util');
+const { ModelManager } = require('@accordproject/concerto-core');
 const ProtobufVisitor = require('../../lib/codegen/fromcto/protobuf/protobufvisitor.js');
 
 const {
@@ -107,5 +108,31 @@ describe('verification', function () {
             const modelManager = createModelManager(testCase);
             await verifyProtobufCompiles(modelManager, testCase.visitorOptions || {});
         });
+    });
+
+    const runMapTest = PROTOC_SKIP_REASON ? it.skip : it;
+    runMapTest('generated Protobuf map fields with scalar aliases compile with protoc', async function () {
+        const modelManager = new ModelManager();
+        modelManager.addCTOModel(`namespace org.example.types@1.0.0
+            scalar Identifier extends String
+            scalar Time extends DateTime
+            map LoginTimes { o Identifier o Time }`);
+        modelManager.addCTOModel(`namespace org.example.maps@1.0.0
+            import org.example.types@1.0.0.LoginTimes
+            scalar Key extends String
+            scalar Amount extends Double
+            map Amounts { o Key o Amount }
+            enum Status { o ACTIVE o INACTIVE }
+            concept Person { o String name }
+            map People { o String o Person }
+            map Statuses { o String o Status }
+            concept Record {
+                o Amounts primary
+                o Amounts secondary optional
+                o LoginTimes logins optional
+                o People people
+                o Statuses statuses optional
+            }`);
+        await verifyProtobufCompiles(modelManager);
     });
 });
