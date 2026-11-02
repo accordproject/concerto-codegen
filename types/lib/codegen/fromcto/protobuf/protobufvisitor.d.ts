@@ -17,10 +17,12 @@ declare class ProtobufVisitor {
     /**
      * Transform a Concerto meta property into a Proto3 field rule.
      * @param {Object} field - the Concerto meta property
+     * @param {boolean} [isOptional] - whether the property is optional, defaults to `field.isOptional()`.
+     * Callers pass it explicitly for scalar-typed properties, because `getScalarField()` does not copy `optional`.
      * @return {Object} the Proto3 field rule
      * @public
      */
-    public concertoToProto3FieldRule(field: any): any;
+    public concertoToProto3FieldRule(field: any, isOptional?: boolean): any;
     /**
      * Transform a Concerto primitive type into a Proto3 one.
      * @param {Object} type - the Concerto primitive type
@@ -128,6 +130,7 @@ declare class ProtobufVisitor {
      * Visitor design pattern
      * @param {Object} field - the object being visited
      * @param {Object} parameters - the parameter
+     * @param {boolean} [isOptional] - whether the property is optional, defaults to `field.isOptional()`
      * @private
      */
     private visitField;

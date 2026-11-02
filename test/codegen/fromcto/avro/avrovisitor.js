@@ -39,6 +39,18 @@ concept Person identified by email {
 }
 `;
 
+const MODEL_OPTIONAL_SCALAR = `
+namespace test@1.0.0
+
+scalar SSN extends String
+
+concept Person {
+  o SSN ssn
+  o SSN taxId optional
+  o String name optional
+}
+`;
+
 describe('Avro', function () {
 
     describe('samples', () => {
@@ -74,6 +86,21 @@ describe('Avro', function () {
             (() => {
                 visitor.visit(thing, param);
             }).should.throw('Unrecognised type: string, value: \'Something of unrecognised type\'');
+        });
+    });
+
+    describe('optional scalar properties', () => {
+        it('should generate an optional scalar property as a nullable union', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_OPTIONAL_SCALAR);
+            const visitor = new AvroVisitor();
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(visitor, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('test@1.0.0.avdl');
+            file.should.match(/^\s*string ssn;$/m);
+            file.should.match(/^\s*union \{ null, string \} taxId;$/m);
+            // The same as an optional property declared with the primitive type
+            file.should.match(/^\s*union \{ null, string \} name;$/m);
         });
     });
 });

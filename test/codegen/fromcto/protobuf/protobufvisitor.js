@@ -42,6 +42,18 @@ const ModelUtil = require('@accordproject/concerto-core').ModelUtil;
 let sandbox = sinon.createSandbox();
 
 
+const MODEL_OPTIONAL_SCALAR = `
+namespace test@1.0.0
+
+scalar SSN extends String
+
+concept Person {
+  o SSN ssn
+  o SSN taxId optional
+  o String name optional
+}
+`;
+
 describe('ProtobufVisitor', function () {
     let protobufVisitor;
     let mockFileWriter;
@@ -772,6 +784,20 @@ describe('ProtobufVisitor', function () {
                 writer.data.get('org.accordproject.protocol.v1_0_0.proto'),
                 expectedApapProtocolProtobuf.replace(/\r\n/g, '\n')
             );
+        });
+    });
+
+    describe('optional scalar properties', () => {
+        it('should generate an optional scalar property with the optional keyword', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_OPTIONAL_SCALAR);
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(new ProtobufVisitor(), { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('test.v1_0_0.proto');
+            file.should.match(/^\s*string ssn = \d+;$/m);
+            file.should.match(/^\s*optional string taxId = \d+;$/m);
+            // The same as an optional property declared with the primitive type
+            file.should.match(/^\s*optional string name = \d+;$/m);
         });
     });
 });

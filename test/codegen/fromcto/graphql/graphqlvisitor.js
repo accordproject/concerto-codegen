@@ -29,6 +29,7 @@ const Field = require('@accordproject/concerto-core').Field;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
 const { ModelUtil } = require('@accordproject/concerto-core');
+const { InMemoryWriter } = require('@accordproject/concerto-util');
 
 let sandbox = sinon.createSandbox();
 
@@ -53,6 +54,18 @@ asset Vehicle {
   o String color optional
   --> Owner owner
   --> Owner previousOwner optional
+}
+`;
+
+const MODEL_OPTIONAL_SCALAR = `
+namespace test@1.0.0
+
+scalar SSN extends String
+
+concept Person {
+  o SSN ssn
+  o SSN taxId optional
+  o String name optional
 }
 `;
 
@@ -422,6 +435,20 @@ int: Int
 float: Float
 ref: String
 arrayRef: String) on OBJECT | FIELD_DEFINITION`]);
+        });
+    });
+
+    describe('optional scalar properties', () => {
+        it('should not mark an optional scalar property as non-null', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_OPTIONAL_SCALAR);
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(new GraphQLVisitor(), { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('model.gql');
+            file.should.match(/^\s*ssn: String!$/m);
+            file.should.match(/^\s*taxId: String$/m);
+            // The same as an optional property declared with the primitive type
+            file.should.match(/^\s*name: String$/m);
         });
     });
 });

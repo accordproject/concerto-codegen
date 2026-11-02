@@ -48,12 +48,12 @@ message Function {
   repeated string emittedTypes = 2;
   string name = 3;
   string requestType = 4;
-  string responseType = 5;
+  optional string responseType = 5;
 }
 
 message Logic {
   repeated Function functions = 1;
-  string stateType = 2;
+  optional string stateType = 2;
 }
 
 message Template {
@@ -89,7 +89,7 @@ message Agreement {
   Metadata metadata = 7;
   repeated string references = 8;
   repeated Signature signatures = 9;
-  string state = 10;
+  optional string state = 10;
   string template = 11;
 }
 
@@ -133,7 +133,7 @@ message _Subclasses_of_class_ConversionOptions {
 }
 
 message PdfConversionOptions {
-  string styles = 1;
+  optional string styles = 1;
 }
 
 enum FeatureType {
@@ -160,7 +160,7 @@ message TriggerResponse {
   optional string errorDetails = 1;
   optional string errorMessage = 2;
   bool isError = 3;
-  string result = 4;
+  optional string result = 4;
 }
 
 enum AgreementStatusType {
