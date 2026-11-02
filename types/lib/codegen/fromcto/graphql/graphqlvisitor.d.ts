@@ -52,6 +52,8 @@ declare class GraphQLVisitor {
     * Visitor design pattern
     * @param {Field} field - the object being visited
     * @param {Object} parameters  - the parameter
+    * @param {boolean} [isOptional] - whether the property is optional, defaults to `field.isOptional()`.
+    * Passed explicitly for scalar-typed properties, because `getScalarField()` does not copy `optional`.
     * @return {Object} the result of visiting or null
     * @private
     */

@@ -33,8 +33,21 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration =
     require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+const { InMemoryWriter } = require('@accordproject/concerto-util');
 
 let sandbox = sinon.createSandbox();
+
+const MODEL_OPTIONAL_SCALAR = `
+namespace test@1.0.0
+
+scalar SSN extends String
+
+concept Person {
+  o SSN ssn
+  o SSN taxId optional
+  o String name optional
+}
+`;
 
 describe('RustVisitor', function () {
     let rustVisitor;
@@ -1807,6 +1820,20 @@ describe('RustVisitor', function () {
                 0,
                 'pub type ScoreMap = HashMap<String, i32>;'
             ).calledOnce.should.be.ok;
+        });
+    });
+
+    describe('optional scalar properties', () => {
+        it('should generate an optional scalar property as an Option', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(MODEL_OPTIONAL_SCALAR);
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(new RustVisitor(), { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('test_1_0_0.rs');
+            file.should.match(/pub ssn: String,/);
+            file.should.match(/rename = "taxId",\s+skip_serializing_if = "Option::is_none",\s+\)\]\s+pub tax_id: Option<String>,/);
+            // The same as an optional property declared with the primitive type
+            file.should.match(/rename = "name",\s+skip_serializing_if = "Option::is_none",\s+\)\]\s+pub name: Option<String>,/);
         });
     });
 });
