@@ -10,6 +10,9 @@ The maintainers are listed in alphabetical order.
 - Stefan Blaginov ([stefanblaginov](https://github.com/stefanblaginov))
 - Simon Stone ([sstone1](https://github.com/sstone1))
 - Jonathan Casey ([Jonathan-Casey](https://github.com/Jonathan-Casey))
+- Ertugrul Karademir ([ekarademir](https://github.com/ekarademir))
+- Jamie Shorten ([jamieshorten](https://github.com/jamieshorten))
+- Sanket Shevkar ([sanketshevkar](https://github.com/sanketshevkar))
 
 ## License <a name="license"></a>
 Accord Project Project source code files are made available under the Apache License, Version 2.0 (Apache-2.0), located in the LICENSE file. Hyperledger Project documentation files are made available under the Creative Commons Attribution 4.0 International License (CC-BY-4.0), available at http://creativecommons.org/licenses/by/4.0/.
