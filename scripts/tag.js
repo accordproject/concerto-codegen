@@ -14,7 +14,8 @@
  */
 
 'use strict';
-const fs=require('fs');
+
+const fs = require('fs');
 const semver = require('semver');
 const targetVersion = process.argv[2];
 
