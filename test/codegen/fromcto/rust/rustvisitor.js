@@ -649,6 +649,45 @@ describe('RustVisitor', function () {
                 rustVisitor.visitField(field, param);
                 lastLine().should.equal('pub bob: Option<Box<org.A>>,');
             });
+
+            describe('with flattenSubclassesToUnion', () => {
+                const unionField = (baseDecl) => {
+                    const field = sinon.createStubInstance(Field);
+                    field.name = 'bob';
+                    field.type = 'org.Base';
+                    field.getParent.returns(owner);
+                    field.getModelFile.returns(owner.getModelFile());
+                    field.getFullyQualifiedTypeName.returns('org.Base');
+                    field.isPrimitive.returns(false);
+                    modelManager.getType.withArgs('org.Base').returns(baseDecl);
+                    return field;
+                };
+                const base = (subclasses) => ({
+                    ...decl('org.Base', []),
+                    getModelFile: () => 'file',
+                    getDirectSubclasses: () => subclasses,
+                });
+                const sub = (target, file = 'file') => ({
+                    getModelFile: () => file,
+                    getFullyQualifiedName: () => target.getFullyQualifiedName(),
+                });
+
+                beforeEach(() => {
+                    param.flattenSubclassesToUnion = true;
+                });
+
+                it('should box a field whose union holds its owner as a variant', () => {
+                    const field = unionField(base([sub(owner)]));
+                    rustVisitor.visitField(field, param);
+                    lastLine().should.equal('pub bob: Box<org.BaseUnion>,');
+                });
+
+                it('should not box when the owner is not a union variant', () => {
+                    const field = unionField(base([sub(owner, 'other')]));
+                    rustVisitor.visitField(field, param);
+                    lastLine().should.equal('pub bob: org.BaseUnion,');
+                });
+            });
         });
 
         it('should write a line for field name and type thats an array', () => {
