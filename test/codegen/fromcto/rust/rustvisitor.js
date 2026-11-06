@@ -590,15 +590,30 @@ describe('RustVisitor', function () {
                 lastLine().should.equal('pub bob: Box<org.B>,');
             });
 
-            it('should box a relationship to a subclass of its class', () => {
-                modelManager.getType
-                    .withArgs('org.B')
-                    .returns(decl('org.B', [], [owner]));
-                rustVisitor.visitRelationshipDeclaration(
-                    rel('org.B', owner),
-                    param
-                );
-                lastLine().should.equal('pub bob: Box<org.B>,');
+            describe('inherited property', () => {
+                let subclass;
+
+                beforeEach(() => {
+                    subclass = decl('org.B', [prop('org.B')], [owner]);
+                    subclass.getModelFile = owner.getModelFile;
+                    modelManager.getType.withArgs('org.B').returns(subclass);
+                });
+
+                it('should not box in the declaring class when only a subclass loops', () => {
+                    rustVisitor.visitRelationshipDeclaration(
+                        rel('org.B', owner),
+                        param
+                    );
+                    lastLine().should.equal('pub bob: org.B,');
+                });
+
+                it('should box in the subclass that holds its own copy', () => {
+                    rustVisitor.visitRelationshipDeclaration(
+                        rel('org.B', owner),
+                        { ...param, emittingClass: subclass }
+                    );
+                    lastLine().should.equal('pub bob: Box<org.B>,');
+                });
             });
 
             it('should not box when only reachable through an array', () => {
@@ -626,6 +641,25 @@ describe('RustVisitor', function () {
                 lastLine().should.equal('pub bob: org.B,');
             });
 
+            it('should not overflow the call stack on a deep acyclic model', () => {
+                const depth = 50000;
+                modelManager.getType = (name) => {
+                    const level = Number(name.slice('org.N'.length));
+                    return decl(
+                        name,
+                        level < depth ? [prop(`org.N${level + 1}`)] : []
+                    );
+                };
+                const field = sinon.createStubInstance(Field);
+                field.name = 'bob';
+                field.type = 'org.N0';
+                field.getParent.returns(owner);
+                field.getFullyQualifiedTypeName.returns('org.N0');
+                field.isPrimitive.returns(false);
+                rustVisitor.visitField(field, param);
+                lastLine().should.equal('pub bob: org.N0,');
+            });
+
             it('should not box a relationship to an enum', () => {
                 const enumDecl = decl('org.E', [prop('org.A')]);
                 enumDecl.isEnum = () => true;
@@ -648,6 +682,164 @@ describe('RustVisitor', function () {
                 field.isOptional.returns(true);
                 rustVisitor.visitField(field, param);
                 lastLine().should.equal('pub bob: Option<Box<org.A>>,');
+            });
+
+            describe('with flattenSubclassesToUnion', () => {
+                const unionField = (baseDecl) => {
+                    const field = sinon.createStubInstance(Field);
+                    field.name = 'bob';
+                    field.type = 'org.Base';
+                    field.getParent.returns(owner);
+                    field.getModelFile.returns(owner.getModelFile());
+                    field.getFullyQualifiedTypeName.returns('org.Base');
+                    field.isPrimitive.returns(false);
+                    modelManager.getType.withArgs('org.Base').returns(baseDecl);
+                    return field;
+                };
+                const base = (subclasses) => ({
+                    ...decl('org.Base', []),
+                    getModelFile: () => 'file',
+                    getDirectSubclasses: () => subclasses,
+                });
+                const sub = (target, file = 'file') => ({
+                    getModelFile: () => file,
+                    getFullyQualifiedName: () => target.getFullyQualifiedName(),
+                });
+
+                beforeEach(() => {
+                    param.flattenSubclassesToUnion = true;
+                });
+
+                it('should box a field whose union holds its owner as a variant', () => {
+                    const field = unionField(base([sub(owner)]));
+                    rustVisitor.visitField(field, param);
+                    lastLine().should.equal('pub bob: Box<org.BaseUnion>,');
+                });
+
+                it('should not box when the owner is not a union variant', () => {
+                    const field = unionField(
+                        base([sub(decl('org.Z', [])), sub(owner, 'other')])
+                    );
+                    rustVisitor.visitField(field, param);
+                    lastLine().should.equal('pub bob: org.BaseUnion,');
+                });
+
+                it('should not reference a union when every subclass is in another file', () => {
+                    const field = unionField(base([sub(owner, 'other')]));
+                    rustVisitor.visitField(field, param);
+                    lastLine().should.equal('pub bob: org.Base,');
+                });
+
+                it('should not follow a relationship into its union variants', () => {
+                    const modelFile = { getModelManager: () => modelManager };
+                    const variantOfBase = {
+                        getModelFile: () => modelFile,
+                        getFullyQualifiedName: () => 'org.A',
+                    };
+                    const bProps = [];
+                    const b = decl('org.B', bProps);
+                    bProps.push({
+                        isArray: () => false,
+                        isPrimitive: () => false,
+                        isRelationship: () => true,
+                        getFullyQualifiedTypeName: () => 'org.Base',
+                        getParent: () => ({ getModelFile: () => modelFile }),
+                    });
+                    modelManager.getType.withArgs('org.B').returns(b);
+                    modelManager.getType.withArgs('org.Base').returns({
+                        ...decl('org.Base', []),
+                        getModelFile: () => modelFile,
+                        getDirectSubclasses: () => [variantOfBase],
+                    });
+                    const field = sinon.createStubInstance(Field);
+                    field.name = 'bob';
+                    field.type = 'org.B';
+                    field.getParent.returns(owner);
+                    field.getModelFile.returns(owner.getModelFile());
+                    field.getFullyQualifiedTypeName.returns('org.B');
+                    field.isPrimitive.returns(false);
+                    rustVisitor.visitField(field, param);
+                    lastLine().should.equal('pub bob: org.B,');
+                });
+
+                it('should not count an abstract base as a variant of its own union', () => {
+                    const modelFile = {
+                        getModelManager: () => modelManager,
+                        getType: () => abstractBase,
+                    };
+                    const baseProps = [];
+                    const abstractBase = {
+                        ...decl('org.Base', baseProps),
+                        isAbstract: () => true,
+                        getModelFile: () => modelFile,
+                        getDirectSubclasses: () => [
+                            {
+                                getModelFile: () => modelFile,
+                                getFullyQualifiedName: () => 'org.Sub',
+                            },
+                        ],
+                    };
+                    const next = {
+                        isArray: () => false,
+                        isPrimitive: () => false,
+                        getFullyQualifiedTypeName: () => 'org.Base',
+                        getParent: () => abstractBase,
+                    };
+                    baseProps.push(next);
+                    modelManager.getType.withArgs('org.Base').returns(abstractBase);
+                    modelManager.getType
+                        .withArgs('org.Sub')
+                        .returns(decl('org.Sub', [next], [abstractBase]));
+                    const field = sinon.createStubInstance(Field);
+                    field.name = 'bob';
+                    field.type = 'org.Base';
+                    field.getParent.returns(abstractBase);
+                    field.getModelFile.returns(modelFile);
+                    field.getFullyQualifiedTypeName.returns('org.Base');
+                    field.isPrimitive.returns(false);
+                    rustVisitor.visitField(field, {
+                        ...param,
+                        emittingClass: abstractBase,
+                    });
+                    lastLine().should.equal('pub bob: org.BaseUnion,');
+                });
+
+                it('should box a field in a cycle that passes through several unions', () => {
+                    const modelFile = { getModelManager: () => modelManager };
+                    const unionDecl = (name, subs, props = []) => ({
+                        ...decl(name, props),
+                        getModelFile: () => modelFile,
+                        getDirectSubclasses: () => subs,
+                    });
+                    const variant = (name) => ({
+                        getModelFile: () => modelFile,
+                        getFullyQualifiedName: () => name,
+                    });
+                    const bProps = [];
+                    const b = unionDecl('org.B', [], bProps);
+                    bProps.push({
+                        isArray: () => false,
+                        isPrimitive: () => false,
+                        getFullyQualifiedTypeName: () => 'org.BaseA',
+                        getParent: () => b,
+                    });
+                    modelManager.getType.withArgs('org.B').returns(b);
+                    modelManager.getType
+                        .withArgs('org.BaseA')
+                        .returns(unionDecl('org.BaseA', [variant('org.A')]));
+                    modelManager.getType
+                        .withArgs('org.BaseB')
+                        .returns(unionDecl('org.BaseB', [variant('org.B')]));
+                    const field = sinon.createStubInstance(Field);
+                    field.name = 'bob';
+                    field.type = 'org.BaseB';
+                    field.getParent.returns(owner);
+                    field.getModelFile.returns(owner.getModelFile());
+                    field.getFullyQualifiedTypeName.returns('org.BaseB');
+                    field.isPrimitive.returns(false);
+                    rustVisitor.visitField(field, param);
+                    lastLine().should.equal('pub bob: Box<org.BaseBUnion>,');
+                });
             });
         });
 

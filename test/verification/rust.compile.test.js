@@ -19,6 +19,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const { dir } = require('tmp-promise');
+const { ModelManager } = require('@accordproject/concerto-core');
 
 const { FileWriter } = require('@accordproject/concerto-util');
 const RustVisitor = require('../../lib/codegen/fromcto/rust/rustvisitor.js');
@@ -63,11 +64,12 @@ function getCargoSkipReason() {
 const CARGO_SKIP_REASON = getCargoSkipReason();
 
 /**
- * Generate Rust from a model and verify it compiles with cargo check.
+ * Generate a crate for a model into a temp dir and hand it to a callback.
  * @param {ModelManager} modelManager populated model manager
- * @param {object} [visitorOptions] options passed to RustVisitor
+ * @param {object} visitorOptions options passed to RustVisitor
+ * @param {Function} callback receives the crate directory
  */
-async function verifyRustCompiles(modelManager, visitorOptions = {}) {
+async function withGeneratedCrate(modelManager, visitorOptions, callback) {
     const { path: outputDir, cleanup } = await dir({ unsafeCleanup: true });
 
     try {
@@ -86,21 +88,126 @@ async function verifyRustCompiles(modelManager, visitorOptions = {}) {
         }
 
         fs.writeFileSync(path.join(outputDir, 'Cargo.toml'), CARGO_TOML);
-
-        try {
-            execFileSync('cargo', ['check', '--quiet'], {
-                cwd: outputDir,
-                encoding: 'utf-8',
-                stdio: ['ignore', 'pipe', 'pipe'],
-                env: { ...process.env, CARGO_TARGET_DIR: SHARED_TARGET_DIR },
-            });
-        } catch (err) {
-            const details = [err.stdout, err.stderr].filter(Boolean).join('\n').trim();
-            throw new Error(details || err.message);
-        }
+        await callback(outputDir);
     } finally {
         await cleanup();
     }
+}
+
+/**
+ * Run cargo check on a crate.
+ * @param {string} crateDir crate directory
+ * @throws {Error} with the compiler output when the crate does not compile
+ */
+function cargoCheck(crateDir) {
+    try {
+        execFileSync('cargo', ['check', '--quiet'], {
+            cwd: crateDir,
+            encoding: 'utf-8',
+            stdio: ['ignore', 'pipe', 'pipe'],
+            env: { ...process.env, CARGO_TARGET_DIR: SHARED_TARGET_DIR },
+        });
+    } catch (err) {
+        const details = [err.stdout, err.stderr].filter(Boolean).join('\n').trim();
+        throw new Error(details || err.message);
+    }
+}
+
+/**
+ * Generate Rust from a model and verify it compiles with cargo check.
+ * @param {ModelManager} modelManager populated model manager
+ * @param {object} [visitorOptions] options passed to RustVisitor
+ */
+async function verifyRustCompiles(modelManager, visitorOptions = {}) {
+    await withGeneratedCrate(modelManager, visitorOptions, cargoCheck);
+}
+
+/**
+ * Read the by-value type graph out of generated Rust source: a struct or enum
+ * points at each type it holds directly, boxed or not. Vec and HashMap are
+ * skipped because they never make a type infinitely sized.
+ * @param {string} source generated Rust source
+ * @returns {{edges: Map<string, Set<string>>, boxed: object[]}} the graph and
+ * every boxed field as {owner, target, line}
+ */
+function readTypeGraph(source) {
+    const edges = new Map();
+    const boxed = [];
+    let owner = null;
+
+    source.split('\n').forEach((line) => {
+        const item = line.match(/^pub (?:struct|enum) (\w+)/);
+        if (item) {
+            owner = item[1];
+            edges.set(owner, new Set());
+            return;
+        }
+        if (!owner) {
+            return;
+        }
+        const field = line.match(/^\s+pub \w+: (.+),$/);
+        const variant = line.match(/^\s+\w+\((\w+)\),$/);
+        const held = field ? field[1] : variant && variant[1];
+        if (!held || /(?:Vec|HashMap)</.test(held)) {
+            return;
+        }
+        const boxedType = held.match(/Box<(\w+)>/);
+        const target = boxedType ? boxedType[1] : held.match(/(\w+)>*$/)[1];
+        edges.get(owner).add(target);
+        if (boxedType) {
+            boxed.push({ owner, target, line: line.trim() });
+        }
+    });
+    return { edges, boxed };
+}
+
+/**
+ * Whether one type can reach another through the type graph.
+ * @param {Map<string, Set<string>>} edges the type graph
+ * @param {string} from start type
+ * @param {string} to type to find
+ * @returns {boolean} true if there is a path from to
+ */
+function reaches(edges, from, to) {
+    const seen = new Set();
+    const pending = [from];
+    while (pending.length > 0) {
+        const type = pending.pop();
+        if (type === to) {
+            return true;
+        }
+        if (!seen.has(type)) {
+            seen.add(type);
+            pending.push(...(edges.get(type) ?? []));
+        }
+    }
+    return false;
+}
+
+/**
+ * Verify that every Box in the generated Rust sits on a type cycle. Compiling
+ * proves no box is missing, but an unneeded box compiles too, so each boxed
+ * field must point at a type that leads back to the struct holding it.
+ * @param {ModelManager} modelManager populated model manager
+ * @param {object} [visitorOptions] options passed to RustVisitor
+ */
+async function verifyEveryBoxIsNeeded(modelManager, visitorOptions = {}) {
+    await withGeneratedCrate(modelManager, visitorOptions, (crateDir) => {
+        const src = path.join(crateDir, 'src');
+        const source = fs
+            .readdirSync(src)
+            .filter((file) => file.endsWith('.rs'))
+            .map((file) => fs.readFileSync(path.join(src, file), 'utf-8'))
+            .join('\n');
+        const { edges, boxed } = readTypeGraph(source);
+        const unnecessary = boxed
+            .filter(({ owner, target }) => !reaches(edges, target, owner))
+            .map(({ owner, line }) => `${owner}: ${line}`);
+
+        if (unnecessary.length > 0) {
+            throw new Error(`Unneeded Box:\n${unnecessary.join('\n')}`);
+        }
+    });
 }
 
 describe('verification', function () {
@@ -124,6 +231,79 @@ describe('verification', function () {
         run(title, async function () {
             const modelManager = createModelManager(testCase);
             await verifyRustCompiles(modelManager, testCase.visitorOptions || {});
+        });
+
+        const runBoxes = skipReason ? it.skip : it;
+        runBoxes(`generated Rust from ${testCase.name} has no unneeded Box`, async function () {
+            const modelManager = createModelManager(testCase);
+            await verifyEveryBoxIsNeeded(modelManager, testCase.visitorOptions || {});
+        });
+    });
+
+    describe('recursion with flattenSubclassesToUnion', function () {
+        const NS = 'namespace org.recursion@1.0.0\n';
+        const SHAPES = {
+            'contained union holding its owner': `${NS}
+concept Base {}
+concept A extends Base { o Base b optional }`,
+            'mutual cycle through two unions': `${NS}
+concept BaseA {}
+concept BaseB {}
+concept A extends BaseA { o BaseB b optional }
+concept B extends BaseB { o BaseA a optional }`,
+            'relationship cycle through a contained class': `${NS}
+asset Base identified by id { o String id }
+asset A extends Base { o B b }
+concept B { --> A r }`,
+            'abstract base referring to its own union': `${NS}
+abstract concept Base { o Base next optional }
+concept Sub extends Base {}`,
+            'inherited field that loops only in the subclass': `${NS}
+concept Base { o A a }
+concept A extends Base {}`,
+            'map whose value type holds the owner': `${NS}
+map Index { o String o A }
+concept A { o Index index optional }`,
+            'relationship to a base whose union holds the owner': `${NS}
+asset Base identified by id { o String id }
+asset A extends Base { o B b }
+concept B { --> Base r }`,
+        };
+
+        const MULTI_FILE_SHAPES = {
+            'union base whose only subclass is in another namespace': [
+                'namespace org.base@1.0.0\nconcept Base {}\nconcept Holder { o Base b }',
+                'namespace org.sub@1.0.0\nimport org.base@1.0.0.Base\nconcept A extends Base {}',
+            ],
+        };
+
+        const ALL_SHAPES = {
+            ...Object.fromEntries(
+                Object.entries(SHAPES).map(([name, cto]) => [name, [cto]])
+            ),
+            ...MULTI_FILE_SHAPES,
+        };
+
+        const buildModelManager = (ctos) => {
+            const modelManager = new ModelManager({ strict: true });
+            ctos.forEach((cto, i) =>
+                modelManager.addCTOModel(cto, `recursion${i}.cto`)
+            );
+            return modelManager;
+        };
+
+        Object.entries(ALL_SHAPES).forEach(([name, ctos]) => {
+            const run = CARGO_SKIP_REASON ? it.skip : it;
+            run(`compiles with cargo check: ${name}`, async function () {
+                await verifyRustCompiles(buildModelManager(ctos), {
+                    flattenSubclassesToUnion: true,
+                });
+            });
+            run(`has no unneeded Box: ${name}`, async function () {
+                await verifyEveryBoxIsNeeded(buildModelManager(ctos), {
+                    flattenSubclassesToUnion: true,
+                });
+            });
         });
     });
 });

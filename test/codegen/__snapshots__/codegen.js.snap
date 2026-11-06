@@ -6402,7 +6402,7 @@ pub struct Employee {
       rename = "manager",
       skip_serializing_if = "Option::is_none",
    )]
-   pub manager: Option<Box<Manager>>,
+   pub manager: Option<Manager>,
    
    #[serde(
       rename = "email",
