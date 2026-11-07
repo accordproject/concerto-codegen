@@ -49,6 +49,11 @@ async function verifyJsonSchemaCompiles(modelManager, visitorOptions = {}) {
         const ajv = new Ajv({ strict: false });
         try {
             ajv.compile(schema);
+            // ajv only compiles definitions that are referenced, so compile
+            // each definition through a $ref to check all of them
+            Object.keys(schema.definitions || {}).forEach(name => {
+                ajv.compile({ ...schema, $ref: `#/definitions/${name}` });
+            });
         } catch (err) {
             throw new Error(err.message);
         }
