@@ -352,6 +352,19 @@ describe('JSONSchema (samples)', function () {
                 .forEach(property => expect(() => new RegExp(property.pattern, 'u')).to.not.throw());
         });
 
+        it('should keep escaped dashes in classes and fall back to the source for unfixable regexes', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace test@1.0.0
+            concept Test {
+                o String dashInClass regex=/^[\\w\\-<\\>]+$/
+                o String unfixable regex=/^\\a<\\>$/
+            }`);
+            const visitor = new JSONSchemaVisitor();
+            const schema = modelManager.accept(visitor, { rootType: 'test@1.0.0.Test'});
+            expect(schema.properties.dashInClass.pattern).equal('^[\\w\\-<>]+$');
+            expect(schema.properties.unfixable.pattern).equal('^\\a<\\>$');
+        });
+
         it('should inline types for simple model', () => {
             const modelManager = new ModelManager();
             modelManager.addCTOModel( MODEL_SIMPLE );
