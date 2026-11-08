@@ -382,7 +382,39 @@ describe('GoLangVisitor', function () {
 
             goVisit.visitField(mockField,param);
 
-            param.fileWriter.writeLine.withArgs(1, 'dictionary := make(map[string]string) `json:"dictionary"`').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'Dictionary map[string]string `json:"dictionary"`').calledOnce.should.be.ok;
+        });
+
+        it('should handle map field when getType returns null for external or primitive types', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const mockField = sinon.createStubInstance(Field);
+            const mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+
+            mockField.getType.returns('Map1');
+            mockField.getName.returns('properties');
+            mockField.getModelFile.returns({
+                getType: sinon.stub().returns(mockMapDeclaration),
+            });
+
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.getKey.returns({ getType: () => 'String' });
+            mockMapDeclaration.getValue.returns({ getType: () => 'ExternalType' });
+            // getType returns null (e.g. cross-namespace or unresolved type)
+            mockMapDeclaration.getModelFile.returns({
+                getType: sinon.stub().returns(null),
+            });
+
+            goVisit.visitField(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'Properties map[string]ExternalType `json:"properties"`').calledOnce.should.be.ok;
         });
 
     });

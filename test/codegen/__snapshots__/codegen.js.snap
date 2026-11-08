@@ -1059,11 +1059,11 @@ type Company struct {
    concerto_1_0_0.Concept
    Name string \`json:"name"\`
    Headquarters Address \`json:"headquarters"\`
-   companyProperties := make(map[string]string) \`json:"companyProperties"\`
-   employeeDirectory := make(map[string]Employee) \`json:"employeeDirectory"\`
-   employeeTShirtSizes := make(map[string]TShirtSizeType) \`json:"employeeTShirtSizes"\`
-   employeeProfiles := make(map[string]Concept) \`json:"employeeProfiles"\`
-   employeeSocialSecurityNumbers := make(map[string]string) \`json:"employeeSocialSecurityNumbers"\`
+   CompanyProperties map[string]string \`json:"companyProperties"\`
+   EmployeeDirectory map[string]Employee \`json:"employeeDirectory"\`
+   EmployeeTShirtSizes map[string]TShirtSizeType \`json:"employeeTShirtSizes"\`
+   EmployeeProfiles map[string]Concept \`json:"employeeProfiles"\`
+   EmployeeSocialSecurityNumbers map[string]string \`json:"employeeSocialSecurityNumbers"\`
 }
 type Department int
 const (
@@ -1097,7 +1097,7 @@ type Person struct {
    Ssn string \`json:"ssn"\`
    Height float64 \`json:"height"\`
    Dob time.Time \`json:"dob"\`
-   nextOfKin := make(map[string]string) \`json:"nextOfKin"\`
+   NextOfKin map[string]string \`json:"nextOfKin"\`
 }
 type Employee struct {
    Person
