@@ -119,9 +119,12 @@ describe('verification', function () {
             map LoginTimes { o Identifier o Time }`);
         modelManager.addCTOModel(`namespace org.example.maps@1.0.0
             import org.example.types@1.0.0.LoginTimes
+            scalar DateKey extends DateTime
+            map Events { o DateKey o DateKey }
             scalar Key extends String
             scalar Amount extends Double
             map Amounts { o Key o Amount }
+            map Timestamps { o DateTime o DateTime }
             enum Status { o ACTIVE o INACTIVE }
             concept Person { o String name }
             map People { o String o Person }
@@ -132,6 +135,8 @@ describe('verification', function () {
                 o LoginTimes logins optional
                 o People people
                 o Statuses statuses optional
+                o Events events optional
+                o Timestamps timestamps
             }`);
         await verifyProtobufCompiles(modelManager);
     });

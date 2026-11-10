@@ -69,6 +69,29 @@ describe('Protobuf map fields', () => {
             'map<string, google.protobuf.Timestamp> logins = 1;');
     });
 
+    it('represents DateTime map keys as strings while preserving timestamp values', () => {
+        modelManager.addCTOModel(`namespace org.example.maps@1.0.0
+            map Events { o DateTime o DateTime }
+            concept Record { o Events events }`);
+        modelManager.accept(new ProtobufVisitor(), { fileWriter: writer });
+
+        assert.include(writer.data.get('org.example.maps.v1_0_0.proto'),
+            'map<string, google.protobuf.Timestamp> events = 1;');
+    });
+
+    it('resolves imported DateTime scalar map keys to strings', () => {
+        modelManager.addCTOModel(`namespace org.example.types@1.0.0
+            scalar Time extends DateTime
+            map Events { o Time o Time }`);
+        modelManager.addCTOModel(`namespace org.example.maps@1.0.0
+            import org.example.types@1.0.0.Events
+            concept Record { o Events events optional }`);
+        modelManager.accept(new ProtobufVisitor(), { fileWriter: writer });
+
+        assert.include(writer.data.get('org.example.maps.v1_0_0.proto'),
+            'map<string, google.protobuf.Timestamp> events = 1;');
+    });
+
     it('preserves message and enum map value types', () => {
         modelManager.addCTOModel(`namespace org.example.maps@1.0.0
             enum Status { o ACTIVE o INACTIVE }
