@@ -509,6 +509,71 @@ describe('GoLangVisitor', function () {
 
             goVisit.containsDateTimeField(mockModelFileDefinition).should.deep.equal(false);
         });
+
+        it('should return true if the model file contains a map field with DateTime value', () => {
+            const mm = new ModelManager();
+            const modelFile = mm.addCTOModel(`
+                namespace org.acme@1.0.0
+                map TimestampMap {
+                    o String
+                    o DateTime
+                }
+                concept EventLog {
+                    o TimestampMap timestamps
+                }
+            `);
+            goVisit.containsDateTimeField(modelFile).should.be.true;
+        });
+
+        it('should return true if the model file contains a map field with a scalar extending DateTime', () => {
+            const mm = new ModelManager();
+            const modelFile = mm.addCTOModel(`
+                namespace org.acme@1.0.0
+                scalar EventTime extends DateTime
+                map EventMap {
+                    o String
+                    o EventTime
+                }
+                concept LogEntry {
+                    o EventMap events
+                }
+            `);
+            goVisit.containsDateTimeField(modelFile).should.be.true;
+        });
+
+        it('should return false if the model file contains a map field without DateTime', () => {
+            const mm = new ModelManager();
+            const modelFile = mm.addCTOModel(`
+                namespace org.acme@1.0.0
+                map StringMap {
+                    o String
+                    o String
+                }
+                concept LogEntry {
+                    o StringMap items
+                }
+            `);
+            goVisit.containsDateTimeField(modelFile).should.be.false;
+        });
+
+        it('should write import "time" when the only DateTime in the model is in a map field', () => {
+            const mm = new ModelManager();
+            const modelFile = mm.addCTOModel(`
+                namespace org.acme@1.0.0
+                map TimestampMap {
+                    o String
+                    o DateTime
+                }
+                concept EventLog {
+                    o TimestampMap timestamps
+                }
+            `);
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+            goVisit.visitModelFile(modelFile, param);
+            param.fileWriter.writeLine.withArgs(0, 'import "time"').calledOnce.should.be.ok;
+        });
     });
 
     describe('toGoType', () => {
