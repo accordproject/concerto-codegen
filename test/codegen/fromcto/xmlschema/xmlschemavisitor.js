@@ -81,6 +81,20 @@ describe('XmlSchemaVisitor', function () {
             mockSpecialVisit.calledWith(thing, param).should.be.ok;
         });
 
+        it('should return visitField for a scalar Field with the optional modifier of the property', () => {
+            let scalarField = sinon.createStubInstance(Field);
+            let thing = sinon.createStubInstance(Field);
+            thing.isTypeScalar.returns(true);
+            thing.isOptional.returns(true);
+            thing.getScalarField.returns(scalarField);
+            let mockSpecialVisit = sinon.stub(xmlSchemaVisitor, 'visitField');
+            mockSpecialVisit.returns('Duck');
+
+            xmlSchemaVisitor.visit(thing, param).should.deep.equal('Duck');
+
+            mockSpecialVisit.calledWith(scalarField, param, true).should.be.ok;
+        });
+
         it('should return visitRelationship for a RelationshipDeclaration', () => {
             let thing = sinon.createStubInstance(RelationshipDeclaration);
             thing.isRelationship.returns(true);
@@ -769,6 +783,36 @@ describe('XmlSchemaVisitor', function () {
             param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="org.acme:Foo"/>').calledOnce.should.be.ok;
         });
 
+        it('should write a line for an optional field', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getFullyQualifiedTypeName.returns('String');
+            mockField.getName.returns('Bob');
+            mockField.isOptional.returns(true);
+
+            xmlSchemaVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="0"/>').calledOnce.should.be.ok;
+        });
+
+        it('should write a line for a field that is optional because of its property', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getFullyQualifiedTypeName.returns('String');
+            mockField.getName.returns('Bob');
+            mockField.isOptional.returns(false);
+
+            xmlSchemaVisitor.visitField(mockField, param, true);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="0"/>').calledOnce.should.be.ok;
+        });
+
         it('should write a line for a field thats an array', () => {
             let param = {
                 fileWriter: mockFileWriter
@@ -839,6 +883,26 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="0" maxOccurs="5"/>').calledOnce.should.be.ok;
+        });
+
+        it('should write a line for an optional array field with size constraints', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getFullyQualifiedTypeName.returns('String');
+            mockField.getName.returns('Bob');
+            mockField.isArray.returns(true);
+            mockField.isOptional.returns(true);
+            mockField.getSizeValidator.returns({
+                getMinSize: () => 1,
+                getMaxSize: () => 10
+            });
+
+            xmlSchemaVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="0" maxOccurs="10"/>').calledOnce.should.be.ok;
         });
 
         it('should write an inline complexType for a map field with both size constraints', () => {
@@ -932,6 +996,38 @@ describe('XmlSchemaVisitor', function () {
             xmlSchemaVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="LabelsEntryType" minOccurs="0" maxOccurs="10"/>').calledOnce.should.be.ok;
         });
+
+        it('should write an inline complexType for an optional map field with size constraints', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockMapDecl = sinon.createStubInstance(MapDeclaration);
+            mockMapDecl.isMapDeclaration.returns(true);
+
+            let mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile.getType.returns(mockMapDecl);
+            let mockParent = sinon.createStubInstance(ClassDeclaration);
+            mockParent.getModelFile.returns(mockModelFile);
+
+            let mockField = sinon.createStubInstance(Field);
+            mockField.isField.returns(true);
+            mockField.getFullyQualifiedTypeName.returns('org.acme.Labels');
+            mockField.getName.returns('metadata');
+            mockField.getType.returns('Labels');
+            mockField.isArray.returns(false);
+            mockField.isOptional.returns(true);
+            mockField.isPrimitive.returns(false);
+            mockField.getParent.returns(mockParent);
+            mockField.getSizeValidator.returns({
+                getMinSize: () => 1,
+                getMaxSize: () => 20
+            });
+
+            xmlSchemaVisitor.visitField(mockField, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="metadata" minOccurs="0">').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="LabelsEntryType" minOccurs="1" maxOccurs="20"/>').calledOnce.should.be.ok;
+        });
     });
 
     describe('visitEnumValueDeclaration', () => {
@@ -964,6 +1060,21 @@ describe('XmlSchemaVisitor', function () {
             xmlSchemaVisitor.visitRelationship(mockRelationship, param);
 
             param.fileWriter.writeLine.withArgs(1, '+ string Bob');
+        });
+
+        it('should write a line for an optional relationship', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockRelationship = sinon.createStubInstance(RelationshipDeclaration);
+            mockRelationship.isRelationship.returns(true);
+            mockRelationship.getFullyQualifiedTypeName.returns('String');
+            mockRelationship.getName.returns('Bob');
+            mockRelationship.isOptional.returns(true);
+
+            xmlSchemaVisitor.visitRelationship(mockRelationship, param);
+            param.fileWriter.writeLine.withArgs(2, '<xs:element name="Bob" type="xs:string" minOccurs="0"/>').calledOnce.should.be.ok;
         });
 
         it('should write a line for a relationship thats an array', () => {
