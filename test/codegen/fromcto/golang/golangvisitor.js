@@ -574,6 +574,28 @@ describe('GoLangVisitor', function () {
             goVisit.visitModelFile(modelFile, param);
             param.fileWriter.writeLine.withArgs(0, 'import "time"').calledOnce.should.be.ok;
         });
+
+        it('should return false for child class inheriting DateTime map from another namespace', () => {
+            const mm = new ModelManager();
+            mm.addCTOModel(`
+                namespace base@1.0.0
+                map TimestampMap {
+                    o String
+                    o DateTime
+                }
+                concept Parent {
+                    o TimestampMap timestamps
+                }
+            `);
+            const childModelFile = mm.addCTOModel(`
+                namespace child@1.0.0
+                import base@1.0.0.Parent
+                concept Child extends Parent {
+                    o String name
+                }
+            `);
+            goVisit.containsDateTimeField(childModelFile).should.be.false;
+        });
     });
 
     describe('toGoType', () => {
