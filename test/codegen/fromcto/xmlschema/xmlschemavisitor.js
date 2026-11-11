@@ -1023,7 +1023,7 @@ describe('XmlSchemaVisitor', function () {
 
             xmlSchemaVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.withArgs(2, '<xs:element name="metadata" minOccurs="0">').calledOnce.should.be.ok;
-            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="LabelsEntryType" minOccurs="1" maxOccurs="20"/>').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(5, '<xs:element name="entry" type="org.acme:LabelsEntryType" minOccurs="1" maxOccurs="20"/>').calledOnce.should.be.ok;
         });
     });
 
