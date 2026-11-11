@@ -33,6 +33,7 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration =
     require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+const InMemoryWriter = require('@accordproject/concerto-util').InMemoryWriter;
 
 let sandbox = sinon.createSandbox();
 
@@ -1807,6 +1808,29 @@ describe('RustVisitor', function () {
                 0,
                 'pub type ScoreMap = HashMap<String, i32>;'
             ).calledOnce.should.be.ok;
+        });
+    });
+
+    describe('scalars', () => {
+        it('should make optional fields of a scalar type an Option', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace test@1.0.0
+scalar SSN extends String
+scalar Time extends DateTime
+concept Person {
+    o SSN ssn
+    o SSN taxId optional
+    o Time lastSeen optional
+    o SSN[] aliases optional
+}`);
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(rustVisitor, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('test_1_0_0.rs');
+            file.should.contain('   pub ssn: String,');
+            file.should.contain('   pub tax_id: Option<String>,');
+            file.should.contain('   pub last_seen: Option<DateTime<Utc>>,');
+            file.should.contain('      serialize_with = "serialize_datetime_option",');
+            file.should.contain('   pub aliases: Option<Vec<String>>,');
         });
     });
 });

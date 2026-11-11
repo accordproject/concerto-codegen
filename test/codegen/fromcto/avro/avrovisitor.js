@@ -67,6 +67,27 @@ describe('Avro', function () {
             file.should.match(/^@namespace\("test"\)$/m);
         });
 
+        it('should make optional fields of a scalar type nullable', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace test@1.0.0
+scalar SSN extends String
+scalar Time extends DateTime
+concept Person {
+    o SSN ssn
+    o SSN taxId optional
+    o Time lastSeen optional
+    o SSN[] aliases optional
+}`);
+            const visitor = new AvroVisitor();
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(visitor, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('test@1.0.0.avdl');
+            file.should.contain('      string ssn;');
+            file.should.contain('      union { null, string } taxId;');
+            file.should.contain('      union { null, long } lastSeen;');
+            file.should.contain('      union { null, array<string> } aliases;');
+        });
+
         it('should throw an error when an unrecognised type is supplied', () => {
             let thing = 'Something of unrecognised type';
             const visitor = new AvroVisitor();

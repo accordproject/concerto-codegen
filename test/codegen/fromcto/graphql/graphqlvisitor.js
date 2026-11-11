@@ -28,6 +28,7 @@ const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDe
 const Field = require('@accordproject/concerto-core').Field;
 const RelationshipDeclaration = require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+const InMemoryWriter = require('@accordproject/concerto-util').InMemoryWriter;
 const { ModelUtil } = require('@accordproject/concerto-core');
 
 let sandbox = sinon.createSandbox();
@@ -422,6 +423,28 @@ int: Int
 float: Float
 ref: String
 arrayRef: String) on OBJECT | FIELD_DEFINITION`]);
+        });
+    });
+
+    describe('scalars', () => {
+        it('should make optional fields of a scalar type nullable', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace test@1.0.0
+scalar SSN extends String
+scalar Time extends DateTime
+concept Person {
+    o SSN ssn
+    o SSN taxId optional
+    o Time lastSeen optional
+    o SSN[] aliases optional
+}`);
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(graphQLVisitor, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('model.gql');
+            file.should.contain('   ssn: String!\n');
+            file.should.contain('   taxId: String\n');
+            file.should.contain('   lastSeen: DateTime\n');
+            file.should.contain('   aliases: [String]\n');
         });
     });
 });
