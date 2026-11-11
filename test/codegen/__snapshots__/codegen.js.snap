@@ -4361,7 +4361,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "isPii",
           "category"
         ],
-        "$decorators": {
+        "x-concerto-decorators": {
           "example": [
             "@pii(true, GeneralCategory)"
           ],
@@ -4383,7 +4383,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           },
           "name": {
             "type": "string",
-            "$decorators": {
+            "x-concerto-decorators": {
               "pii": [
                 false,
                 {
@@ -4414,7 +4414,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "name": {
             "type": "string",
             "pattern": "abc.*",
-            "$decorators": {
+            "x-concerto-decorators": {
               "description": [
                 "The name of the company"
               ]
@@ -4497,7 +4497,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "name",
           "headquarters"
         ],
-        "$decorators": {
+        "x-concerto-decorators": {
           "description": [
             "A company"
           ]
@@ -4514,7 +4514,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "Engineering",
           "Design"
         ],
-        "$decorators": {
+        "x-concerto-decorators": {
           "category": [
             {
               "type": "Identifier",
@@ -4547,7 +4547,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "$class",
           "serialNumber"
         ],
-        "$decorators": {
+        "x-concerto-decorators": {
           "resource": []
         }
       },
@@ -4558,7 +4558,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "Apple",
           "Microsoft"
         ],
-        "$decorators": {
+        "x-concerto-decorators": {
           "test": [
             "one"
           ]
@@ -4654,7 +4654,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dob",
           "nextOfKin"
         ],
-        "$decorators": {
+        "x-concerto-decorators": {
           "resource": []
         }
       },
@@ -4767,7 +4767,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "dob",
           "nextOfKin"
         ],
-        "$decorators": {
+        "x-concerto-decorators": {
           "category": [
             {
               "type": "Identifier",
@@ -4794,7 +4794,7 @@ exports[`codegen #formats check we can convert all formats from namespace versio
           "manager": {
             "type": "string",
             "description": "The identifier of an instance of org.acme.hr@1.0.0.Manager",
-            "$decorators": {
+            "x-concerto-decorators": {
               "level": [
                 {
                   "type": "Identifier",
