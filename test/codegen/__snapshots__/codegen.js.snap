@@ -1178,8 +1178,10 @@ type Address {
    country: String!
 }
 enum Level {
-   _: Boolean
+   _EMPTY
 }
+scalar Time
+scalar SSN
 # namespace org.acme.hr@1.0.0
 type pii @example @usedBy {
    isPii: Boolean!
@@ -1321,6 +1323,8 @@ type ChangeOfAddress {
    newAddress: Address!
    _timestamp: DateTime!
 }
+scalar KinName
+scalar KinTelephone
 ",
 }
 `;
