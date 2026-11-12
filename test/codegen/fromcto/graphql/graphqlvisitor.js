@@ -435,9 +435,13 @@ enum Le$ve$l {
   o LO$W$X
 }
 
+concept Va$lue {
+  o String x
+}
+
 map Look$Up$Map {
   o String
-  o String
+  o Va$lue
 }
 
 asset It$em identified by id {
@@ -461,7 +465,12 @@ asset It$em identified by id {
             }
         });
 
-        it('should replace every $ so that the generated GraphQL is valid', () => {
+        /**
+         * Generates the GraphQL for a model.
+         * @param {string} cto the Concerto model
+         * @returns {string[]} the lines written by the visitor
+         */
+        const generate = (cto) => {
             const lines = [];
             const fileWriter = {
                 openFile: () => {},
@@ -470,8 +479,13 @@ asset It$em identified by id {
                 writeBeforeLine: (indent, line) => lines.unshift(line),
             };
             const modelManager = new ModelManager();
-            modelManager.addCTOModel(MODEL_WITH_DOLLARS);
+            modelManager.addCTOModel(cto);
             graphQLVisitor.visit(modelManager, { fileWriter });
+            return lines;
+        };
+
+        it('should replace every $ so that the generated GraphQL is valid', () => {
+            const lines = generate(MODEL_WITH_DOLLARS);
 
             const sdl = lines.join('\n');
             // comments (e.g. the type of a relationship) keep the Concerto name
@@ -482,8 +496,34 @@ asset It$em identified by id {
             sdl.should.contain('type It_em ');
             sdl.should.contain('some_field_name: String!');
             sdl.should.contain('par_ent_x: ID # It$em');
+            // a map whose value is a declared type refers to it by its escaped name
+            sdl.should.contain('type Va_lue {');
+            sdl.should.contain('value: Va_lue');
             // graphql-js is the reference parser for GraphQL SDL
             (() => buildSchema(sdl)).should.not.throw();
+        });
+
+        it('should replace $ in the name of a non-primitive map key', () => {
+            const lines = generate(`
+namespace test@1.0.0
+
+scalar Ke$y extends String
+
+map Ke$yMap {
+  o Ke$y
+  o String
+}
+
+concept Holder {
+  o Ke$yMap m
+}
+`);
+
+            lines.should.include('type Ke_yMap {');
+            lines.map((line) => line.trim()).should.include('key: Ke_y');
+            lines.join('\n').should.not.contain('$');
+            // The SDL is not validated with graphql-js here: scalar declarations are
+            // not written yet, so a scalar key is an unknown type (see #248).
         });
     });
 });
