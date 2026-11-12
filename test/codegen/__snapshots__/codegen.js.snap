@@ -5524,11 +5524,11 @@ message Info {
 }
 
 message Company {
-  optional map<string, string> CompanyProperties = 1;
-  optional map<SSN, Employee> EmployeeDirectory = 2;
-  optional map<string, Concept> EmployeeProfiles = 3;
-  optional map<string, SSN> EmployeeSocialSecurityNumbers = 4;
-  optional map<SSN, TShirtSizeType> EmployeeTShirtSizes = 5;
+  map<string, string> companyProperties = 1;
+  map<string, Employee> employeeDirectory = 2;
+  map<string, Concept> employeeProfiles = 3;
+  map<string, string> employeeSocialSecurityNumbers = 4;
+  map<string, TShirtSizeType> employeeTShirtSizes = 5;
   Address headquarters = 6;
   string name = 7;
 }
@@ -5578,7 +5578,7 @@ message Employee {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  map<KinName, KinTelephone> NextOfKin = 12;
+  map<string, string> nextOfKin = 12;
   sint64 numDependents = 13;
   Address officeAddress = 14;
   bool retired = 15;
@@ -5603,7 +5603,7 @@ message Contractor {
   string lastName = 7;
   optional string manager = 8;
   optional string middleNames = 9;
-  map<KinName, KinTelephone> NextOfKin = 10;
+  map<string, string> nextOfKin = 10;
   string ssn = 11;
 }
 
@@ -5619,7 +5619,7 @@ message Manager {
   string lastName = 9;
   optional string manager = 10;
   optional string middleNames = 11;
-  map<KinName, KinTelephone> NextOfKin = 12;
+  map<string, string> nextOfKin = 12;
   sint64 numDependents = 13;
   Address officeAddress = 14;
   repeated string reports = 15;

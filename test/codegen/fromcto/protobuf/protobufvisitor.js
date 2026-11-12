@@ -430,7 +430,14 @@ describe('ProtobufVisitor', function () {
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('String');
+            mockField.getName.returns('map1');
             mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.getModelFile.returns({
+                getType: type => ({
+                    isScalarDeclaration: () => type === 'SSN',
+                    getType: () => 'String'
+                })
+            });
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
@@ -463,7 +470,14 @@ describe('ProtobufVisitor', function () {
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('DateTime');
+            mockField.getName.returns('map1');
             mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.getModelFile.returns({
+                getType: type => ({
+                    isScalarDeclaration: () => type === 'SSN',
+                    getType: () => 'String'
+                })
+            });
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
@@ -496,14 +510,21 @@ describe('ProtobufVisitor', function () {
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('SSN');
+            mockField.getName.returns('map1');
             mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.getModelFile.returns({
+                getType: type => ({
+                    isScalarDeclaration: () => type === 'SSN',
+                    getType: () => 'String'
+                })
+            });
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             protobufVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.callCount.should.deep.equal(1);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, SSN> map1 = 0;']);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, string> map1 = 0;']);
 
             sandbox.restore();
         });
@@ -529,7 +550,14 @@ describe('ProtobufVisitor', function () {
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Concept');
+            mockField.getName.returns('map1');
             mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.getModelFile.returns({
+                getType: type => ({
+                    isScalarDeclaration: () => type === 'SSN',
+                    getType: () => 'String'
+                })
+            });
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
@@ -562,14 +590,21 @@ describe('ProtobufVisitor', function () {
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('SSN');
             getValueType.returns('String');
+            mockField.getName.returns('map1');
             mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.getModelFile.returns({
+                getType: type => ({
+                    isScalarDeclaration: () => type === 'SSN',
+                    getType: () => 'String'
+                })
+            });
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             protobufVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.callCount.should.deep.equal(1);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<SSN, string> map1 = 0;']);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, string> map1 = 0;']);
 
             sandbox.restore();
         });
@@ -598,14 +633,21 @@ describe('ProtobufVisitor', function () {
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('SSN');
             getValueType.returns('Employee');
+            mockField.getName.returns('map1');
             mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.getModelFile.returns({
+                getType: type => ({
+                    isScalarDeclaration: () => type === 'SSN',
+                    getType: () => 'String'
+                })
+            });
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
 
             protobufVisitor.visitField(mockField, param);
             param.fileWriter.writeLine.callCount.should.deep.equal(1);
-            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<SSN, Employee> map1 = 0;']);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, '  map<string, Employee> map1 = 0;']);
 
             sandbox.restore();
         });
@@ -633,7 +675,14 @@ describe('ProtobufVisitor', function () {
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Double');
+            mockField.getName.returns('map1');
             mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.getModelFile.returns({
+                getType: type => ({
+                    isScalarDeclaration: () => type === 'SSN',
+                    getType: () => 'String'
+                })
+            });
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
@@ -666,7 +715,14 @@ describe('ProtobufVisitor', function () {
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Integer');
+            mockField.getName.returns('map1');
             mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.getModelFile.returns({
+                getType: type => ({
+                    isScalarDeclaration: () => type === 'SSN',
+                    getType: () => 'String'
+                })
+            });
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
@@ -699,7 +755,14 @@ describe('ProtobufVisitor', function () {
             findStub.returns(mockMapDeclaration);
             getKeyType.returns('String');
             getValueType.returns('Long');
+            mockField.getName.returns('map1');
             mockMapDeclaration.getName.returns('map1');
+            mockMapDeclaration.getModelFile.returns({
+                getType: type => ({
+                    isScalarDeclaration: () => type === 'SSN',
+                    getType: () => 'String'
+                })
+            });
             mockMapDeclaration.isMapDeclaration.returns(true);
             mockMapDeclaration.getKey.returns({ getType: getKeyType });
             mockMapDeclaration.getValue.returns({ getType: getValueType });
