@@ -450,7 +450,7 @@ protocol MyProtocol {
    record Address {
       string street;
       string city;
-      union { null, State } state;
+      union { null, org.acme.hr.base.State } state;
       string zipCode;
       string country;
    }
@@ -475,7 +475,7 @@ protocol MyProtocol {
    
    record pii {
       boolean isPii;
-      Category category;
+      org.acme.hr.base.Category category;
    }
 
    record Info {
@@ -484,11 +484,11 @@ protocol MyProtocol {
 
    record Company {
       string name;
-      Address headquarters;
+      org.acme.hr.base.Address headquarters;
       map<string> companyProperties;
-      map<Employee> employeeDirectory;
-      map<TShirtSizeType> employeeTShirtSizes;
-      map<Concept> employeeProfiles;
+      map<org.acme.hr.Employee> employeeDirectory;
+      map<org.acme.hr.base.TShirtSizeType> employeeTShirtSizes;
+      map<concerto.Concept> employeeProfiles;
       map<string> employeeSocialSecurityNumbers;
    }
 
@@ -511,7 +511,7 @@ protocol MyProtocol {
    }
 
    record Laptop {
-      LaptopMake make;
+      org.acme.hr.LaptopMake make;
       string serialNumber;
    }
 
@@ -520,7 +520,7 @@ protocol MyProtocol {
       string firstName;
       string lastName;
       union { null, string } middleNames;
-      Address homeAddress;
+      org.acme.hr.base.Address homeAddress;
       string ssn;
       double height;
       @logicalType("timestamp-micros")
@@ -533,15 +533,15 @@ protocol MyProtocol {
       long salary;
       int numDependents;
       boolean retired;
-      Department department;
-      Address officeAddress;
-      array<Equipment> companyAssets;
+      org.acme.hr.Department department;
+      org.acme.hr.base.Address officeAddress;
+      array<org.acme.hr.Equipment> companyAssets;
       union { null, string } manager;
       string email;
       string firstName;
       string lastName;
       union { null, string } middleNames;
-      Address homeAddress;
+      org.acme.hr.base.Address homeAddress;
       string ssn;
       double height;
       @logicalType("timestamp-micros")
@@ -550,13 +550,13 @@ protocol MyProtocol {
    }
 
    record Contractor {
-      Company company;
+      org.acme.hr.Company company;
       union { null, string } manager;
       string email;
       string firstName;
       string lastName;
       union { null, string } middleNames;
-      Address homeAddress;
+      org.acme.hr.base.Address homeAddress;
       string ssn;
       double height;
       @logicalType("timestamp-micros")
@@ -570,15 +570,15 @@ protocol MyProtocol {
       long salary;
       int numDependents;
       boolean retired;
-      Department department;
-      Address officeAddress;
-      array<Equipment> companyAssets;
+      org.acme.hr.Department department;
+      org.acme.hr.base.Address officeAddress;
+      array<org.acme.hr.Equipment> companyAssets;
       union { null, string } manager;
       string email;
       string firstName;
       string lastName;
       union { null, string } middleNames;
-      Address homeAddress;
+      org.acme.hr.base.Address homeAddress;
       string ssn;
       double height;
       @logicalType("timestamp-micros")
@@ -599,7 +599,7 @@ protocol MyProtocol {
 
    record ChangeOfAddress {
       string Person;
-      Address newAddress;
+      org.acme.hr.base.Address newAddress;
       @logicalType("timestamp-micros")
       long _timestamp;
    }
