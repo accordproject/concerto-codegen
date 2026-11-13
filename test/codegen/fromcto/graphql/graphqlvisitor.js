@@ -17,6 +17,7 @@
 const chai = require('chai');
 chai.should();
 const sinon = require('sinon');
+const { buildSchema } = require('graphql');
 
 const GraphQLVisitor = require('../../../../lib/codegen/fromcto/graphql/graphqlvisitor.js');
 
@@ -422,6 +423,107 @@ int: Int
 float: Float
 ref: String
 arrayRef: String) on OBJECT | FIELD_DEFINITION`]);
+        });
+    });
+
+    describe('names with $', () => {
+        // $ is not legal in GraphQL names, whatever kind of element it is in
+        const MODEL_WITH_DOLLARS = `
+namespace test@1.0.0
+
+enum Le$ve$l {
+  o LO$W$X
+}
+
+concept Va$lue {
+  o String x
+}
+
+map Look$Up$Map {
+  o String
+  o Va$lue
+}
+
+asset It$em identified by id {
+  o String id
+  o String some$field$name
+  o Le$ve$l lev
+  o Look$Up$Map lookup
+  --> It$em par$ent$x optional
+}
+`;
+        let previousMapType;
+        before(() => {
+            previousMapType = process.env.ENABLE_MAP_TYPE;
+            process.env.ENABLE_MAP_TYPE = 'true';
+        });
+        after(() => {
+            if (previousMapType === undefined) {
+                delete process.env.ENABLE_MAP_TYPE;
+            } else {
+                process.env.ENABLE_MAP_TYPE = previousMapType;
+            }
+        });
+
+        /**
+         * Generates the GraphQL for a model.
+         * @param {string} cto the Concerto model
+         * @returns {string[]} the lines written by the visitor
+         */
+        const generate = (cto) => {
+            const lines = [];
+            const fileWriter = {
+                openFile: () => {},
+                closeFile: () => {},
+                writeLine: (indent, line) => lines.push(line),
+                writeBeforeLine: (indent, line) => lines.unshift(line),
+            };
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(cto);
+            graphQLVisitor.visit(modelManager, { fileWriter });
+            return lines;
+        };
+
+        it('should replace every $ so that the generated GraphQL is valid', () => {
+            const lines = generate(MODEL_WITH_DOLLARS);
+
+            const sdl = lines.join('\n');
+            // comments (e.g. the type of a relationship) keep the Concerto name
+            lines.map((line) => line.split('#')[0]).join('\n').should.not.contain('$');
+            sdl.should.contain('enum Le_ve_l {');
+            sdl.should.contain('LO_W_X');
+            sdl.should.contain('type Look_Up_Map {');
+            sdl.should.contain('type It_em ');
+            sdl.should.contain('some_field_name: String!');
+            sdl.should.contain('par_ent_x: ID # It$em');
+            // a map whose value is a declared type refers to it by its escaped name
+            sdl.should.contain('type Va_lue {');
+            sdl.should.contain('value: Va_lue');
+            // graphql-js is the reference parser for GraphQL SDL
+            (() => buildSchema(sdl)).should.not.throw();
+        });
+
+        it('should replace $ in the name of a non-primitive map key', () => {
+            const lines = generate(`
+namespace test@1.0.0
+
+scalar Ke$y extends String
+
+map Ke$yMap {
+  o Ke$y
+  o String
+}
+
+concept Holder {
+  o Ke$yMap m
+}
+`);
+
+            lines.should.include('type Ke_yMap {');
+            lines.map((line) => line.trim()).should.include('key: Ke_y');
+            lines.join('\n').should.not.contain('$');
+            // The SDL is not validated with graphql-js here: scalar declarations are
+            // not written yet, so a scalar key is an unknown type (see #248).
         });
     });
 });
