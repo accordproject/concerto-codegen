@@ -382,7 +382,76 @@ describe('GoLangVisitor', function () {
 
             goVisit.visitField(mockField,param);
 
-            param.fileWriter.writeLine.withArgs(1, 'dictionary := make(map[string]string) `json:"dictionary"`').calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(1, 'Dictionary map[string]string `json:"dictionary"`').calledOnce.should.be.ok;
+        });
+
+        it('should handle map field when getType returns null for external or primitive types', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const mockField = sinon.createStubInstance(Field);
+            const mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+
+            mockField.getType.returns('Map1');
+            mockField.getName.returns('properties');
+            mockField.getModelFile.returns({
+                getType: sinon.stub().returns(mockMapDeclaration),
+            });
+
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.getKey.returns({ getType: () => 'String' });
+            mockMapDeclaration.getValue.returns({ getType: () => 'ExternalType' });
+            // getType returns null (e.g. cross-namespace or unresolved type)
+            mockMapDeclaration.getModelFile.returns({
+                getType: sinon.stub().returns(null),
+            });
+
+            goVisit.visitField(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'Properties map[string]ExternalType `json:"properties"`').calledOnce.should.be.ok;
+        });
+
+        it('should handle map field with leading $ in field name', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const mockField = sinon.createStubInstance(Field);
+            const getType = sinon.stub();
+
+            mockField.dummy = 'Dummy Value';
+            mockField.getModelFile.returns({ getType: getType });
+
+            const mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
+
+            mockField.getType.returns('Map1');
+
+            getType.returns(mockMapDeclaration);
+            getKeyType.returns('String');
+            getValueType.returns('String');
+            mockField.getName.returns('$dictionary');
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+            mockMapDeclaration.getModelFile.returns({ getType: getType });
+
+            goVisit.visitField(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'Dictionary map[string]string `json:"$dictionary"`').calledOnce.should.be.ok;
         });
 
     });
@@ -476,6 +545,93 @@ describe('GoLangVisitor', function () {
             ]);
 
             goVisit.containsDateTimeField(mockModelFileDefinition).should.deep.equal(false);
+        });
+
+        it('should return true if the model file contains a map field with DateTime value', () => {
+            const mm = new ModelManager();
+            const modelFile = mm.addCTOModel(`
+                namespace org.acme@1.0.0
+                map TimestampMap {
+                    o String
+                    o DateTime
+                }
+                concept EventLog {
+                    o TimestampMap timestamps
+                }
+            `);
+            goVisit.containsDateTimeField(modelFile).should.be.true;
+        });
+
+        it('should return true if the model file contains a map field with a scalar extending DateTime', () => {
+            const mm = new ModelManager();
+            const modelFile = mm.addCTOModel(`
+                namespace org.acme@1.0.0
+                scalar EventTime extends DateTime
+                map EventMap {
+                    o String
+                    o EventTime
+                }
+                concept LogEntry {
+                    o EventMap events
+                }
+            `);
+            goVisit.containsDateTimeField(modelFile).should.be.true;
+        });
+
+        it('should return false if the model file contains a map field without DateTime', () => {
+            const mm = new ModelManager();
+            const modelFile = mm.addCTOModel(`
+                namespace org.acme@1.0.0
+                map StringMap {
+                    o String
+                    o String
+                }
+                concept LogEntry {
+                    o StringMap items
+                }
+            `);
+            goVisit.containsDateTimeField(modelFile).should.be.false;
+        });
+
+        it('should write import "time" when the only DateTime in the model is in a map field', () => {
+            const mm = new ModelManager();
+            const modelFile = mm.addCTOModel(`
+                namespace org.acme@1.0.0
+                map TimestampMap {
+                    o String
+                    o DateTime
+                }
+                concept EventLog {
+                    o TimestampMap timestamps
+                }
+            `);
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+            goVisit.visitModelFile(modelFile, param);
+            param.fileWriter.writeLine.withArgs(0, 'import "time"').calledOnce.should.be.ok;
+        });
+
+        it('should return false for child class inheriting DateTime map from another namespace', () => {
+            const mm = new ModelManager();
+            mm.addCTOModel(`
+                namespace base@1.0.0
+                map TimestampMap {
+                    o String
+                    o DateTime
+                }
+                concept Parent {
+                    o TimestampMap timestamps
+                }
+            `);
+            const childModelFile = mm.addCTOModel(`
+                namespace child@1.0.0
+                import base@1.0.0.Parent
+                concept Child extends Parent {
+                    o String name
+                }
+            `);
+            goVisit.containsDateTimeField(childModelFile).should.be.false;
         });
     });
 
