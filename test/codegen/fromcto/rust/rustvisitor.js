@@ -623,6 +623,73 @@ describe('RustVisitor', function () {
                 ]);
         });
 
+        it('should default an optional date field to None when it is missing', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.name = 'shipped';
+            mockField.type = 'DateTime';
+            mockField.isOptional.returns(true);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+
+            mockModelManager.getType.returns(mockClassDeclaration);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+            rustVisitor.visitField(mockField, param);
+
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde('],
+                    [2, 'rename = "shipped",'],
+                    [2, 'skip_serializing_if = "Option::is_none",'],
+                    [2, 'default,'],
+                    [2, 'serialize_with = "serialize_datetime_option",'],
+                    [2, 'deserialize_with = "deserialize_datetime_option",'],
+                    [1, ')]'],
+                    [1, 'pub shipped: Option<DateTime<Utc>>,'],
+                ]);
+        });
+
+        it('should default an optional date array field to None when it is missing', () => {
+            const mockField = sinon.createStubInstance(Field);
+            mockField.isPrimitive.returns(false);
+            mockField.name = 'scans';
+            mockField.type = 'DateTime';
+            mockField.isArray.returns(true);
+            mockField.isOptional.returns(true);
+
+            const mockModelManager = sinon.createStubInstance(ModelManager);
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            const mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+
+            mockModelManager.getType.returns(mockClassDeclaration);
+            mockModelFile.getModelManager.returns(mockModelManager);
+            mockClassDeclaration.getModelFile.returns(mockModelFile);
+            mockField.getParent.returns(mockClassDeclaration);
+            rustVisitor.visitField(mockField, param);
+
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [1, '#[serde('],
+                    [2, 'rename = "scans",'],
+                    [2, 'skip_serializing_if = "Option::is_none",'],
+                    [2, 'default,'],
+                    [2, 'serialize_with = "serialize_datetime_array_option",'],
+                    [2, 'deserialize_with = "deserialize_datetime_array_option",'],
+                    [1, ')]'],
+                    [1, 'pub scans: Option<Vec<DateTime<Utc>>>,'],
+                ]);
+        });
+
         it('should write a line with DateTime serialization for HashMap <DateTime, String>', () => {
             let param = {
                 fileWriter: mockFileWriter,
@@ -819,6 +886,8 @@ describe('RustVisitor', function () {
                 2,
                 'skip_serializing_if = "Option::is_none",'
             ).calledOnce.should.be.ok;
+            param.fileWriter.writeLine.withArgs(2, 'default,').calledOnce
+                .should.be.ok;
 
             isPrimitiveTypeStub.restore();
             isMapStub.restore();
@@ -1369,7 +1438,7 @@ describe('RustVisitor', function () {
                     ],
                     [
                         1,
-                        'DateTime::parse_from_str(&datetime_str, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)',
+                        'DateTime::parse_from_rfc3339(&datetime_str).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)',
                     ],
                     [0, '}'],
                     [1, ''],
@@ -1416,7 +1485,7 @@ describe('RustVisitor', function () {
                     [2, '.iter()'],
                     [
                         2,
-                        '.map(|s| DateTime::parse_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom))',
+                        '.map(|s| DateTime::parse_from_rfc3339(s).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom))',
                     ],
                     [2, '.collect()'],
                     [0, '}'],
@@ -1452,7 +1521,7 @@ describe('RustVisitor', function () {
                     [4, '.iter()'],
                     [
                         4,
-                        '.map(|s| DateTime::parse_from_str(s, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom))',
+                        '.map(|s| DateTime::parse_from_rfc3339(s).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom))',
                     ],
                     [4, '.collect();'],
                     [3, 'result.map(Some)'],
@@ -1496,7 +1565,7 @@ describe('RustVisitor', function () {
                     [1, 'for (k, v) in string_map {'],
                     [
                         2,
-                        'let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
+                        'let datetime_key = DateTime::parse_from_rfc3339(&k).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [2, 'result.insert(datetime_key, v);'],
                     [1, '}'],
@@ -1538,7 +1607,7 @@ describe('RustVisitor', function () {
                     [1, 'for (k, v) in string_map {'],
                     [
                         2,
-                        'let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
+                        'let datetime_value = DateTime::parse_from_rfc3339(&v).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [2, 'result.insert(k, datetime_value);'],
                     [1, '}'],
@@ -1580,11 +1649,11 @@ describe('RustVisitor', function () {
                     [1, 'for (k, v) in string_map {'],
                     [
                         2,
-                        'let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
+                        'let datetime_key = DateTime::parse_from_rfc3339(&k).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [
                         2,
-                        'let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
+                        'let datetime_value = DateTime::parse_from_rfc3339(&v).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [2, 'result.insert(datetime_key, datetime_value);'],
                     [1, '}'],
@@ -1623,7 +1692,7 @@ describe('RustVisitor', function () {
                     [3, 'for (k, v) in string_map {'],
                     [
                         4,
-                        'let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
+                        'let datetime_key = DateTime::parse_from_rfc3339(&k).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [4, 'result.insert(datetime_key, v);'],
                     [3, '}'],
@@ -1665,7 +1734,7 @@ describe('RustVisitor', function () {
                     [3, 'for (k, v) in string_map {'],
                     [
                         4,
-                        'let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
+                        'let datetime_value = DateTime::parse_from_rfc3339(&v).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [4, 'result.insert(k, datetime_value);'],
                     [3, '}'],
@@ -1707,11 +1776,11 @@ describe('RustVisitor', function () {
                     [3, 'for (k, v) in string_map {'],
                     [
                         4,
-                        'let datetime_key = DateTime::parse_from_str(&k, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
+                        'let datetime_key = DateTime::parse_from_rfc3339(&k).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [
                         4,
-                        'let datetime_value = DateTime::parse_from_str(&v, "%Y-%m-%dT%H:%M:%S%.3f%Z").map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
+                        'let datetime_value = DateTime::parse_from_rfc3339(&v).map(|dt| dt.with_timezone(&Utc)).map_err(serde::de::Error::custom)?;',
                     ],
                     [4, 'result.insert(datetime_key, datetime_value);'],
                     [3, '}'],
