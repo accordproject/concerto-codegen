@@ -306,4 +306,67 @@ concept B { --> Base r }`,
             });
         });
     });
+
+    const extensionDataTitle = CARGO_SKIP_REASON
+        ? `generated Rust with enableExtensionData round-trips undeclared JSON properties (pending: ${CARGO_SKIP_REASON})`
+        : 'generated Rust with enableExtensionData round-trips undeclared JSON properties';
+    (CARGO_SKIP_REASON ? it.skip : it)(extensionDataTitle, async function () {
+        const { path: outputDir, cleanup } = await dir({ unsafeCleanup: true });
+
+        try {
+            const src = path.join(outputDir, 'src');
+            fs.mkdirSync(src, { recursive: true });
+
+            const modelManager = createModelManager(CASES.find((testCase) => testCase.name === 'metamodel'));
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+            concept Address { o String city }
+            concept Person { o String name o Address address }
+            `, 'acme.cto');
+            modelManager.accept(new RustVisitor(), {
+                fileWriter: new FileWriter(src),
+                enableExtensionData: true,
+            });
+            fs.renameSync(path.join(src, 'mod.rs'), path.join(src, 'lib.rs'));
+
+            // A ConceptDeclaration read as a Declaration keeps the fields Declaration
+            // does not declare, and so does a Person written by a newer model version.
+            fs.writeFileSync(path.join(src, 'main.rs'), [
+                'use verify::concerto_metamodel_1_0_0::Declaration;',
+                'use verify::org_acme_1_0_0::Person;',
+                '',
+                'fn round_trip<T: serde::de::DeserializeOwned + serde::Serialize>(json: &str) -> T {',
+                '    let value: T = serde_json::from_str(json).unwrap();',
+                '    let expected: serde_json::Value = serde_json::from_str(json).unwrap();',
+                '    assert_eq!(serde_json::to_value(&value).unwrap(), expected);',
+                '    value',
+                '}',
+                '',
+                'fn main() {',
+                '    let declaration: Declaration = round_trip(r#"{"$class":"concerto.metamodel@1.0.0.ConceptDeclaration","name":"Dog","isAbstract":false,"properties":[]}"#);',
+                '    assert_eq!(declaration.extension_data.len(), 2);',
+                '    let person: Person = round_trip(r#"{"$class":"org.acme@1.0.0.Person","name":"Alice","age":30,"address":{"$class":"org.acme@1.0.0.Address","city":"Dublin","zip":"D01"}}"#);',
+                '    assert_eq!(person.extension_data["age"], 30);',
+                '    assert_eq!(person.address.extension_data["zip"], "D01");',
+                '}',
+                '',
+            ].join('\n'));
+            // cargo picks up src/main.rs as the crate's binary.
+            fs.writeFileSync(path.join(outputDir, 'Cargo.toml'), `${CARGO_TOML}serde_json = "1"\n`);
+
+            try {
+                execFileSync('cargo', ['run', '--quiet'], {
+                    cwd: outputDir,
+                    encoding: 'utf-8',
+                    stdio: ['ignore', 'pipe', 'pipe'],
+                    env: { ...process.env, CARGO_TARGET_DIR: SHARED_TARGET_DIR },
+                });
+            } catch (err) {
+                const details = [err.stdout, err.stderr].filter(Boolean).join('\n').trim();
+                throw new Error(details || err.message);
+            }
+        } finally {
+            await cleanup();
+        }
+    });
 });
