@@ -3205,10 +3205,17 @@ No fields.
 | LARGE | |
 
 
+### EmployeeTShirtSizes (Map)
+
+| Key Type | Value Type |
+| -------- | ---------- |
+| <code>SSN</code> | <code>TShirtSizeType</code> |
+
+
 ### Address (Concept)
 
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | street | <code>String</code> | ✔️ |  |  |  |  |  |
 | city | <code>String</code> | ✔️ |  |  |  |  |  |
@@ -3220,6 +3227,20 @@ No fields.
 ### Level (Enumeration)
 
 No values.
+
+
+### Time (Scalar)
+
+| Type | Default Value | Constraints |
+| ---- | ------------- | ----------- |
+| <code>DateTime</code> |  |  |
+
+
+### SSN (Scalar)
+
+| Type | Default Value | Constraints |
+| ---- | ------------- | ----------- |
+| <code>String</code> | <code>000-00-0000</code> | Matches Regular Expression: \`/(\\d{3}-\\d{2}-\\d{4})+/\` |
 
 
 ## Diagram
@@ -3304,7 +3325,7 @@ class \`org.acme.hr.base@1.0.0.Level\`
 
  - Inherits fields from <code>concerto.decorator@1.0.0.Decorator</code>
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | isPii | <code>Boolean</code> | ✔️ |  |  |  |  |  |
 | category | <code>org.acme.hr.base@1.0.0.Category</code> | ✔️ |  |  |  |  |  |
@@ -3323,16 +3344,58 @@ class \`org.acme.hr.base@1.0.0.Level\`
 ### Info (Concept)
 
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | name | <code>String</code> | ✔️ |  |  |  |  |  |
+
+
+### CompanyProperties (Map)
+
+| Key Type | Value Type |
+| -------- | ---------- |
+| <code>String</code> | <code>String</code> |
+
+
+### EmployeeLoginTimes (Map)
+
+| Key Type | Value Type |
+| -------- | ---------- |
+| <code>String</code> | <code>Time</code> |
+
+
+### EmployeeSocialSecurityNumbers (Map)
+
+| Key Type | Value Type |
+| -------- | ---------- |
+| <code>String</code> | <code>SSN</code> |
+
+
+### NextOfKin (Map)
+
+| Key Type | Value Type |
+| -------- | ---------- |
+| <code>KinName</code> | <code>KinTelephone</code> |
+
+
+### EmployeeProfiles (Map)
+
+| Key Type | Value Type |
+| -------- | ---------- |
+| <code>String</code> | <code>Concept</code> |
+
+
+### EmployeeDirectory (Map)
+
+| Key Type | Value Type |
+| -------- | ---------- |
+| <code>SSN</code> | <code>Employee</code> |
 
 
 ### Company (Concept)
 
 A company
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | name | <code>String</code> | ✔️ |  |  |  | The name of the company | Matches Regular Expression: \`/abc.*/\` |
 | headquarters | <code>org.acme.hr.base@1.0.0.Address</code> | ✔️ |  |  |  |  |  |
@@ -3356,11 +3419,11 @@ A department
 | Design | |
 
 
-### Equipment (Concept)
+### Equipment (Asset)
 
  - Is abstract and cannot be instantiated
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | serialNumber | <code>String</code> | ✔️ | ✔️ |  |  |  |  |
 
@@ -3373,21 +3436,21 @@ A department
 | Microsoft | |
 
 
-### Laptop (Concept)
+### Laptop (Asset)
 
  - Inherits fields from <code>org.acme.hr@1.0.0.Equipment</code>
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | make | <code>org.acme.hr@1.0.0.LaptopMake</code> | ✔️ |  |  |  |  |  |
 | serialNumber | <code>String</code> | ✔️ | ✔️ |  | ✔️ |  |  |
 
 
-### Person (Concept)
+### Person (Participant)
 
  - Is abstract and cannot be instantiated
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | email | <code>String</code> | ✔️ | ✔️ |  |  |  | Minimum Length: 0<br>Maximum Length: 254 |
 | firstName | <code>String</code> | ✔️ |  |  |  |  |  |
@@ -3400,11 +3463,11 @@ A department
 | nextOfKin | <code>org.acme.hr@1.0.0.NextOfKin</code> | ✔️ |  |  |  |  |  |
 
 
-### Employee (Concept)
+### Employee (Participant)
 
  - Inherits fields from <code>org.acme.hr@1.0.0.Person</code>
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | employeeId | <code>String</code> | ✔️ |  |  |  |  |  |
 | salary | <code>Long</code> | ✔️ |  |  |  |  | Minimum Value: 1<br>Maximum Value: 10 |
@@ -3425,11 +3488,11 @@ A department
 | nextOfKin | <code>org.acme.hr@1.0.0.NextOfKin</code> | ✔️ |  |  | ✔️ |  |  |
 
 
-### Contractor (Concept)
+### Contractor (Participant)
 
  - Inherits fields from <code>org.acme.hr@1.0.0.Person</code>
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | company | <code>org.acme.hr@1.0.0.Company</code> | ✔️ |  |  |  |  |  |
 | manager | <code>org.acme.hr@1.0.0.Manager</code> |  |  | ✔️ |  |  |  |
@@ -3444,11 +3507,11 @@ A department
 | nextOfKin | <code>org.acme.hr@1.0.0.NextOfKin</code> | ✔️ |  |  | ✔️ |  |  |
 
 
-### Manager (Concept)
+### Manager (Participant)
 
  - Inherits fields from <code>org.acme.hr@1.0.0.Employee</code>
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | reports | <code>org.acme.hr@1.0.0.Person[]</code> |  |  | ✔️ |  |  |  |
 | employeeId | <code>String</code> | ✔️ |  |  | ✔️ |  |  |
@@ -3470,29 +3533,43 @@ A department
 | nextOfKin | <code>org.acme.hr@1.0.0.NextOfKin</code> | ✔️ |  |  | ✔️ |  |  |
 
 
-### CompanyEvent (Concept)
+### CompanyEvent (Event)
 
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 
 
-### Onboarded (Concept)
+### Onboarded (Event)
 
  - Inherits fields from <code>org.acme.hr@1.0.0.CompanyEvent</code>
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | employee | <code>org.acme.hr@1.0.0.Employee</code> | ✔️ |  | ✔️ |  |  |  |
 
 
-### ChangeOfAddress (Concept)
+### ChangeOfAddress (Transaction)
 
 
-| Field | Type | Required | Identifier | Reference | Inherited | Description | Contraints | 
+| Field | Type | Required | Identifier | Reference | Inherited | Description | Constraints | 
 | ------ | ------------------- | --- | --- | --- | --- |------------ | --------- |
 | Person | <code>org.acme.hr@1.0.0.Person</code> | ✔️ |  | ✔️ |  |  |  |
 | newAddress | <code>org.acme.hr.base@1.0.0.Address</code> | ✔️ |  |  |  |  |  |
+
+
+### KinName (Scalar)
+
+| Type | Default Value | Constraints |
+| ---- | ------------- | ----------- |
+| <code>String</code> |  |  |
+
+
+### KinTelephone (Scalar)
+
+| Type | Default Value | Constraints |
+| ---- | ------------- | ----------- |
+| <code>String</code> |  |  |
 
 
 ## Diagram
