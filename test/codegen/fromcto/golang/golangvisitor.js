@@ -417,6 +417,43 @@ describe('GoLangVisitor', function () {
             param.fileWriter.writeLine.withArgs(1, 'Properties map[string]ExternalType `json:"properties"`').calledOnce.should.be.ok;
         });
 
+        it('should handle map field with leading $ in field name', () => {
+            let param = {
+                fileWriter: mockFileWriter,
+            };
+
+            sandbox.restore();
+            sandbox.stub(ModelUtil, 'isMap').callsFake(() => {
+                return true;
+            });
+
+            const mockField = sinon.createStubInstance(Field);
+            const getType = sinon.stub();
+
+            mockField.dummy = 'Dummy Value';
+            mockField.getModelFile.returns({ getType: getType });
+
+            const mockMapDeclaration = sinon.createStubInstance(MapDeclaration);
+            const getKeyType = sinon.stub();
+            const getValueType = sinon.stub();
+
+            mockField.getType.returns('Map1');
+
+            getType.returns(mockMapDeclaration);
+            getKeyType.returns('String');
+            getValueType.returns('String');
+            mockField.getName.returns('$dictionary');
+            mockMapDeclaration.getName.returns('Map1');
+            mockMapDeclaration.isMapDeclaration.returns(true);
+            mockMapDeclaration.getKey.returns({ getType: getKeyType });
+            mockMapDeclaration.getValue.returns({ getType: getValueType });
+            mockMapDeclaration.getModelFile.returns({ getType: getType });
+
+            goVisit.visitField(mockField, param);
+
+            param.fileWriter.writeLine.withArgs(1, 'Dictionary map[string]string `json:"$dictionary"`').calledOnce.should.be.ok;
+        });
+
     });
 
     describe('visitEnumValueDeclaration', () => {
