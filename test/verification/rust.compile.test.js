@@ -21,6 +21,7 @@ const os = require('os');
 const { dir } = require('tmp-promise');
 const { ModelManager } = require('@accordproject/concerto-core');
 
+const { ModelManager } = require('@accordproject/concerto-core');
 const { FileWriter } = require('@accordproject/concerto-util');
 const RustVisitor = require('../../lib/codegen/fromcto/rust/rustvisitor.js');
 
@@ -305,5 +306,74 @@ concept B { --> Base r }`,
                 });
             });
         });
+    });
+
+    const dateTimeTitle = CARGO_SKIP_REASON
+        ? `generated Rust deserializes Concerto DateTime values (pending: ${CARGO_SKIP_REASON})`
+        : 'generated Rust deserializes Concerto DateTime values';
+    (CARGO_SKIP_REASON ? it.skip : it)(dateTimeTitle, async function () {
+        const { path: outputDir, cleanup } = await dir({ unsafeCleanup: true });
+
+        try {
+            const src = path.join(outputDir, 'src');
+            fs.mkdirSync(src, { recursive: true });
+
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(`
+            namespace org.acme@1.0.0
+            map Schedule { o String o DateTime }
+            transaction Order {
+                o DateTime placed
+                o DateTime shipped optional
+                o DateTime[] scans
+                o DateTime[] returns optional
+                o Schedule schedule optional
+            }
+            `, 'acme.cto');
+            modelManager.accept(new RustVisitor(), { fileWriter: new FileWriter(src) });
+            fs.renameSync(path.join(src, 'mod.rs'), path.join(src, 'lib.rs'));
+
+            // Concerto JSON holds DateTime values as ISO 8601 strings, and
+            // leaves out optional properties that have no value.
+            fs.writeFileSync(path.join(src, 'main.rs'), [
+                'use chrono::{ TimeZone, Utc };',
+                'use verify::org_acme_1_0_0::Order;',
+                '',
+                'fn main() {',
+                '    let order: Order = serde_json::from_str(r#"{"$class":"org.acme@1.0.0.Order","$timestamp":"2024-01-02T03:04:05.678Z","placed":"2024-01-02T03:04:05.678Z","shipped":"2024-01-03T00:00:00.000+01:00","scans":["2024-01-04T00:00:00.000Z"],"returns":["2024-01-05T00:00:00.000Z"],"schedule":{"a":"2024-01-06T00:00:00.000Z"}}"#).unwrap();',
+                '    assert_eq!(order.placed, Utc.with_ymd_and_hms(2024, 1, 2, 3, 4, 5).unwrap() + chrono::Duration::milliseconds(678));',
+                '    assert_eq!(order._timestamp, order.placed);',
+                '    assert_eq!(order.shipped, Some(Utc.with_ymd_and_hms(2024, 1, 2, 23, 0, 0).unwrap()));',
+                '    assert_eq!(order.scans.len(), 1);',
+                '    assert_eq!(order.returns.map(|r| r.len()), Some(1));',
+                '    assert_eq!(order.schedule.map(|s| s.len()), Some(1));',
+                '',
+                '    let order: Order = serde_json::from_str(r#"{"$class":"org.acme@1.0.0.Order","$timestamp":"2024-01-02T03:04:05.678Z","placed":"2024-01-02T03:04:05.678Z","scans":[]}"#).unwrap();',
+                '    assert!(order.shipped.is_none() && order.returns.is_none() && order.schedule.is_none());',
+                '',
+                '    // The serialized form deserializes again.',
+                '    let json = serde_json::to_string(&order).unwrap();',
+                '    let again: Order = serde_json::from_str(&json).unwrap();',
+                '    assert_eq!(again.placed, order.placed);',
+                '}',
+                '',
+            ].join('\n'));
+            // cargo picks up src/main.rs as the crate's binary.
+            fs.writeFileSync(path.join(outputDir, 'Cargo.toml'), `${CARGO_TOML}serde_json = "1"\n`);
+
+            try {
+                execFileSync('cargo', ['run', '--quiet'], {
+                    cwd: outputDir,
+                    encoding: 'utf-8',
+                    stdio: ['ignore', 'pipe', 'pipe'],
+                    env: { ...process.env, CARGO_TARGET_DIR: SHARED_TARGET_DIR },
+                });
+            } catch (err) {
+                const details = [err.stdout, err.stderr].filter(Boolean).join('\n').trim();
+                throw new Error(details || err.message);
+            }
+        } finally {
+            await cleanup();
+        }
     });
 });
