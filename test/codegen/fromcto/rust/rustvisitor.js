@@ -33,6 +33,7 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const RelationshipDeclaration =
     require('@accordproject/concerto-core').RelationshipDeclaration;
 const FileWriter = require('@accordproject/concerto-util').FileWriter;
+const InMemoryWriter = require('@accordproject/concerto-util').InMemoryWriter;
 
 let sandbox = sinon.createSandbox();
 
@@ -505,6 +506,94 @@ describe('RustVisitor', function () {
                 0,
                 'pub enum SimpleClassUnion {'
             ).called.should.be.false;
+        });
+
+        it('should write a flattened extension_data field when enableExtensionData is set', () => {
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getName.returns('Bob');
+
+            param.enableExtensionData = true;
+            rustVisitor.visitClassDeclaration(mockClassDeclaration, param);
+            param.fileWriter.writeLine
+                .getCalls()
+                .map((call) => call.args)
+                .should.deep.equal([
+                    [0, '#[derive(Debug, Clone, Serialize, Deserialize)]'],
+                    [0, 'pub struct Bob {'],
+                    [1, '#[serde('],
+                    [2, 'rename = "$class",'],
+                    [1, ')]'],
+                    [1, 'pub _class: String,'],
+                    [1, ''],
+                    [1, '#[serde(flatten)]'],
+                    [1, 'pub extension_data: std::collections::HashMap<String, serde_json::Value>,'],
+                    [0, '}'],
+                    [0, ''],
+                ]);
+        });
+
+        it('should not write an extension_data field when enableExtensionData is not set', () => {
+            let mockClassDeclaration =
+                sinon.createStubInstance(ClassDeclaration);
+            mockClassDeclaration.isClassDeclaration.returns(true);
+            mockClassDeclaration.getProperties.returns([]);
+            mockClassDeclaration.getName.returns('Bob');
+
+            rustVisitor.visitClassDeclaration(mockClassDeclaration, param);
+            param.fileWriter.writeLine.withArgs(1, '#[serde(flatten)]')
+                .called.should.be.false;
+        });
+    });
+
+    describe('enableExtensionData', () => {
+        const generate = (cto) => {
+            const modelManager = new ModelManager({ strict: true });
+            modelManager.addCTOModel(cto, 'test.cto');
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(rustVisitor, {
+                fileWriter,
+                enableExtensionData: true,
+            });
+            return fileWriter.getFilesInMemory().get('org_acme_1_0_0.rs');
+        };
+
+        it('should add the field to every struct, including subclasses', () => {
+            const file = generate(`
+            namespace org.acme@1.0.0
+            abstract concept Animal { o String name }
+            concept Dog extends Animal { o String breed }
+            asset Kennel identified by id { o String id }
+            `);
+            const field = 'pub extension_data: std::collections::HashMap<String, serde_json::Value>,';
+            ['Animal', 'Dog', 'Kennel'].forEach((name) => {
+                const struct = file.split(`pub struct ${name} {`)[1].split('\n}')[0];
+                struct.should.include(`#[serde(flatten)]\n   ${field}`);
+            });
+        });
+
+        it('should rename the field when a property already uses its name', () => {
+            const file = generate(`
+            namespace org.acme@1.0.0
+            concept Dog {
+                o String extensionData
+                o String extension_data_
+            }
+            `);
+            file.should.include('pub extension_data: String,');
+            file.should.include('pub extension_data_: String,');
+            file.should.include('pub extension_data__: std::collections::HashMap<String, serde_json::Value>,');
+        });
+
+        it('should use fully qualified paths instead of adding imports', () => {
+            const file = generate(`
+            namespace org.acme@1.0.0
+            concept Dog { o String name }
+            `);
+            file.should.not.include('use std::collections::HashMap;');
+            file.should.not.include('use serde_json');
         });
     });
 
