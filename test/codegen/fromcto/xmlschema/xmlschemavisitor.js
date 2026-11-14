@@ -1200,4 +1200,76 @@ concept Person {
             file.should.not.contain('<xs:element name="Colors">');
         });
     });
+
+    describe('toXsName and identifier escaping', () => {
+        it('should replace all dollar signs in a name with underscores', () => {
+            xmlSchemaVisitor.toXsName('$foo').should.equal('_foo');
+            xmlSchemaVisitor.toXsName('$$foo').should.equal('__foo');
+            xmlSchemaVisitor.toXsName('a$b$c').should.equal('a_b_c');
+            xmlSchemaVisitor.toXsName('$a$b$c$').should.equal('_a_b_c_');
+            xmlSchemaVisitor.toXsName('cleanName').should.equal('cleanName');
+        });
+
+        it('should escape dollar signs in class, field, enum, and relationship names', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace org.test@1.0.0
+enum $Color$Type {
+    o $RED$
+    o GREEN
+}
+asset $Super$Base identified by id {
+    o String id
+}
+asset $Sub$Class extends $Super$Base {
+    o String $prop$one
+    o String $$prop$$two
+    o $Color$Type color
+    --> $Super$Base $rel$target
+}`);
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(xmlSchemaVisitor, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('org.test@1.0.0.xsd');
+
+            // Enum declaration and element
+            file.should.contain('<xs:simpleType name="_Color_Type">');
+            file.should.contain('<xs:element name="_Color_Type" type="org.test:_Color_Type"/>');
+            file.should.contain('<xs:enumeration value="_RED_"/>');
+
+            // Super class declaration and element
+            file.should.contain('<xs:complexType name="_Super_Base">');
+            file.should.contain('<xs:element name="_Super_Base" type="org.test:_Super_Base"/>');
+
+            // Sub class declaration, extension base, and element
+            file.should.contain('<xs:complexType name="_Sub_Class">');
+            file.should.contain('<xs:extension base="org.test:_Super_Base">');
+            file.should.contain('<xs:element name="_Sub_Class" type="org.test:_Sub_Class"/>');
+
+            // Fields and relationship
+            file.should.contain('<xs:element name="_prop_one" type="xs:string"/>');
+            file.should.contain('<xs:element name="__prop__two" type="xs:string"/>');
+            file.should.contain('<xs:element name="color" type="org.test:_Color_Type"/>');
+            file.should.contain('<xs:element name="_rel_target" type="org.test:_Super_Base"/>');
+        });
+
+        it('should escape dollar signs in map declarations and map field types', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace org.test@1.0.0
+map $Map$Data {
+    o String
+    o String
+}
+concept Container {
+    o $Map$Data $meta$data
+}`);
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(xmlSchemaVisitor, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('org.test@1.0.0.xsd');
+
+            file.should.contain('<xs:complexType name="_Map_Data">');
+            file.should.contain('<xs:element name="_Map_Data" type="org.test:_Map_Data"/>');
+            file.should.contain('<xs:element name="entry" type="org.test:_Map_DataEntryType" minOccurs="0" maxOccurs="unbounded"/>');
+            file.should.contain('<xs:complexType name="_Map_DataEntryType">');
+            file.should.contain('<xs:element name="_meta_data" type="org.test:_Map_Data"/>');
+        });
+    });
 });
