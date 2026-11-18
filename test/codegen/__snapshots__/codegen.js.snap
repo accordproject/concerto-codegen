@@ -3209,7 +3209,7 @@ No fields.
 
 | Key Type | Value Type |
 | -------- | ---------- |
-| <code>SSN</code> | <code>TShirtSizeType</code> |
+| <code>org.acme.hr.base@1.0.0.SSN</code> | <code>org.acme.hr.base@1.0.0.TShirtSizeType</code> |
 
 
 ### Address (Concept)
@@ -3360,35 +3360,35 @@ class \`org.acme.hr.base@1.0.0.Level\`
 
 | Key Type | Value Type |
 | -------- | ---------- |
-| <code>String</code> | <code>Time</code> |
+| <code>String</code> | <code>org.acme.hr.base@1.0.0.Time</code> |
 
 
 ### EmployeeSocialSecurityNumbers (Map)
 
 | Key Type | Value Type |
 | -------- | ---------- |
-| <code>String</code> | <code>SSN</code> |
+| <code>String</code> | <code>org.acme.hr.base@1.0.0.SSN</code> |
 
 
 ### NextOfKin (Map)
 
 | Key Type | Value Type |
 | -------- | ---------- |
-| <code>KinName</code> | <code>KinTelephone</code> |
+| <code>org.acme.hr@1.0.0.KinName</code> | <code>org.acme.hr@1.0.0.KinTelephone</code> |
 
 
 ### EmployeeProfiles (Map)
 
 | Key Type | Value Type |
 | -------- | ---------- |
-| <code>String</code> | <code>Concept</code> |
+| <code>String</code> | <code>concerto@1.0.0.Concept</code> |
 
 
 ### EmployeeDirectory (Map)
 
 | Key Type | Value Type |
 | -------- | ---------- |
-| <code>SSN</code> | <code>Employee</code> |
+| <code>org.acme.hr.base@1.0.0.SSN</code> | <code>org.acme.hr@1.0.0.Employee</code> |
 
 
 ### Company (Concept)

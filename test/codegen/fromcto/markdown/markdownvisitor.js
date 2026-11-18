@@ -282,6 +282,26 @@ describe('MarkdownVisitor', function () {
             mockFileWriter.writeLine.calledWith(0, '| Key Type | Value Type |').should.be.ok;
             mockFileWriter.writeLine.calledWith(0, '| <code>String</code> | <code>Integer</code> |').should.be.ok;
         });
+
+        it('should resolve non-primitive key and value types to fully qualified names', () => {
+            const mockMap = sinon.createStubInstance(MapDeclaration);
+            mockMap.getName.returns('EmployeeDirectory');
+            mockMap.getFullyQualifiedName.returns('org.acme.hr.EmployeeDirectory');
+            mockMap.getDecorator.withArgs('description').returns(null);
+            mockMap.getKey.returns({ getType: () => 'SSN' });
+            mockMap.getValue.returns({ getType: () => 'Employee' });
+            mockMap.getDecorators.returns([]);
+
+            const mockModelFile = sinon.createStubInstance(ModelFile);
+            mockModelFile.getFullyQualifiedTypeName.withArgs('SSN').returns('org.acme.hr.base.SSN');
+            mockModelFile.getFullyQualifiedTypeName.withArgs('Employee').returns('org.acme.hr.Employee');
+            mockMap.getModelFile.returns(mockModelFile);
+
+            markdownVisitor.visitMapDeclaration(mockMap, param);
+
+            mockFileWriter.writeLine.calledWith(0, '### EmployeeDirectory (Map)').should.be.ok;
+            mockFileWriter.writeLine.calledWith(0, '| <code>org.acme.hr.base.SSN</code> | <code>org.acme.hr.Employee</code> |').should.be.ok;
+        });
     });
 
     describe('visitScalarDeclaration', () => {
@@ -319,6 +339,23 @@ describe('MarkdownVisitor', function () {
                 0,
                 '| <code>String</code> | <code>000-00-0000</code> | Minimum Length: 11<br>Maximum Length: 11<br>Matches Regular Expression: `\\d{3}-\\d{2}-\\d{4}`<br>Minimum Value: 1<br>Maximum Value: 10 |'
             ).should.be.ok;
+        });
+
+        it('should render scalar with falsy default value (e.g. 0 or false)', () => {
+            const mockScalar = sinon.createStubInstance(ScalarDeclaration);
+            mockScalar.getName.returns('Count');
+            mockScalar.getFullyQualifiedName.returns('org.acme.Count');
+            mockScalar.getType.returns('Integer');
+            mockScalar.getDefaultValue.returns(0);
+            mockScalar.getDecorator.withArgs('description').returns(null);
+            mockScalar.getValidator.returns(null);
+            mockScalar.getDecorators.returns([]);
+
+            markdownVisitor.visitScalarDeclaration(mockScalar, param);
+
+            mockFileWriter.writeLine.calledWith(0, '### Count (Scalar)').should.be.ok;
+            mockFileWriter.writeLine.calledWith(0, '| Type | Default Value | Constraints |').should.be.ok;
+            mockFileWriter.writeLine.calledWith(0, '| <code>Integer</code> | <code>0</code> |  |').should.be.ok;
         });
     });
 
