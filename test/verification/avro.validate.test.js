@@ -21,6 +21,7 @@ const path = require('path');
 const { dir } = require('tmp-promise');
 
 const { FileWriter } = require('@accordproject/concerto-util');
+const { ModelManager } = require('@accordproject/concerto-core');
 const AvroVisitor = require('../../lib/codegen/fromcto/avro/avrovisitor.js');
 
 const {
@@ -147,5 +148,22 @@ describe('verification', function () {
             const modelManager = createModelManager(testCase);
             await verifyAvroIdlCompiles(modelManager, testCase.visitorOptions || {});
         });
+    });
+
+    const runDollarTest = JAVA_SKIP_REASON ? it.skip : it;
+    runDollarTest('generated Avro IDL with dollar signs in names compiles with avro-tools idl', async function () {
+        const modelManager = new ModelManager();
+        modelManager.addCTOModel(`namespace org.example.test@1.0.0
+            enum Color$Type {
+                o RED$COLOR
+                o GREEN
+            }
+            asset Person$Data identified by id {
+                o String id
+                o String first$name
+                o Color$Type color
+                --> Person$Data best$friend
+            }`);
+        await verifyAvroIdlCompiles(modelManager);
     });
 });
