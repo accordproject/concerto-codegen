@@ -31,7 +31,7 @@ const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDe
 const Field = require('@accordproject/concerto-core').Field;
 const ModelFile = require('@accordproject/concerto-core').ModelFile;
 const ModelManager = require('@accordproject/concerto-core').ModelManager;
-const FileWriter = require('@accordproject/concerto-util').FileWriter;
+const { FileWriter, InMemoryWriter } = require('@accordproject/concerto-util');
 let sandbox = sinon.createSandbox();
 
 describe('GoLangVisitor', function () {
@@ -668,6 +668,70 @@ describe('GoLangVisitor', function () {
     describe('toGoPackageName', () => {
         it('should replace dots in the passed param with underscore', () => {
             goVisit.toGoPackageName('some.dotted.sequence').should.deep.equal('some_dotted_sequence');
+        });
+    });
+
+    describe('toGoName and identifier escaping', () => {
+        it('should strip all dollar signs from a name', () => {
+            goVisit.toGoName('$foo').should.equal('foo');
+            goVisit.toGoName('$$foo').should.equal('foo');
+            goVisit.toGoName('a$b$c').should.equal('abc');
+            goVisit.toGoName('$a$b$c$').should.equal('abc');
+            goVisit.toGoName('cleanName').should.equal('cleanName');
+        });
+
+        it('should strip dollar signs in struct, field, enum, and relationship names', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace org.test@1.0.0
+enum $Color$Type {
+    o $RED$
+    o GREEN
+}
+asset $Super$Base identified by id {
+    o String id
+}
+asset $Sub$Class extends $Super$Base {
+    o String $prop$one
+    o String $$prop$$two
+    o $Color$Type color
+    --> $Super$Base $rel$target
+}`);
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(goVisit, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('org.test@1.0.0.go');
+
+            file.should.contain('type ColorType int');
+            file.should.contain('RED ColorType = 1 + iota');
+            file.should.contain('type SuperBase struct {');
+            file.should.contain('type SubClass struct {');
+            file.should.match(/type SubClass struct\s*\{\s*SuperBase/);
+            file.should.contain('Propone string `json:"$prop$one"`');
+            file.should.contain('Proptwo string `json:"$$prop$$two"`');
+            file.should.contain('Color ColorType `json:"color"`');
+            file.should.contain('Reltarget *SuperBase `json:"$rel$target"`');
+
+            const withoutJsonTags = file.replace(/`json:"[^"]*"`/g, '');
+            withoutJsonTags.should.not.contain('$');
+        });
+
+        it('should strip dollar signs in map field names and map key/value types', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace org.test@1.0.0
+enum $Status$Type {
+    o ACTIVE
+}
+map $Map$Data {
+    o String
+    o $Status$Type
+}
+concept Container {
+    o $Map$Data $meta$data
+}`);
+            const fileWriter = new InMemoryWriter();
+            modelManager.accept(goVisit, { fileWriter });
+            const file = fileWriter.getFilesInMemory().get('org.test@1.0.0.go');
+
+            file.should.contain('Metadata map[string]StatusType `json:"$meta$data"`');
         });
     });
 });
