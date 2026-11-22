@@ -2551,5 +2551,83 @@ public class SampleModel : Concept {
             csharpVisitor.toCSharpType('Penguin').should.deep.equal('Penguin');
         });
     });
+
+    describe('toCSharpIdentifier and identifier escaping', () => {
+        it('should sanitize dollar signs in identifier names', () => {
+            csharpVisitor.toCSharpIdentifier(undefined, '$class', { pascalCase: true }).should.equal('_Class');
+            csharpVisitor.toCSharpIdentifier(undefined, '$class', { pascalCase: false }).should.equal('_class');
+            csharpVisitor.toCSharpIdentifier(undefined, '$$prop', { pascalCase: true }).should.equal('_Prop');
+            csharpVisitor.toCSharpIdentifier(undefined, '$$prop', { pascalCase: false }).should.equal('_prop');
+            csharpVisitor.toCSharpIdentifier(undefined, 'prop$one', { pascalCase: true }).should.equal('PropOne');
+            csharpVisitor.toCSharpIdentifier(undefined, 'prop$one', { pascalCase: false }).should.equal('prop_one');
+            csharpVisitor.toCSharpIdentifier(undefined, '$prop$one', { pascalCase: true }).should.equal('_PropOne');
+            csharpVisitor.toCSharpIdentifier(undefined, '$prop$one', { pascalCase: false }).should.equal('_prop_one');
+            csharpVisitor.toCSharpIdentifier(undefined, '$Color$Type', { pascalCase: true }).should.equal('_ColorType');
+            csharpVisitor.toCSharpIdentifier(undefined, '$RED$', { pascalCase: true }).should.equal('_Red');
+            csharpVisitor.toCSharpIdentifier(undefined, 'GREEN$BLUE', { pascalCase: true }).should.equal('GreenBlue');
+        });
+
+        it('should sanitize dollar signs in class, field, enum, and relationship declarations', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace org.test@1.0.0
+enum $Color$Type {
+    o $RED$
+    o GREEN$BLUE
+}
+asset $Super$Base identified by id {
+    o String id
+}
+asset $Sub$Class extends $Super$Base {
+    o String $prop$one
+    o String $$prop$$two
+    o $Color$Type color
+    --> $Super$Base $rel$target
+}`);
+            const fileWriter = new InMemoryWriter();
+            csharpVisitor.visit(modelManager, { fileWriter, pascalCase: true });
+            const file = fileWriter.getFilesInMemory().get('org.test@1.0.0.cs');
+
+            file.should.contain('public enum _ColorType');
+            file.should.contain('_Red,');
+            file.should.contain('GreenBlue,');
+            file.should.contain('public class _SuperBase : Asset');
+            file.should.contain('public class _SubClass : _SuperBase');
+            file.should.contain('public string _PropOne { get; set; }');
+            file.should.contain('public string _PropTwo { get; set; }');
+            file.should.contain('public _ColorType Color { get; set; }');
+            file.should.contain('public _SuperBase _RelTarget { get; set; }');
+            file.should.contain('[System.Text.Json.Serialization.JsonPropertyName("$prop$one")]');
+            file.should.contain('[System.Text.Json.Serialization.JsonPropertyName("$$prop$$two")]');
+            file.should.contain('[System.Text.Json.Serialization.JsonPropertyName("$rel$target")]');
+
+            // Verify no $ appears outside string literals in the file
+            const withoutStringLiterals = file.replace(/"[^"]*"/g, '');
+            withoutStringLiterals.should.not.contain('$');
+        });
+
+        it('should sanitize enum default values matching declared member names', () => {
+            const modelManager = new ModelManager();
+            modelManager.addCTOModel(`namespace org.test@1.0.0
+enum $Color$Type {
+    o $RED$
+    o GREEN$BLUE
+}
+concept Container {
+    o $Color$Type color1 default="$RED$"
+    o $Color$Type color2 default="GREEN$BLUE"
+}`);
+            const fileWriter1 = new InMemoryWriter();
+            csharpVisitor.visit(modelManager, { fileWriter: fileWriter1, pascalCase: true });
+            const file1 = fileWriter1.getFilesInMemory().get('org.test@1.0.0.cs');
+            file1.should.contain('public _ColorType Color1 { get; set; } = _ColorType._Red;');
+            file1.should.contain('public _ColorType Color2 { get; set; } = _ColorType.GreenBlue;');
+
+            const fileWriter2 = new InMemoryWriter();
+            csharpVisitor.visit(modelManager, { fileWriter: fileWriter2, pascalCase: false });
+            const file2 = fileWriter2.getFilesInMemory().get('org.test@1.0.0.cs');
+            file2.should.contain('public _Color_Type color1 { get; set; } = _Color_Type._RED_;');
+            file2.should.contain('public _Color_Type color2 { get; set; } = _Color_Type.GREEN_BLUE;');
+        });
+    });
 });
 
