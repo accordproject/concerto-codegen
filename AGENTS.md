@@ -52,6 +52,31 @@ formats, and turns JSON Schema and OpenAPI into Concerto models.
   (Docker). Remove a skip your fix makes unnecessary. If a case still fails for
   another reason, change the reason to the failure it hits now.
 
+## Reviewing a visitor change
+
+These are the gaps that reviewers have found most often. Check each one before you
+open a PR, and when you review someone else's.
+
+- **Maps.** A map's key and value can each be a primitive, a scalar that extends a
+  primitive, or a declaration. Follow scalars to their underlying type before choosing
+  an import, a type or a key format. For example, a `DateTime` key is not a valid
+  Proto3 map key, and a model whose only `DateTime` is a map value still needs the
+  target's time import. Test the key and the value separately.
+- **Sanitised names.** When you strip or replace `$` (or any other character that is
+  invalid in the target), find every place the name is written: field and property
+  names, type references, embedded super types, enum members, **and enum default
+  values**. A default that is built a different way from the declaration will not
+  match it.
+- **Falsy defaults.** A default of `0`, `0.0`, `false` or `""` is still a default.
+  Compare with `null` or `undefined`, not with truthiness.
+- **Recursive types.** In languages that need indirection (Rust `Box`, for example),
+  check a type that contains itself, one that reaches itself through other types, and
+  a field typed as a base class when the output has a union of its subclasses.
+- **Tests that can fail.** Assert on the line your fix changes, not on a name that
+  already appears elsewhere in the output. Ask whether the test would still pass if
+  you reverted the fix; if so, tighten it. Cover each new branch, including the one
+  that returns the input unchanged.
+
 ## Public API
 
 - **Export from the package root.** Add new public functions and classes to `index.js`,
