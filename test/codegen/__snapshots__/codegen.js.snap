@@ -47,6 +47,16 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 class \`org.acme.hr.base@1.0.0.Level\`
 << enumeration>> \`org.acme.hr.base@1.0.0.Level\`
 
+class \`org.acme.hr.base@1.0.0.Time\` {
+<< scalar >>
+   + DateTime
+}
+
+class \`org.acme.hr.base@1.0.0.SSN\` {
+<< scalar >>
+   + String
+}
+
 class \`org.acme.hr@1.0.0.pii\` {
 << concept>>
    + Boolean isPii
@@ -208,6 +218,16 @@ class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 
 \`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
 \`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+class \`org.acme.hr@1.0.0.KinName\` {
+<< scalar >>
+   + String
+}
+
+class \`org.acme.hr@1.0.0.KinTelephone\` {
+<< scalar >>
+   + String
+}
+
 ",
 }
 `;
@@ -248,6 +268,12 @@ class org.acme.hr.base_1_0_0.Address {
 }
 org.acme.hr.base_1_0_0.Address "1" *-- "1" org.acme.hr.base_1_0_0.State : state
 class org.acme.hr.base_1_0_0.Level << (E,grey) >> {
+}
+class org.acme.hr.base_1_0_0.Time << (S,violet) >> {
+   + DateTime
+}
+class org.acme.hr.base_1_0_0.SSN << (S,violet) >> {
+   + String
 }
 class org.acme.hr_1_0_0.pii {
    + Boolean isPii
@@ -346,9 +372,9 @@ class org.acme.hr_1_0_0.Manager << (P,lightblue) >> {
 }
 org.acme.hr_1_0_0.Manager "1" o-- "*" org.acme.hr_1_0_0.Person : reports
 org.acme.hr_1_0_0.Manager --|> org.acme.hr_1_0_0.Employee
-class org.acme.hr_1_0_0.CompanyEvent {
+class org.acme.hr_1_0_0.CompanyEvent << (E,orange) >> {
 }
-class org.acme.hr_1_0_0.Onboarded {
+class org.acme.hr_1_0_0.Onboarded << (E,orange) >> {
    + Employee employee
 }
 org.acme.hr_1_0_0.Onboarded "1" o-- "1" org.acme.hr_1_0_0.Employee : employee
@@ -359,6 +385,12 @@ class org.acme.hr_1_0_0.ChangeOfAddress << (T,yellow) >> {
 }
 org.acme.hr_1_0_0.ChangeOfAddress "1" o-- "1" org.acme.hr_1_0_0.Person : Person
 org.acme.hr_1_0_0.ChangeOfAddress "1" *-- "1" org.acme.hr.base_1_0_0.Address : newAddress
+class org.acme.hr_1_0_0.KinName << (S,violet) >> {
+   + String
+}
+class org.acme.hr_1_0_0.KinTelephone << (S,violet) >> {
+   + String
+}
 @enduml
 ",
 }
@@ -3268,6 +3300,16 @@ class \`org.acme.hr.base@1.0.0.Address\` {
 class \`org.acme.hr.base@1.0.0.Level\`
 << enumeration>> \`org.acme.hr.base@1.0.0.Level\`
 
+class \`org.acme.hr.base@1.0.0.Time\` {
+<< scalar >>
+   + DateTime
+}
+
+class \`org.acme.hr.base@1.0.0.SSN\` {
+<< scalar >>
+   + String
+}
+
 \`\`\`
 
 # Namespace org.acme.hr@1.0.0
@@ -3659,6 +3701,16 @@ class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 
 \`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
 \`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
+class \`org.acme.hr@1.0.0.KinName\` {
+<< scalar >>
+   + String
+}
+
+class \`org.acme.hr@1.0.0.KinTelephone\` {
+<< scalar >>
+   + String
+}
+
 \`\`\`
 
 ",
@@ -3717,6 +3769,16 @@ class \`org.acme.hr.base@1.0.0.Level\`
 << enumeration>> \`org.acme.hr.base@1.0.0.Level\`
 
 \`org.acme.hr.base@1.0.0.Level\` --|> \`concerto@1.0.0.Concept\`
+class \`org.acme.hr.base@1.0.0.Time\` {
+<< scalar >>
+   + DateTime
+}
+
+class \`org.acme.hr.base@1.0.0.SSN\` {
+<< scalar >>
+   + String
+}
+
 class \`org.acme.hr@1.0.0.pii\` {
 << concept>>
    + Boolean isPii
@@ -3886,6 +3948,16 @@ class \`org.acme.hr@1.0.0.ChangeOfAddress\` {
 \`org.acme.hr@1.0.0.ChangeOfAddress\` "1" o-- "1" \`org.acme.hr@1.0.0.Person\` : Person
 \`org.acme.hr@1.0.0.ChangeOfAddress\` "1" *-- "1" \`org.acme.hr.base@1.0.0.Address\`
 \`org.acme.hr@1.0.0.ChangeOfAddress\` --|> \`concerto@1.0.0.Transaction\`
+class \`org.acme.hr@1.0.0.KinName\` {
+<< scalar >>
+   + String
+}
+
+class \`org.acme.hr@1.0.0.KinTelephone\` {
+<< scalar >>
+   + String
+}
+
 ",
 }
 `;
@@ -5342,6 +5414,12 @@ org.acme.hr.base_1_0_0.Address --|> concerto_1_0_0.Concept
 class org.acme.hr.base_1_0_0.Level << (E,grey) >> {
 }
 org.acme.hr.base_1_0_0.Level --|> concerto_1_0_0.Concept
+class org.acme.hr.base_1_0_0.Time << (S,violet) >> {
+   + DateTime
+}
+class org.acme.hr.base_1_0_0.SSN << (S,violet) >> {
+   + String
+}
 class org.acme.hr_1_0_0.pii {
    + Boolean isPii
    + Category category
@@ -5445,10 +5523,10 @@ class org.acme.hr_1_0_0.Manager << (P,lightblue) >> {
 }
 org.acme.hr_1_0_0.Manager "1" o-- "*" org.acme.hr_1_0_0.Person : reports
 org.acme.hr_1_0_0.Manager --|> org.acme.hr_1_0_0.Employee
-class org.acme.hr_1_0_0.CompanyEvent {
+class org.acme.hr_1_0_0.CompanyEvent << (E,orange) >> {
 }
 org.acme.hr_1_0_0.CompanyEvent --|> concerto_1_0_0.Event
-class org.acme.hr_1_0_0.Onboarded {
+class org.acme.hr_1_0_0.Onboarded << (E,orange) >> {
    + Employee employee
 }
 org.acme.hr_1_0_0.Onboarded "1" o-- "1" org.acme.hr_1_0_0.Employee : employee
@@ -5460,6 +5538,12 @@ class org.acme.hr_1_0_0.ChangeOfAddress << (T,yellow) >> {
 org.acme.hr_1_0_0.ChangeOfAddress "1" o-- "1" org.acme.hr_1_0_0.Person : Person
 org.acme.hr_1_0_0.ChangeOfAddress "1" *-- "1" org.acme.hr.base_1_0_0.Address : newAddress
 org.acme.hr_1_0_0.ChangeOfAddress --|> concerto_1_0_0.Transaction
+class org.acme.hr_1_0_0.KinName << (S,violet) >> {
+   + String
+}
+class org.acme.hr_1_0_0.KinTelephone << (S,violet) >> {
+   + String
+}
 @enduml
 ",
 }
