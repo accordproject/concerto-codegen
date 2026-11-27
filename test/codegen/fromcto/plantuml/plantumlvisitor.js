@@ -25,7 +25,7 @@ const ModelManager = require('@accordproject/concerto-core').ModelManager;
 const AssetDeclaration = require('@accordproject/concerto-core').AssetDeclaration;
 const ParticipantDeclaration = require('@accordproject/concerto-core').ParticipantDeclaration;
 const ClassDeclaration = require('@accordproject/concerto-core').ClassDeclaration;
-const {MapDeclaration, MapKeyType, MapValueType, Decorator } = require('@accordproject/concerto-core');
+const {EventDeclaration, ScalarDeclaration, MapDeclaration, MapKeyType, MapValueType, Decorator } = require('@accordproject/concerto-core');
 const EnumDeclaration = require('@accordproject/concerto-core').EnumDeclaration;
 const EnumValueDeclaration = require('@accordproject/concerto-core').EnumValueDeclaration;
 const Field = require('@accordproject/concerto-core').Field;
@@ -106,6 +106,28 @@ describe('PlantUMLVisitor', function () {
             let thing = sinon.createStubInstance(AssetDeclaration);
             thing.isAsset.returns(true);
             let mockSpecialVisit = sinon.stub(plantUMLvisitor, 'visitAssetDeclaration');
+            mockSpecialVisit.returns('Duck');
+
+            plantUMLvisitor.visit(thing, param).should.deep.equal('Duck');
+
+            mockSpecialVisit.calledWith(thing, param).should.be.ok;
+        });
+
+        it('should return visitEventDeclaration for an EventDeclaration', () => {
+            let thing = sinon.createStubInstance(EventDeclaration);
+            thing.isEvent.returns(true);
+            let mockSpecialVisit = sinon.stub(plantUMLvisitor, 'visitEventDeclaration');
+            mockSpecialVisit.returns('Duck');
+
+            plantUMLvisitor.visit(thing, param).should.deep.equal('Duck');
+
+            mockSpecialVisit.calledWith(thing, param).should.be.ok;
+        });
+
+        it('should return visitScalarDeclaration for a ScalarDeclaration', () => {
+            let thing = sinon.createStubInstance(ScalarDeclaration);
+            thing.isScalarDeclaration.returns(true);
+            let mockSpecialVisit = sinon.stub(plantUMLvisitor, 'visitScalarDeclaration');
             mockSpecialVisit.returns('Duck');
 
             plantUMLvisitor.visit(thing, param).should.deep.equal('Duck');
@@ -473,6 +495,84 @@ describe('PlantUMLVisitor', function () {
             param.fileWriter.writeLine.callCount.should.deep.equal(2);
             param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'map "org.acme.NextOfKin: Map<String, String>" as org.acme.NextOfKin {']);
             param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '}']);
+        });
+    });
+
+    describe('visitEventDeclaration', () => {
+        it('should write the class declaration for an event', () => {
+            let acceptSpy = sinon.spy();
+
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockEventDeclaration = sinon.createStubInstance(EventDeclaration);
+            mockEventDeclaration.isEvent.returns(true);
+            mockEventDeclaration.getDecorators.returns([]);
+            mockEventDeclaration.getOwnProperties.returns([{
+                accept: acceptSpy, ...property1
+            },
+            {
+                accept: acceptSpy, ...property2
+            }]);
+            mockEventDeclaration.getFullyQualifiedName.returns('org.acme.OrderPlaced');
+            mockEventDeclaration.getSuperType.returns(null);
+
+            plantUMLvisitor.visitEventDeclaration(mockEventDeclaration, param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(2);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'class org.acme.OrderPlaced << (E,orange) >> {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '}']);
+
+            acceptSpy.withArgs(plantUMLvisitor, param).calledTwice.should.be.ok;
+        });
+
+        it('should write the class declaration for an event with a super type', () => {
+            let acceptSpy = sinon.spy();
+
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockEventDeclaration = sinon.createStubInstance(EventDeclaration);
+            mockEventDeclaration.isEvent.returns(true);
+            mockEventDeclaration.getDecorators.returns([]);
+            mockEventDeclaration.getOwnProperties.returns([{
+                accept: acceptSpy, ...property1
+            },
+            {
+                accept: acceptSpy, ...property2
+            }]);
+            mockEventDeclaration.getFullyQualifiedName.returns('org.acme.OrderPlaced');
+            mockEventDeclaration.getSuperType.returns('org.acme.BaseEvent');
+
+            plantUMLvisitor.visitEventDeclaration(mockEventDeclaration, param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'class org.acme.OrderPlaced << (E,orange) >> {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([0, '}']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, 'org.acme.OrderPlaced --|> org.acme.BaseEvent']);
+
+            acceptSpy.withArgs(plantUMLvisitor, param).calledTwice.should.be.ok;
+        });
+    });
+
+    describe('visitScalarDeclaration', () => {
+        it('should write the class declaration for a scalar', () => {
+            let param = {
+                fileWriter: mockFileWriter
+            };
+
+            let mockScalarDeclaration = sinon.createStubInstance(ScalarDeclaration);
+            mockScalarDeclaration.getFullyQualifiedName.returns('org.acme.SSN');
+            mockScalarDeclaration.getType.returns('String');
+
+            plantUMLvisitor.visitScalarDeclaration(mockScalarDeclaration, param);
+
+            param.fileWriter.writeLine.callCount.should.deep.equal(3);
+            param.fileWriter.writeLine.getCall(0).args.should.deep.equal([0, 'class org.acme.SSN << (S,violet) >> {']);
+            param.fileWriter.writeLine.getCall(1).args.should.deep.equal([1, '+ String']);
+            param.fileWriter.writeLine.getCall(2).args.should.deep.equal([0, '}']);
         });
     });
 
